@@ -15,7 +15,7 @@ public class Main
   public static void main(String[] args)
   {
     SessionFactory sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
-    org.hibernate.classic.Session openSession = sessionFactory.openSession();
+    org.hibernate.classic.Session openSession = (org.hibernate.classic.Session) sessionFactory.openSession();
     openSession.beginTransaction();
     Object uniqueResult = openSession.createSQLQuery("Select * from eschool.test;").uniqueResult();
     System.out.println(uniqueResult);
