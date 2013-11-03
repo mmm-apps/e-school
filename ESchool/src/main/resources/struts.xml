@@ -3,9 +3,10 @@
 
 <struts>
    <package name="default" extends="struts-default">
-   <action name="Login" class="mmm.school.Actions.Login">
-     <result name="success">/index.jsp</result> 
-     <result name="error">/LoginPanel.jsp</result> 
+   <action name="login" class="mmm.eschool.actions.Login">
+     <result name="success">index.jsp</result>
+     <result name="error">LoginPanel.jsp</result> 
+     <result name="input">LoginPanel.jsp</result>
    </action>
    </package>
 </struts>

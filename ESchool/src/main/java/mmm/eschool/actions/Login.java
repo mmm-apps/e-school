@@ -1,8 +1,9 @@
-package mmm.eschool.Actions;
+package mmm.eschool.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-import mmm.eschool.Model.User;
+import mmm.eschool.LoginService;
+import mmm.eschool.model.User;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -11,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Login extends ActionSupport implements ModelDriven<User>
 {
-  User user = new User();
+  User user = new User() ;
 
   @Override
   public void validate()
@@ -25,7 +26,11 @@ public class Login extends ActionSupport implements ModelDriven<User>
   @Override
   public String execute() throws Exception
   {
-    return SUCCESS;
+    LoginService login = new LoginService();
+    if (login.getLoginResult(user))
+      return SUCCESS;
+    else
+      return ERROR;
   } 
 
   public User getUser()

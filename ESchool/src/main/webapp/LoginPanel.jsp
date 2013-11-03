@@ -17,9 +17,9 @@
 	<!-- // General meta information -->
 
 	<!-- Load Javascript -->
-        <script type="text/javascript" src="/JS/jquery.js"></script>
-	<script type="text/javascript" src="/JS/jquery.query-2.1.7.js"></script>
-	<script type="text/javascript" src="/JS/rainbows.js"></script>
+        <script type="text/javascript" src="JS/jquery.js"></script>
+	<script type="text/javascript" src="JS/jquery.query-2.1.7.js"></script>
+	<script type="text/javascript" src="JS/rainbows.js"></script>
 	<!-- // Load Javascipt -->
 
 	<!-- Load stylesheets -->
@@ -28,52 +28,57 @@
 	<!-- // Load stylesheets -->
 	
 <script>
-	$(document).ready(function(){
-	$("#submit1").hover(
-	function() {
-	$(this).animate({"opacity": "0"}, "slow");
-	},
-	function() {
-	$(this).animate({"opacity": "1"}, "slow");
-	});
- 	});
+  $(document).ready(function(){
+    $("#submit1").hover(
+    function() {
+    $(this).animate({"opacity": "0"}, "slow");
+    },
+    function() {
+    $(this).animate({"opacity": "1"}, "slow");
+    });
+  });
 </script>
 </head>
 
 <body>
+    <s:form action = "login">
+        <s:textfield label = "Username" key="username" />
+        <s:password label="Password" key="password" />
+        <s:submit />
+    </s:form>
+</body>
+<!--<body>
   <div id="wrapper">
-          <div id="wrappertop"></div>
-          <div id="wrappermiddle">
-                  <h2>Login</h2>
-                  <s:form action = "login">
-                  <div id="username_input">
+    <div id="wrappertop"></div>
+        <div id="wrappermiddle">
+              <h2>Login</h2>
+            <form method="POST" action="login.action">
+                <div id="username_input">
                     <div id="username_inputleft"></div>
-                    <div id="username_inputmiddle">
-                      <s:textfield label="Username" key="username" name="link" id="url" placeholder="Username" onclick="this.value = ''" />
-                        <img id="url_user" src="images/user_icon.png" alt="">
-                      </div>
+                        <div id="username_inputmiddle">
+                            <%--<s:textfield id="url" name="link" key="username" label=""/>--%>
+                            <input type="text" name="link" id="url" placeholder="Username">
+                            <img id="url_user" src="Images/user_icon.png">
+                        </div>
                     <div id="username_inputright"></div>
-                  </div>
-
-                  <div id="password_input">
+                </div>
+                <div id="password_input">
                     <div id="password_inputleft"></div>
                     <div id="password_inputmiddle">
-                      <s:password label="Password" key="password" type="password" name="link" id="url" placeholder="Password" onclick="this.value = ''" />
-                        <img id="url_password" src="images/passicon.png" alt="">
+                        <input type="password" name="link" id="url" placeholder="Password">
+                        <img id="url_password" src="Images/passicon.png" alt="">
                     </div>
                     <div id="password_inputright"></div>
-                  </div>
-
-                  <div id="submit">
-                    <s:submit src="images/submit_hover.png" id="submit1" value="Sign In" />
-                    </div>
-                  </s:form>
-                  <div id="links_left">
-                  <a href="#">Forgot your Password?</a>
-                  </div>
-                  <div id="links_right"><a href="#">Not a Member Yet?</a></div>
-          </div>
-          <div id="wrapperbottom"></div>
-  </div>
-</body>
+                </div>
+                <div id="submit">
+                  <input type="image" src="Images/submit_hover.png" id="submit1" value="Sign In">
+                  <input type="image" src="Images/submit.png" id="submit2" value="Sign In">
+                </div>
+            </form>
+                <div id="links_left"> <a href="#">Forgot your Password?</a> </div>
+                <div id="links_right"> <a href="#">Not a Member Yet?</a> </div>
+            </div>
+        <div id="wrapperbottom"></div>
+    </div>
+</body>-->
 </html>

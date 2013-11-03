@@ -1,4 +1,4 @@
-package mmm.eschool.Model;
+package mmm.eschool.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -30,7 +30,7 @@ public class User implements Serializable
   private String password;
   @Column(name = "user_role", nullable = false, length = 20)
   private String userRole;
- 
+   
   public String getUsername()
   {
     return username;
@@ -60,4 +60,4 @@ public class User implements Serializable
   {
     this.userRole = userRole;
   }
-}
+  }
