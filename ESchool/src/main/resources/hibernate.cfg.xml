@@ -12,6 +12,5 @@
     <property name="hibernate.connection.pool_size">1</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    <mapping package="mmm.eschool.model" class="User"/>
   </session-factory>
 </hibernate-configuration>
