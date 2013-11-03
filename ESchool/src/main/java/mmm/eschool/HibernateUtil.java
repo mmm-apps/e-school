@@ -7,7 +7,7 @@ import mmm.eschool.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.classic.Session;
 
 /**
  * Hibernate Utility class with a convenient method to get Session Factory
@@ -32,8 +32,24 @@ public class HibernateUtil
     }
   }
   
-  public static SessionFactory getSessionFactory() 
+  public static synchronized SessionFactory getSessionFactory() 
   {
+    if (sessionFactory == null)
+      return buildSessionFactory();
+    else
       return sessionFactory;
+  }
+  
+  public static synchronized Session getDataSession()
+  {
+    final Session dataSession = getSessionFactory().openSession();
+    dataSession.beginTransaction();
+    return dataSession;
+  }
+  
+  public static synchronized void closeAndCommitDataSession(Session dataSession)
+  {
+    dataSession.getTransaction().commit();
+    dataSession.close();
   }
 }

@@ -1,5 +1,6 @@
 package mmm.eschool.actions;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import mmm.eschool.LoginService;
@@ -20,7 +21,7 @@ public class Login extends ActionSupport implements ModelDriven<User>
     if (StringUtils.isEmpty(user.getUsername()))
       addFieldError("username", "Username cannot be blank!");
     if (StringUtils.isEmpty(user.getPassword()))
-      addFieldError("password", "Password cannot be blank!");
+      addFieldError("password", getText("Password cannot be blank!"));
   }
   
   @Override
