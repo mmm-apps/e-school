@@ -4,11 +4,11 @@ package mmm.eschool;
  *
  * @author Mariyan
  */
-public class EntityException extends Throwable
+public class EntityNotExistException extends Throwable
 {
   private String msg = "";
 
-  public EntityException(String errorMsg)
+  public EntityNotExistException(String errorMsg)
   {
     setMsg(errorMsg);
   }

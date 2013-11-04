@@ -19,7 +19,7 @@ public class HibernateUtil
 {
   private static final SessionFactory sessionFactory = buildSessionFactory();
  
-  public static SessionFactory buildSessionFactory()
+  public static final SessionFactory buildSessionFactory()
   {
     try 
     {
@@ -32,7 +32,7 @@ public class HibernateUtil
     }
   }
   
-  public static synchronized SessionFactory getSessionFactory() 
+  public static final synchronized SessionFactory getSessionFactory() 
   {
     if (sessionFactory == null)
       return buildSessionFactory();
@@ -40,15 +40,29 @@ public class HibernateUtil
       return sessionFactory;
   }
   
-  public static synchronized Session getDataSession()
+  public static final synchronized void add(Object entity)
   {
     final Session dataSession = getSessionFactory().openSession();
     dataSession.beginTransaction();
-    return dataSession;
+    dataSession.save(entity);
+    dataSession.getTransaction().commit();
+    dataSession.close();
   }
   
-  public static synchronized void closeAndCommitDataSession(Session dataSession)
+  public static final synchronized void del(Object entity)
   {
+    final Session dataSession = getSessionFactory().openSession();
+    dataSession.beginTransaction();
+    dataSession.delete(entity);
+    dataSession.getTransaction().commit();
+    dataSession.close();
+  }
+  
+  public static final synchronized void update(Object entity)
+  {
+    final Session dataSession = getSessionFactory().openSession();
+    dataSession.beginTransaction();
+    dataSession.update(entity);
     dataSession.getTransaction().commit();
     dataSession.close();
   }

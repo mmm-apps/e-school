@@ -1,10 +1,7 @@
-/*
- */
-
 package mmm.eschool.model;
 
 import java.util.List;
-import mmm.eschool.EntityException;
+import mmm.eschool.EntityNotExistException;
 
 /**
  *
@@ -12,9 +9,9 @@ import mmm.eschool.EntityException;
  */
 public interface EntityManager<T> 
 {
-  boolean add(T entityObject) throws EntityException;
-  T del(String id) throws EntityException;
-  boolean update(T entityObject) throws EntityException;
-  List<T> objectList();
-  T getById(String id);
+  boolean add(T entityObject) throws EntityNotExistException;
+  T del(String id) throws EntityNotExistException;
+  boolean update(T entityObject) throws EntityNotExistException;
+  List<T> EntityList();
+  T getEntityById(String id) throws EntityNotExistException;
 }

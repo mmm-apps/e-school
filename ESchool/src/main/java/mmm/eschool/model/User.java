@@ -1,7 +1,6 @@
 package mmm.eschool.model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,6 +14,7 @@ import javax.persistence.Table;
 @Table(schema = "eschool", name = "users")
 public class User implements Serializable
 {
+  private Roles roles;
   public enum Roles 
   { 
     ADMINISTRATOR("Администратор"), PARENT("Родител"), CLASSMASTER("Класен ръководител"), TEACHER("Учител"), STUDENT("Ученик"); 
@@ -60,5 +60,15 @@ public class User implements Serializable
   public void setUserRole(String userRole)
   {
     this.userRole = userRole;
+  }
+
+  public Roles getRoles()
+  {
+    return roles;
+  }
+
+  public void setRoles(Roles roles)
+  {
+    this.roles = roles;
   }
 }
