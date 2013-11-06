@@ -8,14 +8,14 @@ package mmm.eschool.model.DBEntities;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,41 +28,42 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "Homeworks")
-@NamedQueries({
-    @NamedQuery(name = "Homeworks.findAll", query = "SELECT h FROM Homeworks h"),
-    @NamedQuery(name = "Homeworks.findById", query = "SELECT h FROM Homeworks h WHERE h.id = :id"),
-    @NamedQuery(name = "Homeworks.findByHomeWorkTitle", query = "SELECT h FROM Homeworks h WHERE h.homeWorkTitle = :homeWorkTitle"),
-    @NamedQuery(name = "Homeworks.findByStartDate", query = "SELECT h FROM Homeworks h WHERE h.startDate = :startDate"),
-    @NamedQuery(name = "Homeworks.findByEndDate", query = "SELECT h FROM Homeworks h WHERE h.endDate = :endDate"),
-    @NamedQuery(name = "Homeworks.findByIsCompleted", query = "SELECT h FROM Homeworks h WHERE h.isCompleted = :isCompleted")})
 public class Homeworks implements Serializable {
-    private static final long serialVersionUID = 1L;
+
     @Id
-    @Basic(optional = false)
+    @SequenceGenerator(name = "homeworks_seq", allocationSize = 1, initialValue = 1, schema = "main", sequenceName = "homeworks_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "homeworks_seq")
     @NotNull
     @Column(name = "id")
     private Integer id;
+    
     @Size(max = 40)
+    @NotNull
     @Column(name = "HomeWorkTitle")
     private String homeWorkTitle;
-    @Basic(optional = false)
+    
     @NotNull
     @Column(name = "StartDate")
     @Temporal(TemporalType.DATE)
     private Date startDate;
-    @Basic(optional = false)
+    
     @NotNull
     @Column(name = "EndDate")
     @Temporal(TemporalType.DATE)
     private Date endDate;
+    
+    @NotNull
     @Column(name = "isCompleted")
     private Boolean isCompleted;
+    
     @JoinColumn(name = "SubjectId", referencedColumnName = "Id")
     @ManyToOne(optional = false)
     private Subjects subjectId;
+    
     @JoinColumn(name = "StudentId", referencedColumnName = "Id")
     @ManyToOne(optional = false)
     private Students studentId;
+    
     @JoinColumn(name = "classId", referencedColumnName = "Id")
     @ManyToOne(optional = false)
     private Classes classId;
@@ -70,24 +71,10 @@ public class Homeworks implements Serializable {
     public Homeworks() {
     }
 
-    public Homeworks(Integer id) {
-        this.id = id;
-    }
-
-    public Homeworks(Integer id, Date startDate, Date endDate) {
-        this.id = id;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
     public Integer getId() {
         return id;
     }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
+    
     public String getHomeWorkTitle() {
         return homeWorkTitle;
     }
@@ -143,30 +130,4 @@ public class Homeworks implements Serializable {
     public void setClassId(Classes classId) {
         this.classId = classId;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Homeworks)) {
-            return false;
-        }
-        Homeworks other = (Homeworks) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "mmm.eschool.model.DBEntities.Homeworks[ id=" + id + " ]";
-    }
-    
 }
