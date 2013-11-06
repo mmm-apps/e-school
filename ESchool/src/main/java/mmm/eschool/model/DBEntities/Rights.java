@@ -11,12 +11,15 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,27 +30,26 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "Rights")
-@NamedQueries({
-    @NamedQuery(name = "Rights.findAll", query = "SELECT r FROM Rights r"),
-    @NamedQuery(name = "Rights.findById", query = "SELECT r FROM Rights r WHERE r.id = :id"),
-    @NamedQuery(name = "Rights.findByRightName", query = "SELECT r FROM Rights r WHERE r.rightName = :rightName")})
 public class Rights implements Serializable {
-    private static final long serialVersionUID = 1L;
+
     @Id
-    @Basic(optional = false)
+    @SequenceGenerator(name = "Rights_seq", allocationSize = 1, initialValue = 1, schema = "main", sequenceName = "Rights_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "Rights_seq")
     @NotNull
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
+  
     @NotNull
     @Size(min = 1, max = 30)
     @Column(name = "RightName")
     private String rightName;
+    
     @JoinTable(name = "UserRights", joinColumns = {
         @JoinColumn(name = "RightID", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "UserId", referencedColumnName = "id")})
     @ManyToMany
     private Set<Users> usersSet;
+    
     @JoinTable(name = "RolesRights", joinColumns = {
         @JoinColumn(name = "RightID", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "RoleId", referencedColumnName = "id")})
@@ -97,30 +99,4 @@ public class Rights implements Serializable {
     public void setRolesSet(Set<Roles> rolesSet) {
         this.rolesSet = rolesSet;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Rights)) {
-            return false;
-        }
-        Rights other = (Rights) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "mmm.eschool.model.DBEntities.Rights[ id=" + id + " ]";
-    }
-    
 }
