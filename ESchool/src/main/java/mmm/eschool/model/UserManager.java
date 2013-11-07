@@ -7,7 +7,7 @@ import java.util.Map;
  *
  * @author Mariyan
  */
-public class UserManager extends Manager<User> implements EntityManager<User>
+public class UserManager extends Manager<User> 
 {
   public final static Map<String, User> users = new HashMap<String, User>();
 

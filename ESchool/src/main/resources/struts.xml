@@ -14,7 +14,7 @@
       </action>
       
       <action name="editUser" method="edit" class="mmm.eschool.actions.UserAction">
-        <result name="success">index.jsp</result>
+        <result name="success" type="redirect">listUser</result>
       </action>    
       
       <action name="deleteUser" method="delete" class="mmm.eschool.actions.UserAction">
