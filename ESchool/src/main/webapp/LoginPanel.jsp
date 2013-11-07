@@ -45,13 +45,13 @@
         <div id="wrappertop"></div>
         <div id="wrappermiddle">
             <h2>Login</h2>
-            <form action = "login.action" method ="post" />
+            <form action = "login.action" method ="post" >
                 <div id="username_input">
                     <div id="username_inputleft"></div>
                     <div id="username_inputright"></div>
                     <div id="username_inputmiddle">
                         <img id="url_user" src="Images/user_icon.png" alt="">
-                        <s:textfield label = "Username" key="username" type="text" name="link" id="url" placeholder="Username"/>
+                        <s:textfield label = "Username" key="username" type="text" cssClass="url" placeholder="Username"/>
 
                     </div>
 
@@ -59,14 +59,13 @@
                     <div id="password_input">
                         <div id="password_inputleft"></div>
                         <div id="password_inputmiddle">
-                        <s:password label="Password" key="password" type="password" name="link" id="url" placeholder="Password"/>
+                        <s:password label="Password" key="password" type="password" cssClass="url" placeholder="Password"/>
                         <img id="url_password" src="Images/passicon.png" alt="">
                     </div>
                     <div id="password_inputright"></div>
                 </div>
                 <div id="submit">
-                    <s:submit type="image" src="Images/submit_hover.png" id="submit1" value="Sign In"/>
-                    <s:submit type="image" src="Images/submit.png" id="submit2" value="Sign In"/>
+                    <s:submit type="image" src="Images/submit.png" cssClass="submit2" value="Sign In"/>
                 </div>
             </form>
             <div id="links_left"> <a href="#">Forgot your Password?</a> </div>
