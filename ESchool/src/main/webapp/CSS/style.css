@@ -58,7 +58,7 @@ body {
 #username_input {
 	margin-left:25px;
 	position:absolute;
-	width:300;
+	width:300px;
 	height:50px;
 	margin-top:40px;
 }
@@ -78,7 +78,7 @@ body {
 }
 
 #username_inputright {
-	float:left;
+	float:right;
 	background:url(../Images/input_right.png) no-repeat;
 	width:12px;
 	height:50px;
@@ -99,7 +99,7 @@ body {
 #url_user {
 	position:absolute;
 	display:block;
-	margin-top:-28px;
+	margin-top:16px;
 	float:left;
 	padding-right:10px;
 }
@@ -107,7 +107,7 @@ body {
 #password_input {
 	margin-left:25px;
 	position:absolute;
-	width:300;
+	width:300px;
 	height:50px;
 	margin-top:100px;
 }
@@ -127,7 +127,7 @@ body {
 }
 
 #password_inputright {
-	float:left;
+	float:right;
 	background:url(../Images/input_right.png) no-repeat;
 	width:12px;
 	height:50px;

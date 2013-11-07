@@ -26,5 +26,6 @@
       </action>
       
    </package>
+   <constant name="struts.ui.theme" value="simple" />
 </struts>
 

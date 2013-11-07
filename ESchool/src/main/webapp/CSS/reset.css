@@ -16,7 +16,7 @@ small, strike, strong, sub, sup, tt, var,
 b, u, i, center, 
 dl, dt, dd, ol, ul, li, 
 fieldset, form, label, legend, 
-table, caption, tbody, tfoot, thead, tr, th, td { margin:0; padding:0; border:0; outline:0; font-size:12px; vertical-align:baseline; background:transparent; font-size:12px; font-family:Arial, sans-serif; }
+table, caption, tbody, tfoot, thead, tr, th, td { margin:0; padding:0; border:0; outline:0; font-size:12px; vertical-align:baseline;font-size:12px; font-family:Arial, sans-serif; }
 
 a {margin:0; padding:0; border:0; outline:0; vertical-align:baseline; background:transparent; font-size:12px; font-family:Arial, sans-serif; }
 
