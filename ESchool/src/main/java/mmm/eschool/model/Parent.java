@@ -4,11 +4,10 @@
  * and open the template in the editor.
  */
 
-package mmm.eschool.model.DBEntities;
+package mmm.eschool.model;
 
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,69 +19,48 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author MMihov
  */
 @Entity
-@Table(name = "Parents")
-public class Parents implements Serializable {
+@Table(schema = "eschool", name = "parents")
+public class Parent implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "parents_seq", allocationSize = 1, initialValue = 1, schema = "main", sequenceName = "parents_seq")
+    @SequenceGenerator(name = "parents_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "parents_seq")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "parents_seq")
-    @NotNull
-    @Column(name = "Id")
-    private Integer id;
+    private int id;
 
-    @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "FirstName")
+    @Column(name = "first_name", nullable = false, length = 30)
     private String firstName;
 
-    @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "LastName")
+    @Column(name = "last_name", nullable = false, length = 30)
     private String lastName;
 
-    @NotNull
-    @Size(min = 1, max = 40)
-    @Column(name = "Telefon")
-    private String telefon;
+    @Column(nullable = false, length = 40)
+    private String phone;
     
     @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")
-    @NotNull
-    @Size(min = 1, max = 40)
-    @Column(name = "Email")
+    @Column(nullable = false, length = 40)
     private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "Adress")
-    private String adress;
+   
+    @Column(nullable = false, length = 100)
+    private String address;
     
-    @JoinTable(name = "StudentParents", joinColumns = {
-        @JoinColumn(name = "ParentId", referencedColumnName = "Id")}, inverseJoinColumns = {
-        @JoinColumn(name = "StudentId", referencedColumnName = "Id")})
+    @JoinTable(schema = "eschool", name = "student_parents", joinColumns = {
+        @JoinColumn(name = "parent_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "student_id", referencedColumnName = "id")})
     @ManyToMany
-    private Set<Students> studentsSet;
+    private Set<Student> studentsSet;
     
-    @JoinColumn(name = "UserId", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users userId;
+    private User userId;
 
-    public Parents() {
-    }
-
-    public Parents(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -102,12 +80,12 @@ public class Parents implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getTelefon() {
-        return telefon;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelefon(String telefon) {
-        this.telefon = telefon;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {
@@ -119,27 +97,26 @@ public class Parents implements Serializable {
     }
 
     public String getAdress() {
-        return adress;
+        return address;
     }
 
     public void setAdress(String adress) {
-        this.adress = adress;
+        this.address = adress;
     }
 
-    public Set<Students> getStudentsSet() {
+    public Set<Student> getStudentsSet() {
         return studentsSet;
     }
 
-    public void setStudentsSet(Set<Students> studentsSet) {
+    public void setStudentsSet(Set<Student> studentsSet) {
         this.studentsSet = studentsSet;
     }
 
-    public Users getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(Users userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
-
 }

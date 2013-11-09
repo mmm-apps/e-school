@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package mmm.eschool.model.DBEntities;
+package mmm.eschool.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -16,47 +16,40 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author MMihov
  */
 @Entity
-@Table(name = "Marks")
-public class Marks implements Serializable {
+@Table(schema = "eschool", name = "marks")
+public class Mark implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "marks_seq", allocationSize = 1, initialValue = 1, schema = "main", sequenceName = "marks_seq")
+    @SequenceGenerator(name = "marks_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "marks_seq")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "marks_seq")
-    @NotNull
-    @Column(name = "Id")
-    private Integer id;
-    
-    @NotNull
-    @Column(name = "Mark")
+    private int id;
+
+    @Column(nullable = false)
     private int mark;
     
-    @JoinColumn(name = "TeacherId", referencedColumnName = "Id")
+    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Teachers teacherId;
+    private Teacher teacherId;
     
-    @JoinColumn(name = "SubjectId", referencedColumnName = "Id")
+    @JoinColumn(name = "subject_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Subjects subjectId;
+    private Subject subjectId;
     
-    @JoinColumn(name = "StudentId", referencedColumnName = "Id")
+    @JoinColumn(name = "student_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Students studentId;
+    private Student studentId;
     
-    @JoinColumn(name = "ClassId", referencedColumnName = "Id")
+    @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Classes classId;
-
-    public Marks() {
-    }
-
-    public Integer getId() {
+    
+    public int getId() {
         return id;
     }
 
@@ -68,27 +61,27 @@ public class Marks implements Serializable {
         this.mark = mark;
     }
 
-    public Teachers getTeacherId() {
+    public Teacher getTeacherId() {
         return teacherId;
     }
 
-    public void setTeacherId(Teachers teacherId) {
+    public void setTeacherId(Teacher teacherId) {
         this.teacherId = teacherId;
     }
 
-    public Subjects getSubjectId() {
+    public Subject getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(Subjects subjectId) {
+    public void setSubjectId(Subject subjectId) {
         this.subjectId = subjectId;
     }
 
-    public Students getStudentId() {
+    public Student getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(Students studentId) {
+    public void setStudentId(Student studentId) {
         this.studentId = studentId;
     }
 

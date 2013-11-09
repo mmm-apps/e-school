@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package mmm.eschool.model.DBEntities;
+package mmm.eschool.model;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -29,60 +29,45 @@ import javax.validation.constraints.Size;
  * @author MMihov
  */
 @Entity
-@Table(name = "Subjects")
-public class Subjects implements Serializable {
+@Table(schema = "eschool", name = "subjects")
+public class Subject implements Serializable {
    
     @Id
-    @SequenceGenerator(name = "subjects_seq", allocationSize = 1, initialValue = 1, schema = "main", sequenceName = "subjects_seq")
+    @SequenceGenerator(name = "subjects_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "subjects_seq")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "subjects_seq")
-    @NotNull
-    @Column(name = "Id")
-    private Integer id;
+    private int id;
     
-    @NotNull
-    @Size(min = 1, max = 40)
-    @Column(name = "SubjectName")
+    @Column(name = "subject_name", nullable = false, length = 40)
     private String subjectName;
     
-    @NotNull
-    @Column(name = "YearOfStudy")
+    @Column(name = "year_of_study", nullable = false)
     private int yearOfStudy;
     
-    @NotNull
-    @Size(min = 1, max = 40)
-    @Column(name = "SubjectKind")
+    @Column(name = "subject_kind", nullable = false, length = 40)
     private String subjectKind;
     
-    @JoinTable(name = "TeacherSubjects", joinColumns = {
-        @JoinColumn(name = "SubjectId", referencedColumnName = "Id")}, inverseJoinColumns = {
-        @JoinColumn(name = "TeacherId", referencedColumnName = "Id")})
     @ManyToMany
-    private Set<Teachers> teachersSet;
+    @JoinTable(schema = "eschool", name = "teacher_subjects", 
+        joinColumns = { @JoinColumn(name = "subject_id", referencedColumnName = "id")}, 
+        inverseJoinColumns = { @JoinColumn(name = "teacher_id", referencedColumnName = "id")})
+    private Set<Teacher> teachersSet;
     
     @ManyToMany(mappedBy = "subjectsSet")
-    private Set<Students> studentsSet;
+    private Set<Student> studentsSet;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private Set<Homeworks> homeworksSet;
+    private Set<Homework> homeworksSet;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private Set<Marks> marksSet;
+    private Set<Mark> marksSet;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private Set<Remarks> remarksSet;
+    private Set<Remark> remarksSet;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private Set<Absences> absencesSet;
-    
+    private Set<Absence> absencesSet;
 
-    public Subjects() {
-    }
-
-    public Subjects(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -110,51 +95,51 @@ public class Subjects implements Serializable {
         this.subjectKind = subjectKind;
     }
 
-    public Set<Teachers> getTeachersSet() {
+    public Set<Teacher> getTeachersSet() {
         return teachersSet;
     }
 
-    public void setTeachersSet(Set<Teachers> teachersSet) {
+    public void setTeachersSet(Set<Teacher> teachersSet) {
         this.teachersSet = teachersSet;
     }
 
-    public Set<Students> getStudentsSet() {
+    public Set<Student> getStudentsSet() {
         return studentsSet;
     }
 
-    public void setStudentsSet(Set<Students> studentsSet) {
+    public void setStudentsSet(Set<Student> studentsSet) {
         this.studentsSet = studentsSet;
     }
 
-    public Set<Homeworks> getHomeworksSet() {
+    public Set<Homework> getHomeworksSet() {
         return homeworksSet;
     }
 
-    public void setHomeworksSet(Set<Homeworks> homeworksSet) {
+    public void setHomeworksSet(Set<Homework> homeworksSet) {
         this.homeworksSet = homeworksSet;
     }
 
-    public Set<Marks> getMarksSet() {
+    public Set<Mark> getMarksSet() {
         return marksSet;
     }
 
-    public void setMarksSet(Set<Marks> marksSet) {
+    public void setMarksSet(Set<Mark> marksSet) {
         this.marksSet = marksSet;
     }
 
-    public Set<Remarks> getRemarksSet() {
+    public Set<Remark> getRemarksSet() {
         return remarksSet;
     }
 
-    public void setRemarksSet(Set<Remarks> remarksSet) {
+    public void setRemarksSet(Set<Remark> remarksSet) {
         this.remarksSet = remarksSet;
     }
 
-    public Set<Absences> getAbsencesSet() {
+    public Set<Absence> getAbsencesSet() {
         return absencesSet;
     }
 
-    public void setAbsencesSet(Set<Absences> absencesSet) {
+    public void setAbsencesSet(Set<Absence> absencesSet) {
         this.absencesSet = absencesSet;
     }
 }

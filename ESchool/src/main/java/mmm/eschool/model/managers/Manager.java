@@ -1,9 +1,10 @@
-package mmm.eschool.model;
+package mmm.eschool.model.managers;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import mmm.eschool.EntityNotExistException;
+import mmm.eschool.AnException;
+import mmm.eschool.AnException.Types;
 import mmm.eschool.HibernateUtil;
 import org.hibernate.classic.Session;
 
@@ -12,12 +13,10 @@ import org.hibernate.classic.Session;
  * @author Mariyan
  */
 public abstract class Manager<T>
-{
-  private static boolean toBeCalc = true; // may be not static?!???
-  
-  private synchronized Map<String, T> getEntityCollection()
+{ 
+  private synchronized Map<Integer, T> getEntityCollection()
   {
-    if (toBeCalc)
+    if (toBeRecalc())
       calculateEntities();
     return getCollection();
   }
@@ -29,22 +28,22 @@ public abstract class Manager<T>
     dataSession.close();
     for (final T entity : newEntityData)
       getCollection().put(getId(entity), entity);
-    toBeCalc = false;
+    setToRecalc(false);
   }
   
-  public final boolean add(final T entity) throws EntityNotExistException
+  public final boolean add(final T entity) throws AnException
   {
     if (entity != null)
     {
       if (getEntityCollection().containsKey(getId(entity)))
-        throw new EntityNotExistException(getId(entity));
+        throw new AnException(Types.ENTITY_EXIST);
       else
       {
         HibernateUtil.add(entity);
         if (!getEntityCollection().containsKey(getId(entity)))
         {
           getCollection().put(getId(entity), entity);
-          toBeCalc = true;
+          setToRecalc(true);
         }
         return true;
       }
@@ -53,12 +52,12 @@ public abstract class Manager<T>
       return false;
   }
   
-  public final T del(final String id) throws EntityNotExistException
+  public final T del(final Integer id) throws AnException
   {
     if (id != null)
     {
       if (!getEntityCollection().containsKey(id))
-        throw new EntityNotExistException(id);
+        throw new AnException(Types.ENTITY_NOT_EXIST);
       else
       {
         final T entity = getEntityCollection().get(id);
@@ -66,7 +65,7 @@ public abstract class Manager<T>
         if (getEntityCollection().containsKey(getId(entity)))
         {
           getCollection().remove(getId(entity));
-          toBeCalc = true;
+          setToRecalc(true);
         }
         return entity;
       }
@@ -75,16 +74,16 @@ public abstract class Manager<T>
       return null;
   }
 
-  public final boolean update(T entity) throws EntityNotExistException
+  public final boolean update(T entity) throws AnException
   {
     if (entity != null)
     {
       if (!getEntityCollection().containsKey(getId(entity)))
-        throw new EntityNotExistException(getId(entity));
+        throw new AnException(Types.ENTITY_NOT_EXIST);
       {
         HibernateUtil.update(entity);
         getCollection().put(getId(entity), entity);
-        toBeCalc = true;
+        setToRecalc(true);
       }
       return true;
     }
@@ -94,17 +93,19 @@ public abstract class Manager<T>
   
   public final List<T> EntityList()
   {
-    if (toBeCalc)
+    if (toBeRecalc())
       calculateEntities();
     return new ArrayList(getCollection().values());
   }
 
-  public final T getEntityById(String id)
+  public final T getEntityById(int id)
   {
     return getEntityCollection().get(id);
   }
   
-  abstract String getId(T entity);
+  abstract boolean toBeRecalc();
+  abstract void setToRecalc(boolean value);
+  abstract Integer getId(T entity);
   abstract String getEntityName();
-  abstract Map<String, T> getCollection();
+  abstract Map<Integer, T> getCollection();
 }

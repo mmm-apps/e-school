@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package mmm.eschool.model.DBEntities;
+package mmm.eschool.model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,59 +19,47 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author MMihov
  */
 @Entity
-@Table(name = "Homeworks")
-public class Homeworks implements Serializable {
+@Table(schema = "eschool", name = "homeworks")
+public class Homework implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "homeworks_seq", allocationSize = 1, initialValue = 1, schema = "main", sequenceName = "homeworks_seq")
+    @SequenceGenerator(name = "homeworks_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "homeworks_seq")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "homeworks_seq")
-    @NotNull
-    @Column(name = "id")
-    private Integer id;
+    private int id;
     
-    @Size(max = 40)
-    @NotNull
-    @Column(name = "HomeWorkTitle")
+    @Column(name = "homework_title", nullable = false, length = 40)
     private String homeWorkTitle;
-    
-    @NotNull
-    @Column(name = "StartDate")
+
+    @Column(name = "start_date", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date startDate;
     
-    @NotNull
-    @Column(name = "EndDate")
+    @Column(name = "end_date", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date endDate;
     
-    @NotNull
-    @Column(name = "isCompleted")
+    @Column(name = "is_completed", nullable = false)
     private Boolean isCompleted;
     
-    @JoinColumn(name = "SubjectId", referencedColumnName = "Id")
+    @JoinColumn(name = "subject_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Subjects subjectId;
+    private Subject subjectId;
     
-    @JoinColumn(name = "StudentId", referencedColumnName = "Id")
+    @JoinColumn(name = "student_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Students studentId;
+    private Student studentId;
     
-    @JoinColumn(name = "classId", referencedColumnName = "Id")
+    @JoinColumn(name = "class_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Classes classId;
 
-    public Homeworks() {
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
     
@@ -107,19 +95,19 @@ public class Homeworks implements Serializable {
         this.isCompleted = isCompleted;
     }
 
-    public Subjects getSubjectId() {
+    public Subject getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(Subjects subjectId) {
+    public void setSubjectId(Subject subjectId) {
         this.subjectId = subjectId;
     }
 
-    public Students getStudentId() {
+    public Student getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(Students studentId) {
+    public void setStudentId(Student studentId) {
         this.studentId = studentId;
     }
 

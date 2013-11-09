@@ -1,7 +1,7 @@
 package mmm.eschool;
 
 import mmm.eschool.model.User;
-import mmm.eschool.model.UserManager;
+import mmm.eschool.model.managers.UserManager;
 
 /**
  *
@@ -12,7 +12,7 @@ public class LoginService
   public boolean getLoginResult(User user)
   {
     UserManager userManager = new UserManager();
-    User usr = userManager.getEntityById(user.getUsername());
+    User usr = userManager.getEntityById(user.getId());
     return usr != null && usr.getUsername().equals(user.getUsername());
   }
 }

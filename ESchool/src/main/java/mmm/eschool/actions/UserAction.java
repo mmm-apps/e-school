@@ -6,9 +6,9 @@ import com.opensymphony.xwork2.ModelDriven;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import mmm.eschool.EntityNotExistException;
+import mmm.eschool.AnException;
 import mmm.eschool.model.User;
-import mmm.eschool.model.UserManager;
+import mmm.eschool.model.managers.UserManager;
 import org.apache.struts2.ServletActionContext;
 
 /**
@@ -58,21 +58,21 @@ public class UserAction extends ActionSupport implements ModelDriven<User>
     return SUCCESS;
   }
   
-  public String add() throws EntityNotExistException
+  public String add() throws AnException
   {
     usrManager.add(user);
     return SUCCESS;
   }
   
-  public String delete() throws EntityNotExistException
+  public String delete() throws AnException
   {
     HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-    String username = request.getParameter("username");
-    usrManager.del(username);
+    String userId = request.getParameter("id");
+    usrManager.del(Integer.parseInt(userId));
     return SUCCESS;
   }
   
-  public String edit() throws EntityNotExistException
+  public String edit() throws AnException
   {
     usrManager.update(user);
     return SUCCESS;

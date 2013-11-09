@@ -4,11 +4,10 @@
  * and open the template in the editor.
  */
 
-package mmm.eschool.model.DBEntities;
+package mmm.eschool.model;
 
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,87 +17,60 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author MMihov
  */
 @Entity
-@Table(name = "Teachers")
-public class Teachers implements Serializable {
-
+@Table(schema = "eschool", name = "teachers")
+public class Teacher implements Serializable 
+{
     @Id
-    @SequenceGenerator(name = "teachers_seq", allocationSize = 1, initialValue = 1, schema = "main", sequenceName = "teachers_seq")
+    @SequenceGenerator(name = "teachers_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "teachers_seq")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "teachers_seq")
-    @NotNull
-    @Column(name = "Id")
-    private Integer id;
+    private int id;
     
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "FirstName")
+    @Column(name = "first_name", nullable = false, length = 30)
     private String firstName;
     
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "LastName")
+    @Column(name = "last_name", nullable = false, length = 30)
     private String lastName;
     
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 40)
-    @Column(name = "Telefon")
-    private String telefon;
+    @Column(nullable = false, length = 40)
+    private String phone;
 
-    @NotNull
-    @Size(min = 1, max = 40)
     @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")
-    @Column(name = "Email")
+    @Column(nullable = false, length = 40)
     private String email;
     
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "Adress")
+    @Column(nullable = false, length = 100)
     private String adress;
     
     @ManyToMany(mappedBy = "teachersSet")
-    private Set<Subjects> subjectsSet;
+    private Set<Subject> subjectsSet;
     
     @ManyToMany(mappedBy = "teachersSet")
     private Set<Classes> classesSet;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
-    private Set<Marks> marksSet;
+    private Set<Mark> marksSet;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
-    private Set<Remarks> remarksSet;
-    
-    @JoinColumn(name = "UserId", referencedColumnName = "id")
+    private Set<Remark> remarksSet;
     
     @ManyToOne(optional = false)
-    private Users userId;
+    @JoinColumn(nullable = false, name = "user_id", referencedColumnName = "id")
+    private User userId;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
-    private Set<Absences> absencesSet;
+    private Set<Absence> absencesSet;
 
-    public Teachers() {
-    }
-
-    public Teachers(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -118,12 +90,12 @@ public class Teachers implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getTelefon() {
-        return telefon;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelefon(String telefon) {
-        this.telefon = telefon;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {
@@ -142,11 +114,11 @@ public class Teachers implements Serializable {
         this.adress = adress;
     }
 
-    public Set<Subjects> getSubjectsSet() {
+    public Set<Subject> getSubjectsSet() {
         return subjectsSet;
     }
 
-    public void setSubjectsSet(Set<Subjects> subjectsSet) {
+    public void setSubjectsSet(Set<Subject> subjectsSet) {
         this.subjectsSet = subjectsSet;
     }
 
@@ -158,35 +130,35 @@ public class Teachers implements Serializable {
         this.classesSet = classesSet;
     }
 
-    public Set<Marks> getMarksSet() {
+    public Set<Mark> getMarksSet() {
         return marksSet;
     }
 
-    public void setMarksSet(Set<Marks> marksSet) {
+    public void setMarksSet(Set<Mark> marksSet) {
         this.marksSet = marksSet;
     }
 
-    public Set<Remarks> getRemarksSet() {
+    public Set<Remark> getRemarksSet() {
         return remarksSet;
     }
 
-    public void setRemarksSet(Set<Remarks> remarksSet) {
+    public void setRemarksSet(Set<Remark> remarksSet) {
         this.remarksSet = remarksSet;
     }
 
-    public Users getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(Users userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 
-    public Set<Absences> getAbsencesSet() {
+    public Set<Absence> getAbsencesSet() {
         return absencesSet;
     }
 
-    public void setAbsencesSet(Set<Absences> absencesSet) {
+    public void setAbsencesSet(Set<Absence> absencesSet) {
         this.absencesSet = absencesSet;
     }
 }

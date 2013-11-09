@@ -1,12 +1,8 @@
-/*
- */
-
 package mmm.eschool;
 
-import mmm.eschool.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.classic.Session;
 
 /**
@@ -23,7 +19,7 @@ public class HibernateUtil
   {
     try 
     {
-      return new AnnotationConfiguration().addAnnotatedClass(User.class).configure().buildSessionFactory();
+      return new Configuration().configure().buildSessionFactory();
     }
     catch (HibernateException ex) 
     {

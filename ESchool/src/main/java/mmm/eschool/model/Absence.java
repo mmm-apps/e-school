@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package mmm.eschool.model.DBEntities;
+package mmm.eschool.model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,69 +19,60 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author MMihov
  */
 @Entity
-@Table(name = "Absences")
-public class Absences implements Serializable {
+@Table(schema = "eschool", name = "absences")
+public class Absence implements Serializable {
 
     @Id
     @SequenceGenerator(name = "absences_seq", allocationSize = 1, initialValue = 1, schema = "main", sequenceName = "absences_seq")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "absences_seq")
-    @NotNull
-    @Column(name = "Id")
-    private Integer id;
-    
-    @NotNull
-    @Column(name = "Date")
+    private int id;
+
+    @Column(name = "absence_date", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date absenceDate;
     
-    @NotNull
-    @Column(name = "Type")
-    private boolean type;
+    @Column(name = "absence_type", nullable = false)
+    private boolean absenceType;
     
-    @NotNull
-    @Column(name = "Value")
+    @Column(name = "absence_value", nullable = false)
     private double value;
     
-    @JoinColumn(name = "TeacherId", referencedColumnName = "Id")
+    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Teachers teacherId;
+    private Teacher teacherId;
     
-    @JoinColumn(name = "SubjectId", referencedColumnName = "Id")
+    @JoinColumn(name = "subject_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Subjects subjectId;
+    private Subject subjectId;
     
-    @JoinColumn(name = "StudentId", referencedColumnName = "Id")
+    @JoinColumn(name = "student_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Students studentId;
+    private Student studentId;
 
-    public Absences() {
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getAbsenceDate() {
+        return absenceDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setAbsenceDate(Date date) {
+        this.absenceDate = date;
     }
 
     public boolean getType() {
-        return type;
+        return absenceType;
     }
 
     public void setType(boolean type) {
-        this.type = type;
+        this.absenceType = type;
     }
 
     public double getValue() {
@@ -92,27 +83,27 @@ public class Absences implements Serializable {
         this.value = value;
     }
 
-    public Teachers getTeacherId() {
+    public Teacher getTeacherId() {
         return teacherId;
     }
 
-    public void setTeacherId(Teachers teacherId) {
+    public void setTeacherId(Teacher teacherId) {
         this.teacherId = teacherId;
     }
 
-    public Subjects getSubjectId() {
+    public Subject getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(Subjects subjectId) {
+    public void setSubjectId(Subject subjectId) {
         this.subjectId = subjectId;
     }
 
-    public Students getStudentId() {
+    public Student getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(Students studentId) {
+    public void setStudentId(Student studentId) {
         this.studentId = studentId;
     }
 }

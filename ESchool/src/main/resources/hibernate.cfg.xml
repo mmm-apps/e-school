@@ -13,17 +13,17 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="show_sql">true</property>
-        <mapping class="mmm.eschool.model.DBEntities.Absences"/>
-        <mapping class="mmm.eschool.model.DBEntities.Classes"/>
-        <mapping class="mmm.eschool.model.DBEntities.Homeworks"/>
-        <mapping class="mmm.eschool.model.DBEntities.Marks"/>
-        <mapping class="mmm.eschool.model.DBEntities.Parents"/>
-        <mapping class="mmm.eschool.model.DBEntities.Remarks"/>
-        <mapping class="mmm.eschool.model.DBEntities.Rights"/>
-        <mapping class="mmm.eschool.model.DBEntities.Roles"/>
-        <mapping class="mmm.eschool.model.DBEntities.Students"/>
-        <mapping class="mmm.eschool.model.DBEntities.Subjects"/>
-        <mapping class="mmm.eschool.model.DBEntities.Teachers"/>
-        <mapping class="mmm.eschool.model.DBEntities.Users"/>
+        <mapping class="mmm.eschool.model.Absence"/>
+        <mapping class="mmm.eschool.model.Classes"/>
+        <mapping class="mmm.eschool.model.Homework"/>
+        <mapping class="mmm.eschool.model.Mark"/>
+        <mapping class="mmm.eschool.model.Parent"/>
+        <mapping class="mmm.eschool.model.Remark"/>
+        <mapping class="mmm.eschool.model.Right"/>
+        <mapping class="mmm.eschool.model.Role"/>
+        <mapping class="mmm.eschool.model.Student"/>
+        <mapping class="mmm.eschool.model.Subject"/>
+        <mapping class="mmm.eschool.model.Teacher"/>
+        <mapping class="mmm.eschool.model.User"/>
     </session-factory>
 </hibernate-configuration>

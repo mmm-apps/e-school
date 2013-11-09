@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package mmm.eschool.model.DBEntities;
+package mmm.eschool.model;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -21,87 +21,66 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author MMihov
  */
 @Entity
-@Table(name = "Students")
-public class Students implements Serializable {
+@Table(schema = "eschool", name = "students")
+public class Student implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "Students_seq", allocationSize = 1, initialValue = 1, schema = "main", sequenceName = "Students_seq")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "Students_seq")
-    @NotNull
-    @Column(name = "Id")
-    private Integer id;
+    @SequenceGenerator(name = "students_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "students_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "students_seq")
+    private int id;
 
-    @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "FirstName")
+    @Column(name = "first_name", nullable = false, length = 30)
     private String firstName;
 
-    @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "LastName")
+    @Column(name = "last_name", nullable = false, length = 30)
     private String lastName;
 
-    @NotNull
-    @Size(min = 1, max = 40)
-    @Column(name = "Telefon")
-    private String telefon;
+    @Column(nullable = false, length = 40)
+    private String phone;
     
-    @NotNull
-    @Size(min = 1, max = 40)
     @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")
-    @Column(name = "Email")
+    @Column(nullable = false, length = 40)
     private String email;
 
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "Adress")
+    @Column(nullable = false, length = 100)
     private String adress;
     
     @ManyToMany(mappedBy = "studentsSet")
     private Set<Classes> classesSet;
     
     @ManyToMany(mappedBy = "studentsSet")
-    private Set<Parents> parentsSet;
+    private Set<Parent> parentsSet;
     
-    @JoinTable(name = "StudentSubjects", joinColumns = {
-        @JoinColumn(name = "StudentId", referencedColumnName = "Id")}, inverseJoinColumns = {
-        @JoinColumn(name = "SubjectId", referencedColumnName = "Id")})
+    @JoinTable(schema = "eschool", name = "student_subjects", joinColumns = {
+        @JoinColumn(name = "student_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "subject_id", referencedColumnName = "id")})
     @ManyToMany
-    private Set<Subjects> subjectsSet;
+    private Set<Subject> subjectsSet;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
-    private Set<Homeworks> homeworksSet;
+    private Set<Homework> homeworksSet;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
-    private Set<Marks> marksSet;
+    private Set<Mark> marksSet;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
-    private Set<Remarks> remarksSet;
+    private Set<Remark> remarksSet;
     
-    @JoinColumn(name = "UserId", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Users userId;
+    private User userId;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
-    private Set<Absences> absencesSet;
+    private Set<Absence> absencesSet;
 
-    public Students() {
-    }
-
-    public Students(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -121,12 +100,12 @@ public class Students implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getTelefon() {
-        return telefon;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelefon(String telefon) {
-        this.telefon = telefon;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {
@@ -153,59 +132,59 @@ public class Students implements Serializable {
         this.classesSet = classesSet;
     }
 
-    public Set<Parents> getParentsSet() {
+    public Set<Parent> getParentsSet() {
         return parentsSet;
     }
 
-    public void setParentsSet(Set<Parents> parentsSet) {
+    public void setParentsSet(Set<Parent> parentsSet) {
         this.parentsSet = parentsSet;
     }
 
-    public Set<Subjects> getSubjectsSet() {
+    public Set<Subject> getSubjectsSet() {
         return subjectsSet;
     }
 
-    public void setSubjectsSet(Set<Subjects> subjectsSet) {
+    public void setSubjectsSet(Set<Subject> subjectsSet) {
         this.subjectsSet = subjectsSet;
     }
 
-    public Set<Homeworks> getHomeworksSet() {
+    public Set<Homework> getHomeworksSet() {
         return homeworksSet;
     }
 
-    public void setHomeworksSet(Set<Homeworks> homeworksSet) {
+    public void setHomeworksSet(Set<Homework> homeworksSet) {
         this.homeworksSet = homeworksSet;
     }
 
-    public Set<Marks> getMarksSet() {
+    public Set<Mark> getMarksSet() {
         return marksSet;
     }
 
-    public void setMarksSet(Set<Marks> marksSet) {
+    public void setMarksSet(Set<Mark> marksSet) {
         this.marksSet = marksSet;
     }
 
-    public Set<Remarks> getRemarksSet() {
+    public Set<Remark> getRemarksSet() {
         return remarksSet;
     }
 
-    public void setRemarksSet(Set<Remarks> remarksSet) {
+    public void setRemarksSet(Set<Remark> remarksSet) {
         this.remarksSet = remarksSet;
     }
 
-    public Users getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(Users userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 
-    public Set<Absences> getAbsencesSet() {
+    public Set<Absence> getAbsencesSet() {
         return absencesSet;
     }
 
-    public void setAbsencesSet(Set<Absences> absencesSet) {
+    public void setAbsencesSet(Set<Absence> absencesSet) {
         this.absencesSet = absencesSet;
     }
 }

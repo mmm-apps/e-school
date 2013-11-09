@@ -4,11 +4,10 @@
  * and open the template in the editor.
  */
 
-package mmm.eschool.model.DBEntities;
+package mmm.eschool.model;
 
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,49 +18,35 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author MMihov
  */
 @Entity
-@Table(name = "Roles")
-public class Roles implements Serializable {
+@Table(schema = "eschool", name = "roles")
+public class Role implements Serializable {
 
     @Id
-    @SequenceGenerator(name = "roles_seq", allocationSize = 1, initialValue = 1, schema = "main", sequenceName = "roles_seq")
+    @SequenceGenerator(name = "roles_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "roles_seq")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "roles_seq")
-    @NotNull
-    @Column(name = "id")
-    private Integer id;
+    private int id;
 
-    @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "RoleName")
+    @Column(name = "role_name", nullable = false, length = 30)
     private String roleName;
     
-    @JoinTable(name = "UserInRoles", joinColumns = {
-        @JoinColumn(name = "RoleId", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "UserID", referencedColumnName = "id")})
+    @JoinTable(schema = "eschool", name = "user_in_roles", joinColumns = {
+        @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "user_id", referencedColumnName = "id")})
     @ManyToMany
-    private Set<Users> usersSet;
+    private Set<User> usersSet;
     
     @ManyToMany(mappedBy = "rolesSet")
-    private Set<Rights> rightsSet;
+    private Set<Right> rightsSet;
 
-    public Roles() {
-    }
-
-    public Roles(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
+    public int getId() {
         return id;
     }
-
 
     public String getRoleName() {
         return roleName;
@@ -71,20 +56,19 @@ public class Roles implements Serializable {
         this.roleName = roleName;
     }
 
-    public Set<Users> getUsersSet() {
+    public Set<User> getUsersSet() {
         return usersSet;
     }
 
-    public void setUsersSet(Set<Users> usersSet) {
+    public void setUsersSet(Set<User> usersSet) {
         this.usersSet = usersSet;
     }
 
-    public Set<Rights> getRightsSet() {
+    public Set<Right> getRightsSet() {
         return rightsSet;
     }
 
-    public void setRightsSet(Set<Rights> rightsSet) {
+    public void setRightsSet(Set<Right> rightsSet) {
         this.rightsSet = rightsSet;
     }
-
 }
