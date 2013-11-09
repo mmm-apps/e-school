@@ -11,6 +11,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link type="text/css" rel="stylesheet" href="CSS/bootstrap.css" media="screen">
         <link type="text/css" rel="stylesheet" href="CSS/reset_1.css" media="screen">
+        <script src="http://bootswatch.com/bower_components/jquery/jquery.min.js"></script>
+        <script src="http://bootswatch.com/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="http://bootswatch.com/assets/js/bootswatch.js"></script>
         <title>JSP Page</title>
     </head>
     <body>
