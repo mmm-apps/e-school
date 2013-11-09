@@ -1,0 +1,30 @@
+body
+{
+    background-color:#02325f;
+    background-image:url('http://www.thehubmensland.com/images/black_wood_background_by_egosumpotens-d3fst0k.jpg');
+
+
+}
+#Menu
+{
+    width: 100%;
+    margin:auto;
+    height: 45px;
+
+}
+#board
+{
+    width: 95%;
+    margin:auto;
+    margin-top:30px;
+    margin-bottom:30px;
+    height: 500px;
+    opacity: 0.9;
+
+}
+
+#content
+{
+margin-top: 61px;
+margin-left: 25%;
+}
