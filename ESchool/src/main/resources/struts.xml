@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+   <package name="default" extends="struts-default">
+      <action name="login" class="mmm.eschool.actions.Login">
+        <result name="success">index.jsp</result>
+        <result name="error">LoginPanel.jsp</result> 
+        <result name="input">LoginPanel.jsp</result>
+      </action>
+       
+      <action name="addUser" method="add" class="mmm.eschool.actions.UserAction">
+        <result name="success" type="redirect">listUser</result>
+      </action>
+      
+      <action name="editUser" method="edit" class="mmm.eschool.actions.UserAction">
+        <result name="success" type="redirect">listUser</result>
+      </action>    
+      
+      <action name="deleteUser" method="delete" class="mmm.eschool.actions.UserAction">
+        <result name="success" type="redirect">listUser</result>
+      </action>
+      
+      <action name="listUser" method="list" class="mmm.eschool.actions.UserAction">
+        <result name="success">index.jsp</result>
+      </action>
+      
+   </package>
+   <constant name="struts.ui.theme" value="simple" />
+</struts>
+

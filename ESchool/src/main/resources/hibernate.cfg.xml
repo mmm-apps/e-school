@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://ec2-54-247-184-115.eu-west-1.compute.amazonaws.com:5432/d4jm9tf1gs1sbv?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory</property>
+        <property name="hibernate.connection.username">bjwmbpxrvphmef</property>
+        <property name="hibernate.connection.password">Px0jf7v8uPui4btMhXo_6IL6WC</property>
+        <property name="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.connection.pool_size">1</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="show_sql">true</property>
+        <mapping class="mmm.eschool.model.Absence"/>
+        <mapping class="mmm.eschool.model.Classes"/>
+        <mapping class="mmm.eschool.model.Homework"/>
+        <mapping class="mmm.eschool.model.Mark"/>
+        <mapping class="mmm.eschool.model.Parent"/>
+        <mapping class="mmm.eschool.model.Remark"/>
+        <mapping class="mmm.eschool.model.Right"/>
+        <mapping class="mmm.eschool.model.Role"/>
+        <mapping class="mmm.eschool.model.Student"/>
+        <mapping class="mmm.eschool.model.Subject"/>
+        <mapping class="mmm.eschool.model.Teacher"/>
+        <mapping class="mmm.eschool.model.User"/>
+    </session-factory>
+</hibernate-configuration>
