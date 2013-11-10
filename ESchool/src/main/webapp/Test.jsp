@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -48,7 +49,7 @@
                         <input type="text" class="form-control col-lg-8" placeholder="Search">
                     </form>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">Вход</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#myModal">Вход</a></li>
                         <li><a href="#">Регистрация</a></li>
                     </ul>
                 </div><!-- /.nav-collapse -->
@@ -147,9 +148,9 @@
             <div id="Content" style="clear: left;padding-top:300px;">
 
                 <div class="well">
-                    <h1>Успех по предметите изучавани от Тумбак Тумбаков</h1>
-                    <p>Ученик от: класа на Тумбаците.</p>
-                    <p>Класен ръководител: г-н Тумбака</p>
+                    <h1>Успех по предметите изучавани от Минчо Минчев</h1>
+                    <p>Ученик от:1б клас</p>
+                    <p>Класен ръководител: г-н Иванов</p>
                     <p></p>
                     <p><a class="btn btn-primary btn-lg">Виж пълен профил</a></p>
                 </div>  
@@ -215,6 +216,36 @@
             <div id="Content" style="clear: left;padding-top:300px;"></div>
         </div>
 
+
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form action = "login.action" method ="post" class ="bs-example form-horizontal" >
+                            <fieldset>
+                                <legend>Вход в системата</legend>
+                                <div class = "form-group">
+                                    <div class="col-lg-10">
+                                        <s:textfield id="userNameInput" key="username" type="text" cssClass="form-control" placeholder="Потребителксо име" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-10">
+                                        <s:password id="passwordInput" key="password" type="password" cssClass="form-control" placeholder="Парола" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
+                                <s:submit cssClass="btn btn-info" value="Вход"/>
+                            </div>
+                        </form>
+                    </div>
+
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
     </body>
 </html>
