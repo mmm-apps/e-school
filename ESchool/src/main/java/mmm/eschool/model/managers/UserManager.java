@@ -46,4 +46,21 @@ public class UserManager extends Manager<User>
     else
       return null;
   }
+  /**
+   * Връща id-то на обекта по неговият username
+     * @param username
+     * @param password
+     * @return User
+   */
+  public User getUserByName(String username, String password){
+      
+     for (Map.Entry<Integer,User> entry : users.entrySet()){
+        
+         User temp = entry.getValue();
+         if(temp.getUsername().equals(username) && temp.getPassword().equals(password))
+             return temp;
+    }
+    return null; 
+  }
+  
 }
