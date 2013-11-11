@@ -1,6 +1,6 @@
 package mmm.eschool.model.managers;
 
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import mmm.eschool.model.Remark;
 
@@ -10,21 +10,7 @@ import mmm.eschool.model.Remark;
  */
 public class RemarkManager extends Manager<Remark> 
 {
-  private static boolean toBeRecalc = true;
-  
-  public static final Map<Integer, Remark> remarks = new HashMap<Integer, Remark>();
-
-  @Override
-  void setToRecalc(boolean value)
-  {
-    toBeRecalc = value;
-  }
-
-  @Override
-  boolean toBeRecalc()
-  {
-    return toBeRecalc;
-  }
+  private static final Map<Integer, Remark> remarks = new Hashtable<Integer, Remark>();
 
   @Override
   Map<Integer, Remark> getCollection()

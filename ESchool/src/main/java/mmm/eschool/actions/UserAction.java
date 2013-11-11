@@ -54,7 +54,7 @@ public class UserAction extends ActionSupport implements ModelDriven<User>
   
   public String list()
   {
-    userList = usrManager.EntityList();
+    userList = usrManager.getEntityList();
     return SUCCESS;
   }
   

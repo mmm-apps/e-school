@@ -1,9 +1,8 @@
 package mmm.eschool.model.managers;
 
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import mmm.eschool.model.Mark;
-import mmm.eschool.model.User;
 
 /**
  *
@@ -11,26 +10,12 @@ import mmm.eschool.model.User;
  */
 public class MarkManager extends Manager<Mark> 
 {
-  private static boolean toBeRecalc = true;
-  
-  public static final Map<Integer, Mark> users = new HashMap<Integer, Mark>();
-
-  @Override
-  void setToRecalc(boolean value)
-  {
-    toBeRecalc = value;
-  }
-
-  @Override
-  boolean toBeRecalc()
-  {
-    return toBeRecalc;
-  }
+  private static final Map<Integer, Mark> marks = new Hashtable<Integer, Mark>();
 
   @Override
   Map<Integer, Mark> getCollection()
   {
-    return users;
+    return marks;
   }
   
   @Override

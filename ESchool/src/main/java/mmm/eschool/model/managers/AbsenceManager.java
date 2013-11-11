@@ -1,7 +1,7 @@
 package mmm.eschool.model.managers;
 
+import java.util.Hashtable;
 import java.util.Map;
-import java.util.TreeMap;
 import mmm.eschool.model.Absence;
 
 /**
@@ -10,26 +10,12 @@ import mmm.eschool.model.Absence;
  */
 public class AbsenceManager extends Manager<Absence> 
 {
-  private static boolean toBeRecalc = true;
-  
-  public static final Map<Integer, Absence> users = new TreeMap<Integer, Absence>();
-
-  @Override
-  void setToRecalc(boolean value)
-  {
-    toBeRecalc = value;
-  }
-
-  @Override
-  boolean toBeRecalc()
-  {
-    return toBeRecalc;
-  }
+  private static final Map<Integer, Absence> absences = new Hashtable<Integer, Absence>();
 
   @Override
   Map<Integer, Absence> getCollection()
   {
-    return users;
+    return absences;
   }
   
   @Override

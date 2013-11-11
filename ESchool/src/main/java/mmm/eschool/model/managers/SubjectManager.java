@@ -1,6 +1,6 @@
 package mmm.eschool.model.managers;
 
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 import mmm.eschool.model.Subject;
 
@@ -10,22 +10,8 @@ import mmm.eschool.model.Subject;
  */
 public class SubjectManager extends Manager<Subject> 
 {
-  private static boolean toBeRecalc = true;
+  private static final Map<Integer, Subject> subjects = new Hashtable<Integer, Subject>();
   
-  public static final Map<Integer, Subject> subjects = new HashMap<Integer, Subject>();
-
-  @Override
-  void setToRecalc(boolean value)
-  {
-    toBeRecalc = value;
-  }
-
-  @Override
-  boolean toBeRecalc()
-  {
-    return toBeRecalc;
-  }
-
   @Override
   Map<Integer, Subject> getCollection()
   {

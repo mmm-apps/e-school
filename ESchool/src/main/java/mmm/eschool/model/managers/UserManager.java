@@ -1,6 +1,6 @@
 package mmm.eschool.model.managers;
 
-import java.util.TreeMap;
+import java.util.Hashtable;
 import java.util.Map;
 import mmm.eschool.model.User;
 
@@ -10,21 +10,7 @@ import mmm.eschool.model.User;
  */
 public class UserManager extends Manager<User> 
 {
-  private static boolean toBeRecalc = true;
-  
-  public static final Map<Integer, User> users = new TreeMap<Integer, User>();
-
-  @Override
-  void setToRecalc(boolean value)
-  {
-    toBeRecalc = value;
-  }
-
-  @Override
-  boolean toBeRecalc()
-  {
-    return toBeRecalc;
-  }
+  private static final Map<Integer, User> users = new Hashtable<Integer, User>();
 
   @Override
   Map<Integer, User> getCollection()
@@ -46,21 +32,20 @@ public class UserManager extends Manager<User>
     else
       return null;
   }
+  
   /**
    * Връща обекта на юзера по неговият username
      * @param username
      * @param password
      * @return User
    */
-  public User getUserByName(String username, String password){
-      
-     for (Map.Entry<Integer,User> entry : users.entrySet()){
-        
-         User temp = entry.getValue();
-         if(temp.getUsername().equals(username) && temp.getPassword().equals(password))
-             return temp;
+  public User getUserByName(String username, String password)
+  {    
+    for (User user : getEntityList())
+    {
+      if(user.getUsername().equals(username) && user.getPassword().equals(password))
+        return user;
     }
     return null; 
   }
-  
 }

@@ -36,7 +36,7 @@ public class HibernateUtil
       return sessionFactory;
   }
   
-  public static final synchronized void add(Object entity)
+  public static final void add(Object entity)
   {
     final Session dataSession = getSessionFactory().openSession();
     dataSession.beginTransaction();
@@ -45,7 +45,7 @@ public class HibernateUtil
     dataSession.close();
   }
   
-  public static final synchronized void del(Object entity)
+  public static final void del(Object entity)
   {
     final Session dataSession = getSessionFactory().openSession();
     dataSession.beginTransaction();
@@ -54,7 +54,7 @@ public class HibernateUtil
     dataSession.close();
   }
   
-  public static final synchronized void update(Object entity)
+  public static final void update(Object entity)
   {
     final Session dataSession = getSessionFactory().openSession();
     dataSession.beginTransaction();
