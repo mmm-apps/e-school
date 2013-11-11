@@ -25,6 +25,7 @@
 
         <link type="text/css" rel="stylesheet" href="CSS/Site.css" media="screen">
         <link type="text/css" rel="stylesheet" href="CSS/jQueryCss.css" media="screen">
+        <link type="text/css" rel="stylesheet" href="CSS/StudentCss.css" media="screen">
     </head>
     <body>
         <div id = "Menu">
@@ -41,9 +42,14 @@
                 </div>
                 <div class="navbar-collapse collapse navbar-inverse-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active">
+                        <li>
                             <a href="#">
                                 За продукта
+                            </a>
+                        </li>
+                        <li>
+                            <a href="Master.jsp?content=student">
+                                Студент
                             </a>
                         </li>
                     </ul>
@@ -65,6 +71,13 @@
         <div id="pageContent">
             <jsp:include page="LogInForm.jsp"/>
             <jsp:include page="RegisterForm.jsp"/>
+            <%
+                final String contentParam = request.getParameter("content");
+                if (contentParam != null && contentParam.equals("student")) {
+            %>
+            <%@include file="StudentHome.jsp"%>
+            <%
+                }%>
         </div>
         <div class = "navbar-fixed-bottom" id ="pageFooter" >
             Powered by MMM Programming

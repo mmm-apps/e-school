@@ -47,7 +47,7 @@ public class UserManager extends Manager<User>
       return null;
   }
   /**
-   * Връща id-то на обекта по неговият username
+   * Връща обекта на юзера по неговият username
      * @param username
      * @param password
      * @return User
