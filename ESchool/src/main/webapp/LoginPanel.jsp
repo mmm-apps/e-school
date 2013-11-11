@@ -52,9 +52,7 @@
                     <div id="username_inputmiddle">
                         <img id="url_user" src="Images/user_icon.png" alt="">
                         <s:textfield label = "Username" key="username" type="text" cssClass="url" placeholder="Username"/>
-
                     </div>
-
                 </div>
                     <div id="password_input">
                         <div id="password_inputleft"></div>
