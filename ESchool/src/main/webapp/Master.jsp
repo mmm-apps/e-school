@@ -49,7 +49,12 @@
                         </li>
                         <li>
                             <a href="Master.jsp?content=student">
-                                Студент
+                                Ученик
+                            </a>
+                        </li>
+                        <li>
+                            <a href="Master.jsp?content=teacher">
+                                Учител
                             </a>
                         </li>
                     </ul>
@@ -77,7 +82,12 @@
             %>
             <%@include file="StudentHome.jsp"%>
             <%
-                }%>
+            } else if (contentParam != null && contentParam.equals("teacher")) {
+            %>
+            <%@include file="TeacherPanel.jsp"%>
+            <%
+                }
+            %>
         </div>
         <div class = "navbar-fixed-bottom" id ="pageFooter" >
             Powered by MMM Programming
