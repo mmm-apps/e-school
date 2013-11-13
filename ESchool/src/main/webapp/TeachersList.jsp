@@ -22,9 +22,11 @@
         </div>
         <div class="panel-body">
 
-            <button class="btn btn-info btn-lg btn-block" type="submit" data-toggle="modal" data-target="#AddTeacher">
-                Добавяне
-            </button>
+            <div id="addButton">
+                <button class="btn btn-info btn-lg btn-block" type="submit" data-toggle="modal" data-target="#AddTeacher">
+                    Добавяне
+                </button>
+            </div>
 
             <table class="table table-striped table-bordered table-hover">
                 <thead>

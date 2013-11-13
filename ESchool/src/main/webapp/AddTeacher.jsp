@@ -17,22 +17,27 @@
                             <legend>Добавяне на потребител</legend>
                             <div class = "form-group">
                                 <div class="col-lg-10">
-                                    <s:textfield id="telephoneInput" key="userName" type="text" cssClass="form-control" placeholder="Потребителско име" />
+                                    <s:textfield id="userNameInput" key="userName" type="text" cssClass="form-control" placeholder="Потребителско име" />
                                 </div>
                             </div>
                             <div class = "form-group">
                                 <div class="col-lg-10">
-                                    <s:password id="telephoneInput" key="password" type="text" cssClass="form-control" placeholder="Парола" />
+                                    <s:password id="passwordInput" key="password" type="text" cssClass="form-control" placeholder="Парола" />
                                 </div>
                             </div>
                             <div class = "form-group">
                                 <div class="col-lg-10">
-                                    <s:textfield id="telephoneInput" key="firstName" type="text" cssClass="form-control" placeholder="Име" />
+                                    <s:textfield id="roleInput" key="role" type="text" cssClass="form-control" placeholder="Роля" />
                                 </div>
                             </div>
                             <div class = "form-group">
                                 <div class="col-lg-10">
-                                    <s:textfield id="telephoneInput" key="lastName" type="text" cssClass="form-control" placeholder="Фамилия" />
+                                    <s:textfield id="firstNameInput" key="firstName" type="text" cssClass="form-control" placeholder="Име" />
+                                </div>
+                            </div>
+                            <div class = "form-group">
+                                <div class="col-lg-10">
+                                    <s:textfield id="lastNameInput" key="lastName" type="text" cssClass="form-control" placeholder="Фамилия" />
                                 </div>
                             </div>
                             <div class = "form-group">
@@ -42,7 +47,7 @@
                             </div>
                             <div class = "form-group">
                                 <div class="col-lg-10">
-                                    <s:textfield id="telephoneInput" key="adress" type="text" cssClass="form-control" placeholder="Адрес" />
+                                    <s:textfield id="adressInput" key="adress" type="text" cssClass="form-control" placeholder="Адрес" />
                                 </div>
                             </div>
                             <div class="form-group">
