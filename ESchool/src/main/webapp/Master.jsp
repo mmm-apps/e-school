@@ -57,6 +57,11 @@
                                 Учител
                             </a>
                         </li>
+                        <li>
+                            <a href="Master.jsp?content=teachersList">
+                                Списък учители
+                            </a>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
@@ -85,6 +90,11 @@
             } else if (contentParam != null && contentParam.equals("teacher")) {
             %>
             <%@include file="TeacherPanel.jsp"%>
+            <%
+                }
+            else if(contentParam != null && contentParam.equals("teachersList")) {
+            %>
+            <%@include file="TeachersList.jsp"%>
             <%
                 }
             %>

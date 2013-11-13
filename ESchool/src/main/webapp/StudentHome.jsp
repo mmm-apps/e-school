@@ -52,7 +52,7 @@
                                         <h3 class="panel-title">Адрес: Бул.Панчо Владигеров №390 </h3>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-info" style="margin-left: 40%;" data-toggle="modal" data-target="#EditStudentProfile">Промени данните</button>
+                                <button  type="submit" class="btn btn-info" style="margin-left: 40%;" data-toggle="modal" data-target="#EditStudentProfile">Промени данните</button>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="marks">
