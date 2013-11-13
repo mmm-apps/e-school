@@ -208,12 +208,25 @@
 
                         </div>
 
-                        <div class="tab-pane fade well" id="remarks">
+                        <div class="tab-pane fade" id="remarks">
                             <div class="well">
                                 <div id="StudentRemarks">
-
-                                    <div class="well">
-
+                                    <div class="panel panel-info" >
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Отсъствия</h3>
+                                        </div>
+                                        <div class="panel panel-success" style="width: 50%;float:left;">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">Извинени отсъствия : 57</h3>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-danger" style="width: 50%;float:left;">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">Неизвинени отсъствия: 3</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="well" style="margin-top: 85px;">
                                         <div class="alert alert-dismissable alert-danger">
                                             <button type="button" class="close" data-dismiss="alert">×</button>
                                             <strong>Забележка по Музика</strong> Пее в час по Музика!
@@ -229,23 +242,6 @@
 
                                     </div>
 
-                                </div>
-                                <div class="panel panel-success">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">Извинени отсъствия</h3>
-                                    </div>
-                                    <div class="panel-body">
-                                        57
-                                    </div>
-                                </div>
-
-                                <div class="panel panel-danger">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">Неизвинени отсъствия</h3>
-                                    </div>
-                                    <div class="panel-body">
-                                        3
-                                    </div>
                                 </div>
                             </div>
                         </div>
