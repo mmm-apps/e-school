@@ -67,42 +67,51 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr class="success">
                                         <td>1</td>
                                         <td><span class="label label-default" style="font-size: 1.1em;">История</span></td>
                                         <td><span class="label label-default" style="font-size: 1.1em;">6а</span></td>
                                         <td>
+                                            <button class="btn btn-success" type="button">
+                                                Преглед
+                                            </button>
                                             <button class="btn btn-info" type="button">
                                                 Дообавяне
                                             </button>
-                                            <button class="btn btn-warning" type="button">
-                                                Коригиране
+                                            <button class="btn btn-danger" type="button">
+                                                Изтриване
                                             </button>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr class="success">
                                         <td>2</td>
                                         <td><span class="label label-default" style="font-size: 1.1em;">История</span></td>
                                         <td><span class="label label-default" style="font-size: 1.1em;">6б</span></td>
                                         <td>
+                                            <button class="btn btn-success" type="button">
+                                                Преглед
+                                            </button>
                                             <button class="btn btn-info" type="button">
                                                 Дообавяне
                                             </button>
-                                            <button class="btn btn-warning" type="button">
-                                                Коригиране
+                                            <button class="btn btn-danger" type="button">
+                                                Изтриване
                                             </button>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr class="success">
                                         <td>3</td>
                                         <td><span class="label label-default" style="font-size: 1.1em;">История</span></td>
                                         <td><span class="label label-default" style="font-size: 1.1em;">6в</span></td>
                                         <td>
+                                            <button class="btn btn-success" type="button">
+                                                Преглед
+                                            </button>
                                             <button class="btn btn-info" type="button">
                                                 Дообавяне
                                             </button>
-                                            <button class="btn btn-warning" type="button">
-                                                Коригиране
+                                            <button class="btn btn-danger" type="button">
+                                                Изтриване
                                             </button>
                                         </td>
                                     </tr>
@@ -124,45 +133,54 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr  class="success">
+                                    <tr class="success">
                                         <td>1</td>
-                                        <td>История</td>
-                                        <td>6а</td>
-                                        <td>Урок номер 1</td>
+                                        <td><span class="label label-default" style="font-size: 1.1em;">История</span></td>
+                                        <td><span class="label label-default" style="font-size: 1.1em;">6а</span></td>
+                                        <td><span class="label label-default" style="font-size: 1.1em;">Урок номер 1</span></td>
                                         <td>
+                                            <button class="btn btn-success" type="button">
+                                                Преглед
+                                            </button>
                                             <button class="btn btn-info" type="button">
                                                 Дообавяне
                                             </button>
-                                            <button class="btn btn-warning" type="button">
-                                                Коригиране
+                                            <button class="btn btn-danger" type="button">
+                                                Изтриване
                                             </button>
                                         </td>
                                     </tr>
-                                    <tr class="danger">
+                                    <tr class="success">
                                         <td>2</td>
-                                        <td>История</td>
-                                        <td>6б</td>
-                                        <td>Отговор на въпроси от урок 2</td>
+                                        <td><span class="label label-default" style="font-size: 1.1em;">История</span></td>
+                                        <td><span class="label label-default" style="font-size: 1.1em;">6а</span></td>
+                                        <td><span class="label label-default" style="font-size: 1.1em;">Отговор на въпроси от урок номер 2</span></td>
                                         <td>
+                                            <button class="btn btn-success" type="button">
+                                                Преглед
+                                            </button>
                                             <button class="btn btn-info" type="button">
                                                 Дообавяне
                                             </button>
-                                            <button class="btn btn-warning" type="button">
-                                                Коригиране
+                                            <button class="btn btn-danger" type="button">
+                                                Изтриване
                                             </button>
                                         </td>
                                     </tr>
-                                    <tr class="danger">
+                                    <tr class="success">
                                         <td>3</td>
-                                        <td>История</td>
-                                        <td>6в</td>
-                                        <td>Подготовка за тест</td>
+                                        <td><span class="label label-default" style="font-size: 1.1em;">История</span></td>
+                                        <td><span class="label label-default" style="font-size: 1.1em;">6а</span></td>
+                                        <td><span class="label label-default" style="font-size: 1.1em;">Подготовка за тест</span></td>
                                         <td>
+                                            <button class="btn btn-success" type="button">
+                                                Преглед
+                                            </button>
                                             <button class="btn btn-info" type="button">
                                                 Дообавяне
                                             </button>
-                                            <button class="btn btn-warning" type="button">
-                                                Коригиране
+                                            <button class="btn btn-danger" type="button">
+                                                Изтриване
                                             </button>
                                         </td>
                                     </tr>
@@ -196,37 +214,46 @@
                                                 <td>История</td>
                                                 <td>6а</td>
                                                 <td>
+                                                    <button class="btn btn-success" type="button">
+                                                        Преглед
+                                                    </button>
                                                     <button class="btn btn-info" type="button">
                                                         Дообавяне
                                                     </button>
-                                                    <button class="btn btn-warning" type="button">
-                                                        Коригиране
+                                                    <button class="btn btn-danger" type="button">
+                                                        Изтриване
                                                     </button>
                                                 </td>
                                             </tr>
-                                            <tr class="danger">
+                                            <tr class="success">
                                                 <td>2</td>
                                                 <td>История</td>
                                                 <td>6б</td>
                                                 <td>
+                                                    <button class="btn btn-success" type="button">
+                                                        Преглед
+                                                    </button>
                                                     <button class="btn btn-info" type="button">
                                                         Дообавяне
                                                     </button>
-                                                    <button class="btn btn-warning" type="button">
-                                                        Коригиране
+                                                    <button class="btn btn-danger" type="button">
+                                                        Изтриване
                                                     </button>
                                                 </td>
                                             </tr>
-                                            <tr class="danger">
+                                            <tr class="success">
                                                 <td>3</td>
                                                 <td>История</td>
                                                 <td>6в</td>
                                                 <td>
+                                                    <button class="btn btn-success" type="button">
+                                                        Преглед
+                                                    </button>
                                                     <button class="btn btn-info" type="button">
                                                         Дообавяне
                                                     </button>
-                                                    <button class="btn btn-warning" type="button">
-                                                        Коригиране
+                                                    <button class="btn btn-danger" type="button">
+                                                        Изтриване
                                                     </button>
                                                 </td>
                                             </tr>
@@ -256,37 +283,46 @@
                                                 <td>История</td>
                                                 <td>6а</td>
                                                 <td>
+                                                    <button class="btn btn-success" type="button">
+                                                        Преглед
+                                                    </button>
                                                     <button class="btn btn-info" type="button">
                                                         Дообавяне
                                                     </button>
-                                                    <button class="btn btn-warning" type="button">
-                                                        Коригиране
+                                                    <button class="btn btn-danger" type="button">
+                                                        Изтриване
                                                     </button>
                                                 </td>
                                             </tr>
-                                            <tr class="danger">
+                                            <tr class="success">
                                                 <td>2</td>
                                                 <td>История</td>
                                                 <td>6б</td>
                                                 <td>
+                                                    <button class="btn btn-success" type="button">
+                                                        Преглед
+                                                    </button>
                                                     <button class="btn btn-info" type="button">
                                                         Дообавяне
                                                     </button>
-                                                    <button class="btn btn-warning" type="button">
-                                                        Коригиране
+                                                    <button class="btn btn-danger" type="button">
+                                                        Изтриване
                                                     </button>
                                                 </td>
                                             </tr>
-                                            <tr class="danger">
+                                            <tr class="success">
                                                 <td>3</td>
                                                 <td>История</td>
                                                 <td>6в</td>
                                                 <td>
+                                                    <button class="btn btn-success" type="button">
+                                                        Преглед
+                                                    </button>
                                                     <button class="btn btn-info" type="button">
                                                         Дообавяне
                                                     </button>
-                                                    <button class="btn btn-warning" type="button">
-                                                        Коригиране
+                                                    <button class="btn btn-danger" type="button">
+                                                        Изтриване
                                                     </button>
                                                 </td>
                                             </tr>
