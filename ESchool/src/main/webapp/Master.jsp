@@ -22,7 +22,7 @@
         <script src="http://bootswatch.com/assets/js/bootswatch.js"></script>
 
         <link type="text/css" rel="stylesheet" href="CSS/bootstrap.css" media="screen">
-        <link type="text/css" rel="stylesheet" href="CSS/StudentCss.css" media="screen">
+        <link type="text/css" rel="stylesheet" href="CSS/AditionalCss.css" media="screen">
     </head>
     <body>
         <div id = "Menu">
@@ -88,10 +88,17 @@
             %>
             <%@include file="TeacherPanel.jsp"%>
             <%
-                }
-            else if(contentParam != null && contentParam.equals("teachersList")) {
+            } else if (contentParam != null && contentParam.equals("teachersList")) {
             %>
             <%@include file="TeachersList.jsp"%>
+            <%
+            } else if (contentParam != null && contentParam.equals("marksList")) {
+            %>
+            <%@include file="MarksList.jsp"%>
+            <%
+            } else if (contentParam != null && contentParam.equals("addMarks")) {
+            %>
+            <%@include file="AddMark.jsp"%>
             <%
                 }
             %>

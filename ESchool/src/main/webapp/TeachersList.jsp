@@ -8,12 +8,12 @@
 <!DOCTYPE html>
 <html>
     <jsp:include page="AddTeacher.jsp"/>
-    <div id="StudentWelcome">
+    <div id="userWelcome">
         <div class="well">
             <h3>Здравейте, Иван Иванов</h3>
         </div>
     </div>
-
+    <div id="spacee" style="margin-top: 80px;"></div>
     <div class="panel panel-info">
         <div class="panel-heading">
             <h3 class="panel-title">

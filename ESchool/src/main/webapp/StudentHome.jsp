@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <jsp:include page="EditStudentProfile.jsp"/>
-    <div id="StudentWelcome">
+    <div id="userWelcome">
         <div class="well">
             <h3>Здравейте, Иван Георгиев Иванов, 7а клас </h3>
         </div>

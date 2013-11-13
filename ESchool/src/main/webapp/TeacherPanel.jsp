@@ -8,7 +8,14 @@
 <!DOCTYPE html>
 <html>
     <jsp:include page="EditStudentProfile.jsp"/>
-    <div id="StudentWelcome">
+    <jsp:include page="MarksList.jsp"/>
+    <jsp:include page="AddMark.jsp"/>
+    <jsp:include page="DelMark.jsp"/>
+    <jsp:include page="AddHomework.jsp"/>
+    <jsp:include page="DeleteHomework.jsp"/>
+    <jsp:include page="AbsencesList.jsp"/>
+    <jsp:include page="AddAbsence.jsp"/>
+    <div id="userWelcome">
         <div class="well">
             <h3>Здравейте, Иван Георгиев Иванов </h3>
         </div>
@@ -57,7 +64,7 @@
                         </div>
                         <div class="tab-pane fade" id="marks">
 
-                            <table class="table table-striped table-bordered table-hover" style="margin-top: 50px;">
+                            <table class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th></th>
@@ -72,13 +79,13 @@
                                         <td><span class="label label-default" style="font-size: 1.1em;">История</span></td>
                                         <td><span class="label label-default" style="font-size: 1.1em;">6а</span></td>
                                         <td>
-                                            <button class="btn btn-success" type="button">
+                                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#marksList">
                                                 Преглед
                                             </button>
-                                            <button class="btn btn-info" type="button">
+                                            <button class="btn btn-info" type="button" data-toggle="modal" data-target="#addMarks">
                                                 Дообавяне
                                             </button>
-                                            <button class="btn btn-danger" type="button">
+                                            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#delMarks">
                                                 Изтриване
                                             </button>
                                         </td>
@@ -142,10 +149,10 @@
                                             <button class="btn btn-success" type="button">
                                                 Преглед
                                             </button>
-                                            <button class="btn btn-info" type="button">
+                                            <button class="btn btn-info" type="button" data-toggle="modal" data-target="#addHomework">
                                                 Дообавяне
                                             </button>
-                                            <button class="btn btn-danger" type="button">
+                                            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#delHomework" >
                                                 Изтриване
                                             </button>
                                         </td>
@@ -214,11 +221,14 @@
                                                 <td>История</td>
                                                 <td>6а</td>
                                                 <td>
-                                                    <button class="btn btn-success" type="button">
+                                                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#absencesList">
                                                         Преглед
                                                     </button>
-                                                    <button class="btn btn-info" type="button">
+                                                    <button class="btn btn-info" type="button" data-toggle="modal" data-target="#addAbsence">
                                                         Дообавяне
+                                                    </button>
+                                                    <button class="btn btn-warning" type="button">
+                                                        Коригиране
                                                     </button>
                                                     <button class="btn btn-danger" type="button">
                                                         Изтриване
@@ -236,6 +246,9 @@
                                                     <button class="btn btn-info" type="button">
                                                         Дообавяне
                                                     </button>
+                                                    <button class="btn btn-warning" type="button">
+                                                        Коригиране
+                                                    </button>
                                                     <button class="btn btn-danger" type="button">
                                                         Изтриване
                                                     </button>
@@ -251,6 +264,9 @@
                                                     </button>
                                                     <button class="btn btn-info" type="button">
                                                         Дообавяне
+                                                    </button>
+                                                    <button class="btn btn-warning" type="button">
+                                                        Коригиране
                                                     </button>
                                                     <button class="btn btn-danger" type="button">
                                                         Изтриване
