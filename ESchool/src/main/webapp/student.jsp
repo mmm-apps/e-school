@@ -39,36 +39,11 @@
                 </div>
                 <div class="navbar-collapse collapse navbar-inverse-collapse">
                     <ul class="nav navbar-nav">
-                        <li>
-                            <a href="#">
-                                За продукта
-                            </a>
-                        </li>
-                        <li>
-                            <a href="Master.jsp?content=student">
-                                Ученик
-                            </a>
-                        </li>
-                        <li>
-                            <a href="Master.jsp?content=teacher">
-                                Учител
-                            </a>
-                        </li>
-                        <li>
-                            <a href="Master.jsp?content=teachersList">
-                                Списък учители
-                            </a>
-                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="#" data-toggle="modal" data-target="#myModal">
-                                Вход
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#myModalReg">
-                                Регистрация 
+                            <a href="logout">
+                                Изход
                             </a>
                         </li>
                     </ul>
@@ -76,32 +51,7 @@
             </div>
         </div>
         <div id="pageContent">
-            <jsp:include page="LogInForm.jsp"/>
-            <jsp:include page="RegisterForm.jsp"/>
-            <%
-                final String contentParam = request.getParameter("content");
-                if (contentParam != null && contentParam.equals("student")) {
-            %>
-            <%@include file="StudentHome.jsp"%>
-            <%
-            } else if (contentParam != null && contentParam.equals("teacher")) {
-            %>
-            <%@include file="TeacherPanel.jsp"%>
-            <%
-            } else if (contentParam != null && contentParam.equals("teachersList")) {
-            %>
-            <%@include file="TeachersList.jsp"%>
-            <%
-            } else if (contentParam != null && contentParam.equals("marksList")) {
-            %>
-            <%@include file="MarksList.jsp"%>
-            <%
-            } else if (contentParam != null && contentParam.equals("addMarks")) {
-            %>
-            <%@include file="AddMark.jsp"%>
-            <%
-                }
-            %>
+           <s:include value="StudentHome.jsp"></s:include>
         </div>
         <div class = "navbar-fixed-bottom" id ="pageFooter" >
             Powered by MMM Programming

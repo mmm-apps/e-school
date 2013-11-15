@@ -45,30 +45,25 @@
                             </a>
                         </li>
                         <li>
-                            <a href="Master.jsp?content=student">
+                            <a href="admin?content=student">
                                 Ученик
                             </a>
                         </li>
                         <li>
-                            <a href="Master.jsp?content=teacher">
+                            <a href="admin?content=teacher">
                                 Учител
                             </a>
                         </li>
                         <li>
-                            <a href="Master.jsp?content=teachersList">
+                            <a href="admin?content=teachersList">
                                 Списък учители
                             </a>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a href="#" data-toggle="modal" data-target="#myModal">
-                                Вход
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#myModalReg">
-                                Регистрация 
+                            <a href="logout">
+                                Изход
                             </a>
                         </li>
                     </ul>
@@ -76,8 +71,6 @@
             </div>
         </div>
         <div id="pageContent">
-            <jsp:include page="LogInForm.jsp"/>
-            <jsp:include page="RegisterForm.jsp"/>
             <%
                 final String contentParam = request.getParameter("content");
                 if (contentParam != null && contentParam.equals("student")) {

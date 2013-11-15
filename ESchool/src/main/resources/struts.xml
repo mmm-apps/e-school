@@ -2,32 +2,89 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-   <package name="default" extends="struts-default">
-      <action name="login" class="mmm.eschool.actions.Login">
-        <result name="success">index.jsp</result>
-        <result name="error">LoginPanel.jsp</result> 
-        <result name="input">LoginPanel.jsp</result>
-      </action>
+    <package name="default" namespace="/" extends="struts-default,json-default">
+      
+        <interceptors>
+            <interceptor name="authenticationInterceptor" class="mmm.eschool.AuthenticationInterceptor"/>
+        </interceptors>
        
-      <action name="addUser" method="add" class="mmm.eschool.actions.UserAction">
-        <result name="success" type="redirect">listUser</result>
-        <result name="input" type="redirect">listUser</result>
-      </action>
+        <action name="">
+            <result >LoginPanel.jsp</result> 
+        </action>
+        <action name="login" class="mmm.eschool.actions.Login">
+            <result name="error">LoginPanel.jsp</result> 
+            <result>LoginPanel.jsp</result> 
+            <result name="admin" type="redirectAction">admin</result>
+            <result name="student" type="redirectAction">student</result>
+            <result name="teacher" type="redirectAction">teacher</result>
+            <result name="WrongUssPass" type="json">WrongUssPass</result>  
+            <result name="login">LoginPanel.jsp</result>
+            <result name="input">LoginPanel.jsp</result>
+            <result name="error">ERROR.jsp</result>
+        </action>
+        <action name="logout" class="mmm.eschool.actions.LogOut">
+            <result name="success">LoginPanel.jsp</result>
+            <result name="error">LoginPanel.jsp</result> 
+            <result name="input">LoginPanel.jsp</result>
+            <result name="login">LoginPanel.jsp</result>
+            <result name="error">ERROR.jsp</result>
+        </action>
+        
+        <action name="student">
+            <interceptor-ref name="authenticationInterceptor" />
+            <result name="success">student.jsp</result>
+            <result name="error">student.jsp</result> 
+            <result name="input">student.jsp</result>
+            <result name="login">LoginPanel.jsp</result>
+            <result name="error">ERROR.jsp</result>
+        </action>
+        
+        <action name="teacher">
+            <interceptor-ref name="authenticationInterceptor" />
+            <result name="success">teacher.jsp</result>
+            <result name="error">teacher.jsp</result> 
+            <result name="input">teacher.jsp</result>
+            <result name="login">LoginPanel.jsp</result>
+            <result name="error">ERROR.jsp</result>
+        </action>
+        
+        <action name="admin">
+            <interceptor-ref name="authenticationInterceptor" />
+            <result name="success">admin.jsp</result>
+            <result name="error">admin.jsp</result> 
+            <result name="input">admin.jsp</result>
+            <result name="login">LoginPanel.jsp</result>
+            <result name="error">ERROR.jsp</result>
+        </action>
+        
+        <action name="home">
+            <interceptor-ref name="authenticationInterceptor" />
+            <result name="success">Master.jsp</result>
+            <result name="login">LoginPanel.jsp</result>
+        </action>
+       
+       
+        <action name="addUser" method="add" class="mmm.eschool.actions.UserAction">
+            <result name="success" type="redirect">listUser</result>
+            <result name="input" type="redirect">listUser</result>
+        </action>
       
-      <action name="editUser" method="edit" class="mmm.eschool.actions.UserAction">
-        <result name="success" type="redirect">listUser</result>
-        <result name="input" type="redirect">listUser</result>
-      </action>    
+        <action name="editUser" method="edit" class="mmm.eschool.actions.UserAction">
+            <result name="success" type="redirect">listUser</result>
+            <result name="input" type="redirect">listUser</result>
+        </action>    
       
-      <action name="deleteUser" method="delete" class="mmm.eschool.actions.UserAction">
-        <result name="success" type="redirect">listUser</result>
-      </action>
+        <action name="deleteUser" method="delete" class="mmm.eschool.actions.UserAction">
+            <result name="success" type="redirect">listUser</result>
+        </action>
       
-      <action name="listUser" method="list" class="mmm.eschool.actions.UserAction">
-        <result name="success">index.jsp</result>
-      </action>
+        <action name="listUser" method="list" class="mmm.eschool.actions.UserAction">
+            <result name="success">index.jsp</result>
+        </action>
       
-   </package>
-   <constant name="struts.ui.theme" value="simple" />
+    </package>
+    <constant name="struts.ui.theme" value="simple" />
+    <constant name="struts.action.extension" value=""/>
+    <constant name="struts.action.excludePattern" value="/index.html,/Images/.*,/JS/.*,/CSS/.*"/>
 </struts>
 

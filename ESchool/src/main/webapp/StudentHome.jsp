@@ -5,9 +5,10 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
-    <jsp:include page="EditStudentProfile.jsp"/>
+    <s:include value="EditStudentProfile.jsp"></s:include>
     <div id="userWelcome">
         <div class="well">
             <h3>Здравейте, Иван Георгиев Иванов, 7а клас </h3>

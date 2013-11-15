@@ -1,81 +1,80 @@
 <%-- 
-    Document   : LoginPanel
-    Created on : Oct 31, 2013, 10:01:57 PM
-    Author     : Mariyan
+    Document   : Master
+    Created on : Nov 9, 2013, 9:20:08 PM
+    Author     : Denev
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
-<head>
-    <!-- General meta information -->
-    <title>E-School Login Form</title>
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <meta name="robots" content="index, follow" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- // General meta information -->
+<html>
+    <head>
+        <title>E-School</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <!-- Load Javascript -->
-    <script type="text/javascript" src="JS/jquery.js"></script>
-    <script type="text/javascript" src="JS/jquery.query-2.1.7.js"></script>
-    <script type="text/javascript" src="JS/rainbows.js"></script>
-    <!-- // Load Javascipt -->
+        <script type="text/javascript" src="JS/jquery.js"></script>
+        <script type="text/javascript" src="JS/jquery.query-2.1.7.js"></script>
+        <script type="text/javascript" src="JS/rainbows.js"></script>
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script src="http://bootswatch.com/bower_components/jquery/jquery.min.js"></script>
+        <script src="http://bootswatch.com/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="http://bootswatch.com/assets/js/bootswatch.js"></script>
 
-    <!-- Load stylesheets -->
-    <link type="text/css" rel="stylesheet" href="CSS/style.css" media="screen" />
-    <link type="text/css" rel="stylesheet" href="CSS/reset.css" media="screen" />
-    <!-- // Load stylesheets -->
+        <link type="text/css" rel="stylesheet" href="CSS/bootstrap.css" media="screen">
+        <link type="text/css" rel="stylesheet" href="CSS/AditionalCss.css" media="screen">
 
-    <script>
-        $(document).ready(function() {
-            $("#submit1").hover(
-                    function() {
-                        $(this).animate({"opacity": "0"}, "slow");
-                    },
-                    function() {
-                        $(this).animate({"opacity": "1"}, "slow");
-                    });
-        });
-    </script>
-</head>
+        <script>
+            function load()
+            {
+                var myElem = document.getElementsByClassName('errorMessage');
+                if (myElem.length > 0) {
+                    document.getElementById("myModal").setAttribute("aria-hidden", "false");
+                    document.getElementById("myModal").setAttribute("class", "modal fade in");
+                    document.getElementById("myModal").setAttribute("style", "display:block;");
+                    document.body.className = "modal-open";
+                }
 
-<body>
-    <div id="wrapper">
-        <div id="wrappertop"></div>
-        <div id="wrappermiddle">
-            <h2>Login</h2>
-            <form action = "login.action" method ="post" >
-                <div id="username_input">
-                    <div id="username_inputleft"></div>
-                    <div id="username_inputright"></div>
-                    <div id="username_inputmiddle">
-                        <img id="url_user" src="Images/user_icon.png" alt="">
-                        <s:textfield label = "Username" key="username" type="text" cssClass="url" placeholder="Username"/>
-                    </div>
+            }
+        </script>
+    </head>
+    <body onload="load()">
+        <div id = "Menu">
+            <div class="navbar navbar-inverse navbar-fixed-top">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" data-target=".navbar-inverse-collapse" data-toggle="collapse" type="button">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">
+                        E-School
+                    </a>
                 </div>
-                    <div id="password_input">
-                        <div id="password_inputleft"></div>
-                        <div id="password_inputmiddle">
-                        <s:password label="Password" key="password" type="password" cssClass="url" placeholder="Password"/>
-                        <img id="url_password" src="Images/passicon.png" alt="">
-                    </div>
-                    <div id="password_inputright"></div>
+                <div class="navbar-collapse collapse navbar-inverse-collapse">
+                    <ul class="nav navbar-nav">
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#myModal">
+                                Вход
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#myModalReg">
+                                Регистрация 
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <div id="submit">
-                    <s:submit type="image" src="Images/submit.png" cssClass="submit2" value="Sign In"/>
-                </div>
-            </form>
-            <div id="links_left"> <a href="#">Forgot your Password?</a> </div>
-            <div id="links_right"> <a href="#">Not a Member Yet?</a> </div>
+            </div>
         </div>
-        <div id="wrapperbottom"></div>
-    </div>
-</body>
-<!--<body>
-<s:form action = "login">
-    <s:textfield label = "Username" key="username" />
-    <s:password label="Password" key="password" />
-    <s:submit />
-</s:form>
-</body>
+        <div id="pageContent">
+            <s:include value="LogInForm.jsp"></s:include>
+            <s:include value="RegisterForm.jsp"></s:include>
+        </div>
+        <div class = "navbar-fixed-bottom" id ="pageFooter" >
+            Powered by MMM Programming
+        </div>
+    </body>
+</html>

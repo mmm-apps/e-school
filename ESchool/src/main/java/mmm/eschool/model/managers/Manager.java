@@ -14,7 +14,7 @@ import org.hibernate.classic.Session;
  */
 public abstract class Manager<T>
 { 
-  private void calculateEntities()
+  public void calculateEntities()
   {
     final Session dataSession = mmm.eschool.HibernateUtil.getSessionFactory().openSession();
     final List<T> newEntityData = dataSession.createQuery("from " + getEntityName()).list();
