@@ -22,11 +22,9 @@
         </div>
         <div class="panel-body">
 
-            <div id="addButton">
-                <button class="btn btn-info btn-lg btn-block" type="submit" data-toggle="modal" data-target="#AddTeacher">
-                    Добавяне
-                </button>
-            </div>
+            <a href="<s:url action='addUser'/>" ><div id="addButton">
+                    <button class="btn btn-info btn-lg btn-block">Добавяне</button>
+                </div></a>
 
             <table class="table table-striped table-bordered table-hover">
                 <thead>

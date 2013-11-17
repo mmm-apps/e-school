@@ -32,4 +32,9 @@ public class RemarkManager extends Manager<Remark>
     else
       return null;
   }
+
+    public RemarkManager() {
+   
+        calculateEntities();
+    }
 }

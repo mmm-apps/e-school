@@ -41,9 +41,6 @@ public class Role implements Serializable {
     @ManyToMany
     private Set<User> usersSet;
     
-    @ManyToMany(mappedBy = "rolesSet")
-    private Set<Right> rightsSet;
-
     public int getId() {
         return id;
     }
@@ -62,13 +59,5 @@ public class Role implements Serializable {
 
     public void setUsersSet(Set<User> usersSet) {
         this.usersSet = usersSet;
-    }
-
-    public Set<Right> getRightsSet() {
-        return rightsSet;
-    }
-
-    public void setRightsSet(Set<Right> rightsSet) {
-        this.rightsSet = rightsSet;
     }
 }

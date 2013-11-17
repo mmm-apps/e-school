@@ -19,7 +19,6 @@
         <mapping class="mmm.eschool.model.Mark"/>
         <mapping class="mmm.eschool.model.Parent"/>
         <mapping class="mmm.eschool.model.Remark"/>
-        <mapping class="mmm.eschool.model.Right"/>
         <mapping class="mmm.eschool.model.Role"/>
         <mapping class="mmm.eschool.model.Student"/>
         <mapping class="mmm.eschool.model.Subject"/>

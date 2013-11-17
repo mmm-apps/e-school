@@ -32,4 +32,9 @@ public class HomeworkManager extends Manager<Homework>
     else
       return null;
   }
+
+    public HomeworkManager() {
+        calculateEntities();
+    }
+  
 }

@@ -32,4 +32,11 @@ public class MarkManager extends Manager<Mark>
     else
       return null;
   }
+
+    public MarkManager() {
+  
+        calculateEntities();
+    }
+  
+  
 }

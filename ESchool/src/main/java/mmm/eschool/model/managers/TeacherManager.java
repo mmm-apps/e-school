@@ -32,4 +32,10 @@ public class TeacherManager extends Manager<Teacher>
     else
       return null;
   }
+
+    public TeacherManager() {
+        calculateEntities();
+    
+    }
+  
 }

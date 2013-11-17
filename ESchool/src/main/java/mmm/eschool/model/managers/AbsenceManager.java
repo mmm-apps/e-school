@@ -32,4 +32,9 @@ public class AbsenceManager extends Manager<Absence>
     else
       return null;
   }
+
+    public AbsenceManager() {
+        calculateEntities();
+    }
+  
 }

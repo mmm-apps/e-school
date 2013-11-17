@@ -32,4 +32,9 @@ public class RoleManager extends Manager<Role>
     else
       return null;
   }
+
+    public RoleManager() {
+        calculateEntities();
+    }
+  
 }

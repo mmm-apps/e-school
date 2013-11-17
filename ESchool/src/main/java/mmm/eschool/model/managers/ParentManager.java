@@ -32,4 +32,10 @@ public class ParentManager extends Manager<Parent>
     else
       return null;
   }
+
+    public ParentManager() {
+  
+    calculateEntities();
+    }
+  
 }

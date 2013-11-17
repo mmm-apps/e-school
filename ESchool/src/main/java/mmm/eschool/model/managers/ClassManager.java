@@ -32,4 +32,10 @@ public class ClassManager extends Manager<Classes>
     else
       return null;
   }
+
+    public ClassManager() {
+    calculateEntities();
+    }
+  
+  
 }

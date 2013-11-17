@@ -48,4 +48,20 @@ public class UserManager extends Manager<User>
     }
     return null; 
   }
+  public boolean isUsernameExists(String username)
+  {
+    for (User user : getEntityList())
+    {
+      if(user.getUsername().equals(username))
+        return true;
+    }
+    return false; 
+  
+  }
+
+    public UserManager() {
+        
+       calculateEntities();
+    }
+  
 }

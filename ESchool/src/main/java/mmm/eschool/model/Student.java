@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package mmm.eschool.model;
 
 import java.io.Serializable;
@@ -44,39 +43,39 @@ public class Student implements Serializable {
 
     @Column(nullable = false, length = 40)
     private String phone;
-    
-    @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")
+
+    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = "Invalid email")
     @Column(nullable = false, length = 40)
     private String email;
 
     @Column(nullable = false, length = 100)
     private String adress;
-    
+
     @ManyToMany(mappedBy = "studentsSet")
     private Set<Classes> classesSet;
-    
+
     @ManyToMany(mappedBy = "studentsSet")
     private Set<Parent> parentsSet;
-    
+
     @JoinTable(schema = "eschool", name = "student_subjects", joinColumns = {
         @JoinColumn(name = "student_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "subject_id", referencedColumnName = "id")})
     @ManyToMany
     private Set<Subject> subjectsSet;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
     private Set<Homework> homeworksSet;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
     private Set<Mark> marksSet;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
     private Set<Remark> remarksSet;
-    
+
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
     private Set<Absence> absencesSet;
 
@@ -86,6 +85,10 @@ public class Student implements Serializable {
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setFirstName(String firstName) {
