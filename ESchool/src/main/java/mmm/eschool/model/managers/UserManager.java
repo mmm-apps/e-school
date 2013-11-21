@@ -60,8 +60,8 @@ public class UserManager extends Manager<User>
   }
 
     public UserManager() {
-        
-       calculateEntities();
+        if(getCollection().isEmpty())
+            calculateEntities();
     }
   
 }

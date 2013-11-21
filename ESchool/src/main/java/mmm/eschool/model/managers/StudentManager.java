@@ -34,8 +34,8 @@ public class StudentManager extends Manager<Student>
   }
 
     public StudentManager() {
-        
-        calculateEntities();
+        if(getCollection().isEmpty())
+            calculateEntities();
     }
   
   

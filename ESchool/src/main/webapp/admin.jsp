@@ -33,9 +33,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">
-                        E-School
-                    </a>
+                    <a class="navbar-brand" href="#">E-School</a>
                 </div>
                 <div class="navbar-collapse collapse navbar-inverse-collapse">
                     <ul class="nav navbar-nav">
@@ -56,7 +54,7 @@
                         </li>
                         <li>
                             <a href="admin?content=teachersList">
-                                Списък учители
+                                Списък с потребители
                             </a>
                         </li>
                     </ul>

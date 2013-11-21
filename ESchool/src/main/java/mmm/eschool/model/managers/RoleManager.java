@@ -34,7 +34,8 @@ public class RoleManager extends Manager<Role>
   }
 
     public RoleManager() {
-        calculateEntities();
+        if(getCollection().isEmpty())
+            calculateEntities();
     }
   
 }

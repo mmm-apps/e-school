@@ -34,8 +34,8 @@ public class MarkManager extends Manager<Mark>
   }
 
     public MarkManager() {
-  
-        calculateEntities();
+        if(getCollection().isEmpty())
+            calculateEntities();
     }
   
   

@@ -14,6 +14,12 @@
         <action name="addUser">
             <result>CreateUser.jsp</result> 
         </action>
+       
+        <action name="AddMark" 
+                 class="mmm.eschool.actions.AddMark" method="display">
+            <result name="none">AddMark.jsp</result>
+        </action>
+        
         <action name="login" class="mmm.eschool.actions.Login">
             <result>LoginPanel.jsp</result> 
             <result name="admin" type="redirectAction">admin</result>
@@ -27,6 +33,12 @@
         <action name="logout" class="mmm.eschool.actions.LogOut">
             <result name="success">LoginPanel.jsp</result>
             <result name="input">LoginPanel.jsp</result>
+            <result name="login">LoginPanel.jsp</result>
+            <result name="error">ERROR.jsp</result>
+        </action>
+        <action name="createmark" class="mmm.eschool.actions.CreateUser">
+            <result name="success">AddMark.jsp</result>
+            <result name="input">AddMark.jsp</result>
             <result name="login">LoginPanel.jsp</result>
             <result name="error">ERROR.jsp</result>
         </action>

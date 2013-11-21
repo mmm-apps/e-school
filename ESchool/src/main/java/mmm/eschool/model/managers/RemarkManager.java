@@ -34,7 +34,7 @@ public class RemarkManager extends Manager<Remark>
   }
 
     public RemarkManager() {
-   
-        calculateEntities();
+        if(getCollection().isEmpty())
+            calculateEntities();
     }
 }

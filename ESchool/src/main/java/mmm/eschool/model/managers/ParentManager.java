@@ -34,8 +34,8 @@ public class ParentManager extends Manager<Parent>
   }
 
     public ParentManager() {
-  
-    calculateEntities();
+        if(getCollection().isEmpty())
+            calculateEntities();
     }
   
 }

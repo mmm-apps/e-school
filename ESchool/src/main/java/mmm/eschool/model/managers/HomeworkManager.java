@@ -34,7 +34,8 @@ public class HomeworkManager extends Manager<Homework>
   }
 
     public HomeworkManager() {
-        calculateEntities();
+        if(getCollection().isEmpty())
+            calculateEntities();
     }
   
 }

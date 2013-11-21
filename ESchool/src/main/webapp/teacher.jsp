@@ -51,7 +51,6 @@
             </div>
         </div>
         <div id="pageContent">
-            <%@include file="AddMark.jsp"%>
             <%@include file="TeacherPanel.jsp"%>         
 
         </div>

@@ -34,7 +34,8 @@ public class AbsenceManager extends Manager<Absence>
   }
 
     public AbsenceManager() {
-        calculateEntities();
+        if(getCollection().isEmpty())
+            calculateEntities();
     }
   
 }

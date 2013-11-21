@@ -34,7 +34,8 @@ public class TeacherManager extends Manager<Teacher>
   }
 
     public TeacherManager() {
-        calculateEntities();
+        if(getCollection().isEmpty())
+            calculateEntities();
     
     }
   

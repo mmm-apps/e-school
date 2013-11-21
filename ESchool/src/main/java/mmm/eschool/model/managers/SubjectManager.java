@@ -32,7 +32,8 @@ public class SubjectManager extends Manager<Subject> {
     }
 
     public SubjectManager() {
-        calculateEntities();
+        if(getCollection().isEmpty())
+             calculateEntities();
 
     }
 

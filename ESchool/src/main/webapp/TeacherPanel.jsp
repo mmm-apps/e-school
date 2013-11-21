@@ -9,7 +9,6 @@
 <html>
     <jsp:include page="EditStudentProfile.jsp"/>
     <jsp:include page="MarksList.jsp"/>
-    <jsp:include page="AddMark.jsp"/>
     <jsp:include page="DelMark.jsp"/>
     <jsp:include page="AddHomework.jsp"/>
     <jsp:include page="DeleteHomework.jsp"/>
@@ -82,9 +81,9 @@
                                             <button class="btn btn-success" type="button" data-toggle="modal" data-target="#marksList">
                                                 Преглед
                                             </button>
-                                            <button class="btn btn-info" type="button" data-toggle="modal" data-target="#addMarks">
-                                                Дообавяне
-                                            </button>
+                                            <a href="<s:url action='AddMark?content=teachersList'/>" >
+                                                <button class="btn btn-info">Добавяне</button>
+                                            </a>
                                             <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#delMarks">
                                                 Изтриване
                                             </button>

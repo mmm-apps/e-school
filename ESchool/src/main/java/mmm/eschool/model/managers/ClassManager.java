@@ -34,7 +34,8 @@ public class ClassManager extends Manager<Classes>
   }
 
     public ClassManager() {
-    calculateEntities();
+        if(getCollection().isEmpty())
+            calculateEntities();
     }
   
   

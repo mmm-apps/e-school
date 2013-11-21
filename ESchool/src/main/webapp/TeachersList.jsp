@@ -7,24 +7,25 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <jsp:include page="AddTeacher.jsp"/>
     <div id="userWelcome">
         <div class="well">
-            <h3>Здравейте, Иван Иванов</h3>
+            <h3>Здравейте, Администратор</h3>
         </div>
     </div>
     <div id="spacee" style="margin-top: 80px;"></div>
     <div class="panel panel-info">
         <div class="panel-heading">
             <h3 class="panel-title">
-                Списък с учители
+                Списък с потребител
             </h3>
         </div>
         <div class="panel-body">
 
-            <a href="<s:url action='addUser'/>" ><div id="addButton">
+            <a href="<s:url action='addUser'/>" >
+                <div id="addButton">
                     <button class="btn btn-info btn-lg btn-block">Добавяне</button>
-                </div></a>
+                </div>
+            </a>
 
             <table class="table table-striped table-bordered table-hover">
                 <thead>
