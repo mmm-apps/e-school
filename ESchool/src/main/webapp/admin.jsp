@@ -38,8 +38,8 @@
                 <div class="navbar-collapse collapse navbar-inverse-collapse">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="#">
-                                За продукта
+                            <a href="admin?content=subjectsList">
+                                Предмети
                             </a>
                         </li>
                         <li>
@@ -91,7 +91,12 @@
             %>
             <%@include file="AddMark.jsp"%>
             <%
-                }
+            }
+            else if (contentParam != null && contentParam.equals("subjectsList")){
+            %>
+            <%@include file="SubjectsList.jsp"%>
+            <%
+            }
             %>
         </div>
         <div class = "navbar-fixed-bottom" id ="pageFooter" >
