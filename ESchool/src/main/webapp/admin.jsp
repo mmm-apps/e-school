@@ -57,6 +57,11 @@
                                 Списък с потребители
                             </a>
                         </li>
+                        <li>
+                            <a href="admin?content=addClass">
+                                Добавяне на клас
+                            </a>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
@@ -86,6 +91,10 @@
             } else if (contentParam != null && contentParam.equals("marksList")) {
             %>
             <%@include file="MarksList.jsp"%>
+            <%
+            } else if (contentParam != null && contentParam.equals("ClassesList")) {
+            %>
+            <%@include file="ClassesList.jsp"%>
             <%
             } else if (contentParam != null && contentParam.equals("addMarks")) {
             %>
