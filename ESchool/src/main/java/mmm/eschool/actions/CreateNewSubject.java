@@ -27,16 +27,15 @@ import org.apache.struts2.interceptor.SessionAware;
 public class CreateNewSubject extends ActionSupport implements ModelDriven<Subject>, SessionAware {
 
     private String subjectType;
-
+    private List<String> subjectTypes;
     private Subject newSubject = new Subject();
     private Map<String, Object> session;
 
-    public String getSubjectType() {
-        return subjectType;
-    }
+    public CreateNewSubject() {
 
-    public void setSubjectType(String subjectType) {
-        this.subjectType = subjectType;
+        subjectTypes = new ArrayList<String>();
+        subjectTypes.add("Задължителен");
+        subjectTypes.add("Избираем");
     }
 
     @Override
@@ -44,15 +43,14 @@ public class CreateNewSubject extends ActionSupport implements ModelDriven<Subje
 
         newSubject.setSubjectKind(subjectType);
         SubjectManager mgr = new SubjectManager();
-        if(mgr.isSubjectNameAndTypeExists(newSubject.getSubjectName(), newSubject.getSubjectKind()))
-        {
+        if (mgr.isSubjectNameAndTypeExists(newSubject.getSubjectName(), newSubject.getSubjectKind())) {
             addFieldError("subjectName", "Subject exists!");
-            return SUCCESS;
+            return INPUT;
         }
-        try
-        {
+        try {
             mgr.add(newSubject);
-            return SUCCESS;
+            addFieldError("subjectName", "Successufully recorded!");
+            return INPUT;
         } catch (AnException ex) {
             ex.printStackTrace();
         }
@@ -68,4 +66,26 @@ public class CreateNewSubject extends ActionSupport implements ModelDriven<Subje
     public void setSession(Map<String, Object> map) {
         this.session = map;
     }
+
+    public String display() {
+        return NONE;
+    }
+
+    public String getSubjectType() {
+        return subjectType;
+    }
+
+    public List<String> getSubjectTypes() {
+        return subjectTypes;
+    }
+
+    public void setSubjectType(String subjectType) {
+        this.subjectType = subjectType;
+    }
+
+    public void setSubjectTypes(List<String> subjectTypes) {
+        this.subjectTypes = subjectTypes;
+    }
+    
+    
 }

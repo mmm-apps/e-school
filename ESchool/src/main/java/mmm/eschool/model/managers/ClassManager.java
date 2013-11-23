@@ -37,6 +37,17 @@ public class ClassManager extends Manager<Classes>
         if(getCollection().isEmpty())
             calculateEntities();
     }
+    
+    
+    public boolean isClassExists(String ClassName){
+        for(Classes myClass : getEntityList())
+        {
+            if(myClass.getClassName().equals(ClassName))
+            return true;
+        }
+        return false;
+    
+    }
   
   
 }

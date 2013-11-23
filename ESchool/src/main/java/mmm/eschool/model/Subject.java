@@ -7,6 +7,7 @@
 package mmm.eschool.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -48,22 +49,22 @@ public class Subject implements Serializable {
     @JoinTable(schema = "eschool", name = "teacher_subjects", 
         joinColumns = { @JoinColumn(name = "subject_id", referencedColumnName = "id")}, 
         inverseJoinColumns = { @JoinColumn(name = "teacher_id", referencedColumnName = "id")})
-    private Set<Teacher> teachersSet;
+    private Set<Teacher> teachersSet = new HashSet<Teacher>();
     
     @ManyToMany(mappedBy = "subjectsSet")
     private Set<Student> studentsSet;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private Set<Homework> homeworksSet;
+    private Set<Homework> homeworksSet = new HashSet<Homework>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private Set<Mark> marksSet;
+    private Set<Mark> marksSet= new HashSet<Mark>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private Set<Remark> remarksSet;
+    private Set<Remark> remarksSet= new HashSet<Remark>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private Set<Absence> absencesSet;
+    private Set<Absence> absencesSet= new HashSet<Absence>();
 
     public int getId() {
         return id;

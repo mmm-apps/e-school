@@ -92,13 +92,13 @@
             %>
             <%@include file="MarksList.jsp"%>
             <%
-            } else if (contentParam != null && contentParam.equals("ClassesList")) {
-            %>
-            <%@include file="ClassesList.jsp"%>
-            <%
             } else if (contentParam != null && contentParam.equals("addMarks")) {
             %>
             <%@include file="AddMark.jsp"%>
+            <%
+            } else if (contentParam != null && contentParam.equals("addClass")) {
+            %>
+            <%@include file="CreateClass.jsp"%>
             <%
             }
             else if (contentParam != null && contentParam.equals("subjectsList")){

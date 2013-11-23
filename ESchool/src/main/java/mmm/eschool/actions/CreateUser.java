@@ -85,7 +85,9 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             us.setAdress(addUser.getAdress());
             us.setEmail(addUser.getEmail());
             us.setPhone(addUser.getTelephone());
+            us.setUserId(user);
             user.getTeachersSet().add(us);
+
         } else if (list1.equals("PARENT")) {
             Parent us = new Parent();
             us.setFirstName(addUser.getFirstName());
@@ -93,12 +95,14 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             us.setAdress(addUser.getAdress());
             us.setEmail(addUser.getEmail());
             us.setPhone(addUser.getTelephone());
+            us.setUserId(user);
             user.getParentsSet().add(us);
         }
 
         try {
             UserManager userMan = new UserManager();
             userMan.add(user);
+            addFieldError("username", "The data was successufully recorded!");
             return SUCCESS;
         } catch (AnException ex) {
             ex.printStackTrace();

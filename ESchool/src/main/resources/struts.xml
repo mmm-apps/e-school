@@ -20,8 +20,7 @@
             <result name="none">AddMark.jsp</result>
         </action>
         
-        <action name="selectSubjectType" 
-                class="mmm.eschool.actions.dropDownSubject" method="display">
+        <action name="selectSubjectType" class="mmm.eschool.actions.CreateNewSubject" method="display">
             <result name="none">CreateSubject.jsp</result>
             <result name="input">CreateSubject.jsp</result>
         </action>
@@ -56,8 +55,13 @@
         </action>
         
         <action name="addSubject" class="mmm.eschool.actions.CreateNewSubject">
-            <result name="success">admin.jsp</result>
+            <result name="success">CreateSubject.jsp</result>
             <result name="input">CreateSubject.jsp</result>
+        </action>
+        
+        <action name="addClass" class="mmm.eschool.actions.CreateClass">
+            <result name="success">CreateClass.jsp</result>
+            <result name="input">CreateClass.jsp</result>
         </action>
         
         <action name="student">

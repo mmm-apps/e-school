@@ -6,66 +6,60 @@
 package mmm.eschool.actions;
 
 import static com.opensymphony.xwork2.Action.NONE;
-import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import mmm.eschool.AnException;
-import mmm.eschool.model.Subject;
-import mmm.eschool.model.managers.SubjectManager;
+import mmm.eschool.model.Classes;
+import mmm.eschool.model.managers.ClassManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
  *
- * @author Denev
+ * @author MMihov
  */
-public class CreateNewSubject extends ActionSupport implements ModelDriven<Subject>, SessionAware {
+public class CreateClass extends ActionSupport implements ModelDriven<Classes>, SessionAware {
 
-    private String subjectType;
-
-    private Subject newSubject = new Subject();
+    Classes newClass = new Classes();
     private Map<String, Object> session;
 
-    public String getSubjectType() {
-        return subjectType;
-    }
-
-    public void setSubjectType(String subjectType) {
-        this.subjectType = subjectType;
+    @Override
+    public void validate() {
+        if (StringUtils.isEmpty(newClass.getClassName())) {
+            addFieldError("className", "Classname cannot be blank!");
+        }
     }
 
     @Override
     public String execute() throws Exception {
-
-        newSubject.setSubjectKind(subjectType);
-        SubjectManager mgr = new SubjectManager();
-        if(mgr.isSubjectNameAndTypeExists(newSubject.getSubjectName(), newSubject.getSubjectKind()))
-        {
-            addFieldError("subjectName", "Subject exists!");
+        ClassManager classMan = new ClassManager();
+         if (classMan.isClassExists(newClass.getClassName())) {
+            addFieldError("className", "This Classname exists!");
             return SUCCESS;
         }
-        try
-        {
-            mgr.add(newSubject);
+        try {
+            classMan.add(newClass);
+            addFieldError("className", "Classname recorded succesufully!");
             return SUCCESS;
         } catch (AnException ex) {
             ex.printStackTrace();
         }
         return ERROR;
+
     }
 
     @Override
-    public Subject getModel() {
-        return newSubject;
+    public Classes getModel() {
+        return newClass;
     }
 
     @Override
     public void setSession(Map<String, Object> map) {
         this.session = map;
+    }
+
+    public String display() {
+        return NONE;
     }
 }
