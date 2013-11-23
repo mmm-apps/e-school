@@ -16,8 +16,14 @@
         </action>
        
         <action name="AddMark" 
-                 class="mmm.eschool.actions.AddMark" method="display">
+                class="mmm.eschool.actions.AddMark" method="display">
             <result name="none">AddMark.jsp</result>
+        </action>
+        
+        <action name="selectSubjectType" 
+                class="mmm.eschool.actions.CreateNewSubject" method="display">
+            <result name="none">CreateSubject.jsp</result>
+            <result name="input">CreateSubject.jsp</result>
         </action>
         
         <action name="login" class="mmm.eschool.actions.Login">
@@ -48,6 +54,12 @@
             <result name="login">LoginPanel.jsp</result>
             <result name="error">ERROR.jsp</result>
         </action>
+        
+        <action name="addSubject" class="mmm.eschool.actions.CreateNewSubject">
+            <result name="success">admin.jsp</result>
+            <result name="input">CreateSubject.jsp</result>
+        </action>
+        
         <action name="student">
             <interceptor-ref name="authenticationInterceptor" />
             <result name="success">student.jsp</result>
