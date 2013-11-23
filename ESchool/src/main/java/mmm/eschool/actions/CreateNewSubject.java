@@ -12,7 +12,11 @@ import com.opensymphony.xwork2.ModelDriven;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import mmm.eschool.AnException;
 import mmm.eschool.model.Subject;
+import mmm.eschool.model.managers.SubjectManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -36,11 +40,23 @@ public class CreateNewSubject extends ActionSupport implements ModelDriven<Subje
     }
 
     @Override
-    public String execute() {
+    public String execute() throws Exception {
 
         newSubject.setSubjectKind(subjectType);
-        //insert the new Subject
-        return SUCCESS;
+        SubjectManager mgr = new SubjectManager();
+        if(mgr.isSubjectNameAndTypeExists(newSubject.getSubjectName(), newSubject.getSubjectKind()))
+        {
+            addFieldError("subjectName", "Subject exists!");
+            return SUCCESS;
+        }
+        try
+        {
+            mgr.add(newSubject);
+            return SUCCESS;
+        } catch (AnException ex) {
+            ex.printStackTrace();
+        }
+        return ERROR;
     }
 
     @Override

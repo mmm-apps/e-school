@@ -31,6 +31,16 @@ public class SubjectManager extends Manager<Subject> {
         }
     }
 
+    public boolean isSubjectNameAndTypeExists(String subjectName, String SubjectKind)
+    {
+        for(Subject subject : getEntityList())
+        {
+            if(subject.getSubjectName().equals(subjectName) && subject.getSubjectKind().equals(SubjectKind))
+            return true;
+        }
+        return false;
+    }
+    
     public SubjectManager() {
         if(getCollection().isEmpty())
              calculateEntities();
