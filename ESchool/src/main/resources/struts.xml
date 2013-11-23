@@ -21,7 +21,7 @@
         </action>
         
         <action name="selectSubjectType" 
-                class="mmm.eschool.actions.CreateNewSubject" method="display">
+                class="mmm.eschool.actions.dropDownSubject" method="display">
             <result name="none">CreateSubject.jsp</result>
             <result name="input">CreateSubject.jsp</result>
         </action>
