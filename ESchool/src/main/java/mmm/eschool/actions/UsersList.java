@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import mmm.eschool.AnException;
+import mmm.eschool.actions.temp.AddUser;
+import mmm.eschool.model.Teacher;
 import mmm.eschool.model.User;
 import mmm.eschool.model.managers.UserManager;
 import org.apache.struts2.ServletActionContext;
@@ -21,6 +23,7 @@ import org.apache.struts2.interceptor.SessionAware;
 public class UsersList extends ActionSupport implements ModelDriven<User>, SessionAware
 {
   private User user = new User();
+  private String userCon;
   private List<User> userList = new ArrayList<User>();
   private Map<String, Object> session;
   private final UserManager usrManager = new UserManager();
@@ -67,9 +70,7 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
   
   public String delete() throws AnException
   {
-    HttpServletRequest request = (HttpServletRequest) ActionContext.getContext().get(ServletActionContext.HTTP_REQUEST);
-    String userId = request.getParameter("id");
-    usrManager.del(Integer.parseInt(userId));
+    usrManager.del(Integer.parseInt(userCon));
     return SUCCESS;
   }
   
@@ -88,4 +89,14 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
   {
     this.userList = userList;
   }
+
+    public String getUserCon() {
+        return userCon;
+    }
+
+    public void setUserCon(String userCon) {
+        this.userCon = userCon;
+    }
+  
+  
 }

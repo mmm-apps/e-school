@@ -7,9 +7,9 @@
 package mmm.eschool.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -49,22 +49,22 @@ public class Subject implements Serializable {
     @JoinTable(schema = "eschool", name = "teacher_subjects", 
         joinColumns = { @JoinColumn(name = "subject_id", referencedColumnName = "id")}, 
         inverseJoinColumns = { @JoinColumn(name = "teacher_id", referencedColumnName = "id")})
-    private Set<Teacher> teachersSet = new HashSet<Teacher>();
+    private List<Teacher> teachersSet = new ArrayList<Teacher>();
     
     @ManyToMany(mappedBy = "subjectsSet")
-    private Set<Student> studentsSet;
+    private List<Student> studentsSet;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private Set<Homework> homeworksSet = new HashSet<Homework>();
+    private List<Homework> homeworksSet = new ArrayList<Homework>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private Set<Mark> marksSet= new HashSet<Mark>();
+    private List<Mark> marksSet= new ArrayList<Mark>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private Set<Remark> remarksSet= new HashSet<Remark>();
+    private List<Remark> remarksSet= new ArrayList<Remark>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private Set<Absence> absencesSet= new HashSet<Absence>();
+    private List<Absence> absencesSet= new ArrayList<Absence>();
 
     public int getId() {
         return id;
@@ -94,51 +94,51 @@ public class Subject implements Serializable {
         this.subjectKind = subjectKind;
     }
 
-    public Set<Teacher> getTeachersSet() {
+    public List<Teacher> getTeachersSet() {
         return teachersSet;
     }
 
-    public void setTeachersSet(Set<Teacher> teachersSet) {
+    public void setTeachersSet(List<Teacher> teachersSet) {
         this.teachersSet = teachersSet;
     }
 
-    public Set<Student> getStudentsSet() {
+    public List<Student> getStudentsSet() {
         return studentsSet;
     }
 
-    public void setStudentsSet(Set<Student> studentsSet) {
+    public void setStudentsSet(List<Student> studentsSet) {
         this.studentsSet = studentsSet;
     }
 
-    public Set<Homework> getHomeworksSet() {
+    public List<Homework> getHomeworksSet() {
         return homeworksSet;
     }
 
-    public void setHomeworksSet(Set<Homework> homeworksSet) {
+    public void setHomeworksSet(List<Homework> homeworksSet) {
         this.homeworksSet = homeworksSet;
     }
 
-    public Set<Mark> getMarksSet() {
+    public List<Mark> getMarksSet() {
         return marksSet;
     }
 
-    public void setMarksSet(Set<Mark> marksSet) {
+    public void setMarksSet(List<Mark> marksSet) {
         this.marksSet = marksSet;
     }
 
-    public Set<Remark> getRemarksSet() {
+    public List<Remark> getRemarksSet() {
         return remarksSet;
     }
 
-    public void setRemarksSet(Set<Remark> remarksSet) {
+    public void setRemarksSet(List<Remark> remarksSet) {
         this.remarksSet = remarksSet;
     }
 
-    public Set<Absence> getAbsencesSet() {
+    public List<Absence> getAbsencesSet() {
         return absencesSet;
     }
 
-    public void setAbsencesSet(Set<Absence> absencesSet) {
+    public void setAbsencesSet(List<Absence> absencesSet) {
         this.absencesSet = absencesSet;
     }
 }

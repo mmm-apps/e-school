@@ -7,6 +7,8 @@
 package mmm.eschool.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,7 +41,7 @@ public class Role implements Serializable {
         @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "user_id", referencedColumnName = "id")})
     @ManyToMany
-    private Set<User> usersSet;
+    private List<User> usersSet = new ArrayList<User>();
     
     public int getId() {
         return id;
@@ -53,11 +55,11 @@ public class Role implements Serializable {
         this.roleName = roleName;
     }
 
-    public Set<User> getUsersSet() {
+    public List<User> getUsersSet() {
         return usersSet;
     }
 
-    public void setUsersSet(Set<User> usersSet) {
+    public void setUsersSet(List<User> usersSet) {
         this.usersSet = usersSet;
     }
 }

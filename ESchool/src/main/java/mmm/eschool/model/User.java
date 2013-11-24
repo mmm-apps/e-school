@@ -6,7 +6,9 @@
 package mmm.eschool.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +21,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -39,17 +43,21 @@ public class User implements Serializable {
     @Column(nullable = false, length = 20)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER ,mappedBy = "usersSet")
-    private Set<Role> rolesSet = new HashSet<Role>();;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(mappedBy = "usersSet")
+    private List<Role> rolesSet = new ArrayList<Role>();;
 
-    @OneToMany(fetch = FetchType.EAGER ,cascade = CascadeType.ALL, mappedBy = "userId")
-    private Set<Teacher> teachersSet = new HashSet<Teacher>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private List<Teacher> teachersSet = new ArrayList<Teacher>();
 
-    @OneToMany(fetch = FetchType.EAGER ,cascade = CascadeType.ALL, mappedBy = "userId")
-    private Set<Parent> parentsSet = new HashSet<Parent>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private List<Parent> parentsSet = new ArrayList<Parent>();
 
-    @OneToMany(fetch = FetchType.EAGER ,cascade = CascadeType.ALL, mappedBy = "userId")
-    private Set<Student> studentsSet = new HashSet<Student>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private List<Student> studentsSet = new ArrayList<Student>();
 
     public int getId() {
         return id;
@@ -71,35 +79,35 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Set<Role> getRolesSet() {
+    public List<Role> getRolesSet() {
         return rolesSet;
     }
 
-    public void setRolesSet(Set<Role> rolesSet) {
+    public void setRolesSet(List<Role> rolesSet) {
         this.rolesSet = rolesSet;
     }
 
-    public Set<Teacher> getTeachersSet() {
+    public List<Teacher> getTeachersSet() {
         return teachersSet;
     }
 
-    public void setTeachersSet(Set<Teacher> teachersSet) {
+    public void setTeachersSet(List<Teacher> teachersSet) {
         this.teachersSet = teachersSet;
     }
 
-    public Set<Parent> getParentsSet() {
+    public List<Parent> getParentsSet() {
         return parentsSet;
     }
 
-    public void setParentsSet(Set<Parent> parentsSet) {
+    public void setParentsSet(List<Parent> parentsSet) {
         this.parentsSet = parentsSet;
     }
 
-    public Set<Student> getStudentsSet() {
+    public List<Student> getStudentsSet() {
         return studentsSet;
     }
 
-    public void setStudentsSet(Set<Student> studentsSet) {
+    public void setStudentsSet(List<Student> studentsSet) {
         this.studentsSet = studentsSet;
     }
 }

@@ -7,7 +7,8 @@
 package mmm.eschool.model;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -54,7 +55,7 @@ public class Parent implements Serializable {
         @JoinColumn(name = "parent_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "student_id", referencedColumnName = "id")})
     @ManyToMany
-    private Set<Student> studentsSet;
+    private List<Student> studentsSet = new ArrayList<Student>();
     
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -104,11 +105,11 @@ public class Parent implements Serializable {
         this.address = adress;
     }
 
-    public Set<Student> getStudentsSet() {
+    public List<Student> getStudentsSet() {
         return studentsSet;
     }
 
-    public void setStudentsSet(Set<Student> studentsSet) {
+    public void setStudentsSet(List<Student> studentsSet) {
         this.studentsSet = studentsSet;
     }
 

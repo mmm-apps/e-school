@@ -6,6 +6,8 @@
 package mmm.eschool.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -52,32 +54,32 @@ public class Student implements Serializable {
     private String adress;
 
     @ManyToMany(mappedBy = "studentsSet")
-    private Set<Classes> classesSet;
+    private List<Classes> classesSet = new ArrayList<Classes>();
 
     @ManyToMany(mappedBy = "studentsSet")
-    private Set<Parent> parentsSet;
+    private List<Parent> parentsSet = new ArrayList<Parent>();
 
     @JoinTable(schema = "eschool", name = "student_subjects", joinColumns = {
         @JoinColumn(name = "student_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "subject_id", referencedColumnName = "id")})
     @ManyToMany
-    private Set<Subject> subjectsSet;
+    private List<Subject> subjectsSet = new ArrayList<Subject>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
-    private Set<Homework> homeworksSet;
+    private List<Homework> homeworksSet = new ArrayList<Homework>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
-    private Set<Mark> marksSet;
+    private List<Mark> marksSet = new ArrayList<Mark>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
-    private Set<Remark> remarksSet;
+    private List<Remark> remarksSet = new ArrayList<Remark>();
 
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
-    private Set<Absence> absencesSet;
+    private List<Absence> absencesSet = new ArrayList<Absence>();
 
     public int getId() {
         return id;
@@ -127,51 +129,51 @@ public class Student implements Serializable {
         this.adress = adress;
     }
 
-    public Set<Classes> getClassesSet() {
+    public List<Classes> getClassesSet() {
         return classesSet;
     }
 
-    public void setClassesSet(Set<Classes> classesSet) {
+    public void setClassesSet(List<Classes> classesSet) {
         this.classesSet = classesSet;
     }
 
-    public Set<Parent> getParentsSet() {
+    public List<Parent> getParentsSet() {
         return parentsSet;
     }
 
-    public void setParentsSet(Set<Parent> parentsSet) {
+    public void setParentsSet(List<Parent> parentsSet) {
         this.parentsSet = parentsSet;
     }
 
-    public Set<Subject> getSubjectsSet() {
+    public List<Subject> getSubjectsSet() {
         return subjectsSet;
     }
 
-    public void setSubjectsSet(Set<Subject> subjectsSet) {
+    public void setSubjectsSet(List<Subject> subjectsSet) {
         this.subjectsSet = subjectsSet;
     }
 
-    public Set<Homework> getHomeworksSet() {
+    public List<Homework> getHomeworksSet() {
         return homeworksSet;
     }
 
-    public void setHomeworksSet(Set<Homework> homeworksSet) {
+    public void setHomeworksSet(List<Homework> homeworksSet) {
         this.homeworksSet = homeworksSet;
     }
 
-    public Set<Mark> getMarksSet() {
+    public List<Mark> getMarksSet() {
         return marksSet;
     }
 
-    public void setMarksSet(Set<Mark> marksSet) {
+    public void setMarksSet(List<Mark> marksSet) {
         this.marksSet = marksSet;
     }
 
-    public Set<Remark> getRemarksSet() {
+    public List<Remark> getRemarksSet() {
         return remarksSet;
     }
 
-    public void setRemarksSet(Set<Remark> remarksSet) {
+    public void setRemarksSet(List<Remark> remarksSet) {
         this.remarksSet = remarksSet;
     }
 
@@ -183,11 +185,11 @@ public class Student implements Serializable {
         this.userId = userId;
     }
 
-    public Set<Absence> getAbsencesSet() {
+    public List<Absence> getAbsencesSet() {
         return absencesSet;
     }
 
-    public void setAbsencesSet(Set<Absence> absencesSet) {
+    public void setAbsencesSet(List<Absence> absencesSet) {
         this.absencesSet = absencesSet;
     }
 }

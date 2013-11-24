@@ -7,6 +7,8 @@
 package mmm.eschool.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -52,23 +54,23 @@ public class Teacher implements Serializable
     private String adress;
     
     @ManyToMany(mappedBy = "teachersSet")
-    private Set<Subject> subjectsSet;
+    private List<Subject> subjectsSet = new ArrayList<Subject>();
     
     @ManyToMany(mappedBy = "teachersSet")
-    private Set<Classes> classesSet;
+    private List<Classes> classesSet = new ArrayList<Classes>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
-    private Set<Mark> marksSet;
+    private List<Mark> marksSet = new ArrayList<Mark>();
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
-    private Set<Remark> remarksSet;
+    private List<Remark> remarksSet = new ArrayList<Remark>();
     
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false, name = "user_id", referencedColumnName = "id")
     private User userId;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
-    private Set<Absence> absencesSet;
+    private List<Absence> absencesSet = new ArrayList<Absence>();
 
     public int getId() {
         return id;
@@ -114,35 +116,35 @@ public class Teacher implements Serializable
         this.adress = adress;
     }
 
-    public Set<Subject> getSubjectsSet() {
+    public List<Subject> getSubjectsSet() {
         return subjectsSet;
     }
 
-    public void setSubjectsSet(Set<Subject> subjectsSet) {
+    public void setSubjectsSet(List<Subject> subjectsSet) {
         this.subjectsSet = subjectsSet;
     }
 
-    public Set<Classes> getClassesSet() {
+    public List<Classes> getClassesSet() {
         return classesSet;
     }
 
-    public void setClassesSet(Set<Classes> classesSet) {
+    public void setClassesSet(List<Classes> classesSet) {
         this.classesSet = classesSet;
     }
 
-    public Set<Mark> getMarksSet() {
+    public List<Mark> getMarksSet() {
         return marksSet;
     }
 
-    public void setMarksSet(Set<Mark> marksSet) {
+    public void setMarksSet(List<Mark> marksSet) {
         this.marksSet = marksSet;
     }
 
-    public Set<Remark> getRemarksSet() {
+    public List<Remark> getRemarksSet() {
         return remarksSet;
     }
 
-    public void setRemarksSet(Set<Remark> remarksSet) {
+    public void setRemarksSet(List<Remark> remarksSet) {
         this.remarksSet = remarksSet;
     }
 
@@ -154,11 +156,11 @@ public class Teacher implements Serializable
         this.userId = userId;
     }
 
-    public Set<Absence> getAbsencesSet() {
+    public List<Absence> getAbsencesSet() {
         return absencesSet;
     }
 
-    public void setAbsencesSet(Set<Absence> absencesSet) {
+    public void setAbsencesSet(List<Absence> absencesSet) {
         this.absencesSet = absencesSet;
     }
 }
