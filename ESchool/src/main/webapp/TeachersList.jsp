@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
     <div id="userWelcome">
@@ -16,7 +17,7 @@
     <div class="panel panel-info">
         <div class="panel-heading">
             <h3 class="panel-title">
-                Списък с потребител
+                Списък с потребители
             </h3>
         </div>
         <div class="panel-body">
@@ -30,7 +31,6 @@
             <table class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Име</th>
                         <th>Фамилия</th>
                         <th>Телефон</th>
@@ -39,64 +39,40 @@
                         <th></th>
                     </tr>
                 </thead>
+                
                 <tbody>
-                    <tr  class="success">
-                        <td>1</td>
-                        <td>Иван</td>
-                        <td>Петров</td>
-                        <td>0899434343</td>
-                        <td>София, Студентски град, бл59</td>
-                        <td>iPetrov</td>
-                        <td>
-                            <button class="btn btn-info" type="button">
-                                Информация
-                            </button>
-                            <button class="btn btn-warning" type="button">
-                                Коригиране
-                            </button>
-                            <button class="btn btn-danger" type="button">
-                                Изтриване
-                            </button>
-                        </td>
+                  <s:iterator value="userList" status="userStatus">
+                    <tr class="success">
+                      <td><s:property value="username" /></td>
+                      <td><s:property value="password" /></td>
+                      <td><s:property value="userRole" /></td>
+                      <td><s:property value="" /></td>
+                      <td><s:property value="" /></td>
+                      <td>
+                        <s:url id="infoURL" action="infoUser">
+                          <s:param name="user" value="%{id}"></s:param>
+                        </s:url>
+                        <s:a href="%{infoURL}">
+                          <button class="btn btn-info" type="button">Информация</button>
+                        </s:a>
+                        
+                        <s:url id="editURL" action="editUser">
+                          <s:param name="user" value="%{id}"></s:param>
+                        </s:url>
+                        <s:a href="%{editURL}">
+                          <button class="btn btn-warning" type="button">Коригиране</button>
+                        </s:a>
+                          
+                        <s:url id="deleteURL" action="deleteUser">
+                          <s:param name="user" value="%{id}"></s:param>
+                        </s:url>
+                        <s:a href="%{deleteURL}">
+                          <button class="btn btn-danger" type="button">Изтриване</button>
+                        </s:a>
+                      </td>
                     </tr>
-                    <tr  class="success">
-                        <td>1</td>
-                        <td>Георги</td>
-                        <td>Димитров</td>
-                        <td>0899434343</td>
-                        <td>София, Студентски град, бл60</td>
-                        <td>gDimitrov</td>
-                        <td>
-                            <button class="btn btn-info" type="button">
-                                Информация
-                            </button>
-                            <button class="btn btn-warning" type="button">
-                                Коригиране
-                            </button>
-                            <button class="btn btn-danger" type="button">
-                                Изтриване
-                            </button>
-                        </td>
-                    </tr>
-                    <tr  class="success">
-                        <td>1</td>
-                        <td>Петър</td>
-                        <td>Петров</td>
-                        <td>0899434343</td>
-                        <td>София, Студентски град, бл15</td>
-                        <td>пPetrov</td>
-                        <td>
-                            <button class="btn btn-info" type="button">
-                                Информация
-                            </button>
-                            <button class="btn btn-warning" type="button">
-                                Коригиране
-                            </button>
-                            <button class="btn btn-danger" type="button">
-                                Изтриване
-                            </button>
-                        </td>
-                    </tr>
+                  </s:iterator>
+                    
                 </tbody>
             </table>
         </div>

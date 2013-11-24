@@ -53,7 +53,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="admin?content=teachersList">
+                            <a href="<s:url action='listUser'/>">
                                 Списък с потребители
                             </a>
                         </li>
