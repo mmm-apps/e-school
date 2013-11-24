@@ -46,20 +46,12 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
   {
       this.session = map;
   }
-//  @Override
-//  public String execute() throws Exception
-//  {
-//    try
-//    {
-//      usrManager.add(user);
-//      return SUCCESS;
-//    }
-//    catch(EntityNotExistException e)
-//    {
-//      e.getMsg();
-//      return ERROR;
-//    }
-//  }
+  @Override
+  public String execute() throws Exception
+  {
+      return null;
+
+  }
   
   public String list()
   {

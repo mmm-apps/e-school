@@ -8,6 +8,7 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
+    <%@include file="menu.jsp"%>   
     <div id="userWelcome">
         <div class="well">
             <h3>Здравейте, Администратор</h3>
@@ -39,40 +40,40 @@
                         <th></th>
                     </tr>
                 </thead>
-                
+
                 <tbody>
-                  <s:iterator value="userList" status="userStatus">
+                <s:iterator value="userList" status="userStatus">
                     <tr class="success">
-                      <td><s:property value="username" /></td>
-                      <td><s:property value="password" /></td>
-                      <td><s:property value="userRole" /></td>
-                      <td><s:property value="" /></td>
-                      <td><s:property value="" /></td>
-                      <td>
-                        <s:url id="infoURL" action="infoUser">
-                          <s:param name="user" value="%{id}"></s:param>
-                        </s:url>
-                        <s:a href="%{infoURL}">
-                          <button class="btn btn-info" type="button">Информация</button>
-                        </s:a>
-                        
-                        <s:url id="editURL" action="editUser">
-                          <s:param name="user" value="%{id}"></s:param>
-                        </s:url>
-                        <s:a href="%{editURL}">
-                          <button class="btn btn-warning" type="button">Коригиране</button>
-                        </s:a>
-                          
-                        <s:url id="deleteURL" action="deleteUser">
-                          <s:param name="user" value="%{id}"></s:param>
-                        </s:url>
-                        <s:a href="%{deleteURL}">
-                          <button class="btn btn-danger" type="button">Изтриване</button>
-                        </s:a>
-                      </td>
+                        <td><s:property value="username" /></td>
+                    <td><s:property value="password" /></td>
+                    <td><s:property value="userRole" /></td>
+                    <td><s:property value="" /></td>
+                    <td><s:property value="" /></td>
+                    <td>
+                    <s:url id="infoURL" action="infoUser">
+                        <s:param name="user" value="%{id}"></s:param>
+                    </s:url>
+                    <s:a href="%{infoURL}">
+                        <button class="btn btn-info" type="button">Информация</button>
+                    </s:a>
+
+                    <s:url id="editURL" action="editUser">
+                        <s:param name="user" value="%{id}"></s:param>
+                    </s:url>
+                    <s:a href="%{editURL}">
+                        <button class="btn btn-warning" type="button">Коригиране</button>
+                    </s:a>
+
+                    <s:url id="deleteURL" action="deleteUser">
+                        <s:param name="user" value="%{id}"></s:param>
+                    </s:url>
+                    <s:a href="%{deleteURL}">
+                        <button class="btn btn-danger" type="button">Изтриване</button>
+                    </s:a>
+                    </td>
                     </tr>
-                  </s:iterator>
-                    
+                </s:iterator>
+
                 </tbody>
             </table>
         </div>
