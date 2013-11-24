@@ -11,7 +11,13 @@ import mmm.eschool.model.Mark;
 public class MarkManager extends Manager<Mark> 
 {
   private static final Map<Integer, Mark> marks = new Hashtable<Integer, Mark>();
+  public static boolean isCalc = false;
 
+  @Override
+  public boolean isCalc() { return isCalc; }
+  @Override
+  public void setIsCalc(boolean toCalc) { isCalc = toCalc; }
+  
   @Override
   Map<Integer, Mark> getCollection()
   {
@@ -32,11 +38,4 @@ public class MarkManager extends Manager<Mark>
     else
       return null;
   }
-
-    public MarkManager() {
-        if(getCollection().isEmpty())
-            calculateEntities();
-    }
-  
-  
 }

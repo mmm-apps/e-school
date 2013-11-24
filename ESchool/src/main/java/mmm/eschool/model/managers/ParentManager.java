@@ -11,6 +11,12 @@ import mmm.eschool.model.Parent;
 public class ParentManager extends Manager<Parent> 
 {
   private static final Map<Integer, Parent> parents = new Hashtable<Integer, Parent>();
+  public static boolean isCalc = false;
+
+  @Override
+  public boolean isCalc() { return isCalc; }
+  @Override
+  public void setIsCalc(boolean toCalc) { isCalc = toCalc; }
   
   @Override
   Map<Integer, Parent> getCollection()
@@ -32,10 +38,4 @@ public class ParentManager extends Manager<Parent>
     else
       return null;
   }
-
-    public ParentManager() {
-        if(getCollection().isEmpty())
-            calculateEntities();
-    }
-  
 }

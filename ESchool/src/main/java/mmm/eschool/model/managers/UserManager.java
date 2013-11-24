@@ -11,7 +11,13 @@ import mmm.eschool.model.User;
 public class UserManager extends Manager<User> 
 {
   private static final Map<Integer, User> users = new Hashtable<Integer, User>();
+  public static boolean isCalc = false;
 
+  @Override
+  public boolean isCalc() { return isCalc; }
+  @Override
+  public void setIsCalc(boolean toCalc) { isCalc = toCalc; }
+  
   @Override
   Map<Integer, User> getCollection()
   {
@@ -48,20 +54,12 @@ public class UserManager extends Manager<User>
     }
     return null; 
   }
+  
   public boolean isUsernameExists(String username)
   {
     for (User user : getEntityList())
-    {
       if(user.getUsername().equals(username))
         return true;
-    }
     return false; 
-  
   }
-
-    public UserManager() {
-        if(getCollection().isEmpty())
-            calculateEntities();
-    }
-  
 }

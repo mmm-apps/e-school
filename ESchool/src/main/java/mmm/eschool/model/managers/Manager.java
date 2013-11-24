@@ -14,13 +14,22 @@ import org.hibernate.classic.Session;
  */
 public abstract class Manager<T>
 { 
-  public void calculateEntities()
+  Manager()
   {
-    final Session dataSession = mmm.eschool.HibernateUtil.getSessionFactory().openSession();
-    final List<T> newEntityData = dataSession.createQuery("from " + getEntityName()).list();
-    dataSession.close();
-    for (final T entity : newEntityData)
-      getCollection().put(getId(entity), entity);
+    calculateEntities();
+  }
+  
+  private void calculateEntities()
+  {
+    if (!isCalc())
+    {
+      final Session dataSession = mmm.eschool.HibernateUtil.getSessionFactory().openSession();
+      final List<T> newEntityData = dataSession.createQuery("from " + getEntityName()).list();
+      dataSession.close();
+      for (final T entity : newEntityData)
+        getCollection().put(getId(entity), entity);
+      setIsCalc(true);
+    }
   }
   
   public final boolean add(final T entity) throws AnException
@@ -32,6 +41,7 @@ public abstract class Manager<T>
       else
       {
         HibernateUtil.add(entity);
+        setIsCalc(false);
         calculateEntities();
         return true;
       }
@@ -49,6 +59,7 @@ public abstract class Manager<T>
       {
         final T entity = getCollection().get(id);
         HibernateUtil.del(entity);
+        setIsCalc(false);
         calculateEntities();
         return entity;
       }
@@ -64,6 +75,7 @@ public abstract class Manager<T>
         throw new AnException(Types.ENTITY_NOT_EXIST);
       {
         HibernateUtil.update(entity);
+        setIsCalc(false);
         calculateEntities();
       }
       return true;
@@ -81,6 +93,8 @@ public abstract class Manager<T>
     return getCollection().get(id);
   }
 
+  abstract boolean isCalc();
+  public abstract void setIsCalc(boolean toCalc);
   abstract Map<Integer, T> getCollection();
   abstract Integer getId(T entity);
   abstract String getEntityName();

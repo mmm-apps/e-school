@@ -11,7 +11,13 @@ import mmm.eschool.model.Homework;
 public class HomeworkManager extends Manager<Homework> 
 {
   private static final Map<Integer, Homework> homeworks = new Hashtable<Integer, Homework>();
+  public static boolean isCalc = false;
 
+  @Override
+  public boolean isCalc() { return isCalc; }
+  @Override
+  public void setIsCalc(boolean toCalc) { isCalc = toCalc; }
+  
   @Override
   Map<Integer, Homework> getCollection()
   {
@@ -32,10 +38,4 @@ public class HomeworkManager extends Manager<Homework>
     else
       return null;
   }
-
-    public HomeworkManager() {
-        if(getCollection().isEmpty())
-            calculateEntities();
-    }
-  
 }

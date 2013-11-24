@@ -11,7 +11,13 @@ import mmm.eschool.model.Absence;
 public class AbsenceManager extends Manager<Absence> 
 {
   private static final Map<Integer, Absence> absences = new Hashtable<Integer, Absence>();
+  public static boolean isCalc = false;
 
+  @Override
+  public boolean isCalc() { return isCalc; }
+  @Override
+  public void setIsCalc(boolean toCalc) { isCalc = toCalc; }
+  
   @Override
   Map<Integer, Absence> getCollection()
   {
@@ -32,10 +38,4 @@ public class AbsenceManager extends Manager<Absence>
     else
       return null;
   }
-
-    public AbsenceManager() {
-        if(getCollection().isEmpty())
-            calculateEntities();
-    }
-  
 }

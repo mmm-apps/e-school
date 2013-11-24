@@ -8,43 +8,42 @@ import mmm.eschool.model.Subject;
  *
  * @author Mariyan
  */
-public class SubjectManager extends Manager<Subject> {
+public class SubjectManager extends Manager<Subject> 
+{
+  private static final Map<Integer, Subject> subjects = new Hashtable<Integer, Subject>();
+  public static boolean isCalc = false;
 
-    private static final Map<Integer, Subject> subjects = new Hashtable<Integer, Subject>();
+  @Override
+  public boolean isCalc() { return isCalc; }
+  @Override
+  public void setIsCalc(boolean toCalc) { isCalc = toCalc; }
+  
+  @Override
+  Map<Integer, Subject> getCollection() {
+      return subjects;
+  }
 
-    @Override
-    Map<Integer, Subject> getCollection() {
-        return subjects;
-    }
+  @Override
+  String getEntityName() {
+      return "Subject";
+  }
 
-    @Override
-    String getEntityName() {
-        return "Subject";
-    }
+  @Override
+  Integer getId(Subject subj) {
+      if (subj != null) {
+          return subj.getId();
+      } else {
+          return null;
+      }
+  }
 
-    @Override
-    Integer getId(Subject subj) {
-        if (subj != null) {
-            return subj.getId();
-        } else {
-            return null;
-        }
-    }
-
-    public boolean isSubjectNameAndTypeExists(String subjectName, String SubjectKind)
-    {
-        for(Subject subject : getEntityList())
-        {
-            if(subject.getSubjectName().equals(subjectName) && subject.getSubjectKind().equals(SubjectKind))
-            return true;
-        }
-        return false;
-    }
-    
-    public SubjectManager() {
-        if(getCollection().isEmpty())
-             calculateEntities();
-
-    }
-
+  public boolean isSubjectNameAndTypeExists(String subjectName, String SubjectKind)
+  {
+      for(Subject subject : getEntityList())
+      {
+          if(subject.getSubjectName().equals(subjectName) && subject.getSubjectKind().equals(SubjectKind))
+          return true;
+      }
+      return false;
+  }
 }

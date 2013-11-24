@@ -11,6 +11,12 @@ import mmm.eschool.model.Role;
 public class RoleManager extends Manager<Role> 
 {
   private static final Map<Integer, Role> roles = new Hashtable<Integer, Role>();
+  public static boolean isCalc = false;
+
+  @Override
+  public boolean isCalc() { return isCalc; }
+  @Override
+  public void setIsCalc(boolean toCalc) { isCalc = toCalc; }
   
   @Override
   Map<Integer, Role> getCollection()
@@ -32,10 +38,4 @@ public class RoleManager extends Manager<Role>
     else
       return null;
   }
-
-    public RoleManager() {
-        if(getCollection().isEmpty())
-            calculateEntities();
-    }
-  
 }
