@@ -15,43 +15,43 @@ import mmm.eschool.model.managers.StudentManager;
  *
  * @author MMihov
  */
-public class AddMark extends ActionSupport {
+public class AddMark extends ActionSupport 
+{
+  private List<String> studentsList;
+  private String studentName;
 
-    private List<String> studentsList;
-    private String studentName;
+  public List<String> getStudentsList() {
+      return studentsList;
+  }
 
-    public List<String> getStudentsList() {
-        return studentsList;
-    }
+  public String getStudent() {
+      return studentName;
+  }
 
-    public String getStudent() {
-        return studentName;
-    }
+  public void setStudentsList(List<String> studentsList) {
+      this.studentsList = studentsList;
+  }
 
-    public void setStudentsList(List<String> studentsList) {
-        this.studentsList = studentsList;
-    }
+  public void setStudent(String student) {
+      this.studentName = student;
+  }
 
-    public void setStudent(String student) {
-        this.studentName = student;
-    }
+  public AddMark() 
+  {
+    StudentManager studMan = new StudentManager();
+    List<Student> students = studMan.getEntityList();
+    List<String> Students = new ArrayList<String>();
+    for (Student stud : students)
+      Students.add(stud.getFirstName() + " " + stud.getLastName());
+    studentsList = Students;
+  }
 
-    public AddMark() {
-        StudentManager studMan = new StudentManager();
-        List<Student> students = studMan.getEntityList();
-        List<String> Students = new ArrayList<String>();
-        for (Student stud : students) {
-        Students.add(stud.getFirstName() + " " + stud.getLastName());
-        }
-        studentsList = Students;
-    }
+  @Override
+  public String execute() {
+      return SUCCESS;
+  }
 
-    public String execute() {
-        return SUCCESS;
-    }
-
-    public String display() {
-        return NONE;
-    }
-
+  public String display() {
+      return NONE;
+  }
 }
