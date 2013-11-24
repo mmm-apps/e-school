@@ -23,6 +23,7 @@ public abstract class Manager<T>
   {
     if (!isCalc())
     {
+      getCollection().clear();
       final Session dataSession = mmm.eschool.HibernateUtil.getSessionFactory().openSession();
       final List<T> newEntityData = dataSession.createQuery("from " + getEntityName()).list();
       dataSession.close();

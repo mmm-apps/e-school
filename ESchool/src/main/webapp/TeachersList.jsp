@@ -6,8 +6,10 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s" uri="/struts-tags" %>
+
 <!DOCTYPE html>
 <html>
+    <script src="JS/paging.js"></script>
     <%@include file="menu.jsp"%>   
     <div id="userWelcome">
         <div class="well">
@@ -29,7 +31,7 @@
                 </div>
             </a>
 
-            <table class="table table-striped table-bordered table-hover">
+            <table id="results" class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>Име</th>
@@ -42,40 +44,46 @@
                 </thead>
 
                 <tbody>
-                <s:iterator value="userList" status="userStatus">
-                    <tr class="success">
-                        <td><s:property value="username" /></td>
-                    <td><s:property value="password" /></td>
-                    <td><s:property value="adress" /></td>
-                    <td><s:property value="firstName" /></td>
-                    <td><s:property value="" /></td>
-                    <td>
-                    <s:url id="infoURL" action="infoUser">
-                        <s:param name="user" value="%{id}"></s:param>
-                    </s:url>
-                    <s:a href="%{infoURL}">
-                        <button class="btn btn-info" type="button">Информация</button>
-                    </s:a>
+                    <s:iterator value="userList" status="userStatus">
+                        <tr class="success">
+                            <td><s:property value="username" /></td>
+                            <td><s:property value="password" /></td>
+                            <td><s:property value="adress" /></td>
+                            <td><s:property value="firstName" /></td>
+                            <td><s:property value="" /></td>
+                            <td>
+                                <s:url id="infoURL" action="infoUser">
+                                    <s:param name="user" value="%{id}"></s:param>
+                                </s:url>
+                                <s:a href="%{infoURL}">
+                                    <button class="btn btn-info" type="button">Информация</button>
+                                </s:a>
 
-                    <s:url id="editURL" action="editUser">
-                        <s:param name="user" value="%{id}"></s:param>
-                    </s:url>
-                    <s:a href="%{editURL}">
-                        <button class="btn btn-warning" type="button">Коригиране</button>
-                    </s:a>
+                                <s:url id="editURL" action="editUser">
+                                    <s:param name="user" value="%{id}"></s:param>
+                                </s:url>
+                                <s:a href="%{editURL}">
+                                    <button class="btn btn-warning" type="button">Коригиране</button>
+                                </s:a>
 
-                    <s:url id="deleteURL" action="deleteUser">
-                        <s:param name="userCon" value="%{id}"></s:param>
-                    </s:url>
-                    <s:a href="%{deleteURL}">
-                        <button class="btn btn-danger" type="button">Изтриване</button>
-                    </s:a>
-                    </td>
-                    </tr>
-                </s:iterator>
+                                <s:url id="deleteURL" action="deleteUser">
+                                    <s:param name="userCon" value="%{id}"></s:param>
+                                </s:url>
+                                <s:a href="%{deleteURL}">
+                                    <button class="btn btn-danger" type="button">Изтриване</button>
+                                </s:a>
+                            </td>
+                        </tr>
+                    </s:iterator>
 
                 </tbody>
             </table>
         </div>
     </div>
+    <script type="text/javascript"><!--
+var pager = new Pager('results', 3);
+        pager.init();
+        pager.showPageNav('pager', 'pageNavPosition');
+        pager.showPage(1);
+//--></script>
 </html>

@@ -1,19 +1,14 @@
 
 package mmm.eschool.actions;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 import mmm.eschool.AnException;
-import mmm.eschool.actions.temp.AddUser;
-import mmm.eschool.model.Teacher;
 import mmm.eschool.model.User;
 import mmm.eschool.model.managers.UserManager;
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
