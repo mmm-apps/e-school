@@ -78,6 +78,7 @@
 
                 </tbody>
             </table>
+            <div id="pageNavPosition" style="margin-left: 44%;"></div>
         </div>
     </div>
     <script type="text/javascript"><!--
