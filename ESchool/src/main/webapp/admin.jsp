@@ -63,7 +63,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<s:url action='addStudentToClass'/>"
+                            <a href="<s:url action='addStudentToClass'/>">
                                 Добавяне на ученик към клас
                             </a>
                         </li>
