@@ -22,53 +22,66 @@ import org.apache.struts2.interceptor.SessionAware;
  *
  * @author MMihov
  */
-public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, SessionAware {
+public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, SessionAware
+{
 
     private String list1;
     private Map<String, Object> session;
     AddUser addUser = new AddUser();
 
     @Override
-    public void validate() {
-        if (StringUtils.isEmpty(addUser.getUsername())) {
+    public void validate()
+    {
+        if (StringUtils.isEmpty(addUser.getUsername()))
+        {
             addFieldError("username", "Username cannot be blank!");
         }
-        if (StringUtils.isEmpty(addUser.getPassword())) {
+        if (StringUtils.isEmpty(addUser.getPassword()))
+        {
             addFieldError("password", "Password cannot be blank!");
         }
-        if (StringUtils.isEmpty(list1)) {
+        if (StringUtils.isEmpty(list1))
+        {
             addFieldError("role", "Role cannot be blank!");
         }
-        if (StringUtils.isEmpty(addUser.getFirstName())) {
+        if (StringUtils.isEmpty(addUser.getFirstName()))
+        {
             addFieldError("firsName", "First name cannot be blank!");
         }
-        if (StringUtils.isEmpty(addUser.getLastName())) {
+        if (StringUtils.isEmpty(addUser.getLastName()))
+        {
             addFieldError("lastName", "Last name cannot be blank!");
         }
-        if (StringUtils.isEmpty(addUser.getTelephone())) {
+        if (StringUtils.isEmpty(addUser.getTelephone()))
+        {
             addFieldError("telephone", "Telephone cannot be blank!");
         }
-        if (StringUtils.isEmpty(addUser.getAdress())) {
+        if (StringUtils.isEmpty(addUser.getAdress()))
+        {
             addFieldError("adress", "Adress cannot be blank!");
         }
-        if (StringUtils.isEmpty(addUser.getEmail())) {
+        if (StringUtils.isEmpty(addUser.getEmail()))
+        {
             addFieldError("email", "Email cannot be blank!");
         }
     }
 
     @Override
-    public String execute() throws Exception {
+    public String execute() throws Exception
+    {
 
         User user = new User();
         UserManager usm = new UserManager();
-        if (usm.isUsernameExists(addUser.getUsername())) {
+        if (usm.isUsernameExists(addUser.getUsername()))
+        {
             addFieldError("username", "Username exists!");
             return SUCCESS;
         }
         user.setUsername(addUser.getUsername());
         user.setPassword(addUser.getPassword());
 
-        if (list1.equals("STUDENT")) {
+        if (list1.equals("STUDENT"))
+        {
             Student us = new Student();
             us.setFirstName(addUser.getFirstName());
             us.setLastName(addUser.getLastName());
@@ -78,7 +91,9 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             us.setUserId(user);
             user.getStudentsSet().add(us);
 
-        } else if (list1.equals("TEACHER")) {
+        }
+        else if (list1.equals("TEACHER"))
+        {
             Teacher us = new Teacher();
             us.setFirstName(addUser.getFirstName());
             us.setLastName(addUser.getLastName());
@@ -88,7 +103,9 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             us.setUserId(user);
             user.getTeachersSet().add(us);
 
-        } else if (list1.equals("PARENT")) {
+        }
+        else if (list1.equals("PARENT"))
+        {
             Parent us = new Parent();
             us.setFirstName(addUser.getFirstName());
             us.setLastName(addUser.getLastName());
@@ -99,40 +116,49 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             user.getParentsSet().add(us);
         }
 
-        try {
+        try
+        {
             UserManager userMan = new UserManager();
             userMan.add(user);
             addFieldError("username", "The data was successufully recorded!");
             return SUCCESS;
-        } catch (AnException ex) {
+        }
+        catch (AnException ex)
+        {
             ex.printStackTrace();
         }
         return ERROR;
     }
 
     @Override
-    public AddUser getModel() {
+    public AddUser getModel()
+    {
         return getAddUser();
     }
 
     @Override
-    public void setSession(Map<String, Object> map) {
+    public void setSession(Map<String, Object> map)
+    {
         this.session = map;
     }
 
-    public AddUser getAddUser() {
+    public AddUser getAddUser()
+    {
         return addUser;
     }
 
-    public void setAddUser(AddUser addUser) {
+    public void setAddUser(AddUser addUser)
+    {
         this.addUser = addUser;
     }
 
-    public String getList1() {
+    public String getList1()
+    {
         return list1;
     }
 
-    public void setList1(String list1) {
+    public void setList1(String list1)
+    {
         this.list1 = list1;
     }
 

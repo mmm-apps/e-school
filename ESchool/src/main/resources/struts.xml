@@ -14,7 +14,6 @@
         <action name="addUser">
             <result>CreateUser.jsp</result> 
         </action>
-       
         <action name="AddMark" 
                 class="mmm.eschool.actions.AddMark" method="display">
             <result name="none">AddMark.jsp</result>
@@ -95,13 +94,18 @@
         </action>
         
         <action name="listUser" method="list" class="mmm.eschool.actions.UsersList">
-          <result name="success">TeachersList.jsp</result>
+            <result name="success">TeachersList.jsp</result>
         </action>
         
         <action name="deleteUser" method="delete" class="mmm.eschool.actions.UsersList">
-          <result name="success" type="redirect">listUser</result>
+            <result name="success" type="redirect">listUser</result>
         </action>
-        
+        <action name="addStudentToClass" method="display" class="mmm.eschool.actions.AddStudentToClass">
+            <result name="success">AddStudentToClass.jsp</result> 
+        </action>
+        <action name="addStudentInClass" method="addStudent" class="mmm.eschool.actions.AddStudentToClass">
+            <result name="success">AddStudentToClass.jsp</result> 
+        </action>
     </package>
     <constant name="struts.ui.theme" value="simple" />
     <constant name="struts.action.extension" value=""/>

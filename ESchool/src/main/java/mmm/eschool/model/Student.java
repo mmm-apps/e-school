@@ -8,7 +8,6 @@ package mmm.eschool.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +22,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -53,9 +54,11 @@ public class Student implements Serializable {
     @Column(nullable = false, length = 100)
     private String adress;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy = "studentsSet")
     private List<Classes> classesSet = new ArrayList<Classes>();
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy = "studentsSet")
     private List<Parent> parentsSet = new ArrayList<Parent>();
 
@@ -65,12 +68,15 @@ public class Student implements Serializable {
     @ManyToMany
     private List<Subject> subjectsSet = new ArrayList<Subject>();
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
     private List<Homework> homeworksSet = new ArrayList<Homework>();
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
     private List<Mark> marksSet = new ArrayList<Mark>();
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
     private List<Remark> remarksSet = new ArrayList<Remark>();
 
@@ -78,6 +84,7 @@ public class Student implements Serializable {
     @ManyToOne(optional = false)
     private User userId;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
     private List<Absence> absencesSet = new ArrayList<Absence>();
 

@@ -62,6 +62,11 @@
                                 Добавяне на клас
                             </a>
                         </li>
+                        <li>
+                            <a href="<s:url action='addStudentToClass'/>"
+                                Добавяне на ученик към клас
+                            </a>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
@@ -100,12 +105,11 @@
             %>
             <%@include file="CreateClass.jsp"%>
             <%
-            }
-            else if (contentParam != null && contentParam.equals("subjectsList")){
+            } else if (contentParam != null && contentParam.equals("subjectsList")) {
             %>
             <%@include file="SubjectsList.jsp"%>
             <%
-            }
+                }
             %>
         </div>
         <div class = "navbar-fixed-bottom" id ="pageFooter" >

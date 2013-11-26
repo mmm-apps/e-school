@@ -23,6 +23,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -53,15 +55,19 @@ public class Teacher implements Serializable
     @Column(nullable = false, length = 100)
     private String adress;
     
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy = "teachersSet")
     private List<Subject> subjectsSet = new ArrayList<Subject>();
     
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy = "teachersSet")
     private List<Classes> classesSet = new ArrayList<Classes>();
     
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
     private List<Mark> marksSet = new ArrayList<Mark>();
     
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
     private List<Remark> remarksSet = new ArrayList<Remark>();
     
@@ -69,6 +75,7 @@ public class Teacher implements Serializable
     @JoinColumn(nullable = false, name = "user_id", referencedColumnName = "id")
     private User userId;
     
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
     private List<Absence> absencesSet = new ArrayList<Absence>();
 

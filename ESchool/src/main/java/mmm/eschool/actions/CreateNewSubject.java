@@ -20,68 +20,78 @@ import org.apache.struts2.interceptor.SessionAware;
  *
  * @author Denev
  */
-public class CreateNewSubject extends ActionSupport implements ModelDriven<Subject>, SessionAware 
+public class CreateNewSubject extends ActionSupport implements ModelDriven<Subject>, SessionAware
 {
-  private String subjectType;
-  private List<String> subjectTypes;
-  private Subject newSubject = new Subject();
-  private Map<String, Object> session;
 
-  public CreateNewSubject() 
-  {
-    subjectTypes = new ArrayList<String>();
-    subjectTypes.add("Задължителен");
-    subjectTypes.add("Избираем");
-  }
+    private String subjectType;
+    private List<String> subjectTypes;
+    private Subject newSubject = new Subject();
+    private Map<String, Object> session;
 
-  @Override
-  public String execute() throws Exception 
-  {
-    newSubject.setSubjectKind(subjectType);
-    SubjectManager mgr = new SubjectManager();
-    if (mgr.isSubjectNameAndTypeExists(newSubject.getSubjectName(), newSubject.getSubjectKind())) 
+    public CreateNewSubject()
     {
-        addFieldError("subjectName", "Subject exists!");
-        return INPUT;
+        subjectTypes = new ArrayList<String>();
+        subjectTypes.add("Задължителен");
+        subjectTypes.add("Избираем");
     }
-    try 
+
+    @Override
+    public String execute() throws Exception
     {
-        mgr.add(newSubject);
-        addFieldError("subjectName", "Successufully recorded!");
-        return INPUT;
-    } catch (AnException ex) {
-        ex.printStackTrace();
+        newSubject.setSubjectKind(subjectType);
+        SubjectManager mgr = new SubjectManager();
+        if (mgr.isSubjectNameAndTypeExists(newSubject.getSubjectName(), newSubject.getSubjectKind()))
+        {
+            addFieldError("subjectName", "Subject exists!");
+            return INPUT;
+        }
+        try
+        {
+            mgr.add(newSubject);
+            addFieldError("subjectName", "Successufully recorded!");
+            return INPUT;
+        }
+        catch (AnException ex)
+        {
+            ex.printStackTrace();
+        }
+        return ERROR;
     }
-    return ERROR;
-  }
 
-  @Override
-  public Subject getModel() {
-      return newSubject;
-  }
+    @Override
+    public Subject getModel()
+    {
+        return newSubject;
+    }
 
-  @Override
-  public void setSession(Map<String, Object> map) {
-      this.session = map;
-  }
+    @Override
+    public void setSession(Map<String, Object> map)
+    {
+        this.session = map;
+    }
 
-  public String display() {
-      return NONE;
-  }
+    public String display()
+    {
+        return NONE;
+    }
 
-  public String getSubjectType() {
-      return subjectType;
-  }
+    public String getSubjectType()
+    {
+        return subjectType;
+    }
 
-  public List<String> getSubjectTypes() {
-      return subjectTypes;
-  }
+    public List<String> getSubjectTypes()
+    {
+        return subjectTypes;
+    }
 
-  public void setSubjectType(String subjectType) {
-      this.subjectType = subjectType;
-  }
+    public void setSubjectType(String subjectType)
+    {
+        this.subjectType = subjectType;
+    }
 
-  public void setSubjectTypes(List<String> subjectTypes) {
-      this.subjectTypes = subjectTypes;
-  }
+    public void setSubjectTypes(List<String> subjectTypes)
+    {
+        this.subjectTypes = subjectTypes;
+    }
 }
