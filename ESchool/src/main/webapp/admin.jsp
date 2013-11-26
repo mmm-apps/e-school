@@ -36,9 +36,9 @@
                     <a class="navbar-brand" href="#">E-School</a>
                 </div>
                 <div class="navbar-collapse collapse navbar-inverse-collapse">
-                    <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav navbar-left">
                         <li>
-                            <a href="admin?content=subjectsList">
+                            <a href="<s:url action='listSubject'/>">
                                 Предмети
                             </a>
                         </li>

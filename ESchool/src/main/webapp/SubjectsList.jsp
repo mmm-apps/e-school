@@ -8,7 +8,8 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
- <div id="userWelcome">
+    <%@include file="menu.jsp"%> 
+    <div id="userWelcome">
         <div class="well">
             <h3>Здравейте, Администратор</h3>
         </div>
@@ -34,58 +35,29 @@
                         <th></th>
                         <th>Предмет</th>
                         <th>Тип на предмета</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr  class="success">
-                        <td>1</td>
-                        <td>История</td>
-                        <td>Задължителен</td>
-                        <td>
-                            <button class="btn btn-info" type="button">
-                                Информация
-                            </button>
-                            <button class="btn btn-warning" type="button">
-                                Коригиране
-                            </button>
-                            <button class="btn btn-danger" type="button">
-                                Изтриване
-                            </button>
-                        </td>
-                    </tr>
-                    <tr  class="success">
-                        <td>2</td>
-                        <td>География</td>
-                        <td>Задължителен</td>
-                        <td>
-                            <button class="btn btn-info" type="button">
-                                Информация
-                            </button>
-                            <button class="btn btn-warning" type="button">
-                                Коригиране
-                            </button>
-                            <button class="btn btn-danger" type="button">
-                                Изтриване
-                            </button>
-                        </td>
-                    </tr>
-                    <tr  class="success">
-                        <td>3</td>
-                        <td>Сип-Математика</td>
-                        <td>Избираем</td>
-                        <td>
-                            <button class="btn btn-info" type="button">
-                                Информация
-                            </button>
-                            <button class="btn btn-warning" type="button">
-                                Коригиране
-                            </button>
-                            <button class="btn btn-danger" type="button">
-                                Изтриване
-                            </button>
-                        </td>
-                    </tr>
+                    <s:iterator value="subjectsList" status="subjectStatus">
+                        <tr  class="success">
+                            <td><s:property value="subjectName"/></td>
+                            <td><s:property value="subjectKind"/></td>
+                            <td>
+                                <button class="btn btn-info" type="button">
+                                    Информация
+                                </button>
+                                <button class="btn btn-warning" type="button">
+                                    Коригиране
+                                </button>
+                                <s:url id="deleteURL" action="deleteSubject">
+                                    <s:param name="userCon" value="%{id}"></s:param>
+                                </s:url>
+                                <s:a href="%{deleteURL}">
+                                    <button class="btn btn-danger" type="button">Изтриване</button>
+                                </s:a>
+                            </td>
+                        </tr>
+                    </s:iterator>
                 </tbody>
             </table>
         </div>

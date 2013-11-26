@@ -54,7 +54,7 @@
         </action>
         
         <action name="addSubject" class="mmm.eschool.actions.CreateNewSubject">
-            <result name="success">CreateSubject.jsp</result>
+            <result name="success" type="redirect">listSubject</result>
             <result name="input">CreateSubject.jsp</result>
         </action>
         
@@ -106,6 +106,14 @@
         <action name="addStudentInClassForm" method="addStudent" class="mmm.eschool.actions.AddStudentToClass">
             <result name="success" type="redirect">addStudentToClass</result> 
         </action>
+        
+        <action name="listSubject" method="list" class="mmm.eschool.actions.SubjectsList">
+            <result name="success">SubjectsList.jsp</result>
+        </action>
+        <action name="deleteSubject" method="delete" class="mmm.eschool.actions.SubjectsList">
+            <result name="success" type="redirect">listSubject</result>
+        </action>
+        
     </package>
     <constant name="struts.ui.theme" value="simple" />
     <constant name="struts.action.extension" value=""/>
