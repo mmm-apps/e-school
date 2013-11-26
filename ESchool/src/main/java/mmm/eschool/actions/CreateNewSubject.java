@@ -48,8 +48,8 @@ public class CreateNewSubject extends ActionSupport implements ModelDriven<Subje
         try
         {
             mgr.add(newSubject);
-            addFieldError("subjectName", "Successufully recorded!");
-            return INPUT;
+//            addFieldError("subjectName", "Successufully recorded!");
+            return SUCCESS;
         }
         catch (AnException ex)
         {
