@@ -40,11 +40,12 @@ public class AddStudentToClass extends ActionSupport implements SessionAware
         this.session = map;
     }
 
-//    @Override
-//    public String execute()
-//    {
-//       return 
-//    }
+    @Override
+    public String execute()
+    {
+        return null;
+
+    }
     public String display()
     {
 
@@ -86,7 +87,7 @@ public class AddStudentToClass extends ActionSupport implements SessionAware
         try
         {
             clas.getStudentsSet().add(studen);
-            classMan.add(clas);
+            classMan.update(clas);
             return SUCCESS;
         }
         catch (AnException ex)
