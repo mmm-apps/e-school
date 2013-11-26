@@ -103,8 +103,8 @@
         <action name="addStudentToClass" method="display" class="mmm.eschool.actions.AddStudentToClass">
             <result name="success">AddStudentToClass.jsp</result> 
         </action>
-        <action name="addStudentInClass" method="addStudent" class="mmm.eschool.actions.AddStudentToClass">
-            <result name="success">AddStudentToClass.jsp</result> 
+        <action name="addStudentInClassForm" method="addStudent" class="mmm.eschool.actions.AddStudentToClass">
+            <result name="success" type="redirect">addStudentToClass</result> 
         </action>
     </package>
     <constant name="struts.ui.theme" value="simple" />

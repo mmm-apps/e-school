@@ -46,12 +46,18 @@ public class AddStudentToClass extends ActionSupport implements SessionAware
         return null;
 
     }
+
     public String display()
     {
 
         for (Student stud : studlist)
         {
-            studentsList.add(stud.getId() + ":" + stud.getFirstName() + " " + stud.getLastName());
+            String klas;
+            if (stud.getClassesSet().isEmpty())
+              klas = "НЯМА КЛАС";
+            else
+              klas = stud.getClassesSet().get(0).getClassName();
+            studentsList.add(stud.getFirstName() + " " + stud.getLastName()+ "  " + klas);
         }
 
         for (Classes clas : classList)
@@ -68,7 +74,12 @@ public class AddStudentToClass extends ActionSupport implements SessionAware
 
         for (Student stud : studlist)
         {
-            if (student.equals(stud.getId() + ":" + stud.getFirstName() + " " + stud.getLastName()))
+            String klas;
+            if (stud.getClassesSet().isEmpty())
+              klas = "НЯМА КЛАС";
+            else
+              klas = stud.getClassesSet().get(0).getClassName();
+            if (student.equals(stud.getFirstName() + " " + stud.getLastName() + "  " + klas))
             {
                 studen = stud;
                 break;
@@ -88,6 +99,7 @@ public class AddStudentToClass extends ActionSupport implements SessionAware
         {
             clas.getStudentsSet().add(studen);
             classMan.update(clas);
+            addFieldError("student", "Student recorded succesufully!");
             return SUCCESS;
         }
         catch (AnException ex)

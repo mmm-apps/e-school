@@ -10,9 +10,9 @@
 <html>
     <%@include file="menu.jsp"%>         
     <div class="well well-sm" style="margin-left: 30%;margin-right: 30%; margin-top: 5%;padding: 3%">
-        <s:form action = "addStudentInClass" cssClass="bs-example form-horizontal">
+        <s:form action = "addStudentInClassForm" cssClass="bs-example form-horizontal">
             <fieldset>
-                <legend>Добавяне на предмети</legend>
+                <legend>Преместване на ученик в клас</legend>
                 <s:fielderror/>
                 <div class = "form-group">
                     <div class="col-lg-10">
