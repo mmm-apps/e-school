@@ -9,8 +9,10 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import java.util.Map;
 import mmm.eschool.AnException;
+import mmm.eschool.CONSTANTS;
 import mmm.eschool.actions.temp.AddUser;
 import mmm.eschool.model.Parent;
+import mmm.eschool.model.Role;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.Teacher;
 import mmm.eschool.model.User;
@@ -72,6 +74,7 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
 
         User user = new User();
         UserManager usm = new UserManager();
+        Role role = new Role();
         if (usm.isUsernameExists(addUser.getUsername()))
         {
             addFieldError("username", "Username exists!");
@@ -82,38 +85,47 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
 
         if (list1.equals("STUDENT"))
         {
-            Student us = new Student();
-            us.setFirstName(addUser.getFirstName());
-            us.setLastName(addUser.getLastName());
-            us.setAdress(addUser.getAdress());
-            us.setEmail(addUser.getEmail());
-            us.setPhone(addUser.getTelephone());
-            us.setUserId(user);
-            user.getStudentsSet().add(us);
+            Student student = new Student();
+            student.setFirstName(addUser.getFirstName());
+            student.setLastName(addUser.getLastName());
+            student.setAdress(addUser.getAdress());
+            student.setEmail(addUser.getEmail());
+            student.setPhone(addUser.getTelephone());
+            student.setUserId(user);
+            user.getStudentsSet().add(student);
+            role.setRoleName(CONSTANTS.STUDENT);
+            role.getUsersSet().add(user);
+            user.getRolesSet().add(role);
 
         }
         else if (list1.equals("TEACHER"))
         {
-            Teacher us = new Teacher();
-            us.setFirstName(addUser.getFirstName());
-            us.setLastName(addUser.getLastName());
-            us.setAdress(addUser.getAdress());
-            us.setEmail(addUser.getEmail());
-            us.setPhone(addUser.getTelephone());
-            us.setUserId(user);
-            user.getTeachersSet().add(us);
+            Teacher teacher = new Teacher();
+            teacher.setFirstName(addUser.getFirstName());
+            teacher.setLastName(addUser.getLastName());
+            teacher.setAdress(addUser.getAdress());
+            teacher.setEmail(addUser.getEmail());
+            teacher.setPhone(addUser.getTelephone());
+            teacher.setUserId(user);
+            user.getTeachersSet().add(teacher);
+            role.setRoleName(CONSTANTS.TEACHER);
+            role.getUsersSet().add(user);
+            user.getRolesSet().add(role);
 
         }
         else if (list1.equals("PARENT"))
         {
-            Parent us = new Parent();
-            us.setFirstName(addUser.getFirstName());
-            us.setLastName(addUser.getLastName());
-            us.setAdress(addUser.getAdress());
-            us.setEmail(addUser.getEmail());
-            us.setPhone(addUser.getTelephone());
-            us.setUserId(user);
-            user.getParentsSet().add(us);
+            Parent parent = new Parent();
+            parent.setFirstName(addUser.getFirstName());
+            parent.setLastName(addUser.getLastName());
+            parent.setAdress(addUser.getAdress());
+            parent.setEmail(addUser.getEmail());
+            parent.setPhone(addUser.getTelephone());
+            parent.setUserId(user);
+            user.getParentsSet().add(parent);
+            role.setRoleName(CONSTANTS.PARENT);
+            role.getUsersSet().add(user);
+            user.getRolesSet().add(role);
         }
 
         try

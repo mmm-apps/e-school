@@ -41,7 +41,7 @@ public class User implements Serializable {
     private String password;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(mappedBy = "usersSet")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "usersSet")
     private List<Role> rolesSet = new ArrayList<Role>();;
 
     @LazyCollection(LazyCollectionOption.FALSE)
