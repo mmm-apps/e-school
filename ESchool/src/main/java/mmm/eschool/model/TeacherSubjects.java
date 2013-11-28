@@ -21,10 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "teacher_subjects")
-@NamedQueries({
-    @NamedQuery(name = "TeacherSubjects.findAll", query = "SELECT t FROM TeacherSubjects t")})
 public class TeacherSubjects implements Serializable {
-    private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected TeacherSubjectsPK teacherSubjectsPK;
     @JoinColumn(name = "teacher_id", referencedColumnName = "id", insertable = false, updatable = false)
@@ -79,30 +76,4 @@ public class TeacherSubjects implements Serializable {
     public void setClasses(Classes classes) {
         this.classes = classes;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (teacherSubjectsPK != null ? teacherSubjectsPK.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TeacherSubjects)) {
-            return false;
-        }
-        TeacherSubjects other = (TeacherSubjects) object;
-        if ((this.teacherSubjectsPK == null && other.teacherSubjectsPK != null) || (this.teacherSubjectsPK != null && !this.teacherSubjectsPK.equals(other.teacherSubjectsPK))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "mmm.eschool.model.TeacherSubjects[ teacherSubjectsPK=" + teacherSubjectsPK + " ]";
-    }
-    
 }

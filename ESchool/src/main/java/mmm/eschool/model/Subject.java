@@ -46,10 +46,12 @@ public class Subject implements Serializable {
     @Column(name = "subject_kind", nullable = false, length = 40)
     private String subjectKind;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany( mappedBy = "subject")
     private List<TeacherSubjects> teacherSubjectsList;
 
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(schema = "eschool", name = "teacher_subjects",
             joinColumns = {
                 @JoinColumn(name = "subject_id", referencedColumnName = "id")},
