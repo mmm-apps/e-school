@@ -18,7 +18,7 @@ import org.apache.struts2.interceptor.SessionAware;
 public class UsersList extends ActionSupport implements ModelDriven<User>, SessionAware
 {
   private User user = new User();
-  private String userCon;
+  private String userId;
   private List<User> userList = new ArrayList<User>();
   private Map<String, Object> session;
   private final UserManager usrManager = new UserManager();
@@ -42,13 +42,13 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
   @Override
   public void setSession(Map<String, Object> map) 
   {
-      this.session = map;
+    this.session = map;
   }
+  
   @Override
   public String execute() throws Exception
   {
-      return null;
-
+    return null;
   }
   
   public String list()
@@ -65,7 +65,7 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
   
   public String delete() throws AnException
   {
-    usrManager.del(Integer.parseInt(userCon));
+    usrManager.del(Integer.parseInt(userId));
     return SUCCESS;
   }
   
@@ -85,13 +85,13 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
     this.userList = userList;
   }
 
-    public String getUserCon() {
-        return userCon;
-    }
+  public String getUserId() 
+  {
+      return userId;
+  }
 
-    public void setUserCon(String userCon) {
-        this.userCon = userCon;
-    }
-  
-  
+  public void setUserId(String userCon) 
+  {
+    this.userId = userCon;
+  }
 }

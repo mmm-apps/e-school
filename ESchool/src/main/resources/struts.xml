@@ -47,7 +47,7 @@
             <result name="error">ERROR.jsp</result>
         </action>
         <action name="createuser" class="mmm.eschool.actions.CreateUser">
-            <result name="success">CreateUser.jsp</result>
+            <result name="success" type="redirect">listUser</result>
             <result name="input">CreateUser.jsp</result>
             <result name="login">LoginPanel.jsp</result>
             <result name="error">ERROR.jsp</result>
@@ -98,7 +98,8 @@
         </action>
         
         <action name="deleteUser" method="delete" class="mmm.eschool.actions.UsersList">
-            <result name="success" type="redirect">listUser</result>
+          <result name="success" type="redirect">listUser</result>
+          <result name="input" type="redirect">listUser</result>
         </action>
         <action name="addStudentToClass" method="display" class="mmm.eschool.actions.AddStudentToClass">
             <result name="success">AddStudentToClass.jsp</result> 
@@ -112,6 +113,16 @@
         </action>
         <action name="deleteSubject" method="delete" class="mmm.eschool.actions.SubjectsList">
             <result name="success" type="redirect">listSubject</result>
+        </action>
+        
+        <action name="editUser" class="mmm.eschool.actions.UsersList">
+          <result name="success">editUser.jsp</result>
+          <result name="input">listUser</result>
+        </action>
+        
+        <action name="editConfirmUser" method="edit" class="mmm.eschool.actions.UsersList">
+          <result name="success" type="redirect">listUser</result>
+          <result name="input" type="redirect">listUser</result>
         </action>
         
     </package>
