@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package mmm.eschool.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +21,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -31,46 +32,50 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Entity
 @Table(schema = "eschool", name = "subjects")
 public class Subject implements Serializable {
-   
+
     @Id
     @SequenceGenerator(name = "subjects_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "subjects_seq")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "subjects_seq")
     private int id;
-    
+
     @Column(name = "subject_name", nullable = false, length = 40)
     private String subjectName;
-    
+
 //    @Column(name = "year_of_study", nullable = false)
 //    private int yearOfStudy;
-    
     @Column(name = "subject_kind", nullable = false, length = 40)
     private String subjectKind;
-    
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
+    private List<TeacherSubjects> teacherSubjectsList;
+
     @ManyToMany
-    @JoinTable(schema = "eschool", name = "teacher_subjects", 
-        joinColumns = { @JoinColumn(name = "subject_id", referencedColumnName = "id")}, 
-        inverseJoinColumns = { @JoinColumn(name = "teacher_id", referencedColumnName = "id")})
+    @JoinTable(schema = "eschool", name = "teacher_subjects",
+            joinColumns = {
+                @JoinColumn(name = "subject_id", referencedColumnName = "id")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "teacher_id", referencedColumnName = "id")})
     private List<Teacher> teachersSet = new ArrayList<Teacher>();
-    
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy = "subjectsSet")
     private List<Student> studentsSet;
-    
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
     private List<Homework> homeworksSet = new ArrayList<Homework>();
-    
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private List<Mark> marksSet= new ArrayList<Mark>();
-    
+    private List<Mark> marksSet = new ArrayList<Mark>();
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private List<Remark> remarksSet= new ArrayList<Remark>();
-    
+    private List<Remark> remarksSet = new ArrayList<Remark>();
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subjectId")
-    private List<Absence> absencesSet= new ArrayList<Absence>();
+    private List<Absence> absencesSet = new ArrayList<Absence>();
 
     public int getId() {
         return id;
@@ -91,7 +96,6 @@ public class Subject implements Serializable {
 //    public void setYearOfStudy(int yearOfStudy) {
 //        this.yearOfStudy = yearOfStudy;
 //    }
-
     public String getSubjectKind() {
         return subjectKind;
     }
@@ -147,4 +151,13 @@ public class Subject implements Serializable {
     public void setAbsencesSet(List<Absence> absencesSet) {
         this.absencesSet = absencesSet;
     }
+
+    public List<TeacherSubjects> getTeacherSubjectsList() {
+        return teacherSubjectsList;
+    }
+
+    public void setTeacherSubjectsList(List<TeacherSubjects> teacherSubjectsList) {
+        this.teacherSubjectsList = teacherSubjectsList;
+    }
+
 }
