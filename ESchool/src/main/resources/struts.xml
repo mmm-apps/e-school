@@ -114,6 +114,17 @@
             <result name="success" type="redirect">listSubject</result>
         </action>
         
+        <action name="teacherSubjectsList">
+            <result>TeacherSubjectsList.jsp</result>
+        </action>
+        <action name="loadTeacherSubject" method="display" class="mmm.eschool.actions.AddSubjectToTeacher">
+            <result name="none">AddSubjectToTeacher.jsp</result>
+        </action>
+        <action name="addSubjectToTeacher" method="addSubjectToTeacher" class="mmm.eschool.actions.AddSubjectToTeacher">
+            <result name="success" type="redirect">teacherSubjectsList</result>
+            <result name="input">AddSubjectToTeacher.jsp</result>
+        </action>
+        
     </package>
     <constant name="struts.ui.theme" value="simple" />
     <constant name="struts.action.extension" value=""/>

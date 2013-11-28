@@ -38,4 +38,14 @@ public class TeacherManager extends Manager<Teacher>
     else
       return null;
   }
+  
+  public Teacher getTeacherByNames(String FirstName, String LastName)
+  {
+      for(Teacher t : getEntityList())
+      {
+          if(t.getFirstName().equals(FirstName) && t.getLastName().equals(LastName))
+              return t;
+      }
+      return null;
+  }
 }

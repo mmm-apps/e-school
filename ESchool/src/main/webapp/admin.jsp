@@ -67,6 +67,11 @@
                                 Добавяне на ученик към клас
                             </a>
                         </li>
+                        <li>
+                            <a href="<s:url action='teacherSubjectsList'/>">
+                                Списък с водени предмети от преподаватели
+                            </a>
+                        </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
