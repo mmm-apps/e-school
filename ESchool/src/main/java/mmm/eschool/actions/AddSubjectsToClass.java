@@ -9,7 +9,11 @@ import com.opensymphony.xwork2.ActionSupport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import mmm.eschool.AnException;
+import mmm.eschool.model.Classes;
+import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
+import mmm.eschool.model.managers.ClassManager;
 import mmm.eschool.model.managers.SubjectManager;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -21,11 +25,15 @@ public class AddSubjectsToClass extends ActionSupport implements SessionAware {
 
     private Map session;
     private String classNameInfo;
-
+    private static String classId;
+    
+    private Subject subject = new Subject();
     private List<Subject> subjectListDB = new ArrayList<Subject>();
     private List<String> subjectList;
+    private List<Student> studentsList = new ArrayList<Student>();
     private String subjectName;
     private final SubjectManager subjectMgr = new SubjectManager();
+    private final ClassManager classMgr = new ClassManager();
 
     public AddSubjectsToClass() {
         subjectListDB = subjectMgr.getEntityList();
@@ -60,12 +68,20 @@ public class AddSubjectsToClass extends ActionSupport implements SessionAware {
     }
 
     public String getSubjects() {
+        classId = classNameInfo;
         return NONE;
     }
     
-    public String addSubject()
+    public String addSubject() throws AnException
     {
-        String className = classNameInfo;
+        Classes clas = classMgr.getEntityById(Integer.parseInt(classId));
+        studentsList = clas.getStudentsSet();
+        subject = subjectMgr.getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
+        for(Student s : studentsList)
+        {
+            s.getSubjectsSet().add(subject);
+            subject.getStudentsSet().add(s);
+        }
         return SUCCESS;
     }
 

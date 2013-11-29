@@ -144,8 +144,9 @@
         <action name="selectSubjectToClass" method="getSubjects" class="mmm.eschool.actions.AddSubjectsToClass">
             <result name="none">AddSubjectToClass.jsp</result>
         </action>
-        <action name="addSubjectToClass" method="addSubject" class="mmm.eschool.actions.AddSubjectToClass">
+        <action name="addSubjectToClass" method="addSubject" class="mmm.eschool.actions.AddSubjectsToClass">
             <result name="success">ClassesList.jsp</result>
+        </action>
             
         <action name="createRemark"  method="display" class="mmm.eschool.actions.AddRemark">
             <result name="success">AddRemark.jsp</result>
