@@ -146,6 +146,10 @@
         </action>
         <action name="addSubjectToClass" method="addSubject" class="mmm.eschool.actions.AddSubjectToClass">
             <result name="success">ClassesList.jsp</result>
+            
+        <action name="createRemark"  method="display" class="mmm.eschool.actions.AddRemark">
+            <result name="success">AddRemark.jsp</result>
+            <result name="input">AddRemark.jsp</result>
         </action>
     </package>
     <constant name="struts.ui.theme" value="simple" />
