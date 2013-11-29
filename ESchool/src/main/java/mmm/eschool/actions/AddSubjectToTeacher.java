@@ -14,6 +14,7 @@ import mmm.eschool.model.Classes;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.Teacher;
 import mmm.eschool.model.TeacherSubjects;
+import mmm.eschool.model.TeacherSubjectsPK;
 import mmm.eschool.model.managers.ClassManager;
 import mmm.eschool.model.managers.SubjectManager;
 import mmm.eschool.model.managers.TeacherManager;
@@ -88,6 +89,11 @@ public class AddSubjectToTeacher extends ActionSupport implements SessionAware {
         teacher = teacherMgr.getTeacherByNames(teacherName.substring(0, teacherName.indexOf(" ")), teacherName.substring(teacherName.indexOf(" ") + 1));
         try 
         {
+            TeacherSubjectsPK teacherSubjetsPK = new TeacherSubjectsPK();
+            teacherSubjetsPK.setClassId(clas.getId());
+            teacherSubjetsPK.setSubjectId(subject.getId());
+            teacherSubjetsPK.setTeacherId(teacher.getId());
+            teacherSubjects.setTeacherSubjectsPK(teacherSubjetsPK);
             teacherSubjects.setClasses(clas);
             teacherSubjects.setSubject(subject);
             teacherSubjects.setTeacher(teacher);
