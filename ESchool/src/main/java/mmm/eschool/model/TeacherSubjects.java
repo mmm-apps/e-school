@@ -7,6 +7,7 @@
 package mmm.eschool.model;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,13 +33,13 @@ public class TeacherSubjects implements Serializable {
     @EmbeddedId
     protected TeacherSubjectsPK teacherSubjectsPK;
     @JoinColumn(name = "teacher_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,cascade = CascadeType.ALL)
     private Teacher teacher;
     @JoinColumn(name = "subject_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,cascade = CascadeType.ALL)
     private Subject subject;
     @JoinColumn(name = "class_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false ,cascade = CascadeType.ALL)
     private Classes classes;
 
     public TeacherSubjects() {
