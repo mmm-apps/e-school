@@ -46,4 +46,14 @@ public class ClassManager extends Manager<Classes>
         return true;
     return false;
   }
+  
+  public Classes getClassByName(String name)
+  {
+      for(Classes c : getEntityList())
+      {
+          if(c.getClassName().equals(name))
+              return c;
+      }
+      return null;
+  }
 }
