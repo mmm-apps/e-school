@@ -85,7 +85,7 @@ public class AddSubjectToTeacher extends ActionSupport implements SessionAware {
         subject.setSubjectName(subjectName.substring(0, subjectName.indexOf(" ")));
         subject.setSubjectKind(subjectName.substring(subjectName.indexOf(" ")));
         clas.setClassName(className);
-        teacher = teacherMgr.getTeacherByNames(teacherName.substring(0, teacherName.indexOf(" ")), teacherName.substring(teacherName.indexOf(" ")));
+        teacher = teacherMgr.getTeacherByNames(teacherName.substring(0, teacherName.indexOf(" ")), teacherName.substring(teacherName.indexOf(" ") + 1));
         try 
         {
             teacherSubjects.setClasses(clas);

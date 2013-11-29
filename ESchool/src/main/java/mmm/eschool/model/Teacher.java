@@ -9,8 +9,6 @@ package mmm.eschool.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,9 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -58,8 +54,9 @@ public class Teacher implements Serializable
     @Column(nullable = false, length = 100)
     private String adress;
     
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
-    private List<TeacherSubjects> teacherSubjectsList;
+    private List<TeacherSubjects> teacherSubjectsList = new ArrayList<TeacherSubjects>();
     
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy = "teachersSet")

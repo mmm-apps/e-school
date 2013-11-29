@@ -48,7 +48,7 @@ public class Subject implements Serializable {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany( mappedBy = "subject")
-    private List<TeacherSubjects> teacherSubjectsList;
+    private List<TeacherSubjects> teacherSubjectsList = new ArrayList<TeacherSubjects>();
 
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)

@@ -9,8 +9,12 @@ package mmm.eschool.model;
 import java.io.Serializable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -20,6 +24,11 @@ import javax.persistence.Table;
 @Entity
 @Table(schema = "eschool",name = "teacher_subjects")
 public class TeacherSubjects implements Serializable {
+    @Id
+    @SequenceGenerator(name = "teacher_subjects_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "teacher_subjects_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "teacher_subjects_seq")
+    private int id;
+    
     @EmbeddedId
     protected TeacherSubjectsPK teacherSubjectsPK;
     @JoinColumn(name = "teacher_id", referencedColumnName = "id", insertable = false, updatable = false)
@@ -74,4 +83,15 @@ public class TeacherSubjects implements Serializable {
     public void setClasses(Classes classes) {
         this.classes = classes;
     }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+    
 }

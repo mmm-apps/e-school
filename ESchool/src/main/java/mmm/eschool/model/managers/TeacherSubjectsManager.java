@@ -34,13 +34,13 @@ public class TeacherSubjectsManager extends Manager<TeacherSubjects> {
     }
 
     @Override
-    Integer getId(TeacherSubjects entity) {
-        return null;
+    Integer getId(TeacherSubjects TeacherSubjects) {
+        return TeacherSubjects.getId();
     }
 
     @Override
     String getEntityName() {
-        return "TeacherSubject";
+        return "TeacherSubjects";
     }
     
 }
