@@ -130,6 +130,20 @@
         <action name="infoClass" method="studentslist" class="mmm.eschool.actions.StudentList">
             <result name="success">StudentsList.jsp</result>
         </action>
+        
+        <action name="studentMarks" method="studentMarksList" class="mmm.eschool.actions.AddMark">
+            <result name="none">StudentMarksList.jsp</result>
+        </action>
+        
+        <action name="showSubjectToClass">
+            <result>ClassSubjects.jsp</result>
+        </action>
+        <action name="selectSubjectToClass" method="getSubjects" class="mmm.eschool.actions.AddSubjectsToClass">
+            <result name="none">AddSubjectToClass.jsp</result>
+        </action>
+        <action name="addSubjectToClass" method="addSubject" class="mmm.eschool.actions.AddSubjectToClass">
+            <result name="success">ClassesList.jsp</result>
+        </action>
     </package>
     <constant name="struts.ui.theme" value="simple" />
     <constant name="struts.action.extension" value=""/>

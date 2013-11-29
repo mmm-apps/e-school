@@ -123,12 +123,6 @@
             <%@include file="MarksList.jsp"%>
             <%
             }
-            else if (contentParam != null && contentParam.equals("addMarks"))
-            {
-            %>
-            <%@include file="AddMark.jsp"%>
-            <%
-            }
             else if (contentParam != null && contentParam.equals("addClass"))
             {
             %>

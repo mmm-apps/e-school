@@ -66,6 +66,7 @@ public class Student implements Serializable {
         @JoinColumn(name = "student_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "subject_id", referencedColumnName = "id")})
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Subject> subjectsSet = new ArrayList<Subject>();
 
     @LazyCollection(LazyCollectionOption.FALSE)

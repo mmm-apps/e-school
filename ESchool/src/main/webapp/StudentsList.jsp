@@ -20,16 +20,10 @@
     <div class="panel panel-info">
         <div class="panel-heading">
             <h3 class="panel-title">
-                Списък с потребители
+                Списък с ученици
             </h3>
         </div>
         <div class="panel-body">
-
-            <a href="<s:url action='addUser'/>" >
-                <div id="addButton">
-                    <button class="btn btn-info btn-lg btn-block">Добавяне</button>
-                </div>
-            </a>
 
             <table id="results" class="table table-striped table-bordered table-hover">
                 <thead>
@@ -54,11 +48,11 @@
                                     <button class="btn btn-info" type="button">Добави Забележка</button>
                                 </s:a>
 
-                                <s:url id="editURL" action="editUser">
-                                    <s:param name="user" value="%{id}"></s:param>
+                                <s:url id="studentMarks" action="studentMarks">
+                                    <s:param name="studentId" value="%{id}"></s:param>
                                 </s:url>
-                                <s:a href="%{editURL}">
-                                    <button class="btn btn-warning" type="button">Добави Оценка</button>
+                                <s:a href="%{studentMarks}">
+                                    <button class="btn btn-warning" type="button">Оценки</button>
                                 </s:a>
 
                                 <s:url id="deleteURL" action="deleteUser">

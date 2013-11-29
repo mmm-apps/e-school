@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.model.Classes;
+import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.Teacher;
 import mmm.eschool.model.TeacherSubjects;
@@ -85,9 +86,6 @@ public class AddSubjectToTeacher extends ActionSupport implements SessionAware {
         Subject subject;
         Classes clas;
         Teacher teacher;
-//        subject.setSubjectName(subjectName.substring(0, subjectName.indexOf(" ")));
-//        subject.setSubjectKind(subjectName.substring(subjectName.indexOf(" ")));
-//        clas.setClassName(className);
         teacher = teacherMgr.getTeacherByNames(teacherName.substring(0, teacherName.indexOf(" ")), teacherName.substring(teacherName.indexOf(" ") + 1));
         clas = classMgr.getClassByName(className);
         subject = subjectMgr.getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
