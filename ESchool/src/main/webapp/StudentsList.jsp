@@ -41,10 +41,10 @@
                             <td><s:property value="lastName" /></td>
                             <td><s:property value="email" /></td>
                             <td>
-                                <s:url id="infoURL" action="infoUser">
+                                <s:url id="addRemark" action="addRemark">
                                     <s:param name="user" value="%{id}"></s:param>
                                 </s:url>
-                                <s:a href="%{infoURL}">
+                                <s:a href="%{addRemark}">
                                     <button class="btn btn-info" type="button">Добави Забележка</button>
                                 </s:a>
 
