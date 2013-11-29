@@ -14,6 +14,9 @@
         <action name="addUser">
             <result>CreateUser.jsp</result> 
         </action>
+        <action name="addRemark">
+            <result>AddRemark.jsp</result> 
+        </action>
         <action name="AddMark" 
                 class="mmm.eschool.actions.AddMark" method="display">
             <result name="none">AddMark.jsp</result>
@@ -129,6 +132,10 @@
         </action>
         <action name="infoClass" method="studentslist" class="mmm.eschool.actions.StudentList">
             <result name="success">StudentsList.jsp</result>
+        </action>
+        <action name="createRemark"  method="display" class="mmm.eschool.actions.AddRemark">
+            <result name="success">AddRemark.jsp</result>
+            <result name="input">AddRemark.jsp</result>
         </action>
     </package>
     <constant name="struts.ui.theme" value="simple" />
