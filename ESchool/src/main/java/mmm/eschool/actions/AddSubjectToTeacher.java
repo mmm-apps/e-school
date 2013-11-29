@@ -31,6 +31,7 @@ public class AddSubjectToTeacher extends ActionSupport implements SessionAware {
 
     private final TeacherSubjectsManager teacherSubjMgr;
     private TeacherSubjects teacherSubjects;
+    private TeacherSubjectsPK teacherSubjPk;
     private final TeacherManager teacherMgr;
     private final List<Teacher> teacherListDb;
     private final SubjectManager subjectMgr;
@@ -80,25 +81,27 @@ public class AddSubjectToTeacher extends ActionSupport implements SessionAware {
 
     public String addSubjectToTeacher() {
         teacherSubjects = new TeacherSubjects();
-        Subject subject = new Subject();
-        Classes clas = new Classes();
-        Teacher teacher = new Teacher();
-        subject.setSubjectName(subjectName.substring(0, subjectName.indexOf(" ")));
-        subject.setSubjectKind(subjectName.substring(subjectName.indexOf(" ")));
-        clas.setClassName(className);
+        teacherSubjPk = new TeacherSubjectsPK();
+        Subject subject;
+        Classes clas;
+        Teacher teacher;
+//        subject.setSubjectName(subjectName.substring(0, subjectName.indexOf(" ")));
+//        subject.setSubjectKind(subjectName.substring(subjectName.indexOf(" ")));
+//        clas.setClassName(className);
         teacher = teacherMgr.getTeacherByNames(teacherName.substring(0, teacherName.indexOf(" ")), teacherName.substring(teacherName.indexOf(" ") + 1));
+        clas = classMgr.getClassByName(className);
+        subject = subjectMgr.getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
         try 
         {
-            TeacherSubjectsPK teacherSubjetsPK = new TeacherSubjectsPK();
-            teacherSubjetsPK.setClassId(clas.getId());
-            teacherSubjetsPK.setSubjectId(subject.getId());
-            teacherSubjetsPK.setTeacherId(teacher.getId());
-            teacherSubjects.setTeacherSubjectsPK(teacherSubjetsPK);
             teacherSubjects.setClasses(clas);
             teacherSubjects.setSubject(subject);
             teacherSubjects.setTeacher(teacher);
             teacher.getTeacherSubjectsList().add(teacherSubjects);
             subject.getTeacherSubjectsList().add(teacherSubjects);
+            teacherSubjPk.setClassId(clas.getId());
+            teacherSubjPk.setSubjectId(subject.getId());
+            teacherSubjPk.setTeacherId(teacher.getId());
+            teacherSubjects.setTeacherSubjectsPK(teacherSubjPk);
 
             teacherSubjMgr.add(teacherSubjects);
             return SUCCESS;
