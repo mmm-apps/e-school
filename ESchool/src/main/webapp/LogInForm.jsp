@@ -28,7 +28,9 @@
                             </div>
                         </fieldset>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
+                            <a href="<s:url action=''/>">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
+                            </a>
                             <s:submit cssClass="btn btn-info" value="Вход"/>
                         </div>
                     </s:form>

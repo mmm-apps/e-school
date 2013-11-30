@@ -9,7 +9,6 @@ package mmm.eschool.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,140 +33,140 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Table(schema = "eschool", name = "teachers")
 public class Teacher implements Serializable 
 {
-    @Id
-    @SequenceGenerator(name = "teachers_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "teachers_seq")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "teachers_seq")
-    private int id;
-    
-    @Column(name = "first_name", nullable = false, length = 30)
-    private String firstName;
-    
-    @Column(name = "last_name", nullable = false, length = 30)
-    private String lastName;
-    
-    @Column(nullable = false, length = 40)
-    private String phone;
+  @Id
+  @SequenceGenerator(name = "teachers_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "teachers_seq")
+  @GeneratedValue(strategy = GenerationType.AUTO, generator = "teachers_seq")
+  private int id;
 
-    @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")
-    @Column(nullable = false, length = 40)
-    private String email;
-    
-    @Column(nullable = false, length = 100)
-    private String adress;
-    
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(mappedBy = "teachersSet")
-    private List<Subject> subjectsSet = new ArrayList<Subject>();
-    
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(mappedBy = "teachersSet")
-    private List<Classes> classesSet = new ArrayList<Classes>();
-    
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
-    private List<Mark> marksSet = new ArrayList<Mark>();
-    
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
-    private List<Remark> remarksSet = new ArrayList<Remark>();
-    
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false, name = "user_id", referencedColumnName = "id")
-    private User userId;
-    
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
-    private List<Absence> absencesSet = new ArrayList<Absence>();
+  @Column(name = "first_name", nullable = false, length = 30)
+  private String firstName;
 
-    public int getId() {
-        return id;
-    }
+  @Column(name = "last_name", nullable = false, length = 30)
+  private String lastName;
 
-    public String getFirstName() {
-        return firstName;
-    }
+  @Column(nullable = false, length = 40)
+  private String phone;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+  @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")
+  @Column(nullable = false, length = 40)
+  private String email;
 
-    public String getLastName() {
-        return lastName;
-    }
+  @Column(nullable = false, length = 100)
+  private String adress;
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+  @LazyCollection(LazyCollectionOption.FALSE)
+  @ManyToMany(mappedBy = "teachersSet")
+  private List<Subject> subjectsSet = new ArrayList<Subject>();
 
-    public String getPhone() {
-        return phone;
-    }
+  @LazyCollection(LazyCollectionOption.FALSE)
+  @ManyToMany(mappedBy = "teachersSet")
+  private List<Classes> classesSet = new ArrayList<Classes>();
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+  @LazyCollection(LazyCollectionOption.FALSE)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
+  private List<Mark> marksSet = new ArrayList<Mark>();
 
-    public String getEmail() {
-        return email;
-    }
+  @LazyCollection(LazyCollectionOption.FALSE)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
+  private List<Remark> remarksSet = new ArrayList<Remark>();
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  @ManyToOne(optional = false)
+  @JoinColumn(nullable = false, name = "user_id", referencedColumnName = "id")
+  private User userId;
 
-    public String getAdress() {
-        return adress;
-    }
+  @LazyCollection(LazyCollectionOption.FALSE)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
+  private List<Absence> absencesSet = new ArrayList<Absence>();
 
-    public void setAdress(String adress) {
-        this.adress = adress;
-    }
+  public int getId() {
+      return id;
+  }
 
-    public List<Subject> getSubjectsSet() {
-        return subjectsSet;
-    }
+  public String getFirstName() {
+      return firstName;
+  }
 
-    public void setSubjectsSet(List<Subject> subjectsSet) {
-        this.subjectsSet = subjectsSet;
-    }
+  public void setFirstName(String firstName) {
+      this.firstName = firstName;
+  }
 
-    public List<Classes> getClassesSet() {
-        return classesSet;
-    }
+  public String getLastName() {
+      return lastName;
+  }
 
-    public void setClassesSet(List<Classes> classesSet) {
-        this.classesSet = classesSet;
-    }
+  public void setLastName(String lastName) {
+      this.lastName = lastName;
+  }
 
-    public List<Mark> getMarksSet() {
-        return marksSet;
-    }
+  public String getPhone() {
+      return phone;
+  }
 
-    public void setMarksSet(List<Mark> marksSet) {
-        this.marksSet = marksSet;
-    }
+  public void setPhone(String phone) {
+      this.phone = phone;
+  }
 
-    public List<Remark> getRemarksSet() {
-        return remarksSet;
-    }
+  public String getEmail() {
+      return email;
+  }
 
-    public void setRemarksSet(List<Remark> remarksSet) {
-        this.remarksSet = remarksSet;
-    }
+  public void setEmail(String email) {
+      this.email = email;
+  }
 
-    public User getUserId() {
-        return userId;
-    }
+  public String getAdress() {
+      return adress;
+  }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
-    }
+  public void setAdress(String adress) {
+      this.adress = adress;
+  }
 
-    public List<Absence> getAbsencesSet() {
-        return absencesSet;
-    }
+  public List<Subject> getSubjectsSet() {
+      return subjectsSet;
+  }
 
-    public void setAbsencesSet(List<Absence> absencesSet) {
-        this.absencesSet = absencesSet;
-    }
+  public void setSubjectsSet(List<Subject> subjectsSet) {
+      this.subjectsSet = subjectsSet;
+  }
+
+  public List<Classes> getClassesSet() {
+      return classesSet;
+  }
+
+  public void setClassesSet(List<Classes> classesSet) {
+      this.classesSet = classesSet;
+  }
+
+  public List<Mark> getMarksSet() {
+      return marksSet;
+  }
+
+  public void setMarksSet(List<Mark> marksSet) {
+      this.marksSet = marksSet;
+  }
+
+  public List<Remark> getRemarksSet() {
+      return remarksSet;
+  }
+
+  public void setRemarksSet(List<Remark> remarksSet) {
+      this.remarksSet = remarksSet;
+  }
+
+  public User getUserId() {
+      return userId;
+  }
+
+  public void setUserId(User userId) {
+      this.userId = userId;
+  }
+
+  public List<Absence> getAbsencesSet() {
+      return absencesSet;
+  }
+
+  public void setAbsencesSet(List<Absence> absencesSet) {
+      this.absencesSet = absencesSet;
+  }
 }

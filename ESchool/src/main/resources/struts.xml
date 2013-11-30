@@ -115,12 +115,17 @@
             <result name="success" type="redirect">listSubject</result>
         </action>
         
-        <action name="editUser" class="mmm.eschool.actions.UsersList">
+        <action name="editUser" method="editUser" class="mmm.eschool.actions.UsersList">
           <result name="success">editUser.jsp</result>
-          <result name="input">listUser</result>
+          <result name="input">editUser.jsp</result>
         </action>
         
         <action name="editConfirmUser" method="edit" class="mmm.eschool.actions.UsersList">
+          <result name="success" type="redirect">listUser</result>
+          <result name="input" type="redirect">listUser</result>
+        </action>
+        
+        <action name="userInfo" method="userInfo" class="mmm.eschool.actions.UsersList">
           <result name="success" type="redirect">listUser</result>
           <result name="input" type="redirect">listUser</result>
         </action>

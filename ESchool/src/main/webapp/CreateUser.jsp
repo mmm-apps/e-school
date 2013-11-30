@@ -8,7 +8,7 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
- <%@include file="menu.jsp"%>         
+ <jsp:include page="admin.jsp"></jsp:include>         
         <div class="well well-sm" style="margin-left: 30%;margin-right: 30%; margin-top: 5%;padding: 3%">
             <s:form action = "createuser" cssClass="bs-example form-horizontal">
                 <fieldset>

@@ -1,4 +1,3 @@
-
 package mmm.eschool.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -93,5 +92,25 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
   public void setUserId(String userCon) 
   {
     this.userId = userCon;
+  }
+  
+  public String editUser()
+  {
+    if (getUserId() != null)
+    {
+      user = usrManager.getEntityById(Integer.parseInt(getUserId()));
+      return SUCCESS;
+    }
+    return NONE;
+  }
+  
+  public String userInfo()
+  {
+    if (getUserId() != null)
+    {
+      user = usrManager.getEntityById(Integer.parseInt(getUserId()));
+      return SUCCESS;
+    }
+    return NONE;
   }
 }
