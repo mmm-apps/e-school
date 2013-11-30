@@ -28,7 +28,7 @@ public class AddMark extends ActionSupport implements SessionAware {
     private Map session;
 
     private String studentId;
-    private List<StudentSubjectMarks> StudentMarksList;
+    private List<StudentSubjectMarks> StudentMarksList = new ArrayList<StudentSubjectMarks>();
     private List<Mark> marksList;
     private List<Subject> subjectList;
     private String markValue;
@@ -76,7 +76,15 @@ public class AddMark extends ActionSupport implements SessionAware {
             studentSubjectMarks.setFirstName(student.getFirstName());
             studentSubjectMarks.setLastName(student.getLastName());
             studentSubjectMarks.setSubject(s.getSubjectName());
-            studentSubjectMarks.setMarks(s.getMarksSet().toString());
+            
+            if(s.getMarksSet().isEmpty())
+            {
+              studentSubjectMarks.setMarks("");  
+            }
+            else
+            {
+                studentSubjectMarks.setMarks(NONE);
+            }
             StudentMarksList.add(studentSubjectMarks);
         }
         return NONE;

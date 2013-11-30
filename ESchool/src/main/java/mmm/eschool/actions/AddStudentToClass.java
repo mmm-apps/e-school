@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
+import mmm.eschool.HibernateUtil;
 import mmm.eschool.model.Classes;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.managers.ClassManager;
@@ -97,6 +98,7 @@ public class AddStudentToClass extends ActionSupport implements SessionAware
 
         try
         {
+            HibernateUtil.getSessionFactory().openSession()
             clas.getStudentsSet().add(studen);
             classMan.update(clas);
             addFieldError("student", "Student recorded succesufully!");

@@ -14,6 +14,7 @@ import mmm.eschool.model.Classes;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.managers.ClassManager;
+import mmm.eschool.model.managers.StudentManager;
 import mmm.eschool.model.managers.SubjectManager;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -74,6 +75,7 @@ public class AddSubjectsToClass extends ActionSupport implements SessionAware {
     
     public String addSubject() throws AnException
     {
+        StudentManager studMan = new StudentManager();
         Classes clas = classMgr.getEntityById(Integer.parseInt(classId));
         studentsList = clas.getStudentsSet();
         subject = subjectMgr.getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
@@ -81,6 +83,8 @@ public class AddSubjectsToClass extends ActionSupport implements SessionAware {
         {
             s.getSubjectsSet().add(subject);
             subject.getStudentsSet().add(s);
+            studMan.update(s);
+            
         }
         return SUCCESS;
     }
