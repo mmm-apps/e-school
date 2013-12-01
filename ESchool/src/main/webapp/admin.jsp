@@ -37,36 +37,54 @@
                 </div>
                 <div class="navbar-collapse collapse navbar-inverse-collapse">
                     <ul class="nav navbar-nav navbar-left">
-                        <li>
-                            <a href="<s:url action='listSubject'/>">
-                                Предмети
-                            </a>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="<s:url action='listSubject'/>">
+                                        Предмети
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="admin?content=student">
+                                        Ученик
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="admin?content=teacher">
+                                        Учител
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<s:url action='listUser'/>">
+                                        Списък с потребители
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="admin?content=addClass">
+                                        Добавяне на клас
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<s:url action='addStudentToClass'/>">
+                                        Добавяне на ученик към клас
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<s:url action='teacherSubjectsList'/>">
+                                        Списък с водени предмети от преподаватели
+                                    </a>
+                                </li>
+                                 <li>
+                                    <a href="<s:url action='classesList'/>">
+                                        Списък с класове
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li>
-                            <a href="admin?content=student">
-                                Ученик
-                            </a>
-                        </li>
-                        <li>
-                            <a href="admin?content=teacher">
-                                Учител
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<s:url action='listUser'/>">
-                                Списък с потребители
-                            </a>
-                        </li>
-                        <li>
-                            <a href="admin?content=addClass">
-                                Добавяне на клас
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<s:url action='addStudentToClass'/>">
-                                Добавяне на ученик към клас
-                            </a>
-                        </li>
+
+
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li>
@@ -81,31 +99,38 @@
         <div id="pageContent">
             <%
                 final String contentParam = request.getParameter("content");
-                if (contentParam != null && contentParam.equals("student")) {
+                if (contentParam != null && contentParam.equals("student"))
+                {
             %>
             <%@include file="StudentHome.jsp"%>
             <%
-            } else if (contentParam != null && contentParam.equals("teacher")) {
+            }
+            else if (contentParam != null && contentParam.equals("teacher"))
+            {
             %>
             <%@include file="TeacherPanel.jsp"%>
             <%
-            } else if (contentParam != null && contentParam.equals("teachersList")) {
+            }
+            else if (contentParam != null && contentParam.equals("teachersList"))
+            {
             %>
             <%@include file="TeachersList.jsp"%>
             <%
-            } else if (contentParam != null && contentParam.equals("marksList")) {
+            }
+            else if (contentParam != null && contentParam.equals("marksList"))
+            {
             %>
             <%@include file="MarksList.jsp"%>
             <%
-            } else if (contentParam != null && contentParam.equals("addMarks")) {
-            %>
-            <%@include file="AddMark.jsp"%>
-            <%
-            } else if (contentParam != null && contentParam.equals("addClass")) {
+            }
+            else if (contentParam != null && contentParam.equals("addClass"))
+            {
             %>
             <%@include file="CreateClass.jsp"%>
             <%
-            } else if (contentParam != null && contentParam.equals("subjectsList")) {
+            }
+            else if (contentParam != null && contentParam.equals("subjectsList"))
+            {
             %>
             <%@include file="SubjectsList.jsp"%>
             <%

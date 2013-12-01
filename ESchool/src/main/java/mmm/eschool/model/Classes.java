@@ -31,7 +31,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Table(schema = "eschool", name = "classes")
 public class Classes implements Serializable
 {
-
+    
     @Id
     @SequenceGenerator(name = "classes_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "classes_seq")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "classes_seq")

@@ -55,6 +55,10 @@ public class Teacher implements Serializable
   private String adress;
 
   @LazyCollection(LazyCollectionOption.FALSE)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
+  private List<TeacherSubjects> teacherSubjectsList = new ArrayList<TeacherSubjects>();
+
+  @LazyCollection(LazyCollectionOption.FALSE)
   @ManyToMany(mappedBy = "teachersSet")
   private List<Subject> subjectsSet = new ArrayList<Subject>();
 
@@ -168,5 +172,13 @@ public class Teacher implements Serializable
 
   public void setAbsencesSet(List<Absence> absencesSet) {
       this.absencesSet = absencesSet;
+  }
+
+  public List<TeacherSubjects> getTeacherSubjectsList() {
+      return teacherSubjectsList;
+  }
+
+  public void setTeacherSubjectsList(List<TeacherSubjects> teacherSubjectsList) {
+      this.teacherSubjectsList = teacherSubjectsList;
   }
 }

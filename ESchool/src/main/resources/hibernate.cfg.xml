@@ -24,5 +24,6 @@
         <mapping class="mmm.eschool.model.Subject"/>
         <mapping class="mmm.eschool.model.Teacher"/>
         <mapping class="mmm.eschool.model.User"/>
+        <mapping class="mmm.eschool.model.TeacherSubjects"/>
     </session-factory>
 </hibernate-configuration>

@@ -46,4 +46,15 @@ public class SubjectManager extends Manager<Subject>
       }
       return false;
   }
+  
+  public Subject getSubjectByName(String name)
+  {
+      for(Subject s : getEntityList())
+      {
+          if(s.getSubjectName().equals(name))
+              return s;
+      }
+      return null;
+  }
+  
 }

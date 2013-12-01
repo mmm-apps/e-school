@@ -11,9 +11,15 @@
         <action name="">
             <result>LoginPanel.jsp</result> 
         </action>
+        
         <action name="addUser">
             <result>CreateUser.jsp</result> 
         </action>
+        
+        <action name="addRemark">
+            <result>AddRemark.jsp</result> 
+        </action>
+        
         <action name="AddMark" 
                 class="mmm.eschool.actions.AddMark" method="display">
             <result name="none">AddMark.jsp</result>
@@ -34,18 +40,21 @@
             <result name="input">LoginPanel.jsp</result>
             <result name="error">ERROR.jsp</result>
         </action>
+        
         <action name="logout" class="mmm.eschool.actions.LogOut">
             <result name="success">LoginPanel.jsp</result>
             <result name="input">LoginPanel.jsp</result>
             <result name="login">LoginPanel.jsp</result>
             <result name="error">ERROR.jsp</result>
         </action>
+        
         <action name="createmark" class="mmm.eschool.actions.CreateUser">
             <result name="success">AddMark.jsp</result>
             <result name="input">AddMark.jsp</result>
             <result name="login">LoginPanel.jsp</result>
             <result name="error">ERROR.jsp</result>
         </action>
+        
         <action name="createuser" class="mmm.eschool.actions.CreateUser">
             <result name="success" type="redirect">listUser</result>
             <result name="input">CreateUser.jsp</result>
@@ -101,9 +110,11 @@
           <result name="success" type="redirect">listUser</result>
           <result name="input" type="redirect">listUser</result>
         </action>
+        
         <action name="addStudentToClass" method="display" class="mmm.eschool.actions.AddStudentToClass">
             <result name="success">AddStudentToClass.jsp</result> 
         </action>
+        
         <action name="addStudentInClassForm" method="addStudent" class="mmm.eschool.actions.AddStudentToClass">
             <result name="success" type="redirect">addStudentToClass</result> 
         </action>
@@ -111,6 +122,7 @@
         <action name="listSubject" method="list" class="mmm.eschool.actions.SubjectsList">
             <result name="success">SubjectsList.jsp</result>
         </action>
+        
         <action name="deleteSubject" method="delete" class="mmm.eschool.actions.SubjectsList">
             <result name="success" type="redirect">listSubject</result>
         </action>
@@ -128,6 +140,48 @@
         <action name="userInfo" method="userInfo" class="mmm.eschool.actions.UsersList">
           <result name="success" type="redirect">listUser</result>
           <result name="input" type="redirect">listUser</result>
+        </action>
+        
+        <action name="teacherSubjectsList">
+            <result>TeacherSubjectsList.jsp</result>
+        </action>
+        
+        <action name="loadTeacherSubject" method="display" class="mmm.eschool.actions.AddSubjectToTeacher">
+            <result name="none">AddSubjectToTeacher.jsp</result>
+        </action>
+        
+        <action name="addSubjectToTeacher" method="addSubjectToTeacher" class="mmm.eschool.actions.AddSubjectToTeacher">
+            <result name="success" type="redirect">teacherSubjectsList</result>
+            <result name="input">AddSubjectToTeacher.jsp</result>
+        </action>
+        
+        <action name="classesList" method="list" class="mmm.eschool.actions.ClassesList">
+            <result name="success">ClassesList.jsp</result>
+        </action>
+        
+        <action name="infoClass" method="studentslist" class="mmm.eschool.actions.StudentList">
+            <result name="success">StudentsList.jsp</result>
+        </action>
+        
+        <action name="studentMarks" method="studentMarksList" class="mmm.eschool.actions.AddMark">
+            <result name="none">StudentMarksList.jsp</result>
+        </action>
+        
+        <action name="showSubjectToClass">
+            <result>ClassSubjects.jsp</result>
+        </action>
+        
+        <action name="selectSubjectToClass" method="getSubjects" class="mmm.eschool.actions.AddSubjectsToClass">
+            <result name="none">AddSubjectToClass.jsp</result>
+        </action>
+        
+        <action name="addSubjectToClass" method="addSubject" class="mmm.eschool.actions.AddSubjectsToClass">
+            <result name="success">ClassesList.jsp</result>
+        </action>
+            
+        <action name="createRemark"  method="display" class="mmm.eschool.actions.AddRemark">
+            <result name="success">AddRemark.jsp</result>
+            <result name="input">AddRemark.jsp</result>
         </action>
         
     </package>
