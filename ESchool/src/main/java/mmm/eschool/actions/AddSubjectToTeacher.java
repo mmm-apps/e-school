@@ -6,12 +6,12 @@
 package mmm.eschool.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.model.Classes;
-import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.Teacher;
 import mmm.eschool.model.TeacherSubjects;
@@ -26,139 +26,183 @@ import org.apache.struts2.interceptor.SessionAware;
  *
  * @author Denev
  */
-public class AddSubjectToTeacher extends ActionSupport implements SessionAware {
+public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<TeacherSubjects>, SessionAware 
+{
+  private Map session;
 
-    private Map session;
+  private final TeacherSubjectsManager teacherSubjMgr;
+  private TeacherSubjects teacherSubjects;
+  private TeacherSubjectsPK teacherSubjPk;
+  private final TeacherManager teacherMgr;
+  private final List<Teacher> teacherListDb;
+  private final SubjectManager subjectMgr;
+  private final List<Subject> subjectListDb;
+  private final ClassManager classMgr;
+  private final List<Classes> classListDb;
 
-    private final TeacherSubjectsManager teacherSubjMgr;
-    private TeacherSubjects teacherSubjects;
-    private TeacherSubjectsPK teacherSubjPk;
-    private final TeacherManager teacherMgr;
-    private final List<Teacher> teacherListDb;
-    private final SubjectManager subjectMgr;
-    private final List<Subject> subjectListDb;
-    private final ClassManager classMgr;
-    private final List<Classes> classListDb;
+  private List<String> classList;
+  private String className;
 
-    private List<String> classList;
-    private String className;
+  private List<String> subjectsList;
+  private String subjectName;
 
-    private List<String> subjectsList;
-    private String subjectName;
+  private List<String> teachersList;
+  private String teacherName;
+  
+  private List<TeacherSubjects> teachersSubjectsList = new ArrayList<TeacherSubjects>();
+  
+  public String list()
+  {
+    teachersSubjectsList = teacherSubjMgr.getEntityList();
+    return SUCCESS;
+  }
+          
+  @Override
+  public String execute() 
+  {
+    return null;
+  }
 
-    private List<String> teachersList;
-    private String teacherName;
+  public AddSubjectToTeacher()
+  {
+    teacherSubjMgr = new TeacherSubjectsManager();
+    teacherMgr = new TeacherManager();
+    subjectMgr = new SubjectManager();
+    classMgr = new ClassManager();
+    classList = new ArrayList<String>();
+    subjectsList = new ArrayList<String>();
+    teachersList = new ArrayList<String>();
+    teacherListDb = teacherMgr.getEntityList();
+    subjectListDb = subjectMgr.getEntityList();
+    classListDb = classMgr.getEntityList();
+    for (Teacher t : teacherListDb)
+      teachersList.add(t.getFirstName() + " " + t.getLastName());
+        
+    for (Subject s : subjectListDb)
+      subjectsList.add(s.getSubjectName() + " " + s.getSubjectKind());
+    
+    for (Classes c : classListDb)
+      classList.add(c.getClassName());
+  }
 
-    @Override
-    public String execute() {
-        return null;
+  public String display() 
+  {
+    return NONE;
+  }
+
+  public String addSubjectToTeacher() 
+  {
+    teacherSubjects = new TeacherSubjects();
+    teacherSubjPk = new TeacherSubjectsPK();
+    Subject subject;
+    Classes clas;
+    Teacher teacher;
+    teacher = teacherMgr.getTeacherByNames(teacherName.substring(0, teacherName.indexOf(" ")), teacherName.substring(teacherName.indexOf(" ") + 1));
+    clas = classMgr.getClassByName(className);
+    subject = subjectMgr.getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
+    try 
+    {
+//      teacherSubjects.setClasses(clas);
+//      teacherSubjects.setSubject(subject);
+//      teacherSubjects.setTeacher(teacher);
+//      teacher.getTeacherSubjectsList().add(teacherSubjects);
+//      subject.getTeacherSubjectsList().add(teacherSubjects);
+      teacherSubjPk.setClassId(clas.getId());
+      teacherSubjPk.setSubjectId(subject.getId());
+      teacherSubjPk.setTeacherId(teacher.getId());
+      teacherSubjects.setTeacherSubjectsPK(teacherSubjPk);
+
+      teacherSubjMgr.add(teacherSubjects);
+      return SUCCESS;
+    } 
+    catch (AnException ex) 
+    {
+      ex.printStackTrace();
     }
+    return ERROR;
+  }
 
-    public AddSubjectToTeacher() {
-        teacherSubjMgr = new TeacherSubjectsManager();
-        teacherMgr = new TeacherManager();
-        subjectMgr = new SubjectManager();
-        classMgr = new ClassManager();
-        classList = new ArrayList<String>();
-        subjectsList = new ArrayList<String>();
-        teachersList = new ArrayList<String>();
-        teacherListDb = teacherMgr.getEntityList();
-        subjectListDb = subjectMgr.getEntityList();
-        classListDb = classMgr.getEntityList();
-        for (Teacher t : teacherListDb) {
-            teachersList.add(t.getFirstName() + " " + t.getLastName());
-        }
-        for (Subject s : subjectListDb) {
-            subjectsList.add(s.getSubjectName() + " " + s.getSubjectKind());
-        }
-        for (Classes c : classListDb) {
-            classList.add(c.getClassName());
-        }
-    }
+  @Override
+  public void setSession(Map<String, Object> map) 
+  {
+    this.session = map;
+  }
 
-    public String display() {
-        return NONE;
-    }
+  public List<String> getClassList() 
+  {
+    return classList;
+  }
 
-    public String addSubjectToTeacher() {
-        teacherSubjects = new TeacherSubjects();
-        teacherSubjPk = new TeacherSubjectsPK();
-        Subject subject;
-        Classes clas;
-        Teacher teacher;
-        teacher = teacherMgr.getTeacherByNames(teacherName.substring(0, teacherName.indexOf(" ")), teacherName.substring(teacherName.indexOf(" ") + 1));
-        clas = classMgr.getClassByName(className);
-        subject = subjectMgr.getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
-        try 
-        {
-            teacherSubjects.setClasses(clas);
-            teacherSubjects.setSubject(subject);
-            teacherSubjects.setTeacher(teacher);
-            teacher.getTeacherSubjectsList().add(teacherSubjects);
-            subject.getTeacherSubjectsList().add(teacherSubjects);
-            teacherSubjPk.setClassId(clas.getId());
-            teacherSubjPk.setSubjectId(subject.getId());
-            teacherSubjPk.setTeacherId(teacher.getId());
-            teacherSubjects.setTeacherSubjectsPK(teacherSubjPk);
+  public void setClassList(List<String> classList) 
+  {
+    this.classList = classList;
+  }
 
-            teacherSubjMgr.add(teacherSubjects);
-            return SUCCESS;
-        } catch (AnException ex) {
-            ex.printStackTrace();
-        }
-        return ERROR;
-    }
+  public String getClassName() 
+  {
+    return className;
+  }
 
-    @Override
-    public void setSession(Map<String, Object> map) {
-        this.session = map;
-    }
+  public void setClassName(String className) 
+  {
+    this.className = className;
+  }
 
-    public List<String> getClassList() {
-        return classList;
-    }
+  public List<String> getSubjectsList() 
+  {
+    return subjectsList;
+  }
 
-    public void setClassList(List<String> classList) {
-        this.classList = classList;
-    }
+  public void setSubjectsList(List<String> subjectsList)
+  {
+    this.subjectsList = subjectsList;
+  }
 
-    public String getClassName() {
-        return className;
-    }
+  public String getSubjectName() 
+  {
+    return subjectName;
+  }
 
-    public void setClassName(String className) {
-        this.className = className;
-    }
+  public void setSubjectName(String subjectName) 
+  {
+    this.subjectName = subjectName;
+  }
 
-    public List<String> getSubjectsList() {
-        return subjectsList;
-    }
+  public List<String> getTeachersList() 
+  {
+    return teachersList;
+  }
 
-    public void setSubjectsList(List<String> subjectsList) {
-        this.subjectsList = subjectsList;
-    }
+  public void setTeachersList(List<String> teachersList) 
+  {
+    this.teachersList = teachersList;
+  }
 
-    public String getSubjectName() {
-        return subjectName;
-    }
+  public String getTeacherName() 
+  {
+    return teacherName;
+  }
 
-    public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName;
-    }
+  public void setTeacherName(String teacherName) 
+  {
+    this.teacherName = teacherName;
+  }
 
-    public List<String> getTeachersList() {
-        return teachersList;
-    }
+  @Override
+  public TeacherSubjects getModel()
+  {
+    if (teacherSubjects == null)
+      teacherSubjects = new TeacherSubjects();
+    return teacherSubjects;
+  }
 
-    public void setTeachersList(List<String> teachersList) {
-        this.teachersList = teachersList;
-    }
+  public void setTeachersSubjectsList(List<TeacherSubjects> teachersSubjectsList)
+  {
+    this.teachersSubjectsList = teachersSubjectsList;
+  }
 
-    public String getTeacherName() {
-        return teacherName;
-    }
-
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
-    }
+  public List<TeacherSubjects> getTeachersSubjectsList()
+  {
+    return teachersSubjectsList;
+  }
 }

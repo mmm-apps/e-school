@@ -9,7 +9,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import java.util.Map;
 import mmm.eschool.AnException;
-import mmm.eschool.CONSTANTS;
+import mmm.eschool.Constants;
 import mmm.eschool.actions.temp.AddUser;
 import mmm.eschool.model.Parent;
 import mmm.eschool.model.Role;
@@ -93,7 +93,7 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             student.setPhone(addUser.getTelephone());
             student.setUserId(user);
             user.getStudentsSet().add(student);
-            role.setRoleName(CONSTANTS.STUDENT);
+            role.setRoleName(Constants.STUDENT);
             role.getUsersSet().add(user);
             user.getRolesSet().add(role);
 
@@ -108,7 +108,7 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             teacher.setPhone(addUser.getTelephone());
             teacher.setUserId(user);
             user.getTeachersSet().add(teacher);
-            role.setRoleName(CONSTANTS.TEACHER);
+            role.setRoleName(Constants.TEACHER);
             role.getUsersSet().add(user);
             user.getRolesSet().add(role);
 
@@ -123,7 +123,7 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             parent.setPhone(addUser.getTelephone());
             parent.setUserId(user);
             user.getParentsSet().add(parent);
-            role.setRoleName(CONSTANTS.PARENT);
+            role.setRoleName(Constants.PARENT);
             role.getUsersSet().add(user);
             user.getRolesSet().add(role);
         }

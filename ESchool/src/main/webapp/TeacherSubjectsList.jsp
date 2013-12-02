@@ -8,7 +8,7 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
-    <%@include file="menu.jsp"%>   
+    <%@include file="admin.jsp"%>   
     <div id="userWelcome">
         <div class="well">
             <h3>Здравейте, Администратор</h3>
@@ -39,11 +39,13 @@
                 </thead>
 
                 <tbody>
-                    <tr class="success">
-                        <td>Иван Георгиев</td>
-                        <td>История</td>
-                        <td>6а</td>
-                </tr>
+                <s:iterator value="teachersSubjectsList" var="current">
+                  <tr class="success">
+                    <td><s:property value="teacher.lastName" /></td>
+                    <td><s:property value="subject.subjectName" /></td>
+                    <td><s:property value="classes.className" /></td>
+                  </tr>
+                </s:iterator>
                 </tbody>
             </table>
             <div id="pageNavPosition" style="margin-left: 44%;"></div>

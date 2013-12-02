@@ -10,7 +10,7 @@ package mmm.eschool;
  *
  * @author MMihov
  */
-public class CONSTANTS
+public class Constants
 {
   public static final String ADMINISTRATOR = "ADMINISTRATOR";
   public static final String PARENT = "PARENT";

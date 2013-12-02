@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
-import mmm.eschool.HibernateUtil;
 import mmm.eschool.model.Classes;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.managers.ClassManager;
@@ -48,54 +47,55 @@ public class AddStudentToClass extends ActionSupport implements SessionAware
 
   public String display()
   {
-    for (Student stud : studlist)
+    for (Student displayedStudent : studlist)
     {
-      String klas;
-      if (stud.getClassesSet().isEmpty())
-        klas = "НЯМА КЛАС";
+      String displayedClass;
+      if (displayedStudent.getClassesSet().isEmpty())
+        displayedClass = "НЯМА КЛАС";
       else
-        klas = stud.getClassesSet().get(0).getClassName();
-      studentsList.add(stud.getFirstName() + " " + stud.getLastName()+ "  " + klas);
+        displayedClass = displayedStudent.getClassesSet().get(0).getClassName();
+      studentsList.add(displayedStudent.getFirstName() + " " + displayedStudent.getLastName()+ "  " + displayedClass);
     }
 
-    for (Classes clas : classList)
-      classesList.add(clas.getClassName());
+    for (Classes currentClass : classList)
+      classesList.add(currentClass.getClassName());
     return SUCCESS;
   }
 
   public String addStudent()
   {
-    Student studen = new Student();
-    Classes clas = new Classes();
+    Student newStudent = new Student();
+    Classes newClass = new Classes();
 
-    for (Student stud : studlist)
+    for (Student currentStudent : studlist)
     {
-      String klas;
-      if (stud.getClassesSet().isEmpty())
-        klas = "НЯМА КЛАС";
+      String className;
+      if (currentStudent.getClassesSet().isEmpty())
+        className = "НЯМА КЛАС";
       else
-        klas = stud.getClassesSet().get(0).getClassName();
-      if (student.equals(stud.getFirstName() + " " + stud.getLastName() + "  " + klas))
+        className = currentStudent.getClassesSet().get(0).getClassName();
+      if (student.equals(currentStudent.getFirstName() + " " + currentStudent.getLastName() + "  " + className))
       {
-        studen = stud;
+        newStudent = currentStudent;
         break;
       }
     }
 
-    for (Classes cla : classList)
+    for (Classes currentClass : classList)
     {
-      if (classNo.equals(cla.getClassName()))
+      if (classNo.equals(currentClass.getClassName()))
       {
-        clas = cla;
+        newClass = currentClass;
         break;
       }
     }
 
     try
     {
-      HibernateUtil.getSessionFactory().openSession();
-      clas.getStudentsSet().add(studen);
-      classMan.update(clas);
+      newClass.getStudentsSet().add(newStudent);
+      newStudent.getClassesSet().add(newClass);
+      classMan.update(newClass);
+      studMan.update(newStudent);
       addFieldError("student", "Student recorded succesufully!");
       return SUCCESS;
     }
