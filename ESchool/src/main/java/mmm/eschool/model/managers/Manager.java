@@ -72,8 +72,8 @@ public abstract class Manager<T>
   {
     if (entity != null)
     {
-      if (!getCollection().containsKey(getId(entity)))
-        throw new AnException(Types.ENTITY_NOT_EXIST);
+//      if (!getCollection().containsKey(getId(entity)))
+//        throw new AnException(Types.ENTITY_NOT_EXIST);
       {
         HibernateUtil.update(entity);
         setIsCalc(false);

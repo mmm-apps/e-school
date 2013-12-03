@@ -107,4 +107,11 @@ public class User implements Serializable
   public void setStudentsSet(List<Student> studentsSet) {
       this.studentsSet = studentsSet;
   }
+
+  public void setId(int id)
+  {
+    this.id = id;
+  }
+  
+  
 }

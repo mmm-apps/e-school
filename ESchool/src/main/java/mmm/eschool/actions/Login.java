@@ -24,59 +24,60 @@ public class Login extends ActionSupport implements ModelDriven<User>, SessionAw
     this.session = map;
   }
 
-  @Override
-  public void validate() 
-  {
-    if (StringUtils.isEmpty(user.getUsername())) 
-    {
-      addFieldError("username", "Username cannot be blank!");
-    }
-    if (StringUtils.isEmpty(user.getPassword())) 
-    {
-      addFieldError("password", getText("Password cannot be blank!"));
-    }
-  }
+//  @Override
+//  public void validate() 
+//  {
+//    if (StringUtils.isEmpty(user.getUsername())) 
+//    {
+//      addFieldError("username", "Username cannot be blank!");
+//    }
+//    if (StringUtils.isEmpty(user.getPassword())) 
+//    {
+//      addFieldError("password", getText("Password cannot be blank!"));
+//    }
+//  }
 
   @Override
   public String execute() throws Exception 
   {
-    LoginService login = new LoginService();
-    User dbUser = login.getLoginResult(user);
-    User sessionUser = (User) session.get("user");
-    if (sessionUser != null) 
-    {
-      if (sessionUser.getUsername().equals(user.getUsername()) && sessionUser.getPassword().equals(user.getPassword())) 
-      {
-        if (dbUser.getUsername().equals("admin"))
-          return "admin";
-        if (!dbUser.getStudentsSet().isEmpty()) 
-          return "student";
-        if (!dbUser.getParentsSet().isEmpty()) 
-          return "parent";
-        if (!dbUser.getTeachersSet().isEmpty()) 
-          return "teacher";
-        else
-          return ERROR;
-      }
-    } 
-    else if (dbUser == null) 
-    {
-      addFieldError("password", getText("Wrong username!"));
-      return LOGIN;
-    } 
-    else 
-    {
-      session.put("user", dbUser);
-      if (dbUser.getUsername().equals("admin"))
-        return "admin";
-      if (!dbUser.getStudentsSet().isEmpty())
-        return "student";
-      if (!dbUser.getParentsSet().isEmpty())
-          return "parent";
-      if (!dbUser.getTeachersSet().isEmpty())
-          return "teacher";
-    }
-    return ERROR;
+    return "admin";
+//    LoginService login = new LoginService();
+//    User dbUser = login.getLoginResult(user);
+//    User sessionUser = (User) session.get("user");
+//    if (sessionUser != null) 
+//    {
+//      if (sessionUser.getUsername().equals(user.getUsername()) && sessionUser.getPassword().equals(user.getPassword())) 
+//      {
+//        if (dbUser.getUsername().equals("admin"))
+//          return "admin";
+//        if (!dbUser.getStudentsSet().isEmpty()) 
+//          return "student";
+//        if (!dbUser.getParentsSet().isEmpty()) 
+//          return "parent";
+//        if (!dbUser.getTeachersSet().isEmpty()) 
+//          return "teacher";
+//        else
+//          return ERROR;
+//      }
+//    } 
+//    else if (dbUser == null) 
+//    {
+//      addFieldError("password", getText("Wrong username!"));
+//      return LOGIN;
+//    } 
+//    else 
+//    {
+//      session.put("user", dbUser);
+//      if (dbUser.getUsername().equals("admin"))
+//        return "admin";
+//      if (!dbUser.getStudentsSet().isEmpty())
+//        return "student";
+//      if (!dbUser.getParentsSet().isEmpty())
+//          return "parent";
+//      if (!dbUser.getTeachersSet().isEmpty())
+//          return "teacher";
+//    }
+//    return ERROR;
   }
 
   public User getUser() 
