@@ -12,7 +12,12 @@
   <link type="text/css" rel="stylesheet" href="CSS/bootstrap.css" media="screen">
   <script src="JS/paging.js"></script>
   <jsp:include page="admin.jsp"></jsp:include>
-
+  <script>
+    function modalOpen(id) 
+    {
+      $('#'+id).addClass('modal fade in').attr("aria-hidden", "false").show();
+    }
+  </script>
     <div id="userWelcome">
       <div class="well">
         <h3>Здравейте, Администратор</h3>
@@ -65,19 +70,6 @@
                           <fieldset>
                             <legend>Преглед на потребител</legend>
                             <table class="table table-striped table-bordered table-hover">
-
-                              <!--<thead>
-                                <tr>
-                                  <th>Потребителско име</th>
-                                  <th>Роля</th>
-                                  <th>Име</th>
-                                  <th>Фамилия</th>
-                                  <th>Телефон</th>
-                                  <th>Имейл</th>
-                                  <th>Адрес</th>
-                                </tr>
-                              </thead>-->
-
                               <tbody>
                                 <tr>
                                   <td>Потребителско име</td>
@@ -153,40 +145,6 @@
                                   <s:else><td></td></s:else>
                                   </tr>
                                 </tbody>
-
-                                <!--<tbody>
-                                  <td><s:property value="username" /></td>
-                                  <td><s:property value="rolesSet[0].roleName" /></td>
-                              <s:if test="studentsSet.size() > 0">
-                                <td><s:property value="studentsSet[0].firstName" /></td>
-                                <td><s:property value="studentsSet[0].lastName" /></td>
-                                <td><s:property value="studentsSet[0].phone" /></td>
-                                <td><s:property value="studentsSet[0].email" /></td>
-                                <td><s:property value="studentsSet[0].adress" /></td>
-                              </s:if>
-                              <s:elseif test="teachersSet.size() > 0">
-                                <td><s:property value="teachersSet[0].firstName" /></td>
-                                <td><s:property value="teachersSet[0].lastName" /></td>
-                                <td><s:property value="teachersSet[0].phone" /></td>
-                                <td><s:property value="teachersSet[0].email" /></td>
-                                <td><s:property value="teachersSet[0].adress" /></td>
-                              </s:elseif>
-                              <s:elseif test="parentsSet.size() > 0">
-                                <td><s:property value="parentsSet[0].firstName" /></td>
-                                <td><s:property value="parentsSet[0].lastName" /></td>
-                                <td><s:property value="parentsSet[0].phone" /></td>
-                                <td><s:property value="parentsSet[0].email" /></td>
-                                <td><s:property value="parentsSet[0].adress" /></td>
-                              </s:elseif>
-                              <s:else>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                              </s:else>
-                            </tbody>-->
-
                             </table>
                           </fieldset>
                           <div class="modal-footer">
@@ -202,6 +160,10 @@
                   <s:form action="editConfirmUser" method="post" cssClass="bs-example form-horizontal">
                     <fieldset>
                       <legend>Редактиране на потребител</legend>
+                      <s:fielderror/>
+                      <div class="col-lg-10">
+                       <s:hidden id="userId" key="id" type="text" cssClass="form-control"/>
+                      </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
                           <s:textfield id="userNameInput" key="username" type="text" cssClass="form-control" label="Потребителско име" />
@@ -252,12 +214,8 @@
                       <a href="<s:url action='listUser'/>">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
                       </a>
-                      <s:submit cssClass="btn btn-info" value="Запази"/>
+                      <s:submit cssClass="btn btn-info" value="Запази"/> <!--onclick="$(this).parents('.modal').attr('id')" -->
                     </div>
-                    <div class="col-lg-10">
-                      <s:textfield id="userId" key="id" type="text" cssClass="form-control"/>
-                    </div>
-                  </div>
                 </s:form>
                 </div>
 
