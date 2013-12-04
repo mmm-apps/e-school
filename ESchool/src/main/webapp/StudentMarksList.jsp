@@ -31,6 +31,7 @@
                         <th>Фамилия</th>
                         <th>Предмет</th>
                         <th>Оценки</th>
+                        <th></th>
                     </tr>
                 </thead>
 
@@ -42,11 +43,11 @@
                             <td><s:property value="subject" /></td>
                             <td><s:property value="marks" /></td>
                             <td>
-                                <s:url id="infoURL" action="infoClass">
-                                    <s:param name="classNameInfo" value="%{id}"></s:param>
+                                <s:url id="selectMark" action="selectMark">
+                                    <s:param name="subjectName" value="%{subject}"></s:param>
                                 </s:url>
-                                <s:a href="%{infoURL}">
-                                    <button class="btn btn-info" type="button">Виж учениците в класа</button>
+                                <s:a href="%{selectMark}">
+                                    <button class="btn btn-info" type="button">Добави оценка</button>
                                 </s:a>
                             </td>
                         </tr>

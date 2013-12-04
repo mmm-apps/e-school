@@ -92,6 +92,7 @@ public class AddSubjectsToClass extends ActionSupport implements SessionAware
       s.getSubjectsSet().add(subject);
       subject.getStudentsSet().add(s);
       studMan.update(s);
+      subjectMgr.update(subject);
 
     }
     return SUCCESS;

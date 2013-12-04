@@ -168,12 +168,19 @@
         </action>
         
         <action name="addSubjectToClass" method="addSubject" class="mmm.eschool.actions.AddSubjectsToClass">
-            <result name="success">ClassesList.jsp</result>
+            <result name="success" type="redirect">classesList</result>
         </action>
             
         <action name="createRemark" class="mmm.eschool.actions.AddRemark">
             <result name="success">AddRemark.jsp</result>
             <result name="input">AddRemark.jsp</result>
+        </action>
+        
+        <action name="selectMark" method="display" class = "mmm.eschool.actions.AddMark">
+            <result name="none">AddMark.jsp</result>
+        </action>
+        <action name="addMark" method="createMark" class = "mmm.eschool.actions.AddMark">
+            <result name="success" type="redirect">classesList</result>
         </action>
         
     </package>
