@@ -181,7 +181,7 @@
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
-                          <s:radio id="rolesInput" value="role" name="roles" list="#{'STUDENT':'STUDENT','TEACHER':'TEACHER','PARENT':'PARENT'}" label="Роля" />
+                          <s:radio id="rolesInput" value="role" name="roles" list="#{'STUDENT':'STUDENT','TEACHER':'TEACHER','PARENT':'PARENT','ADMIN':'ADMIN'}" label="Роля" />
                         </div>
                       </div>
                       <div class = "form-group">

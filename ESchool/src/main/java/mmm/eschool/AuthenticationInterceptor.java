@@ -37,13 +37,13 @@ public class AuthenticationInterceptor implements Interceptor
       return ActionSupport.LOGIN;
     else 
     {
-      if (getRequestedPage(request).contains("student") && !user.getStudentsSet().isEmpty())
+      if (getRequestedPage(request).contains("student") && user.getRolesSet().get(0).getRoleName().equals(Constants.STUDENT))
         return ai.invoke();
-      else if (getRequestedPage(request).contains("teacher") && !user.getTeachersSet().isEmpty())
+      else if (getRequestedPage(request).contains("teacher") && user.getRolesSet().get(0).getRoleName().equals(Constants.TEACHER))
         return ai.invoke();
-      else if (getRequestedPage(request).contains("admin")&&user.getUsername().equals("admin"))
+      else if (getRequestedPage(request).contains("admin")&& user.getRolesSet().get(0).getRoleName().equals(Constants.ADMINISTRATOR))
         return ai.invoke();
-      else if (getRequestedPage(request).contains("parent") && !user.getParentsSet().isEmpty())
+      else if (getRequestedPage(request).contains("parent") && user.getRolesSet().get(0).getRoleName().equals(Constants.PARENT))
         return ai.invoke();
       else
         return ActionSupport.ERROR;

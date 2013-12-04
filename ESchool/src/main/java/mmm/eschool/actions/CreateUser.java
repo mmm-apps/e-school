@@ -96,7 +96,6 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             role.setRoleName(Constants.STUDENT);
             role.getUsersSet().add(user);
             user.getRolesSet().add(role);
-
         }
         else if (list1.equals("TEACHER"))
         {
@@ -111,7 +110,6 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             role.setRoleName(Constants.TEACHER);
             role.getUsersSet().add(user);
             user.getRolesSet().add(role);
-
         }
         else if (list1.equals("PARENT"))
         {
@@ -127,7 +125,20 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             role.getUsersSet().add(user);
             user.getRolesSet().add(role);
         }
-
+        else if (list1.equals("ADMIN"))
+        {
+            Teacher teacher = new Teacher();
+            teacher.setFirstName(addUser.getFirstName());
+            teacher.setLastName(addUser.getLastName());
+            teacher.setAdress(addUser.getAdress());
+            teacher.setEmail(addUser.getEmail());
+            teacher.setPhone(addUser.getTelephone());
+            teacher.setUserId(user);
+            user.getTeachersSet().add(teacher);
+            role.setRoleName(Constants.ADMINISTRATOR);
+            role.getUsersSet().add(user);
+            user.getRolesSet().add(role);
+        }
         try
         {
             UserManager userMan = new UserManager();

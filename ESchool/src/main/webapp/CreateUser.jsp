@@ -26,7 +26,7 @@
                     </div>
                     <div class = "form-group">
                         <div class="col-lg-10">
-                            <s:radio list="#{'STUDENT':'STUDENT','TEACHER':'TEACHER','PARENT':'PARENT'}" value="Role" name="list1" cssClass="btn btn-primary"></s:radio>
+                            <s:radio list="#{'STUDENT':'STUDENT','TEACHER':'TEACHER','PARENT':'PARENT','ADMIN':'ADMIN'}" value="Role" name="list1" cssClass="btn btn-primary"></s:radio>
                             </div>
                         </div>
                         <div class = "form-group">

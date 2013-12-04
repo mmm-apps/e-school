@@ -3,6 +3,7 @@ package mmm.eschool.actions;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import java.util.Map;
+import mmm.eschool.Constants;
 import mmm.eschool.LoginService;
 import mmm.eschool.model.User;
 import org.apache.commons.lang3.StringUtils;
@@ -48,13 +49,13 @@ public class Login extends ActionSupport implements ModelDriven<User>, SessionAw
     {
       if (sessionUser.getUsername().equals(user.getUsername()) && sessionUser.getPassword().equals(user.getPassword())) 
       {
-        if (dbUser.getUsername().equals("admin"))
+        if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.ADMINISTRATOR))
           return "admin";
-        if (!dbUser.getStudentsSet().isEmpty()) 
+        if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.STUDENT)) 
           return "student";
-        if (!dbUser.getParentsSet().isEmpty()) 
+        if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.PARENT)) 
           return "parent";
-        if (!dbUser.getTeachersSet().isEmpty()) 
+        if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.TEACHER)) 
           return "teacher";
         else
           return ERROR;
@@ -68,13 +69,13 @@ public class Login extends ActionSupport implements ModelDriven<User>, SessionAw
     else 
     {
       session.put("user", dbUser);
-      if (dbUser.getUsername().equals("admin"))
-        return "admin";
-      if (!dbUser.getStudentsSet().isEmpty())
-        return "student";
-      if (!dbUser.getParentsSet().isEmpty())
+      if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.ADMINISTRATOR))
+          return "admin";
+        if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.STUDENT)) 
+          return "student";
+        if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.PARENT)) 
           return "parent";
-      if (!dbUser.getTeachersSet().isEmpty())
+        if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.TEACHER)) 
           return "teacher";
     }
     return ERROR;
