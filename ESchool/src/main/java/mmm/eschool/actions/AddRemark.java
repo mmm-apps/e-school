@@ -7,12 +7,20 @@ package mmm.eschool.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import mmm.eschool.AnException;
 import mmm.eschool.model.Remark;
 import mmm.eschool.model.Student;
+import mmm.eschool.model.Subject;
 import mmm.eschool.model.User;
 import mmm.eschool.model.managers.RemarkManager;
 import mmm.eschool.model.managers.StudentManager;
+import mmm.eschool.model.managers.SubjectManager;
+import mmm.eschool.model.managers.TeacherManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -26,23 +34,37 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
     private Map<String, Object> session;
     private String remark;
     private String student;
-    private String user;
+    private String userId;
+    private static int userIdTemp;
     private Remark newRemark = new Remark();
-
+    private List<String> subjectsList = new ArrayList<String>();
+    private String subjectName;
+    
+    public AddRemark()
+    {
+              List<Subject> subjectListDb = new ArrayList<Subject>();
+        SubjectManager subjectMgr = new SubjectManager();
+        subjectListDb = subjectMgr.getEntityList();
+        for(Subject s : subjectListDb)
+        {
+          subjectsList.add(s.getSubjectName());
+        }
+    }
+    
     @Override
     public void setSession(Map<String, Object> map)
     {
         this.session = map;
     }
 
-    @Override
-    public void validate()
-    {
-        if (StringUtils.isEmpty(newRemark.getRemark()))
-        {
-            addFieldError("remark", "Remark cannot be blank!");
-        }
-    }
+//    @Override
+//    public void validate()
+//    {
+//        if (StringUtils.isEmpty(newRemark.getRemark()))
+//        {
+//            addFieldError("remark", "Remark cannot be blank!");
+//        }
+//    }
 
     @Override
     public Remark getModel()
@@ -54,19 +76,30 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
     public String execute() throws Exception
     {
         StudentManager studMan = new StudentManager();
-        newRemark.setStudentId(studMan.getEntityById(Integer.parseInt(user)));
+        newRemark.setStudentId(studMan.getEntityById(userIdTemp));
         User user = (User) session.get("user");
-        newRemark.setTeacherId(user.getTeachersSet().get(0));
-        newRemark.setSubjectId(user.getTeachersSet().get(0).getSubjectsSet().get(0));
+        if(!user.getTeachersSet().isEmpty())
+        {
+          TeacherManager teacherMgr = new TeacherManager();
+          newRemark.setTeacherId(teacherMgr.getEntityById(user.getTeachersSet().get(0).getId()));
+        }
+        SubjectManager subjectMgr = new SubjectManager();
+        newRemark.setSubjectId(subjectMgr.getSubjectByName(subjectName));
         RemarkManager remMan = new RemarkManager();
+        newRemark.setClassId(studMan.getEntityById(userIdTemp).getClassesSet().get(0));
+        
+      try {
+        remMan.add(newRemark);
+      } catch (AnException ex) {
+        ex.printStackTrace();
+      }
         return SUCCESS;
     }
 
-    public void display()
+    public String display()
     {
-        StudentManager studMan = new StudentManager();
-        Student stud = studMan.getEntityById(Integer.parseInt(user));
-        student = stud.getFirstName() + " " + stud.getLastName();
+      userIdTemp = Integer.parseInt(userId);
+        return NONE;
     }
 
     public String getRemark()
@@ -74,18 +107,50 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
         return remark;
     }
 
-    public void setRemarkNote(String remark)
+    public void setRemark(String remark)
     {
         this.remark = remark;
     }
 
     public String getUser()
     {
-        return user;
+        return userId;
     }
 
     public void setUser(String user)
     {
-        this.user = user;
+        this.userId = user;
     }
+
+  public List<String> getSubjectsList()
+  {
+    return subjectsList;
+  }
+
+  public void setSubjectsList(List<String> subjectsList)
+  {
+    this.subjectsList = subjectsList;
+  }
+
+  public String getSubjectName()
+  {
+    return subjectName;
+  }
+
+  public void setSubjectName(String subjectName)
+  {
+    this.subjectName = subjectName;
+  }  
+
+  public String getUserId()
+  {
+    return userId;
+  }
+
+  public void setUserId(String userId)
+  {
+    this.userId = userId;
+  }
+  
+  
 }

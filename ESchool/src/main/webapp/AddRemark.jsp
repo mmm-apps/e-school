@@ -19,6 +19,12 @@
                         <s:textfield id="remarkNameInput" key="remark" type="text" cssClass="form-control" placeholder="Напишете забележката" />
                     </div>
                 </div>
+                <div class = "form-group">
+                    <div class="col-lg-10">
+                        <s:select headerKey="-1" headerValue="Моля Изберете предмет" 
+                                  list="subjectsList" name="subjectName" cssClass="form-control" />
+                    </div>
+                </div>    
             </fieldset>
             <div class="modal-footer">
                 <button type="button" class="btn btn-info" style="float: left;">Назад</button>

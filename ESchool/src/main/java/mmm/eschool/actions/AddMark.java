@@ -10,13 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import mmm.eschool.actions.temp.StudentSubjectMarks;
-import mmm.eschool.model.Classes;
 import mmm.eschool.model.Mark;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
-import mmm.eschool.model.TeacherSubjects;
 import mmm.eschool.model.managers.StudentManager;
-import mmm.eschool.model.managers.TeacherSubjectsManager;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**

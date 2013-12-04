@@ -16,8 +16,9 @@
             <result>CreateUser.jsp</result> 
         </action>
         
-        <action name="addRemark">
-            <result>AddRemark.jsp</result> 
+        <action name="selectRemark" method="display" class="mmm.eschool.actions.AddRemark">
+            <result name="none">AddRemark.jsp</result>
+            <result name="input">AddRemark.jsp</result> 
         </action>
         
         <action name="AddMark" 
@@ -170,7 +171,7 @@
             <result name="success">ClassesList.jsp</result>
         </action>
             
-        <action name="createRemark"  method="display" class="mmm.eschool.actions.AddRemark">
+        <action name="createRemark" class="mmm.eschool.actions.AddRemark">
             <result name="success">AddRemark.jsp</result>
             <result name="input">AddRemark.jsp</result>
         </action>

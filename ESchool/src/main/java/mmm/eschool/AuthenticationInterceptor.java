@@ -28,27 +28,26 @@ public class AuthenticationInterceptor implements Interceptor
   @Override
   public String intercept(ActionInvocation ai) throws Exception 
   {
-//    Map<String, Object> session = ai.getInvocationContext().getSession();
-//    HttpServletRequest request = ServletActionContext.getRequest();
-//    
-//    User user = (User) session.get("user");
-//    
-//    if (user == null)
-//      return ActionSupport.LOGIN;
-//    else 
-//    {
-//      if (getRequestedPage(request).contains("student") && !user.getStudentsSet().isEmpty())
-//        return ai.invoke();
-//      else if (getRequestedPage(request).contains("teacher") && !user.getTeachersSet().isEmpty())
-//        return ai.invoke();
-//      else if (getRequestedPage(request).contains("admin")&&user.getUsername().equals("admin"))
-//        return ai.invoke();
-//      else if (getRequestedPage(request).contains("parent") && !user.getParentsSet().isEmpty())
-//        return ai.invoke();
-//      else
-//        return ActionSupport.ERROR;
-//    }
-    return ai.invoke();
+    Map<String, Object> session = ai.getInvocationContext().getSession();
+    HttpServletRequest request = ServletActionContext.getRequest();
+    
+    User user = (User) session.get("user");
+    
+    if (user == null)
+      return ActionSupport.LOGIN;
+    else 
+    {
+      if (getRequestedPage(request).contains("student") && !user.getStudentsSet().isEmpty())
+        return ai.invoke();
+      else if (getRequestedPage(request).contains("teacher") && !user.getTeachersSet().isEmpty())
+        return ai.invoke();
+      else if (getRequestedPage(request).contains("admin")&&user.getUsername().equals("admin"))
+        return ai.invoke();
+      else if (getRequestedPage(request).contains("parent") && !user.getParentsSet().isEmpty())
+        return ai.invoke();
+      else
+        return ActionSupport.ERROR;
+    }
   }
 
   private String getRequestedPage(final HttpServletRequest httpRequest) 

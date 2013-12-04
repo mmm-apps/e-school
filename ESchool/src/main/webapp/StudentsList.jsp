@@ -41,8 +41,8 @@
                             <td><s:property value="lastName" /></td>
                             <td><s:property value="email" /></td>
                             <td>
-                                <s:url id="addRemark" action="addRemark">
-                                    <s:param name="user" value="%{id}"></s:param>
+                                <s:url id="addRemark" action="selectRemark">
+                                    <s:param name="userId" value="%{id}"></s:param>
                                 </s:url>
                                 <s:a href="%{addRemark}">
                                     <button class="btn btn-info" type="button">Добави Забележка</button>
