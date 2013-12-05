@@ -35,10 +35,31 @@
 
   <div class="panel panel-info" style="margin-left: 20%;margin-right: 20%;">
     <div class="panel-heading">
-      <h3 class="panel-title">Забележки на ученика</h3>
+      <h3 class="panel-title">Забележки на ученика до момента</h3>
     </div>
     <div class="panel-body">
-      Panel content
+
+
+      <table id="results" class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Предмет</th>
+            <th>Забележка</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <s:iterator value="studentRemarks" status="remarkStatus">
+            <tr class="success">
+              <td><s:property value="subject" /></td>
+              <td><s:property value="remark" /></td>
+            </tr>
+          </s:iterator>
+        </tbody>
+      </table>
+
+
     </div>
   </div>
 </body>

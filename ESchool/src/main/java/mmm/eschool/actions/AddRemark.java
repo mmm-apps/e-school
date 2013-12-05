@@ -10,18 +10,15 @@ import com.opensymphony.xwork2.ModelDriven;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import mmm.eschool.AnException;
+import mmm.eschool.actions.temp.StudentRemarks;
 import mmm.eschool.model.Remark;
-import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.User;
 import mmm.eschool.model.managers.RemarkManager;
 import mmm.eschool.model.managers.StudentManager;
 import mmm.eschool.model.managers.SubjectManager;
 import mmm.eschool.model.managers.TeacherManager;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
@@ -31,31 +28,31 @@ import org.apache.struts2.interceptor.SessionAware;
 public class AddRemark extends ActionSupport implements SessionAware, ModelDriven<Remark>
 {
 
-    private Map<String, Object> session;
-    private String remark;
-    private String student;
-    private String userId;
-    private static int userIdTemp;
-    private Remark newRemark = new Remark();
-    private List<String> subjectsList = new ArrayList<String>();
-    private String subjectName;
-    
-    public AddRemark()
-    {
-              List<Subject> subjectListDb = new ArrayList<Subject>();
-        SubjectManager subjectMgr = new SubjectManager();
-        subjectListDb = subjectMgr.getEntityList();
-        for(Subject s : subjectListDb)
-        {
-          subjectsList.add(s.getSubjectName());
-        }
+  private Map<String, Object> session;
+  private String remark;
+  private String student;
+  private String userId;
+  private static int userIdTemp;
+  private Remark newRemark = new Remark();
+  private List<String> subjectsList = new ArrayList<String>();
+  private String subjectName;
+  private List<StudentRemarks> studentRemarks = new ArrayList<StudentRemarks>();
+
+  public AddRemark()
+  {
+    List<Subject> subjectListDb = new ArrayList<Subject>();
+    SubjectManager subjectMgr = new SubjectManager();
+    subjectListDb = subjectMgr.getEntityList();
+    for (Subject s : subjectListDb) {
+      subjectsList.add(s.getSubjectName());
     }
-    
-    @Override
-    public void setSession(Map<String, Object> map)
-    {
-        this.session = map;
-    }
+  }
+
+  @Override
+  public void setSession(Map<String, Object> map)
+  {
+    this.session = map;
+  }
 
 //    @Override
 //    public void validate()
@@ -65,62 +62,85 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
 //            addFieldError("remark", "Remark cannot be blank!");
 //        }
 //    }
+  @Override
+  public Remark getModel()
+  {
+    return newRemark;
+  }
 
-    @Override
-    public Remark getModel()
-    {
-        return newRemark;
+  @Override
+  public String execute() throws Exception
+  {
+    StudentManager studMan = new StudentManager();
+    newRemark.setStudentId(studMan.getEntityById(userIdTemp));
+    User user = (User) session.get("user");
+    if (!user.getTeachersSet().isEmpty()) {
+      TeacherManager teacherMgr = new TeacherManager();
+      newRemark.setTeacherId(teacherMgr.getEntityById(user.getTeachersSet().get(0).getId()));
     }
+    SubjectManager subjectMgr = new SubjectManager();
+    newRemark.setSubjectId(subjectMgr.getSubjectByName(subjectName));
+    RemarkManager remMan = new RemarkManager();
+    newRemark.setClassId(studMan.getEntityById(userIdTemp).getClassesSet().get(0));
 
-    @Override
-    public String execute() throws Exception
-    {
-        StudentManager studMan = new StudentManager();
-        newRemark.setStudentId(studMan.getEntityById(userIdTemp));
-        User user = (User) session.get("user");
-        if(!user.getTeachersSet().isEmpty())
-        {
-          TeacherManager teacherMgr = new TeacherManager();
-          newRemark.setTeacherId(teacherMgr.getEntityById(user.getTeachersSet().get(0).getId()));
-        }
-        SubjectManager subjectMgr = new SubjectManager();
-        newRemark.setSubjectId(subjectMgr.getSubjectByName(subjectName));
-        RemarkManager remMan = new RemarkManager();
-        newRemark.setClassId(studMan.getEntityById(userIdTemp).getClassesSet().get(0));
-        
-      try {
-        remMan.add(newRemark);
-      } catch (AnException ex) {
-        ex.printStackTrace();
-      }
-        return SUCCESS;
+    try {
+      remMan.add(newRemark);
+    } catch (AnException ex) {
+      ex.printStackTrace();
     }
+    return SUCCESS;
+  }
 
-    public String display()
-    {
-      userIdTemp = Integer.parseInt(userId);
-        return NONE;
-    }
+  public String display()
+  {
+    userIdTemp = Integer.parseInt(userId);
+    studRemarks();
+    return NONE;
+  }
 
-    public String getRemark()
-    {
-        return remark;
+  public String studRemarks()
+  {
+    RemarkManager remMan = new RemarkManager();
+    List<Remark> remarks = remMan.getReamarksByStudentId(userIdTemp);
+    SubjectManager subMan = new SubjectManager();
+    for (Remark rem : remarks) {
+      StudentRemarks studRem = new StudentRemarks();
+      studRem.setRemark(rem.getRemark());
+      studRem.setSubject(subMan.getEntityById(rem.getSubjectId().getId()).getSubjectName());
+      studentRemarks.add(studRem);
     }
+    return NONE;
+  }
 
-    public void setRemark(String remark)
-    {
-        this.remark = remark;
-    }
+  public List<StudentRemarks> getStudentRemarks()
+  {
+    return studentRemarks;
+  }
 
-    public String getUser()
-    {
-        return userId;
-    }
+  public void setStudentRemarks(List<StudentRemarks> StudentRemarks)
+  {
+    this.studentRemarks = StudentRemarks;
+  }
 
-    public void setUser(String user)
-    {
-        this.userId = user;
-    }
+  public String getRemark()
+  {
+    return remark;
+  }
+
+  public void setRemark(String remark)
+  {
+    this.remark = remark;
+  }
+
+  public String getUser()
+  {
+    return userId;
+  }
+
+  public void setUser(String user)
+  {
+    this.userId = user;
+  }
 
   public List<String> getSubjectsList()
   {
@@ -140,7 +160,7 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
   public void setSubjectName(String subjectName)
   {
     this.subjectName = subjectName;
-  }  
+  }
 
   public String getUserId()
   {
@@ -151,6 +171,5 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
   {
     this.userId = userId;
   }
-  
-  
+
 }

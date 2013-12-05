@@ -2,190 +2,189 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-    <package name="default" namespace="/" extends="struts-default,json-default">
+  <package name="default" namespace="/" extends="struts-default,json-default">
       
-        <interceptors>
-            <interceptor name="authenticationInterceptor" class="mmm.eschool.AuthenticationInterceptor"/>
-        </interceptors>
+    <interceptors>
+      <interceptor name="authenticationInterceptor" class="mmm.eschool.AuthenticationInterceptor"/>
+    </interceptors>
        
-        <action name="">
-            <result>LoginPanel.jsp</result> 
-        </action>
+    <action name="">
+      <result>LoginPanel.jsp</result> 
+    </action>
         
-        <action name="addUser">
-            <result>CreateUser.jsp</result> 
-        </action>
+    <action name="addUser">
+      <result>CreateUser.jsp</result> 
+    </action>
         
-        <action name="selectRemark" method="display" class="mmm.eschool.actions.AddRemark">
-            <result name="none">AddRemark.jsp</result>
-            <result name="input">AddRemark.jsp</result> 
-        </action>
+    <action name="selectRemark" method="display" class="mmm.eschool.actions.AddRemark">
+      <result name="none">AddRemark.jsp</result>
+      <result name="input">AddRemark.jsp</result> 
+    </action>
         
-        <action name="AddMark" 
+    <action name="AddMark" 
                 class="mmm.eschool.actions.AddMark" method="display">
-            <result name="none">AddMark.jsp</result>
-        </action>
+      <result name="none">AddMark.jsp</result>
+    </action>
         
-        <action name="selectSubjectType" class="mmm.eschool.actions.CreateNewSubject" method="display">
-            <result name="none">CreateSubject.jsp</result>
-            <result name="input">CreateSubject.jsp</result>
-        </action>
+    <action name="selectSubjectType" class="mmm.eschool.actions.CreateNewSubject" method="display">
+      <result name="none">CreateSubject.jsp</result>
+      <result name="input">CreateSubject.jsp</result>
+    </action>
         
-        <action name="login" class="mmm.eschool.actions.Login">
-            <result>LoginPanel.jsp</result> 
-            <result name="admin" type="redirectAction">admin</result>
-            <result name="student" type="redirectAction">student</result>
-            <result name="teacher" type="redirectAction">teacher</result>
-            <result name="WrongUssPass" type="json">WrongUssPass</result>  
-            <result name="login">LoginPanel.jsp</result>
-            <result name="input">LoginPanel.jsp</result>
-            <result name="error">ERROR.jsp</result>
-        </action>
+    <action name="login" class="mmm.eschool.actions.Login">
+      <result>LoginPanel.jsp</result> 
+      <result name="admin" type="redirectAction">admin</result>
+      <result name="student" type="redirectAction">student</result>
+      <result name="teacher" type="redirectAction">teacher</result>
+      <result name="WrongUssPass" type="json">WrongUssPass</result>  
+      <result name="login">LoginPanel.jsp</result>
+      <result name="input">LoginPanel.jsp</result>
+      <result name="error">ERROR.jsp</result>
+    </action>
         
-        <action name="logout" class="mmm.eschool.actions.LogOut">
-            <result name="success">LoginPanel.jsp</result>
-            <result name="input">LoginPanel.jsp</result>
-            <result name="login">LoginPanel.jsp</result>
-            <result name="error">ERROR.jsp</result>
-        </action>
+    <action name="logout" class="mmm.eschool.actions.LogOut">
+      <result name="success">LoginPanel.jsp</result>
+      <result name="input">LoginPanel.jsp</result>
+      <result name="login">LoginPanel.jsp</result>
+      <result name="error">ERROR.jsp</result>
+    </action>
         
-        <action name="createmark" class="mmm.eschool.actions.CreateUser">
-            <result name="success">AddMark.jsp</result>
-            <result name="input">AddMark.jsp</result>
-            <result name="login">LoginPanel.jsp</result>
-            <result name="error">ERROR.jsp</result>
-        </action>
+    <action name="createmark" class="mmm.eschool.actions.CreateUser">
+      <result name="success">AddMark.jsp</result>
+      <result name="input">AddMark.jsp</result>
+      <result name="login">LoginPanel.jsp</result>
+      <result name="error">ERROR.jsp</result>
+    </action>
         
-        <action name="createuser" class="mmm.eschool.actions.CreateUser">
-            <result name="success" type="redirect">listUser</result>
-            <result name="input">CreateUser.jsp</result>
-            <result name="login">LoginPanel.jsp</result>
-            <result name="error">ERROR.jsp</result>
-        </action>
+    <action name="createuser" class="mmm.eschool.actions.CreateUser">
+      <result name="success" type="redirect">listUser</result>
+      <result name="input">CreateUser.jsp</result>
+      <result name="login">LoginPanel.jsp</result>
+      <result name="error">ERROR.jsp</result>
+    </action>
         
-        <action name="addSubject" class="mmm.eschool.actions.CreateNewSubject">
-            <result name="success" type="redirect">listSubject</result>
-            <result name="input">CreateSubject.jsp</result>
-        </action>
+    <action name="addSubject" class="mmm.eschool.actions.CreateNewSubject">
+      <result name="success" type="redirect">listSubject</result>
+      <result name="input">CreateSubject.jsp</result>
+    </action>
         
-        <action name="addClass" class="mmm.eschool.actions.CreateClass">
-            <result name="success">CreateClass.jsp</result>
-            <result name="input">CreateClass.jsp</result>
-        </action>
+    <action name="addClass" class="mmm.eschool.actions.CreateClass">
+      <result name="success">CreateClass.jsp</result>
+      <result name="input">CreateClass.jsp</result>
+    </action>
         
-        <action name="student">
-            <interceptor-ref name="authenticationInterceptor" />
-            <result name="success">student.jsp</result>
-            <result name="input">student.jsp</result>
-            <result name="login">LoginPanel.jsp</result>
-            <result name="error">ERROR.jsp</result>
-        </action>
+    <action name="student">
+      <interceptor-ref name="authenticationInterceptor" />
+      <result name="success">student.jsp</result>
+      <result name="input">student.jsp</result>
+      <result name="login">LoginPanel.jsp</result>
+      <result name="error">ERROR.jsp</result>
+    </action>
         
-        <action name="teacher">
-            <interceptor-ref name="authenticationInterceptor" />
-            <result name="success">teacher.jsp</result>
-            <result name="input">teacher.jsp</result>
-            <result name="login">LoginPanel.jsp</result>
-            <result name="error">ERROR.jsp</result>
-        </action>
+    <action name="teacher">
+      <interceptor-ref name="authenticationInterceptor" />
+      <result name="success">teacher.jsp</result>
+      <result name="input">teacher.jsp</result>
+      <result name="login">LoginPanel.jsp</result>
+      <result name="error">ERROR.jsp</result>
+    </action>
         
-        <action name="admin">
-            <interceptor-ref name="authenticationInterceptor" />
-            <result name="success">admin.jsp</result>
-            <result name="input">admin.jsp</result>
-            <result name="login">LoginPanel.jsp</result>
-            <result name="error">ERROR.jsp</result>
-        </action>
+    <action name="admin">
+      <interceptor-ref name="authenticationInterceptor" />
+      <result name="success">admin.jsp</result>
+      <result name="input">admin.jsp</result>
+      <result name="login">LoginPanel.jsp</result>
+      <result name="error">ERROR.jsp</result>
+    </action>
         
-        <action name="home">
-            <interceptor-ref name="authenticationInterceptor" />
-            <result name="success">Master.jsp</result>
-            <result name="login">LoginPanel.jsp</result>
-        </action>
+    <action name="home">
+      <interceptor-ref name="authenticationInterceptor" />
+      <result name="success">Master.jsp</result>
+      <result name="login">LoginPanel.jsp</result>
+    </action>
         
-        <action name="listUser" method="list" class="mmm.eschool.actions.UsersList">
-            <result name="success">TeachersList.jsp</result>
-            <result name="input">TeachersList.jsp</result>
-        </action>
+    <action name="listUser" method="list" class="mmm.eschool.actions.UsersList">
+      <result name="success">TeachersList.jsp</result>
+      <result name="input">TeachersList.jsp</result>
+    </action>
         
-        <action name="deleteUser" method="delete" class="mmm.eschool.actions.UsersList">
-          <result name="success" type="redirect">listUser</result>
-          <result name="input" type="redirect">listUser</result>
-        </action>
+    <action name="deleteUser" method="delete" class="mmm.eschool.actions.UsersList">
+      <result name="success" type="redirect">listUser</result>
+      <result name="input" type="redirect">listUser</result>
+    </action>
         
-        <action name="addStudentToClass" method="display" class="mmm.eschool.actions.AddStudentToClass">
-            <result name="success">AddStudentToClass.jsp</result> 
-        </action>
+    <action name="addStudentToClass" method="display" class="mmm.eschool.actions.AddStudentToClass">
+      <result name="success">AddStudentToClass.jsp</result> 
+    </action>
         
-        <action name="addStudentInClassForm" method="addStudent" class="mmm.eschool.actions.AddStudentToClass">
-            <result name="success" type="redirect">addStudentToClass</result> 
-        </action>
+    <action name="addStudentInClassForm" method="addStudent" class="mmm.eschool.actions.AddStudentToClass">
+      <result name="success" type="redirect">addStudentToClass</result> 
+    </action>
         
-        <action name="listSubject" method="list" class="mmm.eschool.actions.SubjectsList">
-            <result name="success">SubjectsList.jsp</result>
-        </action>
+    <action name="listSubject" method="list" class="mmm.eschool.actions.SubjectsList">
+      <result name="success">SubjectsList.jsp</result>
+    </action>
         
-        <action name="deleteSubject" method="delete" class="mmm.eschool.actions.SubjectsList">
-            <result name="success" type="redirect">listSubject</result>
-        </action>
+    <action name="deleteSubject" method="delete" class="mmm.eschool.actions.SubjectsList">
+      <result name="success" type="redirect">listSubject</result>
+    </action>
         
-        <action name="editConfirmUser" method="edit" class="mmm.eschool.actions.UsersList">
-          <result name="success" type="redirect">listUser</result>
-          <result name="input" type="redirect">listUser</result>
-        </action>
+    <action name="editConfirmUser" method="edit" class="mmm.eschool.actions.UsersList">
+      <result name="success" type="redirect">listUser</result>
+      <result name="input" type="redirect">listUser</result>
+    </action>
         
-        <action name="teacherSubjectsList" method="list" class="mmm.eschool.actions.AddSubjectToTeacher">
-            <result name="success">TeacherSubjectsList.jsp</result>
-        </action>
+    <action name="teacherSubjectsList" method="list" class="mmm.eschool.actions.AddSubjectToTeacher">
+      <result name="success">TeacherSubjectsList.jsp</result>
+    </action>
         
-        <action name="loadTeacherSubject" method="display" class="mmm.eschool.actions.AddSubjectToTeacher">
-            <result name="none">AddSubjectToTeacher.jsp</result>
-        </action>
+    <action name="loadTeacherSubject" method="display" class="mmm.eschool.actions.AddSubjectToTeacher">
+      <result name="none">AddSubjectToTeacher.jsp</result>
+    </action>
         
-        <action name="addSubjectToTeacher" method="addSubjectToTeacher" class="mmm.eschool.actions.AddSubjectToTeacher">
-            <result name="success" type="redirect">teacherSubjectsList</result>
-            <result name="input">AddSubjectToTeacher.jsp</result>
-        </action>
+    <action name="addSubjectToTeacher" method="addSubjectToTeacher" class="mmm.eschool.actions.AddSubjectToTeacher">
+      <result name="success" type="redirect">teacherSubjectsList</result>
+      <result name="input">AddSubjectToTeacher.jsp</result>
+    </action>
         
-        <action name="classesList" method="list" class="mmm.eschool.actions.ClassesList">
-            <result name="success">ClassesList.jsp</result>
-        </action>
+    <action name="classesList" method="list" class="mmm.eschool.actions.ClassesList">
+      <result name="success">ClassesList.jsp</result>
+    </action>
         
-        <action name="infoClass" method="studentslist" class="mmm.eschool.actions.StudentList">
-            <result name="success">StudentsList.jsp</result>
-        </action>
+    <action name="infoClass" method="studentslist" class="mmm.eschool.actions.StudentList">
+      <result name="success">StudentsList.jsp</result>
+    </action>
         
-        <action name="studentMarks" method="studentMarksList" class="mmm.eschool.actions.AddMark">
-            <result name="none">StudentMarksList.jsp</result>
-        </action>
+    <action name="studentMarks" method="studentMarksList" class="mmm.eschool.actions.AddMark">
+      <result name="none">StudentMarksList.jsp</result>
+    </action>
+    <action name="showSubjectToClass">
+      <result>ClassSubjects.jsp</result>
+    </action>
         
-        <action name="showSubjectToClass">
-            <result>ClassSubjects.jsp</result>
-        </action>
+    <action name="selectSubjectToClass" method="getSubjects" class="mmm.eschool.actions.AddSubjectsToClass">
+      <result name="none">AddSubjectToClass.jsp</result>
+    </action>
         
-        <action name="selectSubjectToClass" method="getSubjects" class="mmm.eschool.actions.AddSubjectsToClass">
-            <result name="none">AddSubjectToClass.jsp</result>
-        </action>
-        
-        <action name="addSubjectToClass" method="addSubject" class="mmm.eschool.actions.AddSubjectsToClass">
-            <result name="success" type="redirect">classesList</result>
-        </action>
+    <action name="addSubjectToClass" method="addSubject" class="mmm.eschool.actions.AddSubjectsToClass">
+      <result name="success" type="redirect">classesList</result>
+    </action>
             
-        <action name="createRemark" class="mmm.eschool.actions.AddRemark">
-            <result name="success">AddRemark.jsp</result>
-            <result name="input">AddRemark.jsp</result>
-        </action>
+    <action name="createRemark" class="mmm.eschool.actions.AddRemark">
+      <result name="success">AddRemark.jsp</result>
+      <result name="input">AddRemark.jsp</result>
+    </action>
         
-        <action name="selectMark" method="display" class = "mmm.eschool.actions.AddMark">
-            <result name="none">AddMark.jsp</result>
-        </action>
-        <action name="addMark" method="createMark" class = "mmm.eschool.actions.AddMark">
-            <result name="success" type="redirect">classesList</result>
-        </action>
+    <action name="selectMark" method="display" class = "mmm.eschool.actions.AddMark">
+      <result name="none">AddMark.jsp</result>
+    </action>
+    <action name="addMark" method="createMark" class = "mmm.eschool.actions.AddMark">
+      <result name="success" type="redirect">classesList</result>
+    </action>
         
-    </package>
-    <constant name="struts.ui.theme" value="simple" />
-    <constant name="struts.action.extension" value=""/>
-    <constant name="struts.action.excludePattern" value="/index.html,/Images/.*,/JS/.*,/CSS/.*"/>
+  </package>
+  <constant name="struts.ui.theme" value="simple" />
+  <constant name="struts.action.extension" value=""/>
+  <constant name="struts.action.excludePattern" value="/index.html,/Images/.*,/JS/.*,/CSS/.*"/>
 </struts>
 

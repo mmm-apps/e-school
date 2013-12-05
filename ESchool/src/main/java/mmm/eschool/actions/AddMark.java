@@ -15,7 +15,6 @@ import mmm.eschool.model.Mark;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.User;
-import mmm.eschool.model.managers.ClassManager;
 import mmm.eschool.model.managers.MarkManager;
 import mmm.eschool.model.managers.StudentManager;
 import mmm.eschool.model.managers.SubjectManager;
