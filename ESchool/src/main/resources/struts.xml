@@ -22,7 +22,7 @@
     </action>
         
     <action name="AddMark" 
-                class="mmm.eschool.actions.AddMark" method="display">
+            class="mmm.eschool.actions.AddMark" method="display">
       <result name="none">AddMark.jsp</result>
     </action>
         
@@ -170,6 +170,11 @@
       <result name="success" type="redirect">classesList</result>
     </action>
             
+            
+    <action name="addHomework" method="getSubjects" class="mmm.eschool.actions.AddHomeworkToClass">
+      <result name="none">AddHomeworkToClass.jsp</result>
+    </action>
+    
     <action name="createRemark" class="mmm.eschool.actions.AddRemark">
       <result name="success">AddRemark.jsp</result>
       <result name="input">AddRemark.jsp</result>
