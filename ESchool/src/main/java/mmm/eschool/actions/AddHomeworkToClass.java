@@ -3,16 +3,12 @@
 package mmm.eschool.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.sun.jmx.snmp.BerDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import mmm.eschool.model.Classes;
-import mmm.eschool.model.Homework;
 import mmm.eschool.model.TeacherSubjects;
 import mmm.eschool.model.User;
 import mmm.eschool.model.managers.ClassManager;
-import mmm.eschool.model.managers.HomeworkManager;
 import mmm.eschool.model.managers.SubjectManager;
 import mmm.eschool.model.managers.TeacherSubjectsManager;
 import org.apache.struts2.interceptor.SessionAware;
@@ -60,11 +56,11 @@ public class AddHomeworkToClass extends ActionSupport implements SessionAware
   @Override
   public String execute() throws Exception
   {
-    Homework homewrk = new Homework();
-    homewrk
-    Classes  clas = classMgr.getEntityById(Integer.parseInt(classId));
-    clas.getStudentsSet().get(0).get
-    
+    return null;
+//    Homework homewrk = new Homework();
+//    Classes  clas = classMgr.getEntityById(Integer.parseInt(classId));
+//    clas.getStudentsSet().get(0).get
+//    
   }
 
   public String getClassNameInfo()

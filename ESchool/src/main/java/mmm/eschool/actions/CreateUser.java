@@ -116,7 +116,7 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             Parent parent = new Parent();
             parent.setFirstName(addUser.getFirstName());
             parent.setLastName(addUser.getLastName());
-            parent.setAdress(addUser.getAdress());
+            parent.setAddress(addUser.getAdress());
             parent.setEmail(addUser.getEmail());
             parent.setPhone(addUser.getTelephone());
             parent.setUserId(user);

@@ -9,6 +9,7 @@ package mmm.eschool.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -41,24 +43,36 @@ public class Role implements Serializable {
         @JoinColumn(name = "user_id", referencedColumnName = "id")})
     @ManyToMany
     private List<User> usersSet = new ArrayList<User>();
+
+  public int getId()
+  {
+    return id;
+  }
+
+  public void setId(int id)
+  {
+    this.id = id;
+  }
+
+  public String getRoleName()
+  {
+    return roleName;
+  }
+
+  public void setRoleName(String roleName)
+  {
+    this.roleName = roleName;
+  }
+
+  public List<User> getUsersSet()
+  {
+    return usersSet;
+  }
+
+  public void setUsersSet(List<User> usersSet)
+  {
+    this.usersSet = usersSet;
+  }
     
-    public int getId() {
-        return id;
-    }
 
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public List<User> getUsersSet() {
-        return usersSet;
-    }
-
-    public void setUsersSet(List<User> usersSet) {
-        this.usersSet = usersSet;
-    }
 }

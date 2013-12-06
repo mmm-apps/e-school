@@ -8,6 +8,7 @@ package mmm.eschool.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +21,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -30,7 +32,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Entity
 @Table(schema = "eschool", name = "classes")
 public class Classes implements Serializable
-{  
+{
   @Id
   @SequenceGenerator(name = "classes_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "classes_seq")
   @GeneratedValue(strategy = GenerationType.AUTO, generator = "classes_seq")
@@ -40,19 +42,23 @@ public class Classes implements Serializable
   private String className;
 
   @LazyCollection(LazyCollectionOption.FALSE)
-  @JoinTable(schema = "eschool", name = "student_classes", joinColumns =
-  {
-    @JoinColumn(name = "class_id", referencedColumnName = "id")}, inverseJoinColumns 
-    ={@JoinColumn(name = "student_id", referencedColumnName = "id")
-  })
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
+  private List<Student> studentList = new ArrayList<Student>();
+
+  @LazyCollection(LazyCollectionOption.FALSE)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "classes")
+  private List<TeacherSubjects> teacherSubjectsList = new ArrayList<TeacherSubjects>();
+
+  @LazyCollection(LazyCollectionOption.FALSE)
+  @JoinTable(schema = "eschool", name = "student_classes", joinColumns= {
+            @JoinColumn(name = "class_id", referencedColumnName = "id")}, inverseJoinColumns= {
+            @JoinColumn(name = "student_id", referencedColumnName = "id")})
   @ManyToMany
   private List<Student> studentsSet = new ArrayList<Student>();
 
-  @JoinTable(schema = "eschool", name = "form_masters", joinColumns =
-  {
-    @JoinColumn(name = "class_id", referencedColumnName = "id")}, inverseJoinColumns 
-    ={@JoinColumn(name = "teacher_id", referencedColumnName = "id")
-  })
+  @JoinTable(schema = "eschool", name = "form_masters", joinColumns= {
+            @JoinColumn(name = "class_id", referencedColumnName = "id")}, inverseJoinColumns= {
+            @JoinColumn(name = "teacher_id", referencedColumnName = "id")})
   @ManyToMany
   @LazyCollection(LazyCollectionOption.FALSE)
   private List<Teacher> teachersSet = new ArrayList<Teacher>();
@@ -74,6 +80,11 @@ public class Classes implements Serializable
     return id;
   }
 
+  public void setId(int id)
+  {
+    this.id = id;
+  }
+
   public String getClassName()
   {
     return className;
@@ -82,6 +93,26 @@ public class Classes implements Serializable
   public void setClassName(String className)
   {
     this.className = className;
+  }
+
+  public List<Student> getStudentList()
+  {
+    return studentList;
+  }
+
+  public void setStudentList(List<Student> studentList)
+  {
+    this.studentList = studentList;
+  }
+
+  public List<TeacherSubjects> getTeacherSubjectsList()
+  {
+    return teacherSubjectsList;
+  }
+
+  public void setTeacherSubjectsList(List<TeacherSubjects> teacherSubjectsList)
+  {
+    this.teacherSubjectsList = teacherSubjectsList;
   }
 
   public List<Student> getStudentsSet()
@@ -132,5 +163,14 @@ public class Classes implements Serializable
   public void setRemarksSet(List<Remark> remarksSet)
   {
     this.remarksSet = remarksSet;
+  }
+
+  public Classes()
+  {
+  }
+
+  public Classes(Integer id)
+  {
+    this.id = id;
   }
 }

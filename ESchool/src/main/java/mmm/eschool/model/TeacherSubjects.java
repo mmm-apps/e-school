@@ -7,6 +7,7 @@
 package mmm.eschool.model;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ import javax.persistence.Table;
 @Table(schema = "eschool",name = "teacher_subjects")
 public class TeacherSubjects implements Serializable 
 {
-  @Id
+
   @SequenceGenerator(name = "teacher_subjects_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "teacher_subjects_seq")
   @GeneratedValue(strategy = GenerationType.AUTO, generator = "teacher_subjects_seq")
   private int id;

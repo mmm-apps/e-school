@@ -8,6 +8,7 @@ package mmm.eschool.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,8 +17,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -27,7 +31,7 @@ import org.hibernate.annotations.LazyCollectionOption;
  */
 @Entity
 @Table(schema = "eschool", name = "users")
-public class User implements Serializable 
+public class User implements Serializable
 {
   @Id
   @SequenceGenerator(name = "users_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "users_seq")
@@ -42,7 +46,8 @@ public class User implements Serializable
 
   @LazyCollection(LazyCollectionOption.FALSE)
   @ManyToMany(cascade = CascadeType.ALL, mappedBy = "usersSet")
-  private List<Role> rolesSet = new ArrayList<Role>();;
+  private List<Role> rolesSet = new ArrayList<Role>();
+  ;
 
   @LazyCollection(LazyCollectionOption.FALSE)
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
@@ -56,59 +61,131 @@ public class User implements Serializable
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
   private List<Student> studentsSet = new ArrayList<Student>();
 
-  public int getId() {
-      return id;
+  @LazyCollection(LazyCollectionOption.FALSE)
+  @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+  private Student student;
+
+  @LazyCollection(LazyCollectionOption.FALSE)
+  @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+  private Parent parent;
+
+  @LazyCollection(LazyCollectionOption.FALSE)
+  @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+  private Teacher teacher;
+
+  public int getId()
+  {
+    return id;
   }
-  
-  public void setId(int id){
+
+  public void setId(int id)
+  {
     this.id = id;
   }
 
-  public String getUsername() {
-      return username;
+  public String getUsername()
+  {
+    return username;
   }
 
-  public void setUsername(String username) {
-      this.username = username;
+  public void setUsername(String username)
+  {
+    this.username = username;
   }
 
-  public String getPassword() {
-      return password;
+  public String getPassword()
+  {
+    return password;
   }
 
-  public void setPassword(String password) {
-      this.password = password;
+  public void setPassword(String password)
+  {
+    this.password = password;
   }
 
-  public List<Role> getRolesSet() {
-      return rolesSet;
+  public List<Role> getRolesSet()
+  {
+    return rolesSet;
   }
 
-  public void setRolesSet(List<Role> rolesSet) {
-      this.rolesSet = rolesSet;
+  public void setRolesSet(List<Role> rolesSet)
+  {
+    this.rolesSet = rolesSet;
   }
 
-  public List<Teacher> getTeachersSet() {
-      return teachersSet;
+  public List<Teacher> getTeachersSet()
+  {
+    return teachersSet;
   }
 
-  public void setTeachersSet(List<Teacher> teachersSet) {
-      this.teachersSet = teachersSet;
+  public void setTeachersSet(List<Teacher> teachersSet)
+  {
+    this.teachersSet = teachersSet;
   }
 
-  public List<Parent> getParentsSet() {
-      return parentsSet;
+  public List<Parent> getParentsSet()
+  {
+    return parentsSet;
   }
 
-  public void setParentsSet(List<Parent> parentsSet) {
-      this.parentsSet = parentsSet;
+  public void setParentsSet(List<Parent> parentsSet)
+  {
+    this.parentsSet = parentsSet;
   }
 
-  public List<Student> getStudentsSet() {
-      return studentsSet;
+  public List<Student> getStudentsSet()
+  {
+    return studentsSet;
   }
 
-  public void setStudentsSet(List<Student> studentsSet) {
-      this.studentsSet = studentsSet;
+  public void setStudentsSet(List<Student> studentsSet)
+  {
+    this.studentsSet = studentsSet;
   }
+
+  public Student getStudent()
+  {
+    return student;
+  }
+
+  public void setStudent(Student student)
+  {
+    this.student = student;
+  }
+
+  public Parent getParent()
+  {
+    return parent;
+  }
+
+  public void setParent(Parent parent)
+  {
+    this.parent = parent;
+  }
+
+  public Teacher getTeacher()
+  {
+    return teacher;
+  }
+
+  public void setTeacher(Teacher teacher)
+  {
+    this.teacher = teacher;
+  }
+
+  public User()
+  {
+  }
+
+  public User(Integer id)
+  {
+    this.id = id;
+  }
+
+  public User(Integer id, String password, String username)
+  {
+    this.id = id;
+    this.password = password;
+    this.username = username;
+  } 
 }

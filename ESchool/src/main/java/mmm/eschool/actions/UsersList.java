@@ -96,7 +96,7 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
     if (!user.getParentsSet().isEmpty()) 
     {
       Parent parentOldData = parentMan.getStudentByEmail(user.getStudentsSet().get(0).getEmail());
-      parentOldData.setAdress(user.getParentsSet().get(0).getAdress());
+      parentOldData.setAddress(user.getParentsSet().get(0).getAddress());
       parentOldData.setEmail(user.getParentsSet().get(0).getEmail());
       parentOldData.setPhone(user.getParentsSet().get(0).getPhone());
       parentOldData.setFirstName(user.getParentsSet().get(0).getFirstName());

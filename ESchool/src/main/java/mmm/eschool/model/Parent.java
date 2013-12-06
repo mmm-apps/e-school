@@ -9,6 +9,8 @@ package mmm.eschool.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,9 +20,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -61,63 +67,127 @@ public class Parent implements Serializable {
     @ManyToOne(optional = false)
     private User userId;
 
-    public int getId() {
-        return id;
-    }
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentId")
+  private List<Student> studentList;
+  
+  @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+  @OneToOne(optional = false)
+  private User user;
 
-    public String getFirstName() {
-        return firstName;
-    }
+  public int getId()
+  {
+    return id;
+  }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+  public void setId(int id)
+  {
+    this.id = id;
+  }
 
-    public String getLastName() {
-        return lastName;
-    }
+  public String getFirstName()
+  {
+    return firstName;
+  }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+  public void setFirstName(String firstName)
+  {
+    this.firstName = firstName;
+  }
 
-    public String getPhone() {
-        return phone;
-    }
+  public String getLastName()
+  {
+    return lastName;
+  }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+  public void setLastName(String lastName)
+  {
+    this.lastName = lastName;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public String getPhone()
+  {
+    return phone;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setPhone(String phone)
+  {
+    this.phone = phone;
+  }
 
-    public String getAdress() {
-        return address;
-    }
+  public String getEmail()
+  {
+    return email;
+  }
 
-    public void setAdress(String adress) {
-        this.address = adress;
-    }
+  public void setEmail(String email)
+  {
+    this.email = email;
+  }
 
-    public List<Student> getStudentsSet() {
-        return studentsSet;
-    }
+  public String getAddress()
+  {
+    return address;
+  }
 
-    public void setStudentsSet(List<Student> studentsSet) {
-        this.studentsSet = studentsSet;
-    }
+  public void setAddress(String address)
+  {
+    this.address = address;
+  }
 
-    public User getUserId() {
-        return userId;
-    }
+  public List<Student> getStudentsSet()
+  {
+    return studentsSet;
+  }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
-    }
+  public void setStudentsSet(List<Student> studentsSet)
+  {
+    this.studentsSet = studentsSet;
+  }
+
+  public User getUserId()
+  {
+    return userId;
+  }
+
+  public void setUserId(User userId)
+  {
+    this.userId = userId;
+  }
+
+  public List<Student> getStudentList()
+  {
+    return studentList;
+  }
+
+  public void setStudentList(List<Student> studentList)
+  {
+    this.studentList = studentList;
+  }
+
+  public User getUser()
+  {
+    return user;
+  }
+
+  public void setUser(User user)
+  {
+    this.user = user;
+  }
+
+  public Parent()
+  {
+  }
+
+  public Parent(Integer id)
+  {
+    this.id = id;
+  }
+
+  public Parent(Integer id, String address, String email, String phone)
+  {
+    this.id = id;
+    this.address = address;
+    this.email = email;
+    this.phone = phone;
+  }
 }

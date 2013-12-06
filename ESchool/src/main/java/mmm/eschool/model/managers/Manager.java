@@ -6,6 +6,7 @@ import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.AnException.Types;
 import mmm.eschool.HibernateUtil;
+import mmm.eschool.model.Student;
 import org.hibernate.classic.Session;
 
 /**
@@ -25,6 +26,7 @@ public abstract class Manager<T>
     {
       getCollection().clear();
       final Session dataSession = mmm.eschool.HibernateUtil.getSessionFactory().openSession();
+      Student student = new Student();
       final List<T> newEntityData = dataSession.createQuery("from " + getEntityName()).list();
       dataSession.close();
       for (final T entity : newEntityData)
