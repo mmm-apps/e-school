@@ -87,11 +87,11 @@ public class Student implements Serializable
   private User user;
   
   @JoinColumn(name = "parentId", referencedColumnName = "id")
-  @ManyToOne(optional = false)
+  @ManyToOne(optional = true)
   private Parent parentId;
   
   @JoinColumn(name = "classId", referencedColumnName = "id")
-  @ManyToOne(optional = false)
+  @ManyToOne(optional = true)
   private Classes classId;
 
   public int getId()
