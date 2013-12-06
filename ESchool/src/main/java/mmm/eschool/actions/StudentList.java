@@ -38,7 +38,7 @@ public class StudentList extends ActionSupport implements  SessionAware
     public String studentslist()
     {
         Classes clas = classMan.getEntityById(Integer.parseInt(classNameInfo));
-        studnetsList = clas.getStudentsSet();
+        studnetsList = clas.getStudentList();
         return SUCCESS;
     }
 

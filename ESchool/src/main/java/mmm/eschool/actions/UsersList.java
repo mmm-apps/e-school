@@ -81,39 +81,36 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
     TeacherManager teacherMan = new TeacherManager();
     ParentManager parentMan = new ParentManager();
 
-    if (!user.getStudentsSet().isEmpty()) 
+    if (user.getStudent()!=null ) 
     {
-      Student studentOldData = studMan.getStudentByEmail(user.getStudentsSet().get(0).getEmail());
-      studentOldData.setAdress(user.getStudentsSet().get(0).getAdress());
-      studentOldData.setEmail(user.getStudentsSet().get(0).getEmail());
-      studentOldData.setPhone(user.getStudentsSet().get(0).getPhone());
-      studentOldData.setFirstName(user.getStudentsSet().get(0).getFirstName());
-      studentOldData.setLastName(user.getStudentsSet().get(0).getLastName());
-      user.getStudentsSet().clear();
-      user.getStudentsSet().add(studentOldData);
+      Student studentOldData = studMan.getStudentByEmail(user.getStudent().getEmail());
+      studentOldData.setAdress(user.getStudent().getAdress());
+      studentOldData.setEmail(user.getStudent().getEmail());
+      studentOldData.setPhone(user.getStudent().getPhone());
+      studentOldData.setFirstName(user.getStudent().getFirstName());
+      studentOldData.setLastName(user.getStudent().getLastName());
+      user.setStudent(studentOldData);
     }
 
-    if (!user.getParentsSet().isEmpty()) 
+    if (user.getParent() !=null) 
     {
-      Parent parentOldData = parentMan.getStudentByEmail(user.getStudentsSet().get(0).getEmail());
-      parentOldData.setAddress(user.getParentsSet().get(0).getAddress());
-      parentOldData.setEmail(user.getParentsSet().get(0).getEmail());
-      parentOldData.setPhone(user.getParentsSet().get(0).getPhone());
-      parentOldData.setFirstName(user.getParentsSet().get(0).getFirstName());
-      parentOldData.setLastName(user.getParentsSet().get(0).getLastName());
-      user.getParentsSet().clear();
-      user.getParentsSet().add(parentOldData);
+      Parent parentOldData = parentMan.getStudentByEmail(user.getStudent().getEmail());
+      parentOldData.setAddress(user.getParent().getAddress());
+      parentOldData.setEmail(user.getParent().getEmail());
+      parentOldData.setPhone(user.getParent().getPhone());
+      parentOldData.setFirstName(user.getParent().getFirstName());
+      parentOldData.setLastName(user.getParent().getLastName());
+      user.setParent(parentOldData);
     }
-    if (!user.getTeachersSet().isEmpty()) 
+    if (user.getTeacher() != null) 
     {
-      Teacher teacherOldData = teacherMan.getStudentByEmail(user.getStudentsSet().get(0).getEmail());
-      teacherOldData.setAdress(user.getTeachersSet().get(0).getAdress());
-      teacherOldData.setEmail(user.getTeachersSet().get(0).getEmail());
-      teacherOldData.setPhone(user.getTeachersSet().get(0).getPhone());
-      teacherOldData.setFirstName(user.getTeachersSet().get(0).getFirstName());
-      teacherOldData.setLastName(user.getTeachersSet().get(0).getLastName());
-      user.getTeachersSet().clear();
-      user.getTeachersSet().add(teacherOldData);
+      Teacher teacherOldData = teacherMan.getStudentByEmail(user.getStudent().getEmail());
+      teacherOldData.setAdress(user.getTeacher().getAdress());
+      teacherOldData.setEmail(user.getTeacher().getEmail());
+      teacherOldData.setPhone(user.getTeacher().getPhone());
+      teacherOldData.setFirstName(user.getTeacher().getFirstName());
+      teacherOldData.setLastName(user.getTeacher().getLastName());
+      user.setTeacher(teacherOldData);
     }
     usrManager.update(user);
     return SUCCESS;

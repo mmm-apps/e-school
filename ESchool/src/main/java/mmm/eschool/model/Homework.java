@@ -104,4 +104,11 @@ public class Homework implements Serializable {
         this.classId = classId;
     }
 
+      public Teacher getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Teacher teacherId) {
+        this.teacherId = teacherId;
+    }
 }

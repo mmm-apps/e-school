@@ -134,10 +134,10 @@ public class AddMark extends ActionSupport implements SessionAware {
         User user = (User)session.get("user");
         Student student = new Student();
         mark.setMark(Integer.parseInt(markVal));
-        mark.setClassId(studentMgr.getEntityById(studId).getClassesSet().get(0));
+        mark.setClassId(studentMgr.getEntityById(studId).getClassId());
         mark.setStudentId(studentMgr.getEntityById(studId));
         mark.setSubjectId(subjectMgr.getSubjectByName(subjName));
-        mark.setTeacherId(user.getTeachersSet().get(0));
+        mark.setTeacherId(user.getTeacher());
         
         markMgr.add(mark);
         student = studentMgr.getEntityById(studId);

@@ -44,7 +44,7 @@ public class AddHomeworkToClass extends ActionSupport implements SessionAware
     subjectList = new ArrayList<String>();
     for (TeacherSubjects s : teachersubjects) 
     {
-      if (s.getClasses().getId() == Integer.parseInt(classId) && teacher.getTeachersSet().get(0).getId() == s.getTeacher().getId()) 
+      if (s.getClasses().getId() == Integer.parseInt(classId) && teacher.getTeacher().getId() == s.getTeacher().getId()) 
       {
         subjectList.add(s.getSubject().getSubjectName() + " " + s.getSubject().getSubjectKind());
       }

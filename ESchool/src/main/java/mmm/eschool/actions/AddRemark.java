@@ -74,14 +74,14 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
     StudentManager studMan = new StudentManager();
     newRemark.setStudentId(studMan.getEntityById(userIdTemp));
     User user = (User) session.get("user");
-    if (!user.getTeachersSet().isEmpty()) {
+    if (user.getTeacher() != null) {
       TeacherManager teacherMgr = new TeacherManager();
-      newRemark.setTeacherId(teacherMgr.getEntityById(user.getTeachersSet().get(0).getId()));
+      newRemark.setTeacherId(teacherMgr.getEntityById(user.getTeacher().getId()));
     }
     SubjectManager subjectMgr = new SubjectManager();
     newRemark.setSubjectId(subjectMgr.getSubjectByName(subjectName));
     RemarkManager remMan = new RemarkManager();
-    newRemark.setClassId(studMan.getEntityById(userIdTemp).getClassesSet().get(0));
+    newRemark.setClassId(studMan.getEntityById(userIdTemp).getClassId());
 
     try {
       remMan.add(newRemark);

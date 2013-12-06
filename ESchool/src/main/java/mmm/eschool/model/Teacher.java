@@ -62,9 +62,6 @@ public class Teacher implements Serializable {
     @ManyToMany(mappedBy = "teachersSet")
     private List<Subject> subjectsSet = new ArrayList<Subject>();
 
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(mappedBy = "teachersSet")
-    private List<Classes> classesSet = new ArrayList<Classes>();
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
@@ -157,14 +154,6 @@ public class Teacher implements Serializable {
 
     public void setSubjectsSet(List<Subject> subjectsSet) {
         this.subjectsSet = subjectsSet;
-    }
-
-    public List<Classes> getClassesSet() {
-        return classesSet;
-    }
-
-    public void setClassesSet(List<Classes> classesSet) {
-        this.classesSet = classesSet;
     }
 
     public List<Mark> getMarksSet() {

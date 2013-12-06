@@ -91,8 +91,8 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             student.setAdress(addUser.getAdress());
             student.setEmail(addUser.getEmail());
             student.setPhone(addUser.getTelephone());
-            student.setUserId(user);
-            user.getStudentsSet().add(student);
+            student.setUser(user);
+            user.setStudent(student);
             role.setRoleName(Constants.STUDENT);
             role.getUsersSet().add(user);
             user.getRolesSet().add(role);
@@ -105,8 +105,8 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             teacher.setAdress(addUser.getAdress());
             teacher.setEmail(addUser.getEmail());
             teacher.setPhone(addUser.getTelephone());
-            teacher.setUserId(user);
-            user.getTeachersSet().add(teacher);
+            teacher.setUser(user);
+            user.setTeacher(teacher);
             role.setRoleName(Constants.TEACHER);
             role.getUsersSet().add(user);
             user.getRolesSet().add(role);
@@ -119,8 +119,8 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             parent.setAddress(addUser.getAdress());
             parent.setEmail(addUser.getEmail());
             parent.setPhone(addUser.getTelephone());
-            parent.setUserId(user);
-            user.getParentsSet().add(parent);
+            parent.setUser(user);
+            user.setParent(parent);
             role.setRoleName(Constants.PARENT);
             role.getUsersSet().add(user);
             user.getRolesSet().add(role);
@@ -133,8 +133,8 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
             teacher.setAdress(addUser.getAdress());
             teacher.setEmail(addUser.getEmail());
             teacher.setPhone(addUser.getTelephone());
-            teacher.setUserId(user);
-            user.getTeachersSet().add(teacher);
+            teacher.setUser(user);
+            user.setTeacher(teacher);
             role.setRoleName(Constants.ADMINISTRATOR);
             role.getUsersSet().add(user);
             user.getRolesSet().add(role);

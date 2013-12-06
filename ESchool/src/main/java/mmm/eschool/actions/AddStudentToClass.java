@@ -50,10 +50,10 @@ public class AddStudentToClass extends ActionSupport implements SessionAware
     for (Student displayedStudent : studlist)
     {
       String displayedClass;
-      if (displayedStudent.getClassesSet().isEmpty())
+      if (displayedStudent.getClassId() == null)
         displayedClass = "НЯМА КЛАС";
       else
-        displayedClass = displayedStudent.getClassesSet().get(0).getClassName();
+        displayedClass = displayedStudent.getClassId().getClassName();
       studentsList.add(displayedStudent.getFirstName() + " " + displayedStudent.getLastName()+ "  " + displayedClass);
     }
 
@@ -70,10 +70,10 @@ public class AddStudentToClass extends ActionSupport implements SessionAware
     for (Student currentStudent : studlist)
     {
       String className;
-      if (currentStudent.getClassesSet().isEmpty())
+      if (currentStudent.getClassId() == null)
         className = "НЯМА КЛАС";
       else
-        className = currentStudent.getClassesSet().get(0).getClassName();
+        className = currentStudent.getClassId().getClassName();
       if (student.equals(currentStudent.getFirstName() + " " + currentStudent.getLastName() + "  " + className))
       {
         newStudent = currentStudent;
@@ -92,8 +92,8 @@ public class AddStudentToClass extends ActionSupport implements SessionAware
 
     try
     {
-      newClass.getStudentsSet().add(newStudent);
-      newStudent.getClassesSet().add(newClass);
+      newClass.getStudentList().add(newStudent);
+      newStudent.setClassId(newClass);
       classMan.update(newClass);
       studMan.update(newStudent);
       addFieldError("student", "Student recorded succesufully!");

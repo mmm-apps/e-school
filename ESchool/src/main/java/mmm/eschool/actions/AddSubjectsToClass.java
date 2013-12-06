@@ -86,7 +86,7 @@ public class AddSubjectsToClass extends ActionSupport implements SessionAware
   {
     StudentManager studMan = new StudentManager();
     Classes clas = classMgr.getEntityById(Integer.parseInt(classId));
-    studentsList = clas.getStudentsSet();
+    studentsList = clas.getStudentList();
     subject = subjectMgr.getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
     for (Student s : studentsList) {
       s.getSubjectsSet().add(subject);
