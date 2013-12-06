@@ -33,7 +33,7 @@ public class Mark implements Serializable
   @GeneratedValue(strategy = GenerationType.AUTO, generator = "marks_seq")
   private int id;
 
-  @Column(nullable = false)
+  @Column(name = "mark" ,nullable = false)
   private int mark;
 
   @JoinColumn(name = "teacher_id", referencedColumnName = "id")
@@ -52,11 +52,11 @@ public class Mark implements Serializable
   @ManyToOne(optional = false)
   private Classes classId;
 
-  @Column(name = "dateCreated")
+  @Column(name = "dateCreated", nullable = false)
   @Temporal(TemporalType.DATE)
   private Date dateCreated;
   
-  @Column(name = "isSeen")
+  @Column(name = "isSeen", nullable = false)
   private boolean isSeen;
 
   public int getId()

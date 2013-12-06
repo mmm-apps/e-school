@@ -31,146 +31,108 @@ import org.hibernate.annotations.LazyCollectionOption;
  */
 @Entity
 @Table(schema = "eschool", name = "classes")
-public class Classes implements Serializable
-{
-  @Id
-  @SequenceGenerator(name = "classes_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "classes_seq")
-  @GeneratedValue(strategy = GenerationType.AUTO, generator = "classes_seq")
-  private int id;
+public class Classes implements Serializable {
 
-  @Column(name = "class_name", nullable = false, length = 30)
-  private String className;
+    @Id
+    @SequenceGenerator(name = "classes_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "classes_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "classes_seq")
+    private int id;
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
-  private List<Student> studentList = new ArrayList<Student>();
+    @Column(name = "class_name", nullable = false, length = 30)
+    private String className;
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "classes")
-  private List<TeacherSubjects> teacherSubjectsList = new ArrayList<TeacherSubjects>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
+    private List<Student> studentList = new ArrayList<Student>();
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @JoinTable(schema = "eschool", name = "student_classes", joinColumns= {
-            @JoinColumn(name = "class_id", referencedColumnName = "id")}, inverseJoinColumns= {
-            @JoinColumn(name = "student_id", referencedColumnName = "id")})
-  @ManyToMany
-  private List<Student> studentsSet = new ArrayList<Student>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classes")
+    private List<TeacherSubjects> teacherSubjectsList = new ArrayList<TeacherSubjects>();
 
-  @JoinTable(schema = "eschool", name = "form_masters", joinColumns= {
-            @JoinColumn(name = "class_id", referencedColumnName = "id")}, inverseJoinColumns= {
-            @JoinColumn(name = "teacher_id", referencedColumnName = "id")})
-  @ManyToMany
-  @LazyCollection(LazyCollectionOption.FALSE)
-  private List<Teacher> teachersSet = new ArrayList<Teacher>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
+    private List<Homework> homeworksSet = new ArrayList<Homework>();
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
-  private List<Homework> homeworksSet = new ArrayList<Homework>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
+    private List<Mark> marksSet = new ArrayList<Mark>();
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
-  private List<Mark> marksSet = new ArrayList<Mark>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
+    private List<Remark> remarksSet = new ArrayList<Remark>();
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
-  private List<Remark> remarksSet = new ArrayList<Remark>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classId")
+    private List<Absence> absenceesSet = new ArrayList<Absence>();
 
-  public int getId()
-  {
-    return id;
-  }
+    public int getId() {
+        return id;
+    }
 
-  public void setId(int id)
-  {
-    this.id = id;
-  }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-  public String getClassName()
-  {
-    return className;
-  }
+    public String getClassName() {
+        return className;
+    }
 
-  public void setClassName(String className)
-  {
-    this.className = className;
-  }
+    public void setClassName(String className) {
+        this.className = className;
+    }
 
-  public List<Student> getStudentList()
-  {
-    return studentList;
-  }
+    public List<Student> getStudentList() {
+        return studentList;
+    }
 
-  public void setStudentList(List<Student> studentList)
-  {
-    this.studentList = studentList;
-  }
+    public void setStudentList(List<Student> studentList) {
+        this.studentList = studentList;
+    }
 
-  public List<TeacherSubjects> getTeacherSubjectsList()
-  {
-    return teacherSubjectsList;
-  }
+    public List<TeacherSubjects> getTeacherSubjectsList() {
+        return teacherSubjectsList;
+    }
 
-  public void setTeacherSubjectsList(List<TeacherSubjects> teacherSubjectsList)
-  {
-    this.teacherSubjectsList = teacherSubjectsList;
-  }
+    public void setTeacherSubjectsList(List<TeacherSubjects> teacherSubjectsList) {
+        this.teacherSubjectsList = teacherSubjectsList;
+    }
 
-  public List<Student> getStudentsSet()
-  {
-    return studentsSet;
-  }
+    public List<Homework> getHomeworksSet() {
+        return homeworksSet;
+    }
 
-  public void setStudentsSet(List<Student> studentsSet)
-  {
-    this.studentsSet = studentsSet;
-  }
+    public void setHomeworksSet(List<Homework> homeworksSet) {
+        this.homeworksSet = homeworksSet;
+    }
 
-  public List<Teacher> getTeachersSet()
-  {
-    return teachersSet;
-  }
+    public List<Mark> getMarksSet() {
+        return marksSet;
+    }
 
-  public void setTeachersSet(List<Teacher> teachersSet)
-  {
-    this.teachersSet = teachersSet;
-  }
+    public void setMarksSet(List<Mark> marksSet) {
+        this.marksSet = marksSet;
+    }
 
-  public List<Homework> getHomeworksSet()
-  {
-    return homeworksSet;
-  }
+    public List<Remark> getRemarksSet() {
+        return remarksSet;
+    }
 
-  public void setHomeworksSet(List<Homework> homeworksSet)
-  {
-    this.homeworksSet = homeworksSet;
-  }
+    public void setRemarksSet(List<Remark> remarksSet) {
+        this.remarksSet = remarksSet;
+    }
 
-  public List<Mark> getMarksSet()
-  {
-    return marksSet;
-  }
+    public List<Absence> getAbsenceesSet() {
+        return absenceesSet;
+    }
 
-  public void setMarksSet(List<Mark> marksSet)
-  {
-    this.marksSet = marksSet;
-  }
+    public void setAbsenceesSet(List<Absence> absenceesSet) {
+        this.absenceesSet = absenceesSet;
+    }
 
-  public List<Remark> getRemarksSet()
-  {
-    return remarksSet;
-  }
+    public Classes() {
+    }
 
-  public void setRemarksSet(List<Remark> remarksSet)
-  {
-    this.remarksSet = remarksSet;
-  }
-
-  public Classes()
-  {
-  }
-
-  public Classes(Integer id)
-  {
-    this.id = id;
-  }
+    public Classes(Integer id) {
+        this.id = id;
+    }
 }

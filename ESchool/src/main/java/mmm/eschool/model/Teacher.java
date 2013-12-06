@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package mmm.eschool.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,9 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -35,201 +31,172 @@ import org.hibernate.annotations.LazyCollectionOption;
  */
 @Entity
 @Table(schema = "eschool", name = "teachers")
-public class Teacher implements Serializable 
-{
-  @Id
-  @SequenceGenerator(name = "teachers_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "teachers_seq")
-  @GeneratedValue(strategy = GenerationType.AUTO, generator = "teachers_seq")
-  private int id;
+public class Teacher implements Serializable {
 
-  @Column(name = "first_name", nullable = false, length = 30)
-  private String firstName;
+    @Id
+    @SequenceGenerator(name = "teachers_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "teachers_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "teachers_seq")
+    private int id;
 
-  @Column(name = "last_name", nullable = false, length = 30)
-  private String lastName;
+    @Column(name = "first_name", nullable = false, length = 30)
+    private String firstName;
 
-  @Column(nullable = false, length = 40)
-  private String phone;
+    @Column(name = "last_name", nullable = false, length = 30)
+    private String lastName;
 
-  @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")
-  @Column(nullable = false, length = 40)
-  private String email;
+    @Column(nullable = false, length = 40)
+    private String phone;
 
-  @Column(nullable = false, length = 100)
-  private String adress;
+    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = "Invalid email")
+    @Column(nullable = false, length = 40)
+    private String email;
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
-  private List<TeacherSubjects> teacherSubjectsList = new ArrayList<TeacherSubjects>();
+    @Column(nullable = false, length = 100)
+    private String adress;
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @ManyToMany(mappedBy = "teachersSet")
-  private List<Subject> subjectsSet = new ArrayList<Subject>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
+    private List<TeacherSubjects> teacherSubjectsList = new ArrayList<TeacherSubjects>();
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @ManyToMany(mappedBy = "teachersSet")
-  private List<Classes> classesSet = new ArrayList<Classes>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(mappedBy = "teachersSet")
+    private List<Subject> subjectsSet = new ArrayList<Subject>();
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
-  private List<Mark> marksSet = new ArrayList<Mark>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(mappedBy = "teachersSet")
+    private List<Classes> classesSet = new ArrayList<Classes>();
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
-  private List<Remark> remarksSet = new ArrayList<Remark>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
+    private List<Mark> marksSet = new ArrayList<Mark>();
 
-  @ManyToOne(optional = false)
-  @JoinColumn(nullable = false, name = "user_id", referencedColumnName = "id")
-  private User userId;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
+    private List<Remark> remarksSet = new ArrayList<Remark>();
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
-  private List<Absence> absencesSet = new ArrayList<Absence>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
+    private List<Homework> homeworksSet = new ArrayList<Homework>();
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-  @OneToOne(optional = false)
-  private User user;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacherId")
+    private List<Absence> absencesSet = new ArrayList<Absence>();
 
-  public int getId()
-  {
-    return id;
-  }
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private User user;
 
-  public void setId(int id)
-  {
-    this.id = id;
-  }
+    public int getId() {
+        return id;
+    }
 
-  public String getFirstName()
-  {
-    return firstName;
-  }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-  public void setFirstName(String firstName)
-  {
-    this.firstName = firstName;
-  }
+    public String getFirstName() {
+        return firstName;
+    }
 
-  public String getLastName()
-  {
-    return lastName;
-  }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-  public void setLastName(String lastName)
-  {
-    this.lastName = lastName;
-  }
+    public String getLastName() {
+        return lastName;
+    }
 
-  public String getPhone()
-  {
-    return phone;
-  }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-  public void setPhone(String phone)
-  {
-    this.phone = phone;
-  }
+    public String getPhone() {
+        return phone;
+    }
 
-  public String getEmail()
-  {
-    return email;
-  }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-  public void setEmail(String email)
-  {
-    this.email = email;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  public String getAdress()
-  {
-    return adress;
-  }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-  public void setAdress(String adress)
-  {
-    this.adress = adress;
-  }
+    public String getAdress() {
+        return adress;
+    }
 
-  public List<TeacherSubjects> getTeacherSubjectsList()
-  {
-    return teacherSubjectsList;
-  }
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
 
-  public void setTeacherSubjectsList(List<TeacherSubjects> teacherSubjectsList)
-  {
-    this.teacherSubjectsList = teacherSubjectsList;
-  }
+    public List<TeacherSubjects> getTeacherSubjectsList() {
+        return teacherSubjectsList;
+    }
 
-  public List<Subject> getSubjectsSet()
-  {
-    return subjectsSet;
-  }
+    public void setTeacherSubjectsList(List<TeacherSubjects> teacherSubjectsList) {
+        this.teacherSubjectsList = teacherSubjectsList;
+    }
 
-  public void setSubjectsSet(List<Subject> subjectsSet)
-  {
-    this.subjectsSet = subjectsSet;
-  }
+    public List<Subject> getSubjectsSet() {
+        return subjectsSet;
+    }
 
-  public List<Classes> getClassesSet()
-  {
-    return classesSet;
-  }
+    public List<Homework> getHomeworksSet() {
+        return homeworksSet;
+    }
 
-  public void setClassesSet(List<Classes> classesSet)
-  {
-    this.classesSet = classesSet;
-  }
+    public void setHomeworksSet(List<Homework> homeworksSet) {
+        this.homeworksSet = homeworksSet;
+    }
 
-  public List<Mark> getMarksSet()
-  {
-    return marksSet;
-  }
+    public void setSubjectsSet(List<Subject> subjectsSet) {
+        this.subjectsSet = subjectsSet;
+    }
 
-  public void setMarksSet(List<Mark> marksSet)
-  {
-    this.marksSet = marksSet;
-  }
+    public List<Classes> getClassesSet() {
+        return classesSet;
+    }
 
-  public List<Remark> getRemarksSet()
-  {
-    return remarksSet;
-  }
+    public void setClassesSet(List<Classes> classesSet) {
+        this.classesSet = classesSet;
+    }
 
-  public void setRemarksSet(List<Remark> remarksSet)
-  {
-    this.remarksSet = remarksSet;
-  }
+    public List<Mark> getMarksSet() {
+        return marksSet;
+    }
 
-  public User getUserId()
-  {
-    return userId;
-  }
+    public void setMarksSet(List<Mark> marksSet) {
+        this.marksSet = marksSet;
+    }
 
-  public void setUserId(User userId)
-  {
-    this.userId = userId;
-  }
+    public List<Remark> getRemarksSet() {
+        return remarksSet;
+    }
 
-  public List<Absence> getAbsencesSet()
-  {
-    return absencesSet;
-  }
+    public void setRemarksSet(List<Remark> remarksSet) {
+        this.remarksSet = remarksSet;
+    }
 
-  public void setAbsencesSet(List<Absence> absencesSet)
-  {
-    this.absencesSet = absencesSet;
-  }
+    public List<Absence> getAbsencesSet() {
+        return absencesSet;
+    }
 
-  public User getUser()
-  {
-    return user;
-  }
+    public void setAbsencesSet(List<Absence> absencesSet) {
+        this.absencesSet = absencesSet;
+    }
 
-  public void setUser(User user)
-  {
-    this.user = user;
-  }
-  
-  
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }

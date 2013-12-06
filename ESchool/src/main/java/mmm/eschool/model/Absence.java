@@ -30,9 +30,6 @@ import javax.validation.constraints.NotNull;
 public class Absence implements Serializable
 {
 
-  @NotNull
-  private boolean isSeen;
-
   @Id
   @SequenceGenerator(name = "absences_seq", allocationSize = 1, initialValue = 1, schema = "main", sequenceName = "absences_seq")
   @GeneratedValue(strategy = GenerationType.AUTO, generator = "absences_seq")
@@ -59,6 +56,13 @@ public class Absence implements Serializable
   @JoinColumn(name = "student_id", referencedColumnName = "id")
   @ManyToOne(optional = false)
   private Student studentId;
+  
+  @JoinColumn(name = "calss_id", referencedColumnName = "id")
+  @ManyToOne(optional = false)
+  private Absence classId;
+  
+  @Column(name = "is_seen", nullable = false)
+  private boolean isSeen;
 
   public boolean isIsSeen()
   {
@@ -140,5 +144,11 @@ public class Absence implements Serializable
     this.studentId = studentId;
   }
 
+    public Absence getClassId() {
+        return classId;
+    }
 
+    public void setClassId(Absence classId) {
+        this.classId = classId;
+    }
 }

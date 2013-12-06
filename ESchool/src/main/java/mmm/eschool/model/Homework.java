@@ -19,7 +19,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -27,133 +26,82 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(schema = "eschool", name = "homeworks")
-public class Homework implements Serializable
-{
+public class Homework implements Serializable {
 
-  @Column(name = "dateCreated")
-  @Temporal(TemporalType.DATE)
-  private Date dateCreated;
+    @Id
+    @SequenceGenerator(name = "homeworks_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "homeworks_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "homeworks_seq")
+    private int id;
 
-  @Id
-  @SequenceGenerator(name = "homeworks_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "homeworks_seq")
-  @GeneratedValue(strategy = GenerationType.AUTO, generator = "homeworks_seq")
-  private int id;
+    @Column(name = "homework_title", nullable = false, length = 40)
+    private String homeWorkTitle;
 
-  @Column(name = "homework_title", nullable = false, length = 40)
-  private String homeWorkTitle;
+    @JoinColumn(name = "subject_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Subject subjectId;
 
-  @Column(name = "start_date", nullable = false)
-  @Temporal(TemporalType.DATE)
-  private Date startDate;
+    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Student studentId;
 
-  @Column(name = "end_date", nullable = false)
-  @Temporal(TemporalType.DATE)
-  private Date endDate;
+    @JoinColumn(name = "class_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Classes classId;
 
-  @Column(name = "is_completed", nullable = false)
-  private Boolean isCompleted;
+    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Teacher teacherId;
 
-  @JoinColumn(name = "subject_id", referencedColumnName = "id")
-  @ManyToOne(optional = false)
-  private Subject subjectId;
+    @Column(name = "dateCreated", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date dateCreated;
 
-  @JoinColumn(name = "student_id", referencedColumnName = "id")
-  @ManyToOne(optional = false)
-  private Student studentId;
+    public Date getDateCreated() {
+        return dateCreated;
+    }
 
-  @JoinColumn(name = "class_id", referencedColumnName = "id")
-  @ManyToOne(optional = false)
-  private Classes classId;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
 
-  public Date getDateCreated()
-  {
-    return dateCreated;
-  }
+    public int getId() {
+        return id;
+    }
 
-  public void setDateCreated(Date dateCreated)
-  {
-    this.dateCreated = dateCreated;
-  }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-  public int getId()
-  {
-    return id;
-  }
+    public String getHomeWorkTitle() {
+        return homeWorkTitle;
+    }
 
-  public void setId(int id)
-  {
-    this.id = id;
-  }
+    public void setHomeWorkTitle(String homeWorkTitle) {
+        this.homeWorkTitle = homeWorkTitle;
+    }
 
-  public String getHomeWorkTitle()
-  {
-    return homeWorkTitle;
-  }
+    public Subject getSubjectId() {
+        return subjectId;
+    }
 
-  public void setHomeWorkTitle(String homeWorkTitle)
-  {
-    this.homeWorkTitle = homeWorkTitle;
-  }
+    public void setSubjectId(Subject subjectId) {
+        this.subjectId = subjectId;
+    }
 
-  public Date getStartDate()
-  {
-    return startDate;
-  }
+    public Student getStudentId() {
+        return studentId;
+    }
 
-  public void setStartDate(Date startDate)
-  {
-    this.startDate = startDate;
-  }
+    public void setStudentId(Student studentId) {
+        this.studentId = studentId;
+    }
 
-  public Date getEndDate()
-  {
-    return endDate;
-  }
+    public Classes getClassId() {
+        return classId;
+    }
 
-  public void setEndDate(Date endDate)
-  {
-    this.endDate = endDate;
-  }
+    public void setClassId(Classes classId) {
+        this.classId = classId;
+    }
 
-  public Boolean isIsCompleted()
-  {
-    return isCompleted;
-  }
-
-  public void setIsCompleted(Boolean isCompleted)
-  {
-    this.isCompleted = isCompleted;
-  }
-
-  public Subject getSubjectId()
-  {
-    return subjectId;
-  }
-
-  public void setSubjectId(Subject subjectId)
-  {
-    this.subjectId = subjectId;
-  }
-
-  public Student getStudentId()
-  {
-    return studentId;
-  }
-
-  public void setStudentId(Student studentId)
-  {
-    this.studentId = studentId;
-  }
-
-  public Classes getClassId()
-  {
-    return classId;
-  }
-
-  public void setClassId(Classes classId)
-  {
-    this.classId = classId;
-  }
-  
-  
 }

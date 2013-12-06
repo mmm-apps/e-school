@@ -51,11 +51,11 @@ public class Remark implements Serializable
   @ManyToOne(optional = false)
   private Classes classId;
 
-  @Column(name = "dateCreated")
+  @Column(name = "dateCreated", nullable = false)
   @Temporal(javax.persistence.TemporalType.DATE)
   private Date dateCreated;
 
-  @Column(name = "isSeen")
+  @Column(name = "isSeen", nullable = false)
   private boolean isSeen;
 
   public int getId()

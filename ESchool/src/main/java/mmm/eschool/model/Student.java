@@ -8,7 +8,6 @@ package mmm.eschool.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,9 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -58,14 +55,6 @@ public class Student implements Serializable
   @Column(nullable = false, length = 100)
   private String adress;
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @ManyToMany(mappedBy = "studentsSet")
-  private List<Classes> classesSet = new ArrayList<Classes>();
-
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @ManyToMany(mappedBy = "studentsSet")
-  private List<Parent> parentsSet = new ArrayList<Parent>();
-
   @JoinTable(schema = "eschool", name = "student_subjects", joinColumns = 
   {
     @JoinColumn(name = "student_id", referencedColumnName = "id")}, inverseJoinColumns = 
@@ -87,10 +76,6 @@ public class Student implements Serializable
   @LazyCollection(LazyCollectionOption.FALSE)
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
   private List<Remark> remarksSet = new ArrayList<Remark>();
-
-  @JoinColumn(name = "user_id", referencedColumnName = "id")
-  @ManyToOne(optional = false)
-  private User userId;
 
   @LazyCollection(LazyCollectionOption.FALSE)
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
@@ -169,26 +154,6 @@ public class Student implements Serializable
     this.adress = adress;
   }
 
-  public List<Classes> getClassesSet()
-  {
-    return classesSet;
-  }
-
-  public void setClassesSet(List<Classes> classesSet)
-  {
-    this.classesSet = classesSet;
-  }
-
-  public List<Parent> getParentsSet()
-  {
-    return parentsSet;
-  }
-
-  public void setParentsSet(List<Parent> parentsSet)
-  {
-    this.parentsSet = parentsSet;
-  }
-
   public List<Subject> getSubjectsSet()
   {
     return subjectsSet;
@@ -227,16 +192,6 @@ public class Student implements Serializable
   public void setRemarksSet(List<Remark> remarksSet)
   {
     this.remarksSet = remarksSet;
-  }
-
-  public User getUserId()
-  {
-    return userId;
-  }
-
-  public void setUserId(User userId)
-  {
-    this.userId = userId;
   }
 
   public List<Absence> getAbsencesSet()
@@ -278,7 +233,7 @@ public class Student implements Serializable
   {
     this.classId = classId;
   }
-
+  
   public Student()
   {
   }

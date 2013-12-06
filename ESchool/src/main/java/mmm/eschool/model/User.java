@@ -8,7 +8,6 @@ package mmm.eschool.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,12 +15,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -47,19 +43,6 @@ public class User implements Serializable
   @LazyCollection(LazyCollectionOption.FALSE)
   @ManyToMany(cascade = CascadeType.ALL, mappedBy = "usersSet")
   private List<Role> rolesSet = new ArrayList<Role>();
-  ;
-
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-  private List<Teacher> teachersSet = new ArrayList<Teacher>();
-
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-  private List<Parent> parentsSet = new ArrayList<Parent>();
-
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-  private List<Student> studentsSet = new ArrayList<Student>();
 
   @LazyCollection(LazyCollectionOption.FALSE)
   @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
@@ -111,36 +94,6 @@ public class User implements Serializable
   public void setRolesSet(List<Role> rolesSet)
   {
     this.rolesSet = rolesSet;
-  }
-
-  public List<Teacher> getTeachersSet()
-  {
-    return teachersSet;
-  }
-
-  public void setTeachersSet(List<Teacher> teachersSet)
-  {
-    this.teachersSet = teachersSet;
-  }
-
-  public List<Parent> getParentsSet()
-  {
-    return parentsSet;
-  }
-
-  public void setParentsSet(List<Parent> parentsSet)
-  {
-    this.parentsSet = parentsSet;
-  }
-
-  public List<Student> getStudentsSet()
-  {
-    return studentsSet;
-  }
-
-  public void setStudentsSet(List<Student> studentsSet)
-  {
-    this.studentsSet = studentsSet;
   }
 
   public Student getStudent()

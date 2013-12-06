@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package mmm.eschool.model;
 
 import java.io.Serializable;
@@ -27,6 +26,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -49,145 +50,97 @@ public class Parent implements Serializable {
 
     @Column(nullable = false, length = 40)
     private String phone;
-    
-    @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")
+
+    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = "Invalid email")
     @Column(nullable = false, length = 40)
     private String email;
-   
+
     @Column(nullable = false, length = 100)
     private String address;
-    
-    @JoinTable(schema = "eschool", name = "student_parents", joinColumns = {
-        @JoinColumn(name = "parent_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "student_id", referencedColumnName = "id")})
-    @ManyToMany
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentId")
     private List<Student> studentsSet = new ArrayList<Student>();
+
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private User user;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public List<Student> getStudentsSet() {
+        return studentsSet;
+    }
+
+    public void setStudentsSet(List<Student> studentsSet) {
+        this.studentsSet = studentsSet;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
     
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private User userId;
+    public Parent() {
+    }
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "parentId")
-  private List<Student> studentList;
-  
-  @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-  @OneToOne(optional = false)
-  private User user;
+    public Parent(Integer id) {
+        this.id = id;
+    }
 
-  public int getId()
-  {
-    return id;
-  }
-
-  public void setId(int id)
-  {
-    this.id = id;
-  }
-
-  public String getFirstName()
-  {
-    return firstName;
-  }
-
-  public void setFirstName(String firstName)
-  {
-    this.firstName = firstName;
-  }
-
-  public String getLastName()
-  {
-    return lastName;
-  }
-
-  public void setLastName(String lastName)
-  {
-    this.lastName = lastName;
-  }
-
-  public String getPhone()
-  {
-    return phone;
-  }
-
-  public void setPhone(String phone)
-  {
-    this.phone = phone;
-  }
-
-  public String getEmail()
-  {
-    return email;
-  }
-
-  public void setEmail(String email)
-  {
-    this.email = email;
-  }
-
-  public String getAddress()
-  {
-    return address;
-  }
-
-  public void setAddress(String address)
-  {
-    this.address = address;
-  }
-
-  public List<Student> getStudentsSet()
-  {
-    return studentsSet;
-  }
-
-  public void setStudentsSet(List<Student> studentsSet)
-  {
-    this.studentsSet = studentsSet;
-  }
-
-  public User getUserId()
-  {
-    return userId;
-  }
-
-  public void setUserId(User userId)
-  {
-    this.userId = userId;
-  }
-
-  public List<Student> getStudentList()
-  {
-    return studentList;
-  }
-
-  public void setStudentList(List<Student> studentList)
-  {
-    this.studentList = studentList;
-  }
-
-  public User getUser()
-  {
-    return user;
-  }
-
-  public void setUser(User user)
-  {
-    this.user = user;
-  }
-
-  public Parent()
-  {
-  }
-
-  public Parent(Integer id)
-  {
-    this.id = id;
-  }
-
-  public Parent(Integer id, String address, String email, String phone)
-  {
-    this.id = id;
-    this.address = address;
-    this.email = email;
-    this.phone = phone;
-  }
+    public Parent(Integer id, String address, String email, String phone) {
+        this.id = id;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+    }
 }

@@ -41,8 +41,6 @@ public class Subject implements Serializable {
     @Column(name = "subject_name", nullable = false, length = 40)
     private String subjectName;
 
-//    @Column(name = "year_of_study", nullable = false)
-//    private int yearOfStudy;
     @Column(name = "subject_kind", nullable = false, length = 40)
     private String subjectKind;
 
