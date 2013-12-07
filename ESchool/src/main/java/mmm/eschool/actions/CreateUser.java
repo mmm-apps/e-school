@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
-import mmm.eschool.Constants;
 import mmm.eschool.actions.temp.AddUser;
 import mmm.eschool.model.Parent;
 import mmm.eschool.model.Role;
@@ -20,7 +19,6 @@ import mmm.eschool.model.Teacher;
 import mmm.eschool.model.User;
 import mmm.eschool.model.managers.RoleManager;
 import mmm.eschool.model.managers.UserManager;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
@@ -76,6 +74,7 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
   {
     User user = new User();
     UserManager usm = new UserManager();
+    RoleManager roleManager = new RoleManager();
     Role role = new Role();
     if (usm.isUsernameExists(addUser.getUsername()))
     {
@@ -130,9 +129,10 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
       teacher.setUser(user);
     }
     
-    role = roleMgr.getRoleByName(roleList);
-    user.getRolesSet().add(role);
-    role.getUsersSet().add(user);
+    if (!role.getUsersSet().contains(user))
+      role.getUsersSet().add(user);
+    if (!user.getRolesSet().contains(role))
+      user.getRolesSet().add(role);
     
     try
     {
@@ -185,11 +185,11 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
     this.roleList = roleList;
   }
 
-    public List<String> getRoleCollection() {
-        return roleCollection;
-    }
+  public List<String> getRoleCollection() {
+      return roleCollection;
+  }
 
-    public void setRoleCollection(List<String> roleCollection) {
-        this.roleCollection = roleCollection;
-    }
+  public void setRoleCollection(List<String> roleCollection) {
+      this.roleCollection = roleCollection;
+  }
 }

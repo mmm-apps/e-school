@@ -122,7 +122,7 @@
       <%
       } else if (contentParam != null && contentParam.equals("teachersList")) {
       %>
-      <%@include file="TeachersList.jsp"%>
+      <%@include file="UsersList.jsp"%>
       <%
       } else if (contentParam != null && contentParam.equals("marksList")) {
       %>

@@ -9,7 +9,6 @@ package mmm.eschool.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +19,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -30,14 +28,14 @@ import org.hibernate.annotations.LazyCollectionOption;
  */
 @Entity
 @Table(schema = "eschool", name = "roles")
-public class Role implements Serializable {
-
+public class Role implements Serializable 
+{
     @Id
     @SequenceGenerator(name = "roles_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "roles_seq")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "roles_seq")
     private int id;
 
-    @Column(name = "role_name", nullable = false, length = 30)
+    @Column(name = "role_name", nullable = false, length = 30, unique = true)
     private String roleName;
     
     @JoinTable(schema = "eschool", name = "user_in_roles", joinColumns = {
@@ -76,6 +74,4 @@ public class Role implements Serializable {
   {
     this.usersSet = usersSet;
   }
-    
-
 }
