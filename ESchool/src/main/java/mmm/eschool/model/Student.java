@@ -11,8 +11,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -20,11 +20,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.Parameter;
 
 /**
  *
@@ -34,9 +36,11 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Table(schema = "eschool", name = "students")
 public class Student implements Serializable 
 {
+  @GenericGenerator(name = "generator", strategy = "foreign", 
+  parameters = @Parameter(name = "property", value = "user"))
   @Id
-  @SequenceGenerator(name = "students_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "students_seq")
-  @GeneratedValue(strategy = GenerationType.AUTO, generator = "students_seq")
+  @GeneratedValue(generator = "generator")
+  @Column(unique = true, nullable = false)
   private int id;
 
   @Column(name = "first_name", nullable = false, length = 30)
@@ -81,9 +85,8 @@ public class Student implements Serializable
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "studentId")
   private List<Absence> absencesSet = new ArrayList<Absence>();
 
-
-  @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-  @OneToOne(optional = false)
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
   private User user;
   
   @JoinColumn(name = "parentId", referencedColumnName = "id")

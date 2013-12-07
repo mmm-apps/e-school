@@ -1,4 +1,4 @@
-package mmm.eschool;
+package mmm.eschool.model.managers;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
@@ -15,7 +15,7 @@ public class HibernateUtil
 {
   private static final SessionFactory sessionFactory = buildSessionFactory();
  
-  public static final SessionFactory buildSessionFactory()
+  private static SessionFactory buildSessionFactory()
   {
     try 
     {
@@ -28,7 +28,7 @@ public class HibernateUtil
     }
   }
   
-  public static final synchronized SessionFactory getSessionFactory() 
+  protected static final synchronized SessionFactory getSessionFactory() 
   {
     if (sessionFactory == null)
       return buildSessionFactory();
@@ -36,7 +36,7 @@ public class HibernateUtil
       return sessionFactory;
   }
   
-  public static final void add(Object entity)
+  protected static final void add(Object entity)
   {
     final Session dataSession = getSessionFactory().openSession();
     dataSession.beginTransaction();
@@ -45,7 +45,7 @@ public class HibernateUtil
     dataSession.close();
   }
   
-  public static final void del(Object entity)
+  protected static final void del(Object entity)
   {
     final Session dataSession = getSessionFactory().openSession();
     dataSession.beginTransaction();
@@ -54,11 +54,21 @@ public class HibernateUtil
     dataSession.close();
   }
   
-  public static final void update(Object entity)
+  protected static final void update(Object entity)
   {
     final Session dataSession = getSessionFactory().openSession();
     dataSession.beginTransaction();
     dataSession.update(entity);
+    dataSession.getTransaction().commit();
+    dataSession.close();
+  }
+  
+  protected static final void addInTransaction(Object... entities)
+  {
+    final Session dataSession = getSessionFactory().openSession();
+    dataSession.beginTransaction();
+    for (Object e : entities)
+      dataSession.save(e);
     dataSession.getTransaction().commit();
     dataSession.close();
   }

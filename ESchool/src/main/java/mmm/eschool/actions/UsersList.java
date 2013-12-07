@@ -22,7 +22,6 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class UsersList extends ActionSupport implements ModelDriven<User>, SessionAware
 {
-
   private User user = new User();
   private String userId;
   private List<User> userList = new ArrayList<User>();
@@ -81,7 +80,7 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
     TeacherManager teacherMan = new TeacherManager();
     ParentManager parentMan = new ParentManager();
 
-    if (user.getStudent()!=null ) 
+    if (user.getStudent()!= null ) 
     {
       Student studentOldData = studMan.getStudentByEmail(user.getStudent().getEmail());
       studentOldData.setAdress(user.getStudent().getAdress());
@@ -92,7 +91,7 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
       user.setStudent(studentOldData);
     }
 
-    if (user.getParent() !=null) 
+    if (user.getParent() != null) 
     {
       Parent parentOldData = parentMan.getStudentByEmail(user.getStudent().getEmail());
       parentOldData.setAddress(user.getParent().getAddress());
@@ -102,6 +101,7 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
       parentOldData.setLastName(user.getParent().getLastName());
       user.setParent(parentOldData);
     }
+    
     if (user.getTeacher() != null) 
     {
       Teacher teacherOldData = teacherMan.getStudentByEmail(user.getStudent().getEmail());

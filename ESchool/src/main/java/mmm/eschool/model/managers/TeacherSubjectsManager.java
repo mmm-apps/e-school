@@ -14,33 +14,33 @@ import mmm.eschool.model.TeacherSubjects;
  *
  * @author Denev
  */
-public class TeacherSubjectsManager extends Manager<TeacherSubjects> {
-      private static final Map<Integer, TeacherSubjects> teacherSubjects = new Hashtable<Integer, TeacherSubjects>();
-      public static boolean isCalc = false;
+public class TeacherSubjectsManager extends Manager<TeacherSubjects> 
+{
+  private static final Map<Integer, TeacherSubjects> teacherSubjects = new Hashtable<Integer, TeacherSubjects>();
+  public static boolean isCalc = false;
 
-    @Override
-    boolean isCalc() {
-        return isCalc;
-    }
+  @Override
+  boolean isCalc() {
+    return isCalc;
+  }
 
-    @Override
-    public void setIsCalc(boolean toCalc) {
-        isCalc = toCalc;
-    }
+  @Override
+  public void setIsCalc(boolean toCalc) {
+    isCalc = toCalc;
+  }
 
-    @Override
-    Map<Integer, TeacherSubjects> getCollection() {
-        return teacherSubjects;
-    }
+  @Override
+  Map<Integer, TeacherSubjects> getCollection() {
+    return teacherSubjects;
+  }
 
-    @Override
-    Integer getId(TeacherSubjects TeacherSubjects) {
-        return TeacherSubjects.getId();
-    }
+  @Override
+  Integer getId(TeacherSubjects TeacherSubjects) {
+    return TeacherSubjects.getId();
+  }
 
-    @Override
-    String getEntityName() {
-        return "TeacherSubjects";
-    }
-    
+  @Override
+  String getEntityName() {
+    return "TeacherSubjects";
+  }
 }

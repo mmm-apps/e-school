@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.AnException.Types;
-import mmm.eschool.HibernateUtil;
-import mmm.eschool.model.Student;
 import org.hibernate.classic.Session;
 
 /**
@@ -25,8 +23,7 @@ public abstract class Manager<T>
     if (!isCalc())
     {
       getCollection().clear();
-      final Session dataSession = mmm.eschool.HibernateUtil.getSessionFactory().openSession();
-      Student student = new Student();
+      final Session dataSession = mmm.eschool.model.managers.HibernateUtil.getSessionFactory().openSession();
       final List<T> newEntityData = dataSession.createQuery("from " + getEntityName()).list();
       dataSession.close();
       for (final T entity : newEntityData)
@@ -70,7 +67,7 @@ public abstract class Manager<T>
     return null;
   }
 
-  public final boolean update(T entity) throws AnException
+  public final boolean update(final T entity) throws AnException
   {
     if (entity != null)
     {
@@ -85,7 +82,7 @@ public abstract class Manager<T>
     }
     return false;
   }
-  
+
   public final List<T> getEntityList()
   {
     return new ArrayList(getCollection().values());
@@ -95,10 +92,11 @@ public abstract class Manager<T>
   {
     return getCollection().get(id);
   }
-
+  
   abstract boolean isCalc();
-  public abstract void setIsCalc(boolean toCalc);
+  abstract void setIsCalc(boolean toCalc);
   abstract Map<Integer, T> getCollection();
   abstract Integer getId(T entity);
   abstract String getEntityName();
+ // public Manager getManager() { return this; }
 }

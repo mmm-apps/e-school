@@ -3,7 +3,6 @@ package mmm.eschool.model.managers;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import mmm.eschool.model.Student;
 import mmm.eschool.model.Teacher;
 
 /**
@@ -43,14 +42,15 @@ public class TeacherManager extends Manager<Teacher>
   
   public Teacher getTeacherByNames(String FirstName, String LastName)
   {
-      for(Teacher t : getEntityList())
-      {
-          if(t.getFirstName().equals(FirstName) && t.getLastName().equals(LastName))
-              return t;
-      }
-      return null;
+    for(Teacher t : getEntityList())
+    {
+      if(t.getFirstName().equals(FirstName) && t.getLastName().equals(LastName))
+        return t;
+    }
+    return null;
   }
-    public Teacher getStudentByEmail(String email)
+  
+  public Teacher getStudentByEmail(String email)
   {
     List<Teacher> teacher = getEntityList();
     

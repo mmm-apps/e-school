@@ -24,7 +24,6 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class AddSubjectsToClass extends ActionSupport implements SessionAware
 {
-
   private Map session;
   private String classNameInfo;
   private static String classId;
@@ -88,12 +87,12 @@ public class AddSubjectsToClass extends ActionSupport implements SessionAware
     Classes clas = classMgr.getEntityById(Integer.parseInt(classId));
     studentsList = clas.getStudentList();
     subject = subjectMgr.getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
-    for (Student s : studentsList) {
+    for (Student s : studentsList) 
+    {
       s.getSubjectsSet().add(subject);
       subject.getStudentsSet().add(s);
       studMan.update(s);
       subjectMgr.update(subject);
-
     }
     return SUCCESS;
   }
@@ -103,5 +102,4 @@ public class AddSubjectsToClass extends ActionSupport implements SessionAware
   {
     this.session = map;
   }
-
 }

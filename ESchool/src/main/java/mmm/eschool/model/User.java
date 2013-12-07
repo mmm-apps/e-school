@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,16 +45,13 @@ public class User implements Serializable
   @ManyToMany(cascade = CascadeType.ALL, mappedBy = "usersSet")
   private List<Role> rolesSet = new ArrayList<Role>();
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+  @OneToOne(mappedBy="user", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
   private Student student;
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+  @OneToOne(mappedBy="user", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
   private Parent parent;
 
-  @LazyCollection(LazyCollectionOption.FALSE)
-  @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+  @OneToOne(mappedBy="user", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
   private Teacher teacher;
 
   public int getId()

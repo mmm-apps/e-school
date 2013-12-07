@@ -26,163 +26,148 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, SessionAware
 {
+  private String roleList;
+  private Map<String, Object> session;
+  AddUser addUser = new AddUser();
 
-    private String list1;
-    private Map<String, Object> session;
-    AddUser addUser = new AddUser();
+  @Override
+  public void validate()
+  {
+    if (StringUtils.isEmpty(addUser.getUsername()))
+      addFieldError("username", "Username cannot be blank!");
+    
+    if (StringUtils.isEmpty(addUser.getPassword()))
+      addFieldError("password", "Password cannot be blank!");
+    
+    if (StringUtils.isEmpty(roleList))
+      addFieldError("role", "Role cannot be blank!");
+    
+    if (StringUtils.isEmpty(addUser.getFirstName()))
+      addFieldError("firsName", "First name cannot be blank!");
+    
+    if (StringUtils.isEmpty(addUser.getLastName()))
+      addFieldError("lastName", "Last name cannot be blank!");
+    
+    if (StringUtils.isEmpty(addUser.getTelephone()))
+      addFieldError("telephone", "Telephone cannot be blank!");
+    
+    if (StringUtils.isEmpty(addUser.getAdress()))
+      addFieldError("adress", "Adress cannot be blank!");
+    
+    if (StringUtils.isEmpty(addUser.getEmail()))
+      addFieldError("email", "Email cannot be blank!");
+  }
 
-    @Override
-    public void validate()
+  @Override
+  public String execute() throws Exception
+  {
+    User user = new User();
+    UserManager usm = new UserManager();
+    Role role = new Role();
+    if (usm.isUsernameExists(addUser.getUsername()))
     {
-        if (StringUtils.isEmpty(addUser.getUsername()))
-        {
-            addFieldError("username", "Username cannot be blank!");
-        }
-        if (StringUtils.isEmpty(addUser.getPassword()))
-        {
-            addFieldError("password", "Password cannot be blank!");
-        }
-        if (StringUtils.isEmpty(list1))
-        {
-            addFieldError("role", "Role cannot be blank!");
-        }
-        if (StringUtils.isEmpty(addUser.getFirstName()))
-        {
-            addFieldError("firsName", "First name cannot be blank!");
-        }
-        if (StringUtils.isEmpty(addUser.getLastName()))
-        {
-            addFieldError("lastName", "Last name cannot be blank!");
-        }
-        if (StringUtils.isEmpty(addUser.getTelephone()))
-        {
-            addFieldError("telephone", "Telephone cannot be blank!");
-        }
-        if (StringUtils.isEmpty(addUser.getAdress()))
-        {
-            addFieldError("adress", "Adress cannot be blank!");
-        }
-        if (StringUtils.isEmpty(addUser.getEmail()))
-        {
-            addFieldError("email", "Email cannot be blank!");
-        }
+      addFieldError("username", "Username exists!");
+      return SUCCESS;
     }
+    user.setUsername(addUser.getUsername());
+    user.setPassword(addUser.getPassword());
 
-    @Override
-    public String execute() throws Exception
+    if (roleList.equals("STUDENT"))
     {
-
-        User user = new User();
-        UserManager usm = new UserManager();
-        Role role = new Role();
-        if (usm.isUsernameExists(addUser.getUsername()))
-        {
-            addFieldError("username", "Username exists!");
-            return SUCCESS;
-        }
-        user.setUsername(addUser.getUsername());
-        user.setPassword(addUser.getPassword());
-
-        if (list1.equals("STUDENT"))
-        {
-            Student student = new Student();
-            student.setFirstName(addUser.getFirstName());
-            student.setLastName(addUser.getLastName());
-            student.setAdress(addUser.getAdress());
-            student.setEmail(addUser.getEmail());
-            student.setPhone(addUser.getTelephone());
-            student.setUser(user);
-            user.setStudent(student);
-            role.setRoleName(Constants.STUDENT);
-            role.getUsersSet().add(user);
-            user.getRolesSet().add(role);
-        }
-        else if (list1.equals("TEACHER"))
-        {
-            Teacher teacher = new Teacher();
-            teacher.setFirstName(addUser.getFirstName());
-            teacher.setLastName(addUser.getLastName());
-            teacher.setAdress(addUser.getAdress());
-            teacher.setEmail(addUser.getEmail());
-            teacher.setPhone(addUser.getTelephone());
-            teacher.setUser(user);
-            user.setTeacher(teacher);
-            role.setRoleName(Constants.TEACHER);
-            role.getUsersSet().add(user);
-            user.getRolesSet().add(role);
-        }
-        else if (list1.equals("PARENT"))
-        {
-            Parent parent = new Parent();
-            parent.setFirstName(addUser.getFirstName());
-            parent.setLastName(addUser.getLastName());
-            parent.setAddress(addUser.getAdress());
-            parent.setEmail(addUser.getEmail());
-            parent.setPhone(addUser.getTelephone());
-            parent.setUser(user);
-            user.setParent(parent);
-            role.setRoleName(Constants.PARENT);
-            role.getUsersSet().add(user);
-            user.getRolesSet().add(role);
-        }
-        else if (list1.equals("ADMIN"))
-        {
-            Teacher teacher = new Teacher();
-            teacher.setFirstName(addUser.getFirstName());
-            teacher.setLastName(addUser.getLastName());
-            teacher.setAdress(addUser.getAdress());
-            teacher.setEmail(addUser.getEmail());
-            teacher.setPhone(addUser.getTelephone());
-            teacher.setUser(user);
-            user.setTeacher(teacher);
-            role.setRoleName(Constants.ADMINISTRATOR);
-            role.getUsersSet().add(user);
-            user.getRolesSet().add(role);
-        }
-        try
-        {
-            UserManager userMan = new UserManager();
-            userMan.add(user);
-            addFieldError("username", "The data was successufully recorded!");
-            return SUCCESS;
-        }
-        catch (AnException ex)
-        {
-            ex.printStackTrace();
-        }
-        return ERROR;
+      Student student = new Student();
+      student.setFirstName(addUser.getFirstName());
+      student.setLastName(addUser.getLastName());
+      student.setAdress(addUser.getAdress());
+      student.setEmail(addUser.getEmail());
+      student.setPhone(addUser.getTelephone());
+      user.setStudent(student);
+      student.setUser(user);
+      role.setRoleName(Constants.STUDENT);
     }
-
-    @Override
-    public AddUser getModel()
+    else if (roleList.equals("TEACHER"))
     {
-        return getAddUser();
+      Teacher teacher = new Teacher();
+      teacher.setFirstName(addUser.getFirstName());
+      teacher.setLastName(addUser.getLastName());
+      teacher.setAdress(addUser.getAdress());
+      teacher.setEmail(addUser.getEmail());
+      teacher.setPhone(addUser.getTelephone());
+      user.setTeacher(teacher);
+      teacher.setUser(user);
+      role.setRoleName(Constants.TEACHER);
     }
-
-    @Override
-    public void setSession(Map<String, Object> map)
+    else if (roleList.equals("PARENT"))
     {
-        this.session = map;
+      Parent parent = new Parent();
+      parent.setFirstName(addUser.getFirstName());
+      parent.setLastName(addUser.getLastName());
+      parent.setAddress(addUser.getAdress());
+      parent.setEmail(addUser.getEmail());
+      parent.setPhone(addUser.getTelephone());
+      user.setParent(parent);
+      parent.setUser(user);
+      role.setRoleName(Constants.PARENT);
     }
-
-    public AddUser getAddUser()
+    else if (roleList.equals("ADMIN"))
     {
-        return addUser;
+      Teacher teacher = new Teacher();
+      teacher.setFirstName(addUser.getFirstName());
+      teacher.setLastName(addUser.getLastName());
+      teacher.setAdress(addUser.getAdress());
+      teacher.setEmail(addUser.getEmail());
+      teacher.setPhone(addUser.getTelephone());
+      user.setTeacher(teacher);
+      teacher.setUser(user);
+      role.setRoleName(Constants.ADMINISTRATOR);
     }
-
-    public void setAddUser(AddUser addUser)
+    
+    if (!role.getUsersSet().contains(user))
+        role.getUsersSet().add(user);
+    if (!user.getRolesSet().contains(role))
+      user.getRolesSet().add(role);
+    try
     {
-        this.addUser = addUser;
+      UserManager userMan = new UserManager();
+      userMan.add(user);
+      addFieldError("username", "The data was successufully recorded!");
+      return SUCCESS;
     }
-
-    public String getList1()
+    catch (AnException ex)
     {
-        return list1;
+      ex.printStackTrace();
     }
+    return ERROR;
+  }
 
-    public void setList1(String list1)
-    {
-        this.list1 = list1;
-    }
+  @Override
+  public AddUser getModel()
+  {
+    return getAddUser();
+  }
 
+  @Override
+  public void setSession(Map<String, Object> map)
+  {
+    this.session = map;
+  }
+
+  public AddUser getAddUser()
+  {
+    return addUser;
+  }
+
+  public void setAddUser(AddUser addUser)
+  {
+    this.addUser = addUser;
+  }
+
+  public String getRoleList()
+  {
+    return roleList;
+  }
+
+  public void setRoleList(String roleList)
+  {
+    this.roleList = roleList;
+  }
 }
