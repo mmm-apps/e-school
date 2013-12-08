@@ -12,8 +12,9 @@
       <result>LoginPanel.jsp</result> 
     </action>
         
-    <action name="addUser">
-      <result>CreateUser.jsp</result> 
+    <action name="addUser" method="display" class="mmm.eschool.actions.CreateUser">
+      <result name="none">CreateUser.jsp</result>
+      <result name="input">CreateUser.jsp</result> 
     </action>
         
     <action name="selectRemark" method="display" class="mmm.eschool.actions.AddRemark">
@@ -21,8 +22,7 @@
       <result name="input">AddRemark.jsp</result> 
     </action>
         
-    <action name="AddMark" 
-            class="mmm.eschool.actions.AddMark" method="display">
+    <action name="AddMark" class="mmm.eschool.actions.AddMark" method="display">
       <result name="none">AddMark.jsp</result>
     </action>
         

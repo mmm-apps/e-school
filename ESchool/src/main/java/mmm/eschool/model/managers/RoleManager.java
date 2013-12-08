@@ -38,4 +38,14 @@ public class RoleManager extends Manager<Role>
     else
       return null;
   }
+  
+  public Role getRoleByName(String roleName)
+  {
+      for(Role r : getEntityList())
+      {
+          if(r.getRoleName().equals(roleName))
+              return r;
+      }
+      return null;
+  }
 }

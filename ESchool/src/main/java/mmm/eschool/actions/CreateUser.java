@@ -7,6 +7,8 @@ package mmm.eschool.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.Constants;
@@ -16,6 +18,7 @@ import mmm.eschool.model.Role;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.Teacher;
 import mmm.eschool.model.User;
+import mmm.eschool.model.managers.RoleManager;
 import mmm.eschool.model.managers.UserManager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
@@ -29,34 +32,44 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
   private String roleList;
   private Map<String, Object> session;
   AddUser addUser = new AddUser();
-
-  @Override
-  public void validate()
+  private List<String> roleCollection = new ArrayList<String>();
+  RoleManager roleMgr = new RoleManager();
+  
+  public CreateUser()
   {
-    if (StringUtils.isEmpty(addUser.getUsername()))
-      addFieldError("username", "Username cannot be blank!");
-    
-    if (StringUtils.isEmpty(addUser.getPassword()))
-      addFieldError("password", "Password cannot be blank!");
-    
-    if (StringUtils.isEmpty(roleList))
-      addFieldError("role", "Role cannot be blank!");
-    
-    if (StringUtils.isEmpty(addUser.getFirstName()))
-      addFieldError("firsName", "First name cannot be blank!");
-    
-    if (StringUtils.isEmpty(addUser.getLastName()))
-      addFieldError("lastName", "Last name cannot be blank!");
-    
-    if (StringUtils.isEmpty(addUser.getTelephone()))
-      addFieldError("telephone", "Telephone cannot be blank!");
-    
-    if (StringUtils.isEmpty(addUser.getAdress()))
-      addFieldError("adress", "Adress cannot be blank!");
-    
-    if (StringUtils.isEmpty(addUser.getEmail()))
-      addFieldError("email", "Email cannot be blank!");
+      for(Role r : roleMgr.getEntityList())
+      {
+          roleCollection.add(r.getRoleName());
+      }
   }
+  
+//  @Override
+//  public void validate()
+//  {
+//    if (StringUtils.isEmpty(addUser.getUsername()))
+//      addFieldError("username", "Username cannot be blank!");
+//    
+//    if (StringUtils.isEmpty(addUser.getPassword()))
+//      addFieldError("password", "Password cannot be blank!");
+//    
+//    if (StringUtils.isEmpty(roleList))
+//      addFieldError("role", "Role cannot be blank!");
+//    
+//    if (StringUtils.isEmpty(addUser.getFirstName()))
+//      addFieldError("firsName", "First name cannot be blank!");
+//    
+//    if (StringUtils.isEmpty(addUser.getLastName()))
+//      addFieldError("lastName", "Last name cannot be blank!");
+//    
+//    if (StringUtils.isEmpty(addUser.getTelephone()))
+//      addFieldError("telephone", "Telephone cannot be blank!");
+//    
+//    if (StringUtils.isEmpty(addUser.getAdress()))
+//      addFieldError("adress", "Adress cannot be blank!");
+//    
+//    if (StringUtils.isEmpty(addUser.getEmail()))
+//      addFieldError("email", "Email cannot be blank!");
+//  }
 
   @Override
   public String execute() throws Exception
@@ -82,7 +95,6 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
       student.setPhone(addUser.getTelephone());
       user.setStudent(student);
       student.setUser(user);
-      role.setRoleName(Constants.STUDENT);
     }
     else if (roleList.equals("TEACHER"))
     {
@@ -94,7 +106,6 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
       teacher.setPhone(addUser.getTelephone());
       user.setTeacher(teacher);
       teacher.setUser(user);
-      role.setRoleName(Constants.TEACHER);
     }
     else if (roleList.equals("PARENT"))
     {
@@ -106,7 +117,6 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
       parent.setPhone(addUser.getTelephone());
       user.setParent(parent);
       parent.setUser(user);
-      role.setRoleName(Constants.PARENT);
     }
     else if (roleList.equals("ADMIN"))
     {
@@ -118,13 +128,12 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
       teacher.setPhone(addUser.getTelephone());
       user.setTeacher(teacher);
       teacher.setUser(user);
-      role.setRoleName(Constants.ADMINISTRATOR);
     }
     
-    if (!role.getUsersSet().contains(user))
-        role.getUsersSet().add(user);
-    if (!user.getRolesSet().contains(role))
-      user.getRolesSet().add(role);
+    role = roleMgr.getRoleByName(roleList);
+    user.getRolesSet().add(role);
+    role.getUsersSet().add(user);
+    
     try
     {
       UserManager userMan = new UserManager();
@@ -137,6 +146,11 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
       ex.printStackTrace();
     }
     return ERROR;
+  }
+  
+  public String display()
+  {
+      return NONE;
   }
 
   @Override
@@ -170,4 +184,12 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
   {
     this.roleList = roleList;
   }
+
+    public List<String> getRoleCollection() {
+        return roleCollection;
+    }
+
+    public void setRoleCollection(List<String> roleCollection) {
+        this.roleCollection = roleCollection;
+    }
 }

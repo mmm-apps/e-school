@@ -21,6 +21,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  *
@@ -41,6 +43,7 @@ public class Role implements Serializable {
     @JoinTable(schema = "eschool", name = "user_in_roles", joinColumns = {
         @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "user_id", referencedColumnName = "id")})
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     private List<User> usersSet = new ArrayList<User>();
 
