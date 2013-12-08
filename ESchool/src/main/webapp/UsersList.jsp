@@ -81,66 +81,66 @@
                                 </tr>
                                 <tr>
                                   <td>Име</td>
-                                  <s:if test="studentsSet.size() > 0">
-                                    <td><s:property value="studentsSet[0].firstName" /></td>
+                                  <s:if test="student != null">
+                                    <td><s:property value="student.firstName" /></td>
                                   </s:if>
-                                  <s:elseif test="teachersSet.size() > 0">
-                                    <td><s:property value="teachersSet[0].firstName" /></td>
+                                  <s:elseif test="teacher != null">
+                                    <td><s:property value="teacher.firstName" /></td>
                                   </s:elseif>
-                                  <s:elseif test="parentsSet.size() > 0">
-                                    <td><s:property value="parentsSet[0].firstName" /></td>
+                                  <s:elseif test="parent != null">
+                                    <td><s:property value="parent.firstName" /></td>
                                   </s:elseif>
                                   <s:else><td></td></s:else>
                                   </tr>
                                   <tr>
                                     <td>Фамилия</td>
-                                  <s:if test="studentsSet.size() > 0">
-                                    <td><s:property value="studentsSet[0].lastName" /></td>
+                                  <s:if test="student != null">
+                                    <td><s:property value="student.lastName" /></td>
                                   </s:if>
-                                  <s:elseif test="teachersSet.size() > 0">
-                                    <td><s:property value="teachersSet[0].lastName" /></td>
+                                  <s:elseif test="teacher != null">
+                                    <td><s:property value="teacher.lastName" /></td>
                                   </s:elseif>
-                                  <s:elseif test="parentsSet.size() > 0">
-                                    <td><s:property value="parentsSet[0].lastName" /></td>
+                                  <s:elseif test="parent != null">
+                                    <td><s:property value="parent.lastName" /></td>
                                   </s:elseif>
                                   <s:else><td></td></s:else>
                                   </tr>
                                   <tr>
                                     <td>Телефон</td>
-                                  <s:if test="studentsSet.size() > 0">
-                                    <td><s:property value="studentsSet[0].phone" /></td>
+                                  <s:if test="student != null">
+                                    <td><s:property value="student.phone" /></td>
                                   </s:if>
-                                  <s:elseif test="teachersSet.size() > 0">
-                                    <td><s:property value="teachersSet[0].phone" /></td>
+                                  <s:elseif test="teacher != null">
+                                    <td><s:property value="teacher.phone" /></td>
                                   </s:elseif>
-                                  <s:elseif test="parentsSet.size() > 0">
-                                    <td><s:property value="parentsSet[0].phone" /></td>
+                                  <s:elseif test="parent != null">
+                                    <td><s:property value="parent.phone" /></td>
                                   </s:elseif>
                                   <s:else><td></td></s:else>
                                   </tr>
                                   <tr>
                                     <td>Имейл</td>
-                                  <s:if test="studentsSet.size() > 0">
-                                    <td><s:property value="studentsSet[0].email" /></td>
+                                  <s:if test="student != null">
+                                    <td><s:property value="student.email" /></td>
                                   </s:if>
-                                  <s:elseif test="teachersSet.size() > 0">
-                                    <td><s:property value="teachersSet[0].email" /></td>
+                                  <s:elseif test="teacher != null">
+                                    <td><s:property value="teacher.email" /></td>
                                   </s:elseif>
-                                  <s:elseif test="parentsSet.size() > 0">
-                                    <td><s:property value="parentsSet[0].email" /></td>
+                                  <s:elseif test="parent != null">
+                                    <td><s:property value="parent.email" /></td>
                                   </s:elseif>
                                   <s:else><td></td></s:else>
                                   </tr>
                                   <tr>
                                     <td>Адрес</td>
-                                  <s:if test="studentsSet.size() > 0">
-                                    <td><s:property value="studentsSet[0].adress" /></td>
+                                  <s:if test="student != null">
+                                    <td><s:property value="student.adress" /></td>
                                   </s:if>
-                                  <s:elseif test="teachersSet.size() > 0">
-                                    <td><s:property value="teachersSet[0].adress" /></td>
+                                  <s:elseif test="teacher != null">
+                                    <td><s:property value="teacher.adress" /></td>
                                   </s:elseif>
-                                  <s:elseif test="parentsSet.size() > 0">
-                                    <td><s:property value="parentsSet[0].adress" /></td>
+                                  <s:elseif test="parent != null">
+                                    <td><s:property value="parent.adress" /></td>
                                   </s:elseif>
                                   <s:else><td></td></s:else>
                                   </tr>
@@ -166,47 +166,93 @@
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
-                          <s:textfield id="userNameInput" key="username" type="text" cssClass="form-control" label="Потребителско име" />
+                          <s:textfield id="userNameInput" key="username" type="text" cssClass="form-control" placeholder="Потребителско име" />
                         </div>
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
-                          <s:password id="passwordInput" key="password" value="" type="text" cssClass="form-control" label="Парола" />
+                          <s:password id="passwordInput" key="password" type="text" cssClass="form-control" placeholder="Парола" />
                         </div>
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
-                          <s:password id="password2Input" key="password" value="" type="text" cssClass="form-control" label="Нова Парола" />
+                          <s:password id="newPassword" key="newPassword" value="" type="text" cssClass="form-control" placeholder="Нова Парола" />
                         </div>
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
-                          <s:radio id="rolesInput" value="role" name="roles" list="#{'STUDENT':'STUDENT','TEACHER':'TEACHER','PARENT':'PARENT','ADMIN':'ADMIN'}" label="Роля" />
+                          <s:password id="reNewPassword" key="reNewPassword" value="" type="text" cssClass="form-control" placeholder="Нова Парола Отново" />
                         </div>
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
-                          <s:textfield id="nameInput" key="studentsSet[0].firstName" type="text" cssClass="form-control" label="Име"/>
+                            <s:select headerKey="-1" headerValue="Моля изберете роля" 
+                                      list="roleCollection" name="roleList" cssClass="form-control"/>
                         </div>
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
-                          <s:textfield id="lastNameInput" key="studentsSet[0].lastName" type="text" cssClass="form-control" label="Фамилия" />
+                          <s:if test="student != null">
+                            <s:textfield id="nameInput" key="student.firstName" type="text" cssClass="form-control" placeholder="Име"/>
+                          </s:if>
+                          <s:elseif test="teacher != null">
+                            <s:textfield id="nameInput" key="teacher.firstName" type="text" cssClass="form-control" placeholder="Име"/>
+                          </s:elseif>
+                          <s:elseif test="parent != null">
+                            <s:textfield id="nameInput" key="parent.firstName" type="text" cssClass="form-control" placeholder="Име"/>
+                          </s:elseif>
                         </div>
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
-                          <s:textfield id="phoneInput" key="studentsSet[0].phone" type="text" cssClass="form-control" label="Телефон" />
+                          <s:if test="student != null">
+                            <s:textfield id="lastNameInput" key="student.lastName" type="text" cssClass="form-control" placeholder="Фамилия" />
+                          </s:if>
+                          <s:elseif test="teacher != null">
+                            <s:textfield id="lastNameInput" key="teacher.lastName" type="text" cssClass="form-control" placeholder="Фамилия" />
+                          </s:elseif>
+                          <s:elseif test="parent != null">
+                            <s:textfield id="lastNameInput" key="parent.lastName" type="text" cssClass="form-control" placeholder="Фамилия" />
+                          </s:elseif>
                         </div>
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
-                          <s:textfield id="emailInput" key="studentsSet[0].email" type="text" cssClass="form-control" label="Имейл" />
+                          <s:if test="student != null">
+                            <s:textfield id="phoneInput" key="student.phone" type="text" cssClass="form-control" placeholder="Телефон" />
+                          </s:if>
+                          <s:elseif test="teacher != null">
+                            <s:textfield id="phoneInput" key="teacher.phone" type="text" cssClass="form-control" placeholder="Телефон" />
+                          </s:elseif>
+                          <s:elseif test="parent != null">
+                            <s:textfield id="phoneInput" key="parent.phone" type="text" cssClass="form-control" placeholder="Телефон" />
+                          </s:elseif>
                         </div>
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
-                          <s:textfield id="addressInput" key="studentsSet[0].adress" type="text" cssClass="form-control" label="Адрес" />
+                          <s:if test="student != null">
+                            <s:textfield id="emailInput" key="student.email" type="text" cssClass="form-control" placeholder="Имейл" />
+                          </s:if>
+                          <s:elseif test="teacher != null">
+                            <s:textfield id="emailInput" key="teacher.email" type="text" cssClass="form-control" placeholder="Имейл" />
+                          </s:elseif>
+                          <s:elseif test="parent != null">
+                            <s:textfield id="emailInput" key="parent.email" type="text" cssClass="form-control" placeholder="Имейл" />
+                          </s:elseif>
+                        </div>
+                      </div>
+                      <div class = "form-group">
+                        <div class="col-lg-10">
+                          <s:if test="student != null">
+                            <s:textfield id="addressInput" key="student.adress" type="text" cssClass="form-control" placeholder="Адрес" />
+                          </s:if>
+                          <s:elseif test="teacher != null">
+                            <s:textfield id="addressInput" key="teacher.adress" type="text" cssClass="form-control" placeholder="Адрес" />
+                          </s:elseif>
+                          <s:elseif test="parent != null">
+                            <s:textfield id="addressInput" key="parent.adress" type="text" cssClass="form-control" placeholder="Адрес" />
+                          </s:elseif>
                         </div>
                       </div>
                     </fieldset>
@@ -229,7 +275,7 @@
   </div>
   <script type="text/javascript">
     <!--
-    var pager = new Pager('results', 3);
+    var pager = new Pager('results', 5);
     pager.init();
     pager.showPageNav('pager', 'pageNavPosition');
     pager.showPage(1);//-->

@@ -12,8 +12,8 @@ package mmm.eschool;
  */
 public class Constants
 {
-  public static final String ADMINISTRATOR = "ADMINISTRATOR";
-  public static final String PARENT = "PARENT";
-  public static final String TEACHER = "TEACHER";
-  public static final String STUDENT = "STUDENT";
+  public static final String ADMINISTRATOR = "Администратор";
+  public static final String PARENT = "Родител";
+  public static final String TEACHER = "Учител";
+  public static final String STUDENT = "Студент";
 }

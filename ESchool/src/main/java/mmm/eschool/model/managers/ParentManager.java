@@ -1,7 +1,6 @@
 package mmm.eschool.model.managers;
 
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Map;
 import mmm.eschool.model.Parent;
 
@@ -47,17 +46,5 @@ public class ParentManager extends Manager<Parent>
     } else {
       return null;
     }
-  }
-
-  public Parent getStudentByEmail(String email)
-  {
-    List<Parent> parents = getEntityList();
-
-    for (Parent par : parents) {
-      if (par.getEmail().equals(email)) {
-        return par;
-      }
-    }
-    return null;
   }
 }

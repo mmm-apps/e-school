@@ -31,14 +31,13 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
   private Map<String, Object> session;
   AddUser addUser = new AddUser();
   private List<String> roleCollection = new ArrayList<String>();
-  RoleManager roleMgr = new RoleManager();
+  final RoleManager roleMgr = new RoleManager();
+  final UserManager userMgr = new UserManager();
   
   public CreateUser()
   {
-      for(Role r : roleMgr.getEntityList())
-      {
-          roleCollection.add(r.getRoleName());
-      }
+    for(final Role r : roleMgr.getEntityList())
+      roleCollection.add(r.getRoleName());
   }
   
 //  @Override
@@ -72,11 +71,10 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
   @Override
   public String execute() throws Exception
   {
-    User user = new User();
-    UserManager usm = new UserManager();
-    RoleManager roleManager = new RoleManager();
-    Role role = new Role();
-    if (usm.isUsernameExists(addUser.getUsername()))
+    final User user = new User();
+    final Role role = new Role();
+    role.setRoleName(roleList);
+    if (userMgr.isUsernameExists(addUser.getUsername()))
     {
       addFieldError("username", "Username exists!");
       return SUCCESS;
@@ -84,9 +82,9 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
     user.setUsername(addUser.getUsername());
     user.setPassword(addUser.getPassword());
 
-    if (roleList.equals("STUDENT"))
+    if (roleList.equals(mmm.eschool.Constants.STUDENT))
     {
-      Student student = new Student();
+      final Student student = new Student();
       student.setFirstName(addUser.getFirstName());
       student.setLastName(addUser.getLastName());
       student.setAdress(addUser.getAdress());
@@ -95,9 +93,9 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
       user.setStudent(student);
       student.setUser(user);
     }
-    else if (roleList.equals("TEACHER"))
+    else if (roleList.equals(mmm.eschool.Constants.TEACHER))
     {
-      Teacher teacher = new Teacher();
+      final Teacher teacher = new Teacher();
       teacher.setFirstName(addUser.getFirstName());
       teacher.setLastName(addUser.getLastName());
       teacher.setAdress(addUser.getAdress());
@@ -106,9 +104,9 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
       user.setTeacher(teacher);
       teacher.setUser(user);
     }
-    else if (roleList.equals("PARENT"))
+    else if (roleList.equals(mmm.eschool.Constants.PARENT))
     {
-      Parent parent = new Parent();
+      final Parent parent = new Parent();
       parent.setFirstName(addUser.getFirstName());
       parent.setLastName(addUser.getLastName());
       parent.setAddress(addUser.getAdress());
@@ -117,9 +115,9 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
       user.setParent(parent);
       parent.setUser(user);
     }
-    else if (roleList.equals("ADMIN"))
+    else if (roleList.equals(mmm.eschool.Constants.ADMINISTRATOR))
     {
-      Teacher teacher = new Teacher();
+      final Teacher teacher = new Teacher();
       teacher.setFirstName(addUser.getFirstName());
       teacher.setLastName(addUser.getLastName());
       teacher.setAdress(addUser.getAdress());
@@ -136,8 +134,7 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
     
     try
     {
-      UserManager userMan = new UserManager();
-      userMan.add(user);
+      userMgr.add(user);
       addFieldError("username", "The data was successufully recorded!");
       return SUCCESS;
     }
@@ -150,7 +147,7 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
   
   public String display()
   {
-      return NONE;
+    return NONE;
   }
 
   @Override
@@ -185,11 +182,13 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
     this.roleList = roleList;
   }
 
-  public List<String> getRoleCollection() {
-      return roleCollection;
+  public List<String> getRoleCollection() 
+  {
+    return roleCollection;
   }
 
-  public void setRoleCollection(List<String> roleCollection) {
-      this.roleCollection = roleCollection;
+  public void setRoleCollection(List<String> roleCollection) 
+  {
+    this.roleCollection = roleCollection;
   }
 }
