@@ -161,15 +161,6 @@
     <action name="showSubjectToClass">
       <result>ClassSubjects.jsp</result>
     </action>
-        
-    <action name="selectSubjectToClass" method="getSubjects" class="mmm.eschool.actions.AddSubjectsToClass">
-      <result name="none">AddSubjectToClass.jsp</result>
-    </action>
-        
-    <action name="addSubjectToClass" method="addSubject" class="mmm.eschool.actions.AddSubjectsToClass">
-      <result name="success" type="redirect">classesList</result>
-    </action>
-            
             
     <action name="addHomework" method="getSubjects" class="mmm.eschool.actions.AddHomeworkToClass">
       <result name="none">AddHomeworkToClass.jsp</result>

@@ -17,19 +17,19 @@
                 <div class = "form-group">
                     <div class="col-lg-10">
                         <s:select headerKey="-1" headerValue="Моля Изберете преподавател" 
-                                  list="teachersList" name="teacherName" />
+                                  list="teachersList" name="teacherName" cssClass="form-control" />
                     </div>
                 </div>
                 <div class = "form-group">
                     <div class="col-lg-10">
                         <s:select headerKey="-1" headerValue="Моля Изберете клас" 
-                                  list="classList" name="className" />
+                                  list="classList" name="className" cssClass="form-control" />
                     </div>
                 </div>
                 <div class = "form-group">
                     <div class="col-lg-10">
                         <s:select headerKey="-1" headerValue="Моля Изберете предмет" 
-                                  list="subjectsList" name="subjectName" />
+                                  list="subjectsList" name="subjectName" cssClass="form-control" />
                     </div>
                 </div>
             </fieldset>

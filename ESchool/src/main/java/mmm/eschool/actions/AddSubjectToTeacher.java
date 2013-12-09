@@ -12,11 +12,13 @@ import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.model.Classes;
+import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.Teacher;
 import mmm.eschool.model.TeacherSubjects;
 import mmm.eschool.model.TeacherSubjectsPK;
 import mmm.eschool.model.managers.ClassManager;
+import mmm.eschool.model.managers.StudentManager;
 import mmm.eschool.model.managers.SubjectManager;
 import mmm.eschool.model.managers.TeacherManager;
 import mmm.eschool.model.managers.TeacherSubjectsManager;
@@ -39,6 +41,7 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
   private final List<Subject> subjectListDb;
   private final ClassManager classMgr;
   private final List<Classes> classListDb;
+  private final StudentManager studentMgr;
 
   private List<String> classList;
   private String className;
@@ -75,6 +78,7 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     teacherListDb = teacherMgr.getEntityList();
     subjectListDb = subjectMgr.getEntityList();
     classListDb = classMgr.getEntityList();
+    studentMgr = new StudentManager();
     for (Teacher t : teacherListDb)
       teachersList.add(t.getFirstName() + " " + t.getLastName());
         
@@ -102,17 +106,19 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     subject = subjectMgr.getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
     try 
     {
-//      teacherSubjects.setClasses(clas);
-//      teacherSubjects.setSubject(subject);
-//      teacherSubjects.setTeacher(teacher);
-//      teacher.getTeacherSubjectsList().add(teacherSubjects);
-//      subject.getTeacherSubjectsList().add(teacherSubjects);
       teacherSubjPk.setClassId(clas.getId());
       teacherSubjPk.setSubjectId(subject.getId());
       teacherSubjPk.setTeacherId(teacher.getId());
       teacherSubjects.setTeacherSubjectsPK(teacherSubjPk);
 
       teacherSubjMgr.add(teacherSubjects);
+      for(Student s : clas.getStudentList())
+      {
+          s.getSubjectsSet().add(subject);
+          subject.getStudentsSet().add(s);
+          studentMgr.update(s);
+          subjectMgr.update(subject);
+      }
       return SUCCESS;
     } 
     catch (AnException ex) 

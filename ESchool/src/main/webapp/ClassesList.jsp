@@ -51,12 +51,13 @@
                   <button class="btn btn-success" type="button">Виж предметите за класа</button>
                 </s:a>
 
-                <s:url id="selectSubjectToClass" action="selectSubjectToClass">
+                  <%--                <s:url id="selectSubjectToClass" action="selectSubjectToClass">
                   <s:param name="classNameInfo" value="%{id}"></s:param>
                 </s:url>
                 <s:a href="%{selectSubjectToClass}">
                   <button class="btn btn-success" type="button">Добави предмети за класа</button>
                 </s:a>
+!--%>
 
                 <s:url id="addHomework" action="addHomework">
                   <s:param name="classNameInfo" value="%{id}"></s:param>
