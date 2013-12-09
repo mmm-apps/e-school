@@ -28,17 +28,16 @@ public class HibernateUtil
     }
   }
   
-  protected static final synchronized SessionFactory getSessionFactory() 
+  protected static Session getDataSession()
   {
     if (sessionFactory == null)
-      return buildSessionFactory();
-    else
-      return sessionFactory;
+      buildSessionFactory();
+    return sessionFactory.openSession();
   }
   
   protected static final void add(Object entity)
   {
-    final Session dataSession = getSessionFactory().openSession();
+    final Session dataSession = getDataSession();
     dataSession.beginTransaction();
     dataSession.save(entity);
     dataSession.getTransaction().commit();
@@ -47,7 +46,7 @@ public class HibernateUtil
   
   protected static final void del(Object entity)
   {
-    final Session dataSession = getSessionFactory().openSession();
+    final Session dataSession = getDataSession();
     dataSession.beginTransaction();
     dataSession.delete(entity);
     dataSession.getTransaction().commit();
@@ -56,7 +55,7 @@ public class HibernateUtil
   
   protected static final void update(Object entity)
   {
-    final Session dataSession = getSessionFactory().openSession();
+    final Session dataSession = getDataSession();
     dataSession.beginTransaction();
     dataSession.update(entity);
     dataSession.getTransaction().commit();
@@ -65,7 +64,7 @@ public class HibernateUtil
   
   protected static final void addInTransaction(Object... entities)
   {
-    final Session dataSession = getSessionFactory().openSession();
+    final Session dataSession = getDataSession();
     dataSession.beginTransaction();
     for (Object e : entities)
       dataSession.save(e);

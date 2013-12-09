@@ -23,7 +23,7 @@ public abstract class Manager<T>
     if (!isCalc())
     {
       getCollection().clear();
-      final Session dataSession = mmm.eschool.model.managers.HibernateUtil.getSessionFactory().openSession();
+      final Session dataSession = mmm.eschool.model.managers.HibernateUtil.getDataSession();
       final List<T> newEntityData = dataSession.createQuery("from " + getEntityName()).list();
       dataSession.close();
       for (final T entity : newEntityData)
@@ -59,8 +59,10 @@ public abstract class Manager<T>
       {
         final T entity = getCollection().get(id);
         HibernateUtil.del(entity);
-        setIsCalc(false);
-        calculateEntities();
+        // to be tested
+        getCollection().remove(id);
+//        setIsCalc(false);
+//        calculateEntities();
         return entity;
       }
     }
@@ -75,14 +77,16 @@ public abstract class Manager<T>
 //        throw new AnException(Types.ENTITY_NOT_EXIST);
       {
         HibernateUtil.update(entity);
-        setIsCalc(false);
-        calculateEntities();
+        // to be tested
+        getCollection().put(getId(entity), entity);
+//        setIsCalc(false);
+//        calculateEntities();
       }
       return true;
     }
     return false;
   }
-
+  
   public final List<T> getEntityList()
   {
     return new ArrayList(getCollection().values());

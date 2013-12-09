@@ -72,8 +72,12 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
   public String execute() throws Exception
   {
     final User user = new User();
-    final Role role = new Role();
-    role.setRoleName(roleList);
+    final Role role = roleMgr.getRoleByName(roleList);
+    if (role == null)
+    {
+      addFieldError("roleList", "Моля, изберете роля от списъка!");
+      return ERROR;
+    }
     if (userMgr.isUsernameExists(addUser.getUsername()))
     {
       addFieldError("username", "Username exists!");

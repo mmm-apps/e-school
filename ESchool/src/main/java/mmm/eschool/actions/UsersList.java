@@ -9,6 +9,7 @@ import mmm.eschool.AnException;
 import mmm.eschool.model.Role;
 import mmm.eschool.model.User;
 import mmm.eschool.model.managers.RoleManager;
+import mmm.eschool.model.managers.StudentManager;
 import mmm.eschool.model.managers.UserManager;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -80,29 +81,48 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
   public String edit() throws AnException
   {
     final User oldUser = userMgr.getEntityById(user.getId());
-    if (!user.getPassword().equals(oldUser.getPassword()))
+    if (newPassword != null && !newPassword.isEmpty())
     {
-      addFieldError("password", "Парoлata Ви не съвпада");
+      if (!user.getPassword().equals(oldUser.getPassword()))
+      {
+        addFieldError("password", "Парoлata Ви не съвпада");
+        return INPUT;
+      }
+      if (!newPassword.equals(reNewPassword))
+      {
+        addFieldError("newPassword", "Паролите не съвпадат!");
+        addFieldError("reNewPassword", "Паролите не съвпадат!");
+        return INPUT;
+      }
+      user.setPassword(newPassword);
+    }
+    final Role role = roleMgr.getRoleByName(roleListVal);
+    if (role == null)
+    {
+      addFieldError("roleListVal", "Моля, изберете роля от списъка!");
       return INPUT;
     }
-    if (!newPassword.equals(reNewPassword))
+    if (!user.getRolesSet().contains(role))
     {
-      addFieldError("newPassword", "Паролите не съвпадат!");
-      addFieldError("reNewPassword", "Паролите не съвпадат!");
-      return INPUT;
+      user.getRolesSet().clear(); // vremenno e taka
+      user.getRolesSet().add(role);
     }
-    user.setPassword(newPassword);
-    user.getRolesSet().clear(); // vremenno e taka
-    user.getRolesSet().add(roleMgr.getRoleByName(roleListVal));
+    user.setPassword(oldUser.getPassword());
     
+    // TO DO Да се махне възможността за едит на ролята
     if (user.getStudent() != null )
       user.getStudent().setId(user.getId());
     if (user.getParent() != null)
       user.getParent().setId(user.getId());
     if (user.getTeacher() != null)
       user.getTeacher().setId(user.getId());
-    userMgr.update(user);
-    return SUCCESS;
+    StudentManager studentMgr = new StudentManager();
+    studentMgr.getEntityById(user.getId());
+    studentMgr.getEntityList();
+    if (userMgr.update(user))
+      return SUCCESS;
+    else
+      return ERROR;
   }
 
   public List<User> getUserList()
