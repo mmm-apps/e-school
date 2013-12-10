@@ -110,6 +110,9 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
       teacherSubjPk.setSubjectId(subject.getId());
       teacherSubjPk.setTeacherId(teacher.getId());
       teacherSubjects.setTeacherSubjectsPK(teacherSubjPk);
+      teacherSubjects.setSubject(subject);
+      teacherSubjects.setTeacher(teacher);
+      teacherSubjects.setClasses(clas);
 
       teacherSubjMgr.add(teacherSubjects);
       for(Student s : clas.getStudentList())
