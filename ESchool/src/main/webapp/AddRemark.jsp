@@ -24,7 +24,12 @@
             <s:select headerKey="-1" headerValue="Моля Изберете предмет" 
                       list="subjectsList" name="subjectName" cssClass="form-control" />
           </div>
-        </div>    
+        </div>   
+        <div class = "form-group">
+          <div  class="col-lg-10">
+            <s:textfield  key="date" type="date" id="datepicker" cssClass="form-control"/>
+          </div>
+        </div>
       </fieldset>
       <div class="modal-footer">
         <button type="button" class="btn btn-info" style="float: left;">Назад</button>

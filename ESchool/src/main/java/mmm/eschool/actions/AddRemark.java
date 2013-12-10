@@ -7,18 +7,24 @@ package mmm.eschool.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.actions.temp.StudentRemarks;
 import mmm.eschool.model.Remark;
 import mmm.eschool.model.Subject;
+import mmm.eschool.model.TeacherSubjects;
 import mmm.eschool.model.User;
 import mmm.eschool.model.managers.RemarkManager;
 import mmm.eschool.model.managers.StudentManager;
 import mmm.eschool.model.managers.SubjectManager;
 import mmm.eschool.model.managers.TeacherManager;
+import mmm.eschool.model.managers.TeacherSubjectsManager;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
@@ -32,21 +38,12 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
   private String remark;
   private String student;
   private String userId;
+  private String date;
   private static int userIdTemp;
   private Remark newRemark = new Remark();
   private List<String> subjectsList = new ArrayList<String>();
   private String subjectName;
   private List<StudentRemarks> studentRemarks = new ArrayList<StudentRemarks>();
-
-  public AddRemark()
-  {
-    List<Subject> subjectListDb = new ArrayList<Subject>();
-    SubjectManager subjectMgr = new SubjectManager();
-    subjectListDb = subjectMgr.getEntityList();
-    for (Subject s : subjectListDb) {
-      subjectsList.add(s.getSubjectName());
-    }
-  }
 
   @Override
   public void setSession(Map<String, Object> map)
@@ -54,14 +51,6 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
     this.session = map;
   }
 
-//    @Override
-//    public void validate()
-//    {
-//        if (StringUtils.isEmpty(newRemark.getRemark()))
-//        {
-//            addFieldError("remark", "Remark cannot be blank!");
-//        }
-//    }
   @Override
   public Remark getModel()
   {
@@ -71,6 +60,14 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
   @Override
   public String execute() throws Exception
   {
+    int year, month, day;
+    
+    if (StringUtils.isEmpty(newRemark.getRemark()) || subjectName == null ||date == null)
+    {
+      addFieldError("remark", "Моля попълнете всички полета!");
+      return INPUT;
+    }
+
     StudentManager studMan = new StudentManager();
     newRemark.setStudentId(studMan.getEntityById(userIdTemp));
     User user = (User) session.get("user");
@@ -82,6 +79,13 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
     newRemark.setSubjectId(subjectMgr.getSubjectByName(subjectName));
     RemarkManager remMan = new RemarkManager();
     newRemark.setClassId(studMan.getEntityById(userIdTemp).getClassId());
+
+    year = Integer.parseInt(date.substring(0, date.indexOf("-")));
+    month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-", date.indexOf("-") + 1)));
+    day = Integer.parseInt(date.substring(date.indexOf("-", date.indexOf("-") + 1) + 1, date.length()));
+    Calendar c = new GregorianCalendar(year, month - 1, day);
+    Date dat = new Date(c.getTimeInMillis());
+    newRemark.setDateCreated(dat);
 
     try {
       remMan.add(newRemark);
@@ -95,6 +99,14 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
   {
     userIdTemp = Integer.parseInt(userId);
     studRemarks();
+    TeacherSubjectsManager tsMan = new TeacherSubjectsManager();
+    List<TeacherSubjects> teacherSubjectsList = tsMan.getEntityList();
+    User user = (User) session.get("user");
+    for (TeacherSubjects s : teacherSubjectsList) {
+      if (s.getTeacher().getId() == user.getTeacher().getId()) {
+        subjectsList.add(s.getSubject().getSubjectName());
+      }
+    }
     return NONE;
   }
 
@@ -170,6 +182,16 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
   public void setUserId(String userId)
   {
     this.userId = userId;
+  }
+
+  public String getDate()
+  {
+    return date;
+  }
+
+  public void setDate(String date)
+  {
+    this.date = date;
   }
 
 }

@@ -41,7 +41,7 @@ public class AuthenticationInterceptor implements Interceptor
         return ai.invoke();
       else if (getRequestedPage(request).contains("teacher") && user.getRolesSet().get(0).getRoleName().equals(Constants.TEACHER))
         return ai.invoke();
-      else if (getRequestedPage(request).contains("admin")&& user.getRolesSet().get(0).getRoleName().equals(Constants.ADMINISTRATOR))
+      else if (user.getRolesSet().get(0).getRoleName().equals(Constants.ADMINISTRATOR))
         return ai.invoke();
       else if (getRequestedPage(request).contains("parent") && user.getRolesSet().get(0).getRoleName().equals(Constants.PARENT))
         return ai.invoke();
