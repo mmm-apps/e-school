@@ -22,7 +22,12 @@
         </div>
         <div class = "form-group">
           <div class="col-lg-10">
-            <s:textfield id="homeworkInput" key="homeworkNote" type="text" cssClass="form-control" placeholder="Име на класа" />
+            <s:textfield id="homeworkInput" key="homeworkNote" type="text" cssClass="form-control" placeholder="Домашна работа" />
+          </div>
+        </div>
+        <div class = "form-group">
+          <div  class="col-lg-10">
+            <s:textfield  key="date" type="date" id="datepicker" cssClass="form-control"/>
           </div>
         </div>
       </fieldset>

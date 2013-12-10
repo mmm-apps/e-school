@@ -71,7 +71,8 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
     StudentManager studMan = new StudentManager();
     newRemark.setStudentId(studMan.getEntityById(userIdTemp));
     User user = (User) session.get("user");
-    if (user.getTeacher() != null) {
+    if (user.getTeacher() != null) 
+    {
       TeacherManager teacherMgr = new TeacherManager();
       newRemark.setTeacherId(teacherMgr.getEntityById(user.getTeacher().getId()));
     }
@@ -87,9 +88,12 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
     Date dat = new Date(c.getTimeInMillis());
     newRemark.setDateCreated(dat);
 
-    try {
+    try 
+    {
       remMan.add(newRemark);
-    } catch (AnException ex) {
+    } 
+    catch (AnException ex) 
+    {
       ex.printStackTrace();
     }
     return SUCCESS;
