@@ -15,6 +15,7 @@ public class StudentSubjectMarks {
     private String lastName;
     private String subject;
     private String marks;
+    private String id;
 
     public String getFirstName() {
         return firstName;
@@ -47,6 +48,16 @@ public class StudentSubjectMarks {
     public void setMarks(String marks) {
         this.marks = marks;
     }
+
+  public String getId()
+  {
+    return id;
+  }
+
+  public void setId(String id)
+  {
+    this.id = id;
+  }
     
     
 }
