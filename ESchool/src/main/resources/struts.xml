@@ -74,7 +74,7 @@
       <result name="input">CreateClass.jsp</result>
     </action>
         
-    <action name="student">
+    <action name="student" class="mmm.eschool.actions.StudentProfile">
       <interceptor-ref name="authenticationInterceptor" />
       <result name="success">student.jsp</result>
       <result name="input">student.jsp</result>
