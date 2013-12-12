@@ -8,9 +8,7 @@ package mmm.eschool.actions;
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.Map;
-import javax.servlet.http.HttpSession;
 import mmm.eschool.model.User;
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
