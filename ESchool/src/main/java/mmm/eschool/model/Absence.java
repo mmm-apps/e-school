@@ -59,7 +59,7 @@ public class Absence implements Serializable
   
   @JoinColumn(name = "calss_id", referencedColumnName = "id")
   @ManyToOne(optional = false)
-  private Absence classId;
+  private Classes classId;
   
   @Column(name = "is_seen", nullable = false)
   private boolean isSeen;
@@ -144,11 +144,11 @@ public class Absence implements Serializable
     this.studentId = studentId;
   }
 
-    public Absence getClassId() {
+    public Classes getClassId() {
         return classId;
     }
 
-    public void setClassId(Absence classId) {
+    public void setClassId(Classes classId) {
         this.classId = classId;
     }
 }

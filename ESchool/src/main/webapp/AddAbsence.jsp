@@ -8,49 +8,41 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
-    <div class="modal fade" id="addAbsence" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form action = "login.action" method ="post" class ="bs-example form-horizontal" >
-                        <fieldset>
-                            <legend>Добавяне на отсъствия по История на 6а клас</legend>
-                            Изберете ученик:
-                            <select id="select" class="form-control">
-                                <option>-------</option>
-                                <option> Иван Петров </option>
-                                <option> Иван Иванов </option>
-                                <option> Иван Георгиев</option>
-                                <option> Петър Петров </option>
-                            </select>
-                            <br>
-                            
-                            Изберете тип отсъствие:
-                            <select id="select" class="form-control">
-                                <option>-------</option>
-                                <option> Извинено </option>
-                                <option> Неизвинено </option>
-                            </select>
-                            <br/>
-                            
-                            Дата:
-                            <input type="date" id="datepicker" class="form-control"/>
-                            <br/> 
-
-                            Стойност на отсъствие:
-                            <select id="select" class="form-control">
-                                <option>-------</option>
-                                <option> 1 </option>
-                                <option> 1/3 </option>
-                            </select>
-                        </fieldset>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
-                            <s:submit cssClass="btn btn-info" value="Добави"/>
-                        </div>
-                    </form>
+    <%@include file="menu.jsp"%>         
+    <div class="well well-sm" style="margin-left: 30%;margin-right: 30%; margin-top: 5%;padding: 3%">
+        <s:form action = "addAbsence" cssClass="bs-example form-horizontal">
+            <fieldset>
+                <legend>Добавяне на отсъствие</legend>
+                <s:fielderror/>
+                <div class = "form-group">
+                    <div class="col-lg-10">
+                        <s:select headerKey="-1" headerValue="Моля изберете тип отсъствие" 
+                                  list="absenceTypeList" name="absenceType" cssClass="form-control" />
+                    </div>
+                </div>   
+                <div class = "form-group">
+                    <div  class="col-lg-10">
+                        <s:textfield  key="date" type="date" id="datepicker" cssClass="form-control"/>
+                    </div>
                 </div>
+                <div class = "form-group">
+                    <div class="col-lg-10">
+                        <s:select headerKey="-1" headerValue="Моля изберете стойност на отсъствие" 
+                                  list="absenceValueList" name="absenceValue" cssClass="form-control" />
+                    </div>
+                </div>
+                <div class = "form-group">
+                    <div class="col-lg-10">
+                        <s:select headerKey="-1" headerValue="Моля изберете предмет" 
+                                  list="subjectList" name="subject" cssClass="form-control" />
+                    </div>
+                </div>  
+            </fieldset>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" style="float: left;">Назад</button>
+                <s:submit cssClass="btn btn-info" value="Добави"/>
             </div>
-        </div>
+        </s:form>
     </div>
+</body>
 </html>

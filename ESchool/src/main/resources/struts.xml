@@ -184,6 +184,16 @@
       <result name="success" type="redirect">classesList</result>
       <result name="input">AddMark.jsp</result>
     </action>
+    
+    <action name="absencesList" method="absencesList" class="mmm.eschool.actions.AbsencesActions">
+        <result name="success">AbsencesList.jsp</result>
+    </action>
+    <action name="addAbsenceProperties" method="display" class="mmm.eschool.actions.AbsencesActions">
+        <result name="none">AddAbsence.jsp</result>
+    </action>
+    <action name="addAbsence" method="addAbsence" class="mmm.eschool.actions.AbsencesActions">
+        <result name="success">AddAbsence.jsp</result>
+    </action>
         
   </package>
   <constant name="struts.ui.theme" value="simple" />
