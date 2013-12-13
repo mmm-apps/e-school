@@ -12,6 +12,7 @@ package mmm.eschool.actions.temp;
 
     String remark;
     String subject;
+    String date;
 
     public String getRemark()
     {
@@ -32,5 +33,15 @@ package mmm.eschool.actions.temp;
     {
       this.subject = Subject;
     }
+
+  public String getDate()
+  {
+    return date;
+  }
+
+  public void setDate(String date)
+  {
+    this.date = date;
+  }
 
   }
