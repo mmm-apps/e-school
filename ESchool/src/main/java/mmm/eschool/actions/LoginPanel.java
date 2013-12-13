@@ -28,13 +28,14 @@ public class LoginPanel extends ActionSupport implements SessionAware
   public String execute()
   {
     session = ActionContext.getContext().getSession();
-    if (session == null)
+    User sessionUser = (User) session.get("user");
+    if (sessionUser == null)
     {
       return NONE;
     } 
     else 
     {
-     User sessionUser = (User) session.get("user");
+     
       if (sessionUser.getRolesSet().get(0).getRoleName().equals(Constants.ADMINISTRATOR)) 
         return "admin";
       if(sessionUser.getRolesSet().get(0).getRoleName().equals(Constants.PARENT))

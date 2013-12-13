@@ -16,7 +16,6 @@ import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.User;
 import mmm.eschool.model.managers.AbsenceManager;
-import mmm.eschool.model.managers.ClassManager;
 import mmm.eschool.model.managers.StudentManager;
 import mmm.eschool.model.managers.SubjectManager;
 import mmm.eschool.model.managers.TeacherManager;
