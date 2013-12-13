@@ -140,9 +140,13 @@
       <result name="input" type="redirect">listUser</result>
     </action>
         
+    <action name="deleteTeacherClass" method="delete" class="mmm.eschool.actions.AddSubjectToTeacher">
+      <result name="success" type="redirect">teacherSubjectsList</result>
+    </action>
+        
     <action name="teacherSubjectsList" method="list" class="mmm.eschool.actions.AddSubjectToTeacher">
       <result name="success">TeacherSubjectsList.jsp</result>
-    </action>
+    </action>    
         
     <action name="loadTeacherSubject" method="display" class="mmm.eschool.actions.AddSubjectToTeacher">
       <result name="none">AddSubjectToTeacher.jsp</result>
