@@ -35,6 +35,7 @@
                         <th>Преподавател</th>
                         <th>Предмет</th>
                         <th>Клас</th>
+                        <th></th>
                     </tr>
                 </thead>
 
@@ -44,6 +45,7 @@
                     <td><s:property value="teacher.lastName" /></td>
                     <td><s:property value="subject.subjectName" /></td>
                     <td><s:property value="classes.className" /></td>
+                    <td></td>
                   </tr>
                 </s:iterator>
                 </tbody>

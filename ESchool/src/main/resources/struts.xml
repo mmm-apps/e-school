@@ -8,8 +8,13 @@
       <interceptor name="authenticationInterceptor" class="mmm.eschool.AuthenticationInterceptor"/>
     </interceptors>
        
-    <action name="">
-      <result>LoginPanel.jsp</result> 
+    <action name="" class="mmm.eschool.actions.LoginPanel">
+      <result name="success">LoginPanel.jsp</result> 
+      <result name="none">LoginPanel.jsp</result> 
+      <result name="admin" type="redirectAction">admin</result>
+      <result name="student" type="redirectAction">student</result>
+      <result name="teacher" type="redirectAction">teacher</result>
+      <result name="parent" type="redirectAction">teacher</result>
     </action>
         
     <action name="addUser" method="display" class="mmm.eschool.actions.CreateUser">
@@ -186,13 +191,13 @@
     </action>
     
     <action name="absencesList" method="absencesList" class="mmm.eschool.actions.AbsencesActions">
-        <result name="success">AbsencesList.jsp</result>
+      <result name="success">AbsencesList.jsp</result>
     </action>
     <action name="addAbsenceProperties" method="display" class="mmm.eschool.actions.AbsencesActions">
-        <result name="none">AddAbsence.jsp</result>
+      <result name="none">AddAbsence.jsp</result>
     </action>
     <action name="addAbsence" method="addAbsence" class="mmm.eschool.actions.AbsencesActions">
-        <result name="success">AddAbsence.jsp</result>
+      <result name="success">AddAbsence.jsp</result>
     </action>
         
   </package>
