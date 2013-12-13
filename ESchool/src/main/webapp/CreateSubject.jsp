@@ -21,8 +21,8 @@
                 </div>
                 <div class = "form-group">
                     <div class="col-lg-10">
-                        <s:select headerKey="-1" headerValue="Моля Изберете" 
-                                  list="subjectTypes" name="subjectType" />
+                        <s:select headerKey="-1" headerValue="Тип на предмета" 
+                                  list="subjectTypes" name="subjectType" cssClass="form-control"/>
                     </div>
                 </div>
             </fieldset>

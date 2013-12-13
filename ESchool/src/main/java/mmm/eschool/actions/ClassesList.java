@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import mmm.eschool.model.Classes;
+import mmm.eschool.model.Subject;
+import mmm.eschool.model.TeacherSubjects;
 import mmm.eschool.model.managers.ClassManager;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -26,6 +28,7 @@ public class ClassesList extends ActionSupport implements ModelDriven<Classes>, 
     private Map<String, Object> session;
     private String classNameInfo;
     private List<Classes> classesList = new ArrayList<Classes>();
+    private List<Subject> subjList = new ArrayList<Subject>();
 
     @Override
     public void setSession(Map<String, Object> map)
@@ -42,6 +45,16 @@ public class ClassesList extends ActionSupport implements ModelDriven<Classes>, 
     public String list()
     {
         classesList = classMan.getEntityList();
+        return SUCCESS;
+    }
+    
+    public String getSubjectsByClass()
+    {
+        for(TeacherSubjects ts : classMan.getEntityById(Integer.parseInt(classNameInfo)).getTeacherSubjectsList())
+        {
+            if(ts.getClasses().getId() == Integer.parseInt(classNameInfo))
+                subjList.add(ts.getSubject());
+        }
         return SUCCESS;
     }
 
@@ -73,5 +86,13 @@ public class ClassesList extends ActionSupport implements ModelDriven<Classes>, 
     public void setClassesList(List<Classes> classesList)
     {
         this.classesList = classesList;
+    }
+
+    public List<Subject> getSubjList() {
+        return subjList;
+    }
+
+    public void setSubjList(List<Subject> subjList) {
+        this.subjList = subjList;
     }
 }

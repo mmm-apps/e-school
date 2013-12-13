@@ -29,13 +29,18 @@
                 <thead>
                     <tr>
                         <th>Предмет</th>
+                        <th>Тип</th>
+                        <th></th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <th>История</th>
-                    </tr>
+                    <s:iterator value="subjList" var="currentSubject">
+                        <tr class="success">
+                            <td><s:property value="subjectName" /></td>
+                            <td><s:property value="subjectKind" /></td>
+                        </tr>
+                    </s:iterator>
                 </tbody>
             </table>
             <div id="pageNavPosition" style="margin-left: 44%;"></div>
