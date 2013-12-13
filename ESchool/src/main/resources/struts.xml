@@ -159,8 +159,8 @@
     <action name="studentMarks" method="studentMarksList" class="mmm.eschool.actions.AddMark">
       <result name="none">StudentMarksList.jsp</result>
     </action>
-    <action name="showSubjectToClass">
-      <result>ClassSubjects.jsp</result>
+    <action name="showSubjectToClass" method="getSubjectsByClass" class="mmm.eschool.actions.ClassesList">
+      <result name="success">ClassSubjects.jsp</result>
     </action>
             
     <action name="addHomework" method="getSubjects" class="mmm.eschool.actions.AddHomeworkToClass">
