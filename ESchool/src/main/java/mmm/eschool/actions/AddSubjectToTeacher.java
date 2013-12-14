@@ -28,8 +28,8 @@ import org.apache.struts2.interceptor.SessionAware;
  *
  * @author Denev
  */
-public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<TeacherSubjects>, SessionAware 
-{
+public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<TeacherSubjects>, SessionAware {
+
   private Map session;
 
   private final TeacherSubjectsManager teacherSubjMgr;
@@ -51,23 +51,20 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
 
   private List<String> teachersList;
   private String teacherName;
-  
+
   private List<TeacherSubjects> teachersSubjectsList = new ArrayList<TeacherSubjects>();
-  
-  public String list()
-  {
+
+  public String list() {
     teachersSubjectsList = teacherSubjMgr.getEntityList();
     return SUCCESS;
   }
-          
+
   @Override
-  public String execute() 
-  {
+  public String execute() {
     return null;
   }
 
-  public AddSubjectToTeacher()
-  {
+  public AddSubjectToTeacher() {
     teacherSubjMgr = new TeacherSubjectsManager();
     teacherMgr = new TeacherManager();
     subjectMgr = new SubjectManager();
@@ -79,23 +76,24 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     subjectListDb = subjectMgr.getEntityList();
     classListDb = classMgr.getEntityList();
     studentMgr = new StudentManager();
-    for (Teacher t : teacherListDb)
+    for (Teacher t : teacherListDb) {
       teachersList.add(t.getFirstName() + " " + t.getLastName());
-        
-    for (Subject s : subjectListDb)
+    }
+
+    for (Subject s : subjectListDb) {
       subjectsList.add(s.getSubjectName() + " " + s.getSubjectKind());
-    
-    for (Classes c : classListDb)
+    }
+
+    for (Classes c : classListDb) {
       classList.add(c.getClassName());
+    }
   }
 
-  public String display() 
-  {
+  public String display() {
     return NONE;
   }
 
-  public String addSubjectToTeacher() 
-  {
+  public String addSubjectToTeacher() {
     teacherSubjects = new TeacherSubjects();
     teacherSubjPk = new TeacherSubjectsPK();
     Subject subject;
@@ -104,8 +102,7 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     teacher = teacherMgr.getTeacherByNames(teacherName.substring(0, teacherName.indexOf(" ")), teacherName.substring(teacherName.indexOf(" ") + 1));
     clas = classMgr.getClassByName(className);
     subject = subjectMgr.getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
-    try 
-    {
+    try {
       teacherSubjPk.setClassId(clas.getId());
       teacherSubjPk.setSubjectId(subject.getId());
       teacherSubjPk.setTeacherId(teacher.getId());
@@ -113,105 +110,105 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
       teacherSubjects.setSubject(subject);
       teacherSubjects.setTeacher(teacher);
       teacherSubjects.setClasses(clas);
-
       teacherSubjMgr.add(teacherSubjects);
-      for(Student s : clas.getStudentList())
+
+      for (Student s : clas.getStudentList())
       {
+        if(s.getSubjectsSet().isEmpty())
+        {
           s.getSubjectsSet().add(subject);
           subject.getStudentsSet().add(s);
           studentMgr.update(s);
           subjectMgr.update(subject);
+        }
+        else
+        {
+          for (Subject subj : s.getSubjectsSet())
+          {
+            if (!subj.getSubjectName().equals(subject.getSubjectName())) // nepravilna proverka
+            {
+              s.getSubjectsSet().add(subject);
+              subject.getStudentsSet().add(s);
+              studentMgr.update(s);
+              subjectMgr.update(subject);
+            }
+          }
+        }
+        // Malko tupo
       }
       return SUCCESS;
-    } 
-    catch (AnException ex) 
-    {
+    } catch (AnException ex) {
       ex.printStackTrace();
     }
     return ERROR;
   }
 
   @Override
-  public void setSession(Map<String, Object> map) 
-  {
+  public void setSession(Map<String, Object> map) {
     this.session = map;
   }
 
-  public List<String> getClassList() 
-  {
+  public List<String> getClassList() {
     return classList;
   }
 
-  public void setClassList(List<String> classList) 
-  {
+  public void setClassList(List<String> classList) {
     this.classList = classList;
   }
 
-  public String getClassName() 
-  {
+  public String getClassName() {
     return className;
   }
 
-  public void setClassName(String className) 
-  {
+  public void setClassName(String className) {
     this.className = className;
   }
 
-  public List<String> getSubjectsList() 
-  {
+  public List<String> getSubjectsList() {
     return subjectsList;
   }
 
-  public void setSubjectsList(List<String> subjectsList)
-  {
+  public void setSubjectsList(List<String> subjectsList) {
     this.subjectsList = subjectsList;
   }
 
-  public String getSubjectName() 
-  {
+  public String getSubjectName() {
     return subjectName;
   }
 
-  public void setSubjectName(String subjectName) 
-  {
+  public void setSubjectName(String subjectName) {
     this.subjectName = subjectName;
   }
 
-  public List<String> getTeachersList() 
-  {
+  public List<String> getTeachersList() {
     return teachersList;
   }
 
-  public void setTeachersList(List<String> teachersList) 
-  {
+  public void setTeachersList(List<String> teachersList) {
     this.teachersList = teachersList;
   }
 
-  public String getTeacherName() 
-  {
+  public String getTeacherName() {
     return teacherName;
   }
 
-  public void setTeacherName(String teacherName) 
-  {
+  public void setTeacherName(String teacherName) {
     this.teacherName = teacherName;
   }
 
   @Override
-  public TeacherSubjects getModel()
-  {
-    if (teacherSubjects == null)
+  public TeacherSubjects getModel() {
+    if (teacherSubjects == null) {
       teacherSubjects = new TeacherSubjects();
+    }
     return teacherSubjects;
   }
 
-  public void setTeachersSubjectsList(List<TeacherSubjects> teachersSubjectsList)
-  {
+  public void setTeachersSubjectsList(List<TeacherSubjects> teachersSubjectsList) {
     this.teachersSubjectsList = teachersSubjectsList;
   }
 
-  public List<TeacherSubjects> getTeachersSubjectsList()
-  {
+  public List<TeacherSubjects> getTeachersSubjectsList() {
     return teachersSubjectsList;
   }
 }

@@ -48,7 +48,7 @@ public class AddStudentToClass extends ActionSupport implements SessionAware {
     }
 
     public String display() {
-        for (Student displayedStudent : studlist) {
+        for (Student displayedStudent : studMan.getEntityList()) {
             String displayedClass;
             if (displayedStudent.getClassId() == null) {
                 displayedClass = "НЯМА КЛАС";
@@ -80,16 +80,19 @@ public class AddStudentToClass extends ActionSupport implements SessionAware {
                 break;
             }
         }
-
+        
+        if(newStudent.getClassId() != null)
+        {
+          Classes studentClas = newStudent.getClassId();
+          studentClas.getStudentList().remove(newStudent);
+        }
+        
         clas.getStudentList().add(newStudent);
         newStudent.setClassId(clas);
-        classMan.update(clas);
-        studMan.update(newStudent);
 
         if (!newStudent.getSubjectsSet().isEmpty())
         {
             newStudent.getSubjectsSet().clear();
-            studMan.update(newStudent);
         }
         for (TeacherSubjects ts : teacherSubjMgr.getEntityList())
         {
@@ -97,7 +100,6 @@ public class AddStudentToClass extends ActionSupport implements SessionAware {
             {
                 newStudent.getSubjectsSet().add(ts.getSubject());
                 ts.getSubject().getStudentsSet().add(newStudent);
-                teacherSubjMgr.update(ts);
             }
         }
 
