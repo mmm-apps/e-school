@@ -28,7 +28,8 @@ import org.apache.struts2.interceptor.SessionAware;
  *
  * @author Denev
  */
-public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<TeacherSubjects>, SessionAware {
+public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<TeacherSubjects>, SessionAware
+{
 
   private Map session;
 
@@ -52,15 +53,19 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
   private List<String> teachersList;
   private String teacherName;
 
+  private String tsid;
+
   private List<TeacherSubjects> teachersSubjectsList = new ArrayList<TeacherSubjects>();
 
-  public String list() {
+  public String list()
+  {
     teachersSubjectsList = teacherSubjMgr.getEntityList();
     return SUCCESS;
   }
 
   @Override
-  public String execute() {
+  public String execute()
+  {
     return null;
   }
 
@@ -76,29 +81,39 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     subjectListDb = subjectMgr.getEntityList();
     classListDb = classMgr.getEntityList();
     studentMgr = new StudentManager();
-    for (Teacher t : teacherListDb) {
+    for (Teacher t : teacherListDb)
+    {
       teachersList.add(t.getFirstName() + " " + t.getLastName());
     }
 
-    for (Subject s : subjectListDb) {
+    for (Subject s : subjectListDb) 
+    {
       subjectsList.add(s.getSubjectName() + " " + s.getSubjectKind());
     }
 
-    for (Classes c : classListDb) {
+    for (Classes c : classListDb) 
+    {
       classList.add(c.getClassName());
     }
   }
 
-  public String display() {
+  public String display()
+  {
     return NONE;
   }
 
-  public String addSubjectToTeacher() {
+  public String addSubjectToTeacher()
+  {
     teacherSubjects = new TeacherSubjects();
     teacherSubjPk = new TeacherSubjectsPK();
     Subject subject;
     Classes clas;
     Teacher teacher;
+    if(teacherName.equals("-1") && className.equals("-1") && subjectName.equals("-1"))
+    {
+      addFieldError("Teacher", "Моля въведете всички полета!");
+      return INPUT;   
+    }  
     teacher = teacherMgr.getTeacherByNames(teacherName.substring(0, teacherName.indexOf(" ")), teacherName.substring(teacherName.indexOf(" ") + 1));
     clas = classMgr.getClassByName(className);
     subject = subjectMgr.getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
@@ -110,31 +125,25 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
       teacherSubjects.setSubject(subject);
       teacherSubjects.setTeacher(teacher);
       teacherSubjects.setClasses(clas);
-      teacherSubjMgr.add(teacherSubjects);
 
-      for (Student s : clas.getStudentList())
+      List<TeacherSubjects> teacherSubjs = teacherSubjMgr.getEntityList();
+      for (TeacherSubjects tsubjs : teacherSubjs) 
       {
-        if(s.getSubjectsSet().isEmpty())
-        {
-          s.getSubjectsSet().add(subject);
-          subject.getStudentsSet().add(s);
-          studentMgr.update(s);
-          subjectMgr.update(subject);
+        TeacherSubjectsPK tspk = tsubjs.getTeacherSubjectsPK();
+        if (tspk.getTeacherId() == teacherSubjects.getTeacher().getId()
+                && tspk.getSubjectId() == teacherSubjects.getSubject().getId()
+                && tspk.getClassId() == teacherSubjects.getClasses().getId()) {
+          addFieldError("Teacher", "Зададеният учител вече води този предмет на този клас");
+          return INPUT;          
         }
-        else
-        {
-          for (Subject subj : s.getSubjectsSet())
-          {
-            if (!subj.getSubjectName().equals(subject.getSubjectName())) // nepravilna proverka
-            {
-              s.getSubjectsSet().add(subject);
-              subject.getStudentsSet().add(s);
-              studentMgr.update(s);
-              subjectMgr.update(subject);
-            }
-          }
-        }
-        // Malko tupo
+      }
+      
+      teacherSubjMgr.add(teacherSubjects);
+      for (Student s : clas.getStudentList()) {
+        s.getSubjectsSet().add(subject);
+        subject.getStudentsSet().add(s);
+        studentMgr.update(s);
+        subjectMgr.update(subject);
       }
       return SUCCESS;
     } catch (AnException ex) {
@@ -143,28 +152,40 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     return ERROR;
   }
 
+  public String delete() throws AnException
+  {
+    teacherSubjMgr.del(Integer.parseInt(tsid));
+    return SUCCESS;
+  }
+
   @Override
-  public void setSession(Map<String, Object> map) {
+  public void setSession(Map<String, Object> map)
+  {
     this.session = map;
   }
 
-  public List<String> getClassList() {
+  public List<String> getClassList()
+  {
     return classList;
   }
 
-  public void setClassList(List<String> classList) {
+  public void setClassList(List<String> classList)
+  {
     this.classList = classList;
   }
 
-  public String getClassName() {
+  public String getClassName()
+  {
     return className;
   }
 
-  public void setClassName(String className) {
+  public void setClassName(String className)
+  {
     this.className = className;
   }
 
-  public List<String> getSubjectsList() {
+  public List<String> getSubjectsList()
+  {
     return subjectsList;
   }
 
@@ -172,32 +193,39 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     this.subjectsList = subjectsList;
   }
 
-  public String getSubjectName() {
+  public String getSubjectName()
+  {
     return subjectName;
   }
 
-  public void setSubjectName(String subjectName) {
+  public void setSubjectName(String subjectName)
+  {
     this.subjectName = subjectName;
   }
 
-  public List<String> getTeachersList() {
+  public List<String> getTeachersList()
+  {
     return teachersList;
   }
 
-  public void setTeachersList(List<String> teachersList) {
+  public void setTeachersList(List<String> teachersList)
+  {
     this.teachersList = teachersList;
   }
 
-  public String getTeacherName() {
+  public String getTeacherName()
+  {
     return teacherName;
   }
 
-  public void setTeacherName(String teacherName) {
+  public void setTeacherName(String teacherName)
+  {
     this.teacherName = teacherName;
   }
 
   @Override
-  public TeacherSubjects getModel() {
+  public TeacherSubjects getModel()
+  {
     if (teacherSubjects == null) {
       teacherSubjects = new TeacherSubjects();
     }
@@ -211,4 +239,35 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
   public List<TeacherSubjects> getTeachersSubjectsList() {
     return teachersSubjectsList;
   }
+
+  public TeacherSubjects getTeacherSubjects()
+  {
+    return teacherSubjects;
+  }
+
+  public void setTeacherSubjects(TeacherSubjects teacherSubjects)
+  {
+    this.teacherSubjects = teacherSubjects;
+  }
+
+  public TeacherSubjectsPK getTeacherSubjPk()
+  {
+    return teacherSubjPk;
+  }
+
+  public void setTeacherSubjPk(TeacherSubjectsPK teacherSubjPk)
+  {
+    this.teacherSubjPk = teacherSubjPk;
+  }
+
+  public String getTsid()
+  {
+    return tsid;
+  }
+
+  public void setTsid(String tsid)
+  {
+    this.tsid = tsid;
+  }
+
 }

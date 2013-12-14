@@ -34,7 +34,7 @@
                 </div>
             </fieldset>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info" style="float: left;">Назад</button>
+                <button onclick="location.href='teacherSubjectsList';" type="button" class="btn btn-info" style="float: left;">Назад</button>
                 <s:submit cssClass="btn btn-info" value="Добави"/>
             </div>
         </s:form>

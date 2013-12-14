@@ -46,10 +46,10 @@
               <td><s:property value="subject.subjectName" /></td>
               <td><s:property value="classes.className" /></td>
               <td>
-                <s:url id="editTeacherClass" action="deleteUser">
-                  <s:param name="userId" value="%{id}"></s:param>
+                <s:url id="deleteTeacherClass" action="deleteTeacherClass">
+                  <s:param name="tsid" value="%{id}"></s:param>
                 </s:url>
-                <s:a href="%{deleteUser}">
+                <s:a href="%{deleteTeacherClass}">
                   <button class="btn btn-danger" type="button">Изтриване</button>
                 </s:a>
               </td>
