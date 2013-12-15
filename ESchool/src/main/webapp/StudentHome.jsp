@@ -75,7 +75,7 @@
                     <tr>
                       <s:iterator var="abc" value="currentSubjMark"> 
                         <td><h4><span class="label label-primary"><s:property value="abc"/></span></h4></td>
-                          </s:iterator>
+                      </s:iterator>
                     </tr>
                   </s:iterator>
                 </tbody>

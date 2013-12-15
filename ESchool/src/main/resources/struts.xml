@@ -14,7 +14,7 @@
       <result name="admin" type="redirectAction">admin</result>
       <result name="student" type="redirectAction">student</result>
       <result name="teacher" type="redirectAction">teacher</result>
-      <result name="parent" type="redirectAction">teacher</result>
+      <result name="parent" type="redirectAction">parent</result>
     </action>
         
     <action name="addUser" method="display" class="mmm.eschool.actions.CreateUser">
@@ -42,6 +42,7 @@
       <result name="admin" type="redirectAction">admin</result>
       <result name="student" type="redirectAction">student</result>
       <result name="teacher" type="redirectAction">teacher</result>
+      <result name="parent" type="redirectAction">parent</result>
       <result name="WrongUssPass" type="json">WrongUssPass</result>  
       <result name="login">LoginPanel.jsp</result>
       <result name="input">LoginPanel.jsp</result>
@@ -81,6 +82,21 @@
         
     <action name="student" class="mmm.eschool.actions.StudentProfile">
       <interceptor-ref name="authenticationInterceptor" />
+      <result name="success">student.jsp</result>
+      <result name="input">student.jsp</result>
+      <result name="login">LoginPanel.jsp</result>
+      <result name="error">ERROR.jsp</result>
+    </action>
+        
+    <action name="parent" method="init" class="mmm.eschool.actions.ParentProfile">
+      <interceptor-ref name="authenticationInterceptor" />
+      <result name="success">parent.jsp</result>
+      <result name="input">parent.jsp</result>
+      <result name="login">LoginPanel.jsp</result>
+      <result name="error">ERROR.jsp</result>
+    </action>    
+        
+    <action name="viewChild" class="mmm.eschool.actions.ParentProfile">
       <result name="success">student.jsp</result>
       <result name="input">student.jsp</result>
       <result name="login">LoginPanel.jsp</result>
