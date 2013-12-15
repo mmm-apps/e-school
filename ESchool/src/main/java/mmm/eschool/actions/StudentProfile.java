@@ -9,10 +9,12 @@ import java.util.List;
 import java.util.Map;
 import mmm.eschool.actions.temp.StudentHomework;
 import mmm.eschool.actions.temp.StudentRemarks;
+import mmm.eschool.model.Absence;
 import mmm.eschool.model.Homework;
 import mmm.eschool.model.Mark;
 import mmm.eschool.model.Remark;
 import mmm.eschool.model.User;
+import mmm.eschool.model.managers.AbsenceManager;
 import mmm.eschool.model.managers.MarkManager;
 import mmm.eschool.model.managers.RemarkManager;
 import org.apache.struts2.interceptor.SessionAware;
@@ -30,6 +32,8 @@ public class StudentProfile extends ActionSupport implements SessionAware
   private String telephone;
   private String email;
   private String adress;
+  private int excusedAbsences = 0;
+  private int unexcusedAbsences = 0;
   private List<StudentHomework> homeworks = new ArrayList<StudentHomework>();
   private List<ArrayList<String>> studentSubjMarks = new ArrayList<ArrayList<String>>();
   private List<StudentRemarks> remarks = new ArrayList<StudentRemarks>();
@@ -133,6 +137,20 @@ public class StudentProfile extends ActionSupport implements SessionAware
       remarks.add(studRem);
     }
     
+    AbsenceManager abMan = new AbsenceManager();
+    List<Absence> abs = abMan.getEntityList();
+    
+    for(Absence ab :abs)
+    {
+      if(ab.getStudentId().getId() == sessionUser.getStudent().getId())
+      {
+        if(ab.isAbsenceType() == true)
+          excusedAbsences += ab.getValue();
+        
+        if(ab.isAbsenceType() == false)
+          unexcusedAbsences += ab.getValue();
+      }
+    }
     return SUCCESS;
 
   }
@@ -225,6 +243,26 @@ public class StudentProfile extends ActionSupport implements SessionAware
   public void setRemarks(List<StudentRemarks> remarks)
   {
     this.remarks = remarks;
+  }
+
+  public int getExcusedAbsences()
+  {
+    return excusedAbsences;
+  }
+
+  public void setExcusedAbsences(int excusedAbsences)
+  {
+    this.excusedAbsences = excusedAbsences;
+  }
+
+  public int getUnexcusedAbsences()
+  {
+    return unexcusedAbsences;
+  }
+
+  public void setUnexcusedAbsences(int unexcusedAbsences)
+  {
+    this.unexcusedAbsences = unexcusedAbsences;
   }
 
 }

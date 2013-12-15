@@ -118,12 +118,12 @@
                     </div>
                     <div class="panel panel-success" style="width: 50%;float:left;">
                       <div class="panel-heading">
-                        <h3 class="panel-title">Извинени отсъствия : 57</h3>
+                        <h3 class="panel-title">Извинени отсъствия : <s:label key="excusedAbsences" /></h3>
                       </div>
                     </div>
                     <div class="panel panel-danger" style="width: 50%;float:left;">
                       <div class="panel-heading">
-                        <h3 class="panel-title">Неизвинени отсъствия: 3</h3>
+                        <h3 class="panel-title">Неизвинени отсъствия: <s:label key="unexcusedAbsences" /></h3>
                       </div>
                     </div>
                   </div>
