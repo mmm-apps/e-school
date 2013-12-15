@@ -69,8 +69,7 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     return null;
   }
 
-  public AddSubjectToTeacher()
-  {
+  public AddSubjectToTeacher() {
     teacherSubjMgr = new TeacherSubjectsManager();
     teacherMgr = new TeacherManager();
     subjectMgr = new SubjectManager();
@@ -118,8 +117,7 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     teacher = teacherMgr.getTeacherByNames(teacherName.substring(0, teacherName.indexOf(" ")), teacherName.substring(teacherName.indexOf(" ") + 1));
     clas = classMgr.getClassByName(className);
     subject = subjectMgr.getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
-    try 
-    {
+    try {
       teacherSubjPk.setClassId(clas.getId());
       teacherSubjPk.setSubjectId(subject.getId());
       teacherSubjPk.setTeacherId(teacher.getId());
@@ -148,9 +146,7 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
         subjectMgr.update(subject);
       }
       return SUCCESS;
-    } 
-    catch (AnException ex) 
-    {
+    } catch (AnException ex) {
       ex.printStackTrace();
     }
     return ERROR;
@@ -193,8 +189,7 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     return subjectsList;
   }
 
-  public void setSubjectsList(List<String> subjectsList)
-  {
+  public void setSubjectsList(List<String> subjectsList) {
     this.subjectsList = subjectsList;
   }
 
@@ -237,13 +232,11 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     return teacherSubjects;
   }
 
-  public void setTeachersSubjectsList(List<TeacherSubjects> teachersSubjectsList)
-  {
+  public void setTeachersSubjectsList(List<TeacherSubjects> teachersSubjectsList) {
     this.teachersSubjectsList = teachersSubjectsList;
   }
 
-  public List<TeacherSubjects> getTeachersSubjectsList()
-  {
+  public List<TeacherSubjects> getTeachersSubjectsList() {
     return teachersSubjectsList;
   }
 

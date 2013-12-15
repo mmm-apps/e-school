@@ -53,17 +53,11 @@
                                 <s:a href="%{studentMarks}">
                                     <button class="btn btn-warning" type="button">Оценки</button>
                                 </s:a>
-                                <s:url id="deleteURL" action="deleteUser">
-                                    <s:param name="userCon" value="%{id}"></s:param>
-                                </s:url>
-                                <s:a href="%{deleteURL}">
-                                    <button class="btn btn-danger" type="button">Добави Оценка</button>
-                                </s:a>
                                 <s:url id="absencesList" action="absencesList">
                                     <s:param name="userId" value="%{id}"></s:param>
                                 </s:url>
                                 <s:a href="%{absencesList}">
-                                    <button class="btn btn-warning" type="button">Отсъствия</button>
+                                    <button class="btn btn-danger" type="button">Отсъствия</button>
                                 </s:a>
                             </td>
                         </tr>
