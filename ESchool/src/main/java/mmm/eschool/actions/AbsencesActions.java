@@ -7,7 +7,9 @@ package mmm.eschool.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
@@ -33,7 +35,7 @@ public class AbsencesActions extends ActionSupport implements SessionAware {
 
     private List<String> absenceTypeList = new ArrayList<String>();
     private String absenceType;
-    private Date date;
+    private String date;
     private List<String> absenceValueList = new ArrayList<String>();
     private String absenceValue;
     private List<String> subjectList = new ArrayList<String>();
@@ -65,10 +67,21 @@ public class AbsencesActions extends ActionSupport implements SessionAware {
     }
 
     public String addAbsence() throws AnException {
+      
+        int year;
+        int month;
+        int day;
+      
+        year = Integer.parseInt(date.substring(0, date.indexOf("-")));
+        month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-", date.indexOf("-") + 1)));
+        day = Integer.parseInt(date.substring(date.indexOf("-", date.indexOf("-") + 1) + 1, date.length()));
+        Calendar c = new GregorianCalendar(year, month - 1, day);
+        java.sql.Date dat = new java.sql.Date(c.getTimeInMillis());
+      
         Absence absence = new Absence();
         Student student = studentMgr.getEntityById(userIdentification);
         User user = (User) session.get("user");
-        absence.setAbsenceDate(date);
+        absence.setAbsenceDate(dat);
         if (absenceType.equals("Извинено")) {
             absence.setAbsenceType(true);
         } else {
@@ -114,11 +127,11 @@ public class AbsencesActions extends ActionSupport implements SessionAware {
         this.absenceType = absenceType;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
