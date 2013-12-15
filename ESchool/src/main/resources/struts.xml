@@ -203,7 +203,10 @@
     <action name="addAbsence" method="addAbsence" class="mmm.eschool.actions.AbsencesActions">
       <result name="success">AddAbsence.jsp</result>
     </action>
-        
+    <action name="selsectAbsence" method="selectAbsence" class="mmm.eschool.actions.AbsencesActions">
+      <result name="success" type="redirect">classesList</result>
+    </action>
+           
   </package>
   <constant name="struts.ui.theme" value="simple" />
   <constant name="struts.action.extension" value=""/>

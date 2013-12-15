@@ -8,7 +8,7 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
-    <%@include file="menu.jsp"%> 
+    <%@include file="adminMenu.jsp"%> 
     <div id="userWelcome">
         <div class="well">
             <h3>Здравейте, Администратор</h3>
