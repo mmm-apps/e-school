@@ -37,7 +37,7 @@
             <th>Стойност</th>
             <th>Предмет</th>
             <th>Учител</th>
-            <th>Проверена</th>
+            <th>Видяно от родител</th>
             <th></th>
           </tr>
         </thead>
@@ -66,6 +66,14 @@
                 </td>
               </s:if>
               <s:if test="absenceType == true"><td> </td></s:if> 
+                <td>
+                <s:url id="deleteAbsence" action="deleteAbsence">
+                  <s:param name="AbsenceNo" value="%{id}"></s:param>
+                </s:url>
+                <s:a href="%{deleteAbsence}">
+                  <button class="btn btn-info" type="button">Изтриване</button>
+                </s:a>
+              </td>
             </tr>
           </s:iterator>
         </tbody>

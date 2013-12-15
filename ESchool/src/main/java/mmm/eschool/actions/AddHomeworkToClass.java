@@ -43,7 +43,8 @@ public class AddHomeworkToClass extends ActionSupport implements SessionAware
   private final ClassManager classMan = new ClassManager();
   private final HomeworkManager homeMan = new HomeworkManager();
   private Map<String, Object> session;
-
+  private ArrayList<Homework> studentHomeworks = new ArrayList<Homework>();
+  private String homeworkNo;
   @Override
   public void setSession(Map<String, Object> session)
   {
@@ -64,13 +65,33 @@ public class AddHomeworkToClass extends ActionSupport implements SessionAware
     }
     classId = classNameInfo;
     classIdList.put(teacher.getId(), classNameInfo);
+    
+    HomeworkManager homMan = new HomeworkManager();
+    List<Homework> homeworks = homMan.getEntityList();
+    for(Homework hwrk : homeworks)
+    {
+      if(hwrk.getClassId().getId() == Integer.parseInt(classNameInfo))
+      {
+        studentHomeworks.add(hwrk);
+      }
+    }    
     return NONE;
   }
-
+  
+  public String deleteHomework() throws AnException
+  {
+    homeMan.del(Integer.parseInt(homeworkNo));
+    return SUCCESS;
+  }
   @Override
   public String execute() throws Exception
   {
 
+    if(subjectName.equals("-1") || date.equals("") || homeworkNote.equals(""))
+    {
+      addFieldError("hello" ,"Hello");
+    return INPUT;
+    }
     User teacher = (User) session.get("user");
     Homework homewrk = new Homework();
     Classes clas = classMan.getEntityById(Integer.parseInt(classIdList.get(teacher.getId())));
@@ -171,7 +192,25 @@ public class AddHomeworkToClass extends ActionSupport implements SessionAware
   {
     this.homeworkNote = homeworkNote;
   }
-
   
+  public ArrayList<Homework> getStudentHomeworks()
+  {
+    return studentHomeworks;
+  }
+
+  public void setStudentHomeworks(ArrayList<Homework> studentHomeworks)
+  {
+    this.studentHomeworks = studentHomeworks;
+  }
+
+  public String getHomeworkNo()
+  {
+    return homeworkNo;
+  }
+
+  public void setHomeworkNo(String homeworkNo)
+  {
+    this.homeworkNo = homeworkNo;
+  }
 
 }

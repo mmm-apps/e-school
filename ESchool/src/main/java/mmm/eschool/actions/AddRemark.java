@@ -16,7 +16,6 @@ import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.actions.temp.StudentRemarks;
 import mmm.eschool.model.Remark;
-import mmm.eschool.model.Subject;
 import mmm.eschool.model.TeacherSubjects;
 import mmm.eschool.model.User;
 import mmm.eschool.model.managers.RemarkManager;
@@ -43,6 +42,7 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
   private Remark newRemark = new Remark();
   private List<String> subjectsList = new ArrayList<String>();
   private String subjectName;
+  private String RemarkNo;
   private List<StudentRemarks> studentRemarks = new ArrayList<StudentRemarks>();
 
   @Override
@@ -113,16 +113,23 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
     }
     return NONE;
   }
-
+  public String deleteRemark() throws AnException
+  {
+    RemarkManager remMan = new RemarkManager();
+    remMan.del(Integer.parseInt(RemarkNo));
+    return SUCCESS;
+  }
   public String studRemarks()
   {
     RemarkManager remMan = new RemarkManager();
     List<Remark> remarks = remMan.getReamarksByStudentId(userIdTemp);
     SubjectManager subMan = new SubjectManager();
-    for (Remark rem : remarks) {
+    for (Remark rem : remarks) 
+    {
       StudentRemarks studRem = new StudentRemarks();
       studRem.setRemark(rem.getRemark());
       studRem.setSubject(subMan.getEntityById(rem.getSubjectId().getId()).getSubjectName());
+      studRem.setId(rem.getId());
       studentRemarks.add(studRem);
     }
     return NONE;
@@ -196,6 +203,36 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
   public void setDate(String date)
   {
     this.date = date;
+  }
+
+  public String getStudent()
+  {
+    return student;
+  }
+
+  public void setStudent(String student)
+  {
+    this.student = student;
+  }
+
+  public static int getUserIdTemp()
+  {
+    return userIdTemp;
+  }
+
+  public static void setUserIdTemp(int userIdTemp)
+  {
+    AddRemark.userIdTemp = userIdTemp;
+  }
+
+  public String getRemarkNo()
+  {
+    return RemarkNo;
+  }
+
+  public void setRemarkNo(String RemarkNo)
+  {
+    this.RemarkNo = RemarkNo;
   }
 
 }

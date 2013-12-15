@@ -86,6 +86,10 @@ public class AbsencesActions extends ActionSupport implements SessionAware
     absenceMgr.update(ab);
     return SUCCESS;
   }
+  public String deleteAbsence() throws AnException{
+    absenceMgr.del(Integer.parseInt(AbsenceNo));
+    return SUCCESS;
+  }
   public String addAbsence() throws AnException
   {
 
@@ -93,6 +97,12 @@ public class AbsencesActions extends ActionSupport implements SessionAware
     int month;
     int day;
 
+    if(subject.equals("-1") || absenceValue.equals("-1") || absenceType.equals("-1"))
+    {  
+      addFieldError("ERROE", "Моля попълнете всички полета");
+      return INPUT;
+    }
+    
     year = Integer.parseInt(date.substring(0, date.indexOf("-")));
     month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-", date.indexOf("-") + 1)));
     day = Integer.parseInt(date.substring(date.indexOf("-", date.indexOf("-") + 1) + 1, date.length()));

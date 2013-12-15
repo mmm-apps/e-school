@@ -1,38 +1,38 @@
 /*
  */
-
 package mmm.eschool.actions.temp;
 
 /**
  *
  * @author MMihov
  */
-  public class StudentRemarks
+public class StudentRemarks
+{
+
+  int id;
+  String remark;
+  String subject;
+  String date;
+
+  public String getRemark()
   {
+    return remark;
+  }
 
-    String remark;
-    String subject;
-    String date;
+  public void setRemark(String remark)
+  {
+    this.remark = remark;
+  }
 
-    public String getRemark()
-    {
-      return remark;
-    }
+  public String getSubject()
+  {
+    return subject;
+  }
 
-    public void setRemark(String remark)
-    {
-      this.remark = remark;
-    }
-
-    public String getSubject()
-    {
-      return subject;
-    }
-
-    public void setSubject(String Subject)
-    {
-      this.subject = Subject;
-    }
+  public void setSubject(String Subject)
+  {
+    this.subject = Subject;
+  }
 
   public String getDate()
   {
@@ -44,4 +44,14 @@ package mmm.eschool.actions.temp;
     this.date = date;
   }
 
+  public int getId()
+  {
+    return id;
   }
+
+  public void setId(int id)
+  {
+    this.id = id;
+  }
+
+}

@@ -59,6 +59,14 @@
             <tr class="success">
               <td><s:property value="subject" /></td>
               <td><s:property value="remark" /></td>
+              <td>
+                <s:url id="deleteRemark" action="deleteRemark">
+                  <s:param name="RemarkNo" value="%{id}"></s:param>
+                </s:url>
+                <s:a href="%{deleteRemark}">
+                  <button class="btn btn-danger" type="button">Изтриване</button>
+                </s:a>
+              </td>
             </tr>
           </s:iterator>
         </tbody>

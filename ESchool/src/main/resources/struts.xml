@@ -178,14 +178,19 @@
     </action>
     <action name="addHomeworkToClass" class="mmm.eschool.actions.AddHomeworkToClass">
       <result name="none">AddHomeworkToClass.jsp</result>
+      <result name="input">AddHomeworkToClass.jsp</result>
       <result name="success" type="redirect">classesList</result>
     </action>
-    
+    <action name="deleteHomework" method="deleteHomework" class="mmm.eschool.actions.AddHomeworkToClass">
+      <result name="success" type="redirect">classesList</result>
+    </action>
     <action name="createRemark" class="mmm.eschool.actions.AddRemark">
       <result name="success">AddRemark.jsp</result>
       <result name="input">AddRemark.jsp</result>
     </action>
-        
+    <action name="deleteRemark" method="deleteRemark" class="mmm.eschool.actions.AddRemark">
+      <result name="success">AddRemark.jsp</result>
+    </action>
     <action name="selectMark" method="display" class = "mmm.eschool.actions.AddMark">
       <result name="none">AddMark.jsp</result>
     </action>
@@ -199,11 +204,16 @@
     </action>
     <action name="addAbsenceProperties" method="display" class="mmm.eschool.actions.AbsencesActions">
       <result name="none">AddAbsence.jsp</result>
+      <result name="input">AddAbsence.jsp</result>
     </action>
     <action name="addAbsence" method="addAbsence" class="mmm.eschool.actions.AbsencesActions">
       <result name="success">AddAbsence.jsp</result>
+      <result name="input">AddAbsence.jsp</result>
     </action>
     <action name="selsectAbsence" method="selectAbsence" class="mmm.eschool.actions.AbsencesActions">
+      <result name="success" type="redirect">classesList</result>
+    </action>
+    <action name="deleteAbsence" method="deleteAbsence" class="mmm.eschool.actions.AbsencesActions">
       <result name="success" type="redirect">classesList</result>
     </action>
            

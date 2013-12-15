@@ -37,6 +37,41 @@
       </div>
     </s:form>
   </div>
+
+  <div class="panel panel-info" style="margin-left: 10%;margin-right: 10%;">
+    <div class="panel-heading">
+      <h3 class="panel-title">Домашни работи на класа</h3>
+    </div>
+    <div class="panel-body">
+      <table id="results" class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Дата</th>
+            <th>Домашна работа</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <s:iterator value="studentHomeworks" status="homeworkStatus">
+            <tr class="success">
+              <td><s:date name="dateCreated" format="dd/MM/yyyy"/>г.</td>
+              <td><s:property value="homeWorkTitle"/></td>
+              <td>
+                <s:url id="deleteHomework" action="deleteHomework">
+                  <s:param name="homeworkNo" value="%{id}"></s:param>
+                </s:url>
+                <s:a href="%{deleteHomework}">
+                  <button class="btn btn-danger" type="button">Изтриване</button>
+                </s:a>
+              </td>
+            </tr>
+          </s:iterator>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
 </body>
 </html>
 
