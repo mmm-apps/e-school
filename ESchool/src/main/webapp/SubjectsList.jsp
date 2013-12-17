@@ -43,12 +43,6 @@
                             <td><s:property value="subjectName"/></td>
                             <td><s:property value="subjectKind"/></td>
                             <td>
-                                <button class="btn btn-info" type="button">
-                                    Информация
-                                </button>
-                                <button class="btn btn-warning" type="button">
-                                    Коригиране
-                                </button>
                                 <s:url id="deleteURL" action="deleteSubject">
                                     <s:param name="userCon" value="%{id}"></s:param>
                                 </s:url>

@@ -74,10 +74,19 @@
       <result name="success" type="redirect">listSubject</result>
       <result name="input">CreateSubject.jsp</result>
     </action>
-        
-    <action name="addClass" class="mmm.eschool.actions.CreateClass">
-      <result name="success">CreateClass.jsp</result>
+    
+    <action name="addClassProperties">
+        <result>CreateClass.jsp</result>
+    </action>    
+                
+    <action name="addClass" class="mmm.eschool.actions.CreateClass" method="createClass">
+      <result name="success" type="redirect">classesList</result>
       <result name="input">CreateClass.jsp</result>
+    </action>
+    
+    <action name="deleteClass" class="mmm.eschool.actions.ClassesList" method="deleteClass">
+        <result name="success" type="redirect">classesList</result>
+        <result name="input" type="redirect" >classesList</result>
     </action>
         
     <action name="student" class="mmm.eschool.actions.StudentProfile">
@@ -149,6 +158,7 @@
         
     <action name="deleteSubject" method="delete" class="mmm.eschool.actions.SubjectsList">
       <result name="success" type="redirect">listSubject</result>
+      <result name="input" type="redirect">listSubject</result>
     </action>
         
     <action name="editConfirmUser" method="edit" class="mmm.eschool.actions.UsersList">

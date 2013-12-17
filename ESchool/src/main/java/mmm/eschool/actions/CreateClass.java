@@ -19,58 +19,62 @@ import org.apache.struts2.interceptor.SessionAware;
  *
  * @author MMihov
  */
-public class CreateClass extends ActionSupport implements ModelDriven<Classes>, SessionAware
-{
+public class CreateClass extends ActionSupport implements ModelDriven<Classes>, SessionAware {
 
-    Classes newClass = new Classes();
-    private Map<String, Object> session;
+  Classes newClass = new Classes();
+  private Map<String, Object> session;
 
-    @Override
-    public void validate()
+//    @Override
+//    public void validate()
+//    {
+//        if (StringUtils.isEmpty(newClass.getClassName()))
+//        {
+//            addFieldError("className", "Classname cannot be blank!");
+//        }
+//    }
+  @Override
+  public String execute()
+  {
+    return NONE;
+  }
+  
+  public String createClass() throws Exception {
+    
+    if (StringUtils.isEmpty(newClass.getClassName()))
     {
-        if (StringUtils.isEmpty(newClass.getClassName()))
-        {
-            addFieldError("className", "Classname cannot be blank!");
-        }
+      addFieldError("className", "Classname cannot be blank!");
+      return INPUT;
     }
-
-    @Override
-    public String execute() throws Exception
+    
+    ClassManager classMan = new ClassManager();
+    if (classMan.isClassExists(newClass.getClassName())) 
     {
-        ClassManager classMan = new ClassManager();
-        if (classMan.isClassExists(newClass.getClassName()))
-        {
-            addFieldError("className", "This Classname exists!");
-            return SUCCESS;
-        }
-        try
-        {
-            classMan.add(newClass);
-            addFieldError("className", "Classname recorded succesufully!");
-            return SUCCESS;
-        }
-        catch (AnException ex)
-        {
-            ex.printStackTrace();
-        }
-        return ERROR;
-
+      addFieldError("className", "This Classname exists!");
+      return INPUT;
     }
-
-    @Override
-    public Classes getModel()
+    try 
     {
-        return newClass;
+      classMan.add(newClass);
+      return SUCCESS;
     }
-
-    @Override
-    public void setSession(Map<String, Object> map)
+    catch (AnException ex)
     {
-        this.session = map;
+      ex.printStackTrace();
     }
+    return ERROR;
+  }
 
-    public String display()
-    {
-        return NONE;
-    }
+  @Override
+  public Classes getModel() {
+    return newClass;
+  }
+
+  @Override
+  public void setSession(Map<String, Object> map) {
+    this.session = map;
+  }
+
+  public String display() {
+    return NONE;
+  }
 }

@@ -138,13 +138,14 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
         }
       }
       
-      teacherSubjMgr.add(teacherSubjects);
       for (Student s : clas.getStudentList()) {
         s.getSubjectsSet().add(subject);
         subject.getStudentsSet().add(s);
         studentMgr.update(s);
         subjectMgr.update(subject);
       }
+      teacherSubjMgr.add(teacherSubjects);
+      
       return SUCCESS;
     } catch (AnException ex) {
       ex.printStackTrace();
@@ -154,6 +155,19 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
 
   public String delete() throws AnException
   {
+
+    Classes clas = teacherSubjMgr.getEntityById(Integer.parseInt(tsid)).getClasses();
+    Subject subject = teacherSubjMgr.getEntityById(Integer.parseInt(tsid)).getSubject();
+    for(Student s : clas.getStudentList())
+    {
+      if(!s.getSubjectsSet().isEmpty())
+      {
+        s.getSubjectsSet().remove(subject);
+        subject.getStudentsSet().remove(s);
+        studentMgr.update(s);         
+      }
+    }    
+    
     teacherSubjMgr.del(Integer.parseInt(tsid));
     return SUCCESS;
   }

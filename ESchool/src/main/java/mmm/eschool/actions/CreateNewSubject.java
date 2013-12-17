@@ -14,6 +14,7 @@ import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.managers.SubjectManager;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
@@ -38,24 +39,30 @@ public class CreateNewSubject extends ActionSupport implements ModelDriven<Subje
     @Override
     public String execute() throws Exception
     {
-        newSubject.setSubjectKind(subjectType);
-        SubjectManager mgr = new SubjectManager();
-        if (mgr.isSubjectNameAndTypeExists(newSubject.getSubjectName(), newSubject.getSubjectKind()))
-        {
-            addFieldError("subjectName", "Subject exists!");
-            return INPUT;
-        }
-        try
-        {
-            mgr.add(newSubject);
-//            addFieldError("subjectName", "Successufully recorded!");
-            return SUCCESS;
-        }
-        catch (AnException ex)
-        {
-            ex.printStackTrace();
-        }
-        return ERROR;
+      
+      if(StringUtils.isEmpty(newSubject.getSubjectName()) || StringUtils.isEmpty(subjectType))
+      {
+        addFieldError("subjectName", "Subject name or subject type can't be blank!!!");
+        return INPUT;
+      }
+      
+      newSubject.setSubjectKind(subjectType);
+      SubjectManager mgr = new SubjectManager();
+      if (mgr.isSubjectNameAndTypeExists(newSubject.getSubjectName(), newSubject.getSubjectKind()))
+      {
+          addFieldError("subjectName", "Subject exists!");
+          return INPUT;
+      }
+      try
+      {
+          mgr.add(newSubject);
+          return SUCCESS;
+      }
+      catch (AnException ex)
+      {
+          ex.printStackTrace();
+      }
+      return ERROR;
     }
 
     @Override

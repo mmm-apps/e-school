@@ -24,6 +24,16 @@
       </h3>
     </div>
     <div class="panel-body">
+      <a href="<s:url action='addClassProperties'/>" >
+        <div id="addButton">
+          <button class="btn btn-info btn-lg btn-block">Добавяне</button>
+        </div>
+      </a>
+      <a href="<s:url action='addStudentToClass'/>" >
+        <div id="addButton">
+          <button class="btn btn-success btn-lg btn-block">Добавяне на ученик към клас</button>
+        </div>
+      </a>
       <table id="results" class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
@@ -34,6 +44,7 @@
 
         <tbody>
           <s:iterator value="classesList" status="classesStatus">
+            <s:fielderror/>
             <tr class="success">
               <td><s:property value="className" /></td>
               <td>
@@ -51,19 +62,18 @@
                   <button class="btn btn-success" type="button">Виж предметите за класа</button>
                 </s:a>
 
-                  <%--                <s:url id="selectSubjectToClass" action="selectSubjectToClass">
-                  <s:param name="classNameInfo" value="%{id}"></s:param>
-                </s:url>
-                <s:a href="%{selectSubjectToClass}">
-                  <button class="btn btn-success" type="button">Добави предмети за класа</button>
-                </s:a>
-!--%>
-
                 <s:url id="addHomework" action="addHomework">
                   <s:param name="classNameInfo" value="%{id}"></s:param>
                 </s:url>
                 <s:a href="%{addHomework}">
                   <button class="btn btn-success" type="button">Добави домашна работа</button>
+                </s:a>
+                  
+                <s:url id="deleteClass" action="deleteClass">
+                  <s:param name="classNameInfo" value="%{id}"></s:param>
+                </s:url>
+                <s:a href="%{deleteClass}">
+                  <button class="btn btn-warning" type="button">Изтриване на клас</button>
                 </s:a>
               </td>
             </tr>
