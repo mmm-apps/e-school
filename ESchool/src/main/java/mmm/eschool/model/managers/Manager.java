@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.AnException.Types;
+import mmm.eschool.model.Absence;
+import mmm.eschool.model.Mark;
+import mmm.eschool.model.Remark;
+import mmm.eschool.sendEmail;
 import org.hibernate.classic.Session;
 
 /**
@@ -43,6 +47,35 @@ public abstract class Manager<T>
         HibernateUtil.add(entity);
         setIsCalc(false);
         calculateEntities();
+        
+        if( entity instanceof Remark)
+        {
+          Remark rem =(Remark) entity;
+          sendEmail sendMail = new sendEmail(rem.getStudentId().getParentId().getEmail(), 
+                  "Забележка по " + rem.getSubjectId().getSubjectName() ,
+                  "Вашето дете получи забележка забележка по " 
+                  + rem.getSubjectId().getSubjectName() + ",която гласи:"
+                  + rem.getRemark());
+          sendMail.send();
+        }
+        if( entity instanceof Mark)
+        {
+          Mark rem =(Mark) entity;
+          sendEmail sendMail = new sendEmail(rem.getStudentId().getParentId().getEmail(), 
+                  "Оценка по " + rem.getSubjectId().getSubjectName() , 
+                  "Вашето дете получи оценка по " + rem.getSubjectId().getSubjectName() + "със стойност:"+
+                  rem.getMark());
+          sendMail.send();
+        }
+        if( entity instanceof Absence)
+        {
+          Absence rem =(Absence) entity;
+          sendEmail sendMail = new sendEmail(rem.getStudentId().getParentId().getEmail(), 
+                  "Отсъствие по " + rem.getSubjectId().getSubjectName() , 
+                  "Вашето дете получи отсъствие по " + rem.getSubjectId().getSubjectName()+ " на "+ rem.getAbsenceDate() + "със стойност:"+
+                  rem.getValue());
+          sendMail.send();
+        }
         return true;
       }
     }
