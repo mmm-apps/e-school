@@ -22,6 +22,7 @@ import mmm.eschool.model.User;
 import mmm.eschool.model.managers.MarkManager;
 import mmm.eschool.model.managers.StudentManager;
 import mmm.eschool.model.managers.SubjectManager;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
@@ -46,6 +47,8 @@ public class AddMark extends ActionSupport implements SessionAware
   private Mark mark = new Mark();
   private final MarkManager markMgr = new MarkManager();
   private final SubjectManager subjectMgr = new SubjectManager();
+  private List<String> marksListForStudent = new ArrayList<String>();
+  private String selectedMarkToDel;
 
   public String getMarkVal()
   {
@@ -110,6 +113,17 @@ public class AddMark extends ActionSupport implements SessionAware
   public String execute()
   {
     return SUCCESS;
+  }
+  
+  public String marksForStudentSubject()
+  {
+    for(Mark m : markMgr.getEntityList())
+    {
+      if(m.getSubjectId().getId() == Integer.parseInt(subjectName) && m.getStudentId().getId() == studId)
+        marksListForStudent.add(m.getMark() + " " + m.getDateCreated() + " " + m.getSubjectId().getSubjectName() +
+                "-" + m.getTeacherId().getFirstName() + " " + m.getTeacherId().getLastName());
+    }
+    return NONE;
   }
 
   public String studentMarksList()
@@ -179,6 +193,29 @@ public class AddMark extends ActionSupport implements SessionAware
 
     return SUCCESS;
   }
+  
+  public String delMark() throws AnException
+  {
+    if(selectedMarkToDel.equals("-1"))
+    {
+      addFieldError(selectedMarkToDel, "Please selsect mark to delete!!!");
+      return INPUT;
+    }
+    
+    int firstIndex = selectedMarkToDel.indexOf(" ");
+    int lastIndex = selectedMarkToDel.indexOf(" ", firstIndex + 1);
+    String markV = selectedMarkToDel.substring(0, selectedMarkToDel.indexOf(" "));
+    String dateCr = selectedMarkToDel.substring(firstIndex + 1, lastIndex);
+    String subj = selectedMarkToDel.substring(lastIndex + 1, selectedMarkToDel.lastIndexOf("-"));
+    String teacherName = selectedMarkToDel.substring(selectedMarkToDel.lastIndexOf("-") + 1);
+    Mark markToDel = markMgr.getMarkByValueAndDate(markV,dateCr,subj,teacherName,studId);
+    Student stud = studentMgr.getEntityById(studId);
+    
+    stud.getMarksSet().remove(markToDel);
+    studentMgr.update(stud);
+    markMgr.del(markToDel.getId());
+    return SUCCESS;
+  }
 
   @Override
   public void setSession(Map<String, Object> map)
@@ -236,4 +273,19 @@ public class AddMark extends ActionSupport implements SessionAware
     this.mark = mark;
   }
 
+  public List<String> getMarksListForStudent() {
+    return marksListForStudent;
+  }
+
+  public void setMarksListForStudent(List<String> marksListForStudent) {
+    this.marksListForStudent = marksListForStudent;
+  }
+
+  public String getSelectedMarkToDel() {
+    return selectedMarkToDel;
+  }
+
+  public void setSelectedMarkToDel(String selectedMarkToDel) {
+    this.selectedMarkToDel = selectedMarkToDel;
+  }
 }

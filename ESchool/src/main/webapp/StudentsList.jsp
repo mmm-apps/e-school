@@ -45,7 +45,7 @@
                                     <s:param name="userId" value="%{id}"></s:param>
                                 </s:url>
                                 <s:a href="%{addRemark}">
-                                    <button class="btn btn-info" type="button">Добави Забележка</button>
+                                    <button class="btn btn-info" type="button">Забележки</button>
                                 </s:a>
                                 <s:url id="studentMarks" action="studentMarks">
                                     <s:param name="studentId" value="%{id}"></s:param>

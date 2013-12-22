@@ -71,7 +71,7 @@
                   <s:param name="AbsenceNo" value="%{id}"></s:param>
                 </s:url>
                 <s:a href="%{deleteAbsence}">
-                  <button class="btn btn-info" type="button">Изтриване</button>
+                  <button class="btn btn-danger" type="button">Изтриване</button>
                 </s:a>
               </td>
             </tr>

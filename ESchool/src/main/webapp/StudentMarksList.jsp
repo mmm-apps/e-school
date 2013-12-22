@@ -48,6 +48,12 @@
                 <s:a href="%{selectMark}">
                   <button class="btn btn-info" type="button">Добави оценка</button>
                 </s:a>
+                <s:url id="selectMarktoDel" action="selectMarktoDel">
+                  <s:param name="subjectName" value="%{id}"></s:param>
+                </s:url>
+                <s:a href="%{selectMarktoDel}">
+                  <button class="btn btn-danger" type="button">Изтриване на оценки</button>
+                </s:a>
               </td>
           </tr>
         </s:iterator>

@@ -38,4 +38,15 @@ public class MarkManager extends Manager<Mark>
     else
       return null;
   }
+  public Mark getMarkByValueAndDate(String MarkVal, String dateCreated, String subjName, String teacherName, int studId)
+  {
+    for(Mark m : getEntityList())
+    {
+      String teacherNames = m.getTeacherId().getFirstName() + " " + m.getTeacherId().getLastName();
+      if(m.getMark() == Integer.parseInt(MarkVal) && m.getDateCreated().toString().equals(dateCreated) &&
+              m.getSubjectId().getSubjectName().equals(subjName) && teacherNames.equals(teacherName) && m.getStudentId().getId() == studId)
+        return m;
+    }
+    return null;
+  }
 }

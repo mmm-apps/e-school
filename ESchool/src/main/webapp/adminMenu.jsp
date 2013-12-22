@@ -59,18 +59,8 @@
                 </a>
               </li>
               <li>
-                <a href="admin?content=addClass">
-                  Добавяне на клас
-                </a>
-              </li>
-              <li>
-                <a href="<s:url action='addStudentToClass'/>">
-                  Добавяне на ученик към клас
-                </a>
-              </li>
-              <li>
                 <a href="<s:url action='listSubject'/>">
-                  Добавяне на учебни предмети
+                  Учебни предмети
                 </a>
               </li>
             </ul>

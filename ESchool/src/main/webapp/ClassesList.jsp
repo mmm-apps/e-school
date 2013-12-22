@@ -66,7 +66,7 @@
                   <s:param name="classNameInfo" value="%{id}"></s:param>
                 </s:url>
                 <s:a href="%{addHomework}">
-                  <button class="btn btn-success" type="button">Добави домашна работа</button>
+                  <button class="btn btn-success" type="button">Домашни работи за класа</button>
                 </s:a>
                   
                 <s:url id="deleteClass" action="deleteClass">

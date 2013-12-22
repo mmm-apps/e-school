@@ -8,39 +8,23 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
-    <div class="modal fade" id="delMarks" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form action = "login.action" method ="post" class ="bs-example form-horizontal" >
-                        <fieldset>
-                            <legend>Изтриване на оценки по История на 6а клас</legend>
-                            Изберете ученик:
-                            <select id="select" class="form-control">
-                                <option>-------</option>
-                                <option> Иван Петров </option>
-                                <option> Иван Иванов </option>
-                                <option> Иван Георгиев</option>
-                                <option> Петър Петров </option>
-                            </select>
-                            <br>
-                            Изберете оценка:
-                            <select id="select" class="form-control">
-                                <option>-------</option>
-                                <option> 6 </option>
-                                <option> 5 </option>
-                                <option> 4 </option>
-                                <option> 3 </option>
-                                <option> 2 </option>
-                            </select>
-                        </fieldset>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
-                            <s:submit cssClass="btn btn-danger" value="Изтрии"/>
-                        </div>
-                    </form>
-                </div>
-            </div>
+  <%@include file="adminMenu.jsp"%>         
+  <div class="well well-sm" style="margin-left: 30%;margin-right: 30%; margin-top: 5%;padding: 3%">
+    <s:form action = "delMark" cssClass="bs-example form-horizontal">
+      <fieldset>
+        <legend>Изтриване на Оценка</legend>
+        <s:fielderror/>
+        <div class = "form-group">
+          <div class="col-lg-10">
+            <s:select headerKey="-1" headerValue="Моля Изберете оценка" 
+                      list="marksListForStudent" name="selectedMarkToDel" cssClass="form-control" />
+          </div>
         </div>
-    </div>
+      </fieldset>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" style="float: left;">Назад</button>
+        <s:submit cssClass="btn btn-danger" value="Изтрии"/>
+      </div>
+    </s:form>
+  </div>
 </html>

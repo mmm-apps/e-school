@@ -210,6 +210,7 @@
     <action name="deleteHomework" method="deleteHomework" class="mmm.eschool.actions.AddHomeworkToClass">
       <result name="success" type="redirect">classesList</result>
     </action>
+    
     <action name="createRemark" class="mmm.eschool.actions.AddRemark">
       <result name="success">AddRemark.jsp</result>
       <result name="input">AddRemark.jsp</result>
@@ -217,6 +218,7 @@
     <action name="deleteRemark" method="deleteRemark" class="mmm.eschool.actions.AddRemark">
       <result name="success">AddRemark.jsp</result>
     </action>
+    
     <action name="selectMark" method="display" class = "mmm.eschool.actions.AddMark">
       <result name="none">AddMark.jsp</result>
     </action>
@@ -224,6 +226,14 @@
       <result name="success" type="redirect">classesList</result>
       <result name="input">AddMark.jsp</result>
     </action>
+    <action name="selectMarktoDel" method="marksForStudentSubject" class="mmm.eschool.actions.AddMark">
+      <result name="none">DelMark.jsp</result>
+    </action>
+    <action name="delMark" method="delMark" class="mmm.eschool.actions.AddMark">
+        <result name="success" type="redirect">classesList</result>
+        <result name="input">DelMark.jsp</result>
+    </action>
+    
     
     <action name="absencesList" method="absencesList" class="mmm.eschool.actions.AbsencesActions">
       <result name="success">AbsencesList.jsp</result>
