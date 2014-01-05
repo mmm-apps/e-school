@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mmm.eschool.actions;
 
 import static com.opensymphony.xwork2.Action.NONE;
@@ -13,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.model.Subject;
-import mmm.eschool.model.managers.SubjectManager;
+import mmm.eschool.model.managers.Manager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -23,82 +18,82 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class CreateNewSubject extends ActionSupport implements ModelDriven<Subject>, SessionAware
 {
+  private Map<String, Object> session;
+  private Subject newSubject = new Subject();
+  private final Manager subjectMgr = new Manager(Subject.class);
+  private String subjectType;
+  private List<String> subjectTypes;
+  
+  public CreateNewSubject()
+  {
+    subjectTypes = new ArrayList<String>();
+    subjectTypes.add("Задължителен");
+    subjectTypes.add("Избираем");
+  }
 
-    private String subjectType;
-    private List<String> subjectTypes;
-    private Subject newSubject = new Subject();
-    private Map<String, Object> session;
-
-    public CreateNewSubject()
+  @Override
+  public void setSession(final Map<String, Object> map) { this.session = map; }
+  
+  @Override
+  public Subject getModel() { return newSubject; }
+  
+  @Override
+  public String execute() throws Exception
+  {
+    if (StringUtils.isEmpty(newSubject.getSubjectName()) || StringUtils.isEmpty(subjectType))
     {
-        subjectTypes = new ArrayList<String>();
-        subjectTypes.add("Задължителен");
-        subjectTypes.add("Избираем");
+      addFieldError("subjectName", "Subject name or subject type can't be blank!!!");
+      return INPUT;
     }
 
-    @Override
-    public String execute() throws Exception
+    newSubject.setSubjectKind(subjectType);
+    
+    if (isSubjectNameAndTypeExists(newSubject.getSubjectName(), newSubject.getSubjectKind()))
     {
-      
-      if(StringUtils.isEmpty(newSubject.getSubjectName()) || StringUtils.isEmpty(subjectType))
-      {
-        addFieldError("subjectName", "Subject name or subject type can't be blank!!!");
-        return INPUT;
-      }
-      
-      newSubject.setSubjectKind(subjectType);
-      SubjectManager mgr = new SubjectManager();
-      if (mgr.isSubjectNameAndTypeExists(newSubject.getSubjectName(), newSubject.getSubjectKind()))
-      {
-          addFieldError("subjectName", "Subject exists!");
-          return INPUT;
-      }
-      try
-      {
-          mgr.add(newSubject);
-          return SUCCESS;
-      }
-      catch (AnException ex)
-      {
-          ex.printStackTrace();
-      }
+      addFieldError("subjectName", "Subject exists!");
+      return INPUT;
+    }
+    try
+    {
+      subjectMgr.add(newSubject);
+      return SUCCESS;
+    }
+    catch (AnException ex)
+    {
+      ex.printStackTrace();
       return ERROR;
     }
+  }
 
-    @Override
-    public Subject getModel()
-    {
-        return newSubject;
-    }
+  public String display() { return NONE; }
 
-    @Override
-    public void setSession(Map<String, Object> map)
+  private boolean isSubjectNameAndTypeExists(String subjectName, String SubjectKind)
+  {
+    for (final Subject subject : (ArrayList<Subject>) subjectMgr.getEntityList())
     {
-        this.session = map;
+      if(subject.getSubjectName().equals(subjectName) && subject.getSubjectKind().equals(SubjectKind))
+        return true;
     }
+    return false;
+  }
 
-    public String display()
-    {
-        return NONE;
-    }
+  public String getSubjectType()
+  {
+    return subjectType;
+  }
 
-    public String getSubjectType()
-    {
-        return subjectType;
-    }
+  public List<String> getSubjectTypes()
+  {
+    return subjectTypes;
+  }
 
-    public List<String> getSubjectTypes()
-    {
-        return subjectTypes;
-    }
+  public void setSubjectType(String subjectType)
+  {
+    this.subjectType = subjectType;
+  }
 
-    public void setSubjectType(String subjectType)
-    {
-        this.subjectType = subjectType;
-    }
-
-    public void setSubjectTypes(List<String> subjectTypes)
-    {
-        this.subjectTypes = subjectTypes;
-    }
+  public void setSubjectTypes(List<String> subjectTypes)
+  {
+    this.subjectTypes = subjectTypes;
+  }
 }

@@ -8,10 +8,11 @@ package mmm.eschool.actions;
 import static com.opensymphony.xwork2.Action.NONE;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import java.util.ArrayList;
 import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.model.Classes;
-import mmm.eschool.model.managers.ClassManager;
+import mmm.eschool.model.managers.Manager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -19,42 +20,45 @@ import org.apache.struts2.interceptor.SessionAware;
  *
  * @author MMihov
  */
-public class CreateClass extends ActionSupport implements ModelDriven<Classes>, SessionAware {
-
-  Classes newClass = new Classes();
+public class CreateClass extends ActionSupport implements ModelDriven<Classes>, SessionAware 
+{
   private Map<String, Object> session;
-
-//    @Override
-//    public void validate()
-//    {
-//        if (StringUtils.isEmpty(newClass.getClassName()))
-//        {
-//            addFieldError("className", "Classname cannot be blank!");
-//        }
-//    }
-  @Override
-  public String execute()
-  {
-    return NONE;
-  }
+  Classes newClass = new Classes();
+  private final Manager classesManager = new Manager(Classes.class);
   
-  public String createClass() throws Exception {
-    
+  @Override
+  public void setSession(final Map<String, Object> map) { this.session = map; }
+  
+  @Override
+  public Classes getModel() { return newClass; }
+  
+//  @Override
+//  public void validate()
+//  {
+//    if (StringUtils.isEmpty(newClass.getClassName()))
+//      addFieldError("className", "Classname cannot be blank!");
+//  }
+  
+  @Override
+  public String execute() { return NONE; }
+  
+  public String display() { return NONE; }
+  
+  public String createClass() throws Exception 
+  {  
     if (StringUtils.isEmpty(newClass.getClassName()))
     {
       addFieldError("className", "Classname cannot be blank!");
       return INPUT;
     }
-    
-    ClassManager classMan = new ClassManager();
-    if (classMan.isClassExists(newClass.getClassName())) 
+    if (isClassExists(newClass.getClassName())) 
     {
       addFieldError("className", "This Classname exists!");
       return INPUT;
     }
     try 
     {
-      classMan.add(newClass);
+      classesManager.add(newClass);
       return SUCCESS;
     }
     catch (AnException ex)
@@ -63,18 +67,12 @@ public class CreateClass extends ActionSupport implements ModelDriven<Classes>, 
     }
     return ERROR;
   }
-
-  @Override
-  public Classes getModel() {
-    return newClass;
-  }
-
-  @Override
-  public void setSession(Map<String, Object> map) {
-    this.session = map;
-  }
-
-  public String display() {
-    return NONE;
+  
+  private boolean isClassExists(final String className)
+  {
+    for (final Classes myClass : (ArrayList<Classes>) classesManager.getEntityList())
+      if (myClass.getClassName().equals(className))
+        return true;
+    return false;
   }
 }

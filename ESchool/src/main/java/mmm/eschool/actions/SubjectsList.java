@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package mmm.eschool.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -18,140 +12,133 @@ import mmm.eschool.model.Mark;
 import mmm.eschool.model.Remark;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.TeacherSubjects;
-import mmm.eschool.model.managers.AbsenceManager;
-import mmm.eschool.model.managers.HomeworkManager;
-import mmm.eschool.model.managers.MarkManager;
-import mmm.eschool.model.managers.RemarkManager;
-import mmm.eschool.model.managers.SubjectManager;
-import mmm.eschool.model.managers.TeacherSubjectsManager;
+import mmm.eschool.model.managers.Manager;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
  *
  * @author Denev
  */
-public class SubjectsList extends ActionSupport implements ModelDriven<Subject>, SessionAware {
+public class SubjectsList extends ActionSupport implements ModelDriven<Subject>, SessionAware 
+{
+  private Map<String, Object> session;
+  private Subject subject = new Subject();
+  private final Manager subjectMgr = new Manager(Subject.class);
+  private final Manager absenceMgr = new Manager(Absence.class);
+  private final Manager homeworkMgr = new Manager(Homework.class);
+  private final Manager markMgr = new Manager(Mark.class);
+  private final Manager remarkMgr = new Manager(Remark.class);
+  private final Manager tsMgr = new Manager(TeacherSubjects.class);
+  private String userCon;
+  private List<Subject> subjectsList = new ArrayList<Subject>();
+  
+  @Override
+  public void setSession(final Map<String, Object> map) { this.session = map; }
+  
+  @Override
+  public Subject getModel() { return subject; }
 
-    private String userCon;
-    private Subject subject = new Subject();
-    private List<Subject> subjectsList = new ArrayList<Subject>();
-    private Map<String, Object> session;
-    private final SubjectManager subjectMgr = new SubjectManager();
-    private final AbsenceManager absenceMan = new AbsenceManager();
-    private final HomeworkManager homeworkMan = new HomeworkManager();
-    private final MarkManager markMan = new MarkManager();
-    private final RemarkManager remarkMan = new RemarkManager();
-    private final TeacherSubjectsManager tsMgr = new TeacherSubjectsManager();
-    
-    public Subject getSubject() {
-        return subject;
-    }
+  @Override
+  public String execute() { return null; }
+  
+  public String list()
+  {
+    subjectsList = subjectMgr.getEntityList();
+    return SUCCESS;
+  }
+  
+  public String delete() throws AnException
+  {
+    boolean isSubjUsedInAbsences = false;
+    boolean isSubjUsedInHomeworks = false;
+    boolean isSubjUsedInMarks = false;
+    boolean isSubjUsedInRemarks = false;
+    boolean isSubjUsedInTSubjets = false;
 
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
+    final Subject subject = (Subject) subjectMgr.getEntityById(Integer.parseInt(userCon));
 
-    public String getUserCon() {
-        return userCon;
-    }
-
-    public void setUserCon(String userCon) {
-        this.userCon = userCon;
-    }
-
-    public List<Subject> getSubjectsList() {
-        return subjectsList;
-    }
-
-    public void setSubjectsList(List<Subject> subjectsList) {
-        this.subjectsList = subjectsList;
-    }
-    
-    @Override
-    public Subject getModel() {
-        return subject;
-    }
-
-    @Override
-    public void setSession(Map<String, Object> map) {
-        this.session = map;
-    }
-    
-    public String list()
+    for (final Absence a : (ArrayList<Absence>) absenceMgr.getEntityList())
     {
-        subjectsList = subjectMgr.getEntityList();
-        return SUCCESS;
-    }
-    
-    public String delete() throws AnException
-    {
-      boolean isSubjUsedInAbsences = false;
-      boolean isSubjUsedInHomeworks = false;
-      boolean isSubjUsedInMarks = false;
-      boolean isSubjUsedInRemarks = false;
-      boolean isSubjUsedInTSubjets = false;
-      
-      Subject subj = subjectMgr.getEntityById(Integer.parseInt(userCon));
-      
-      for(Absence a : absenceMan.getEntityList())
+      if (a.getSubjectId().getSubjectName().equals(subject.getSubjectName()))
       {
-        if(a.getSubjectId().getSubjectName().equals(subj.getSubjectName()))
-        {
-          isSubjUsedInAbsences = true;
-          break;
-        }
+        isSubjUsedInAbsences = true;
+        break;
       }
+    }
 
-      for(Homework h : homeworkMan.getEntityList())
-      {
-        if(h.getSubjectId().getSubjectName().equals(subj.getSubjectName()))
-        {
-          isSubjUsedInHomeworks = true;
-          break;
-        }
-      }
-      
-      for(Mark m : markMan.getEntityList())
-      {
-        if(m.getSubjectId().getSubjectName().equals(subj.getSubjectName()))
-        {
-          isSubjUsedInMarks = true;
-          break;
-        }
-      }
-      
-      for(Remark r : remarkMan.getEntityList())
-      {
-        if(r.getSubjectId().getSubjectName().equals(subj.getSubjectName()))
-        {
-          isSubjUsedInRemarks = true;
-          break;
-        }
-      }
-      
-      for(TeacherSubjects ts : tsMgr.getEntityList())
-      {
-        if(ts.getSubject().getSubjectName().equals(subj.getSubjectName()))
-        {
-          isSubjUsedInTSubjets = true;
-          break;
-        }
-      }
-      
-      if(isSubjUsedInAbsences || isSubjUsedInHomeworks || isSubjUsedInMarks || isSubjUsedInRemarks || isSubjUsedInTSubjets)
-      {
-        //Трябва да се покаже съобщение за грешка както при изтрижане на Клас в ClassesList.java
-        return INPUT;
-      }
-      
-      subjectMgr.del(Integer.parseInt(userCon));
-      return SUCCESS;
-    }
-    
-    @Override
-    public String execute()
+    for (final Homework h : (ArrayList<Homework>) homeworkMgr.getEntityList())
     {
-        return null;
+      if (h.getSubjectId().getSubjectName().equals(subject.getSubjectName()))
+      {
+        isSubjUsedInHomeworks = true;
+        break;
+      }
     }
-    
+
+    for (final Mark m : (ArrayList<Mark>) markMgr.getEntityList())
+    {
+      if (m.getSubjectId().getSubjectName().equals(subject.getSubjectName()))
+      {
+        isSubjUsedInMarks = true;
+        break;
+      }
+    }
+
+    for (final Remark r : (ArrayList<Remark>) remarkMgr.getEntityList())
+    {
+      if(r.getSubjectId().getSubjectName().equals(subject.getSubjectName()))
+      {
+        isSubjUsedInRemarks = true;
+        break;
+      }
+    }
+
+    for (final TeacherSubjects ts : (ArrayList<TeacherSubjects>) tsMgr.getEntityList())
+    {
+      if(ts.getSubject().getSubjectName().equals(subject.getSubjectName()))
+      {
+        isSubjUsedInTSubjets = true;
+        break;
+      }
+    }
+
+    if (isSubjUsedInAbsences || isSubjUsedInHomeworks || isSubjUsedInMarks || isSubjUsedInRemarks || isSubjUsedInTSubjets)
+    {
+      //Трябва да се покаже съобщение за грешка както при изтрижане на Клас в ClassesList.java
+      return INPUT;
+    }
+
+    subjectMgr.del(Integer.parseInt(userCon));
+    return SUCCESS;
+  }
+  
+  public Subject getSubject() 
+  {
+    return subject;
+  }
+
+  public void setSubject(Subject subject) 
+  {
+    this.subject = subject;
+  }
+
+  public String getUserCon() 
+  {
+    return userCon;
+  }
+
+  public void setUserCon(String userCon) 
+  {
+    this.userCon = userCon;
+  }
+
+  public List<Subject> getSubjectsList()
+  {
+    return subjectsList;
+  }
+
+  public void setSubjectsList(List<Subject> subjectsList) 
+  {
+    this.subjectsList = subjectsList;
+  }
 }

@@ -12,6 +12,7 @@ package mmm.eschool;
  */
 public class Constants
 {
+  public static final String USER = "user";
   public static final String ADMINISTRATOR = "Администратор";
   public static final String PARENT = "Родител";
   public static final String TEACHER = "Учител";

@@ -1,28 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mmm.eschool.actions;
 
+import static com.opensymphony.xwork2.Action.NONE;
+import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.opensymphony.xwork2.ActionSupport;
-import java.nio.charset.Charset;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
+import mmm.eschool.Constants;
+import mmm.eschool.SendEmail;
 import mmm.eschool.actions.temp.StudentSubjectMarks;
 import mmm.eschool.model.Mark;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.User;
-import mmm.eschool.model.managers.MarkManager;
-import mmm.eschool.model.managers.StudentManager;
-import mmm.eschool.model.managers.SubjectManager;
-import org.apache.commons.lang3.StringUtils;
+import mmm.eschool.model.managers.Manager;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
@@ -31,25 +25,154 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class AddMark extends ActionSupport implements SessionAware
 {
-
-  private Map session;
-
-  private String studentId;
-  private String subjectName;
   private static int studId;
   private static String subjName;
+  
+  private Map session;
+  private Mark mark = new Mark();
+  private final Manager markMgr = new Manager(Mark.class);
+  private final Manager subjectMgr = new Manager(Subject.class);
+  private final Manager studentMgr = new Manager(Student.class);
+  private String studentId;
+  private String subjectName;
   private List<StudentSubjectMarks> StudentMarksList = new ArrayList<StudentSubjectMarks>();
   private List<Subject> subjectList;
-  private final StudentManager studentMgr = new StudentManager();
   private List<String> marksList = new ArrayList<String>();
   private String markVal;
   private String date;
-  private Mark mark = new Mark();
-  private final MarkManager markMgr = new MarkManager();
-  private final SubjectManager subjectMgr = new SubjectManager();
   private List<String> marksListForStudent = new ArrayList<String>();
   private String selectedMarkToDel;
 
+  public AddMark()
+  {
+    marksList.add("2");
+    marksList.add("3");
+    marksList.add("4");
+    marksList.add("5");
+    marksList.add("6");
+  }
+
+  @Override
+  public void setSession(final Map<String, Object> map) { this.session = map; }
+  
+  @Override
+  public String execute() { return SUCCESS; }
+  
+  public String display()
+  {
+    subjName = subjectName;
+    return NONE;
+  }
+  
+  public String marksForStudentSubject()
+  {
+    for (final Mark m : (ArrayList<Mark>) markMgr.getEntityList())
+    {
+      if (m.getSubjectId().getId() == Integer.parseInt(subjectName) && m.getStudentId().getId() == studId)
+        marksListForStudent.add(m.getMark() + " " + m.getDateCreated() + " " + m.getSubjectId().getSubjectName() +
+                "-" + m.getTeacherId().getFirstName() + " " + m.getTeacherId().getLastName());
+    }
+    return NONE;
+  }
+
+  public String studentMarksList()
+  {
+    studId = Integer.parseInt(studentId);
+    final Student student = (Student) studentMgr.getEntityById(studId);
+    subjectList = student.getSubjectsSet();
+    String marks = "";
+
+    for (final Subject s : subjectList) 
+    {
+      final StudentSubjectMarks studentSubjectMarks = new StudentSubjectMarks();
+      studentSubjectMarks.setFirstName(student.getFirstName());
+      studentSubjectMarks.setLastName(student.getLastName());
+      studentSubjectMarks.setSubject(s.getSubjectName());
+      studentSubjectMarks.setId(String.valueOf(s.getId()));
+
+      if (s.getMarksSet().isEmpty())
+        studentSubjectMarks.setMarks("");
+      else 
+      {
+        for (Mark m : s.getMarksSet())
+          marks = marks + m.getMark() + " ";
+        studentSubjectMarks.setMarks(marks);
+      }
+      StudentMarksList.add(studentSubjectMarks);
+      marks = "";
+    }
+    return NONE;
+  }
+
+  public String createMark() throws AnException
+  {
+    int year;
+    int month;
+    int day;
+    
+    if (markVal.equals("-1") || date.equals("")) 
+    {
+      addFieldError(subjName, "Моля попълнете всички полета");
+      return INPUT;
+    }
+    
+    year = Integer.parseInt(date.substring(0, date.indexOf("-")));
+    month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-", date.indexOf("-") + 1)));
+    day = Integer.parseInt(date.substring(date.indexOf("-", date.indexOf("-") + 1) + 1, date.length()));
+
+    final User teacher = (User) session.get(Constants.USER);
+    final Student student = (Student) studentMgr.getEntityById(studId);
+    mark.setMark(Integer.parseInt(markVal));
+    mark.setClassId(student.getClassId());
+    mark.setStudentId(student);
+    mark.setSubjectId((Subject) subjectMgr.getEntityById(Integer.parseInt(subjName)));
+    mark.setTeacherId(teacher.getTeacher());
+    mark.setDateCreated(new Date(new GregorianCalendar(year, month - 1, day).getTimeInMillis()));
+    markMgr.add(mark);
+    SendEmail.tryCreateAndSendEmail(mark);
+    
+    student.getMarksSet().add(mark);
+    studentMgr.update(student);
+
+    return SUCCESS;
+  }
+  
+  public String delMark() throws AnException
+  {
+    if(selectedMarkToDel.equals("-1"))
+    {
+      addFieldError(selectedMarkToDel, "Please selsect mark to delete!!!");
+      return INPUT;
+    }
+    
+    int firstIndex = selectedMarkToDel.indexOf(" ");
+    int lastIndex = selectedMarkToDel.indexOf(" ", firstIndex + 1);
+    String markV = selectedMarkToDel.substring(0, selectedMarkToDel.indexOf(" "));
+    String dateCr = selectedMarkToDel.substring(firstIndex + 1, lastIndex);
+    String subj = selectedMarkToDel.substring(lastIndex + 1, selectedMarkToDel.lastIndexOf("-"));
+    String teacherName = selectedMarkToDel.substring(selectedMarkToDel.lastIndexOf("-") + 1);
+    Mark markToDel = getMarkByValueAndDate(markV,dateCr,subj,teacherName,studId);
+    Student student = (Student) studentMgr.getEntityById(studId);
+    
+    student.getMarksSet().remove(markToDel);
+    studentMgr.update(student);
+    markMgr.del(markToDel.getId());
+    return SUCCESS;
+  }
+
+  private Mark getMarkByValueAndDate(String MarkVal, String dateCreated, String subjName, String teacherName, int studId)
+  {
+    for (final Mark m : (ArrayList<Mark>) markMgr.getEntityList())
+    {
+      final String teacherNames = m.getTeacherId().getFirstName() + " " + m.getTeacherId().getLastName();
+      if (m.getMark() == Integer.parseInt(MarkVal) && m.getDateCreated().toString().equals(dateCreated) &&
+          m.getSubjectId().getSubjectName().equals(subjName) && teacherNames.equals(teacherName) && m.getStudentId().getId() == studId)
+        return m;
+    }
+    return null;
+  }
+  
+  
   public String getMarkVal()
   {
     return markVal;
@@ -99,130 +222,7 @@ public class AddMark extends ActionSupport implements SessionAware
   {
     this.marksList = marksList;
   }
-
-  public AddMark()
-  {
-    marksList.add("2");
-    marksList.add("3");
-    marksList.add("4");
-    marksList.add("5");
-    marksList.add("6");
-  }
-
-  @Override
-  public String execute()
-  {
-    return SUCCESS;
-  }
   
-  public String marksForStudentSubject()
-  {
-    for(Mark m : markMgr.getEntityList())
-    {
-      if(m.getSubjectId().getId() == Integer.parseInt(subjectName) && m.getStudentId().getId() == studId)
-        marksListForStudent.add(m.getMark() + " " + m.getDateCreated() + " " + m.getSubjectId().getSubjectName() +
-                "-" + m.getTeacherId().getFirstName() + " " + m.getTeacherId().getLastName());
-    }
-    return NONE;
-  }
-
-  public String studentMarksList()
-  {
-    studId = Integer.parseInt(studentId);
-    Student student = studentMgr.getEntityById(studId);
-    subjectList = student.getSubjectsSet();
-    String marks = "";
-
-    for (Subject s : subjectList) {
-      StudentSubjectMarks studentSubjectMarks = new StudentSubjectMarks();
-      studentSubjectMarks.setFirstName(student.getFirstName());
-      studentSubjectMarks.setLastName(student.getLastName());
-      studentSubjectMarks.setSubject(s.getSubjectName());
-      studentSubjectMarks.setId(String.valueOf(s.getId()));
-
-      if (s.getMarksSet().isEmpty()) {
-        studentSubjectMarks.setMarks("");
-      } else {
-        for (Mark m : s.getMarksSet()) {
-          marks = marks + m.getMark() + " ";
-        }
-        studentSubjectMarks.setMarks(marks);
-      }
-      StudentMarksList.add(studentSubjectMarks);
-      marks = "";
-    }
-    return NONE;
-  }
-
-  public String display()
-  {
-    subjName = subjectName;
-    return NONE;
-  }
-
-  public String createMark() throws AnException
-  {
-    int year;
-    int month;
-    int day;
-    
-    if(markVal.equals("-1") || date.equals("")) 
-    {
-     addFieldError(subjName, "Моля попълнете всички полета");
-     return INPUT;
-    }
-    year = Integer.parseInt(date.substring(0, date.indexOf("-")));
-    month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-", date.indexOf("-") + 1)));
-    day = Integer.parseInt(date.substring(date.indexOf("-", date.indexOf("-") + 1) + 1, date.length()));
-    Calendar c = new GregorianCalendar(year, month - 1, day);
-    Date dat = new Date(c.getTimeInMillis());
-
-    User user = (User) session.get("user");
-    Student student = new Student();
-    mark.setMark(Integer.parseInt(markVal));
-    mark.setClassId(studentMgr.getEntityById(studId).getClassId());
-    mark.setStudentId(studentMgr.getEntityById(studId));
-    mark.setSubjectId(subjectMgr.getEntityById(Integer.parseInt(subjName)));
-    mark.setTeacherId(user.getTeacher());
-    mark.setDateCreated(dat);
-    
-    markMgr.add(mark);
-    student = studentMgr.getEntityById(studId);
-    student.getMarksSet().add(mark);
-    studentMgr.update(student);
-
-    return SUCCESS;
-  }
-  
-  public String delMark() throws AnException
-  {
-    if(selectedMarkToDel.equals("-1"))
-    {
-      addFieldError(selectedMarkToDel, "Please selsect mark to delete!!!");
-      return INPUT;
-    }
-    
-    int firstIndex = selectedMarkToDel.indexOf(" ");
-    int lastIndex = selectedMarkToDel.indexOf(" ", firstIndex + 1);
-    String markV = selectedMarkToDel.substring(0, selectedMarkToDel.indexOf(" "));
-    String dateCr = selectedMarkToDel.substring(firstIndex + 1, lastIndex);
-    String subj = selectedMarkToDel.substring(lastIndex + 1, selectedMarkToDel.lastIndexOf("-"));
-    String teacherName = selectedMarkToDel.substring(selectedMarkToDel.lastIndexOf("-") + 1);
-    Mark markToDel = markMgr.getMarkByValueAndDate(markV,dateCr,subj,teacherName,studId);
-    Student stud = studentMgr.getEntityById(studId);
-    
-    stud.getMarksSet().remove(markToDel);
-    studentMgr.update(stud);
-    markMgr.del(markToDel.getId());
-    return SUCCESS;
-  }
-
-  @Override
-  public void setSession(Map<String, Object> map)
-  {
-    this.session = map;
-  }
-
   public static int getStudId()
   {
     return studId;

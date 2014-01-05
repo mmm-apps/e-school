@@ -8,9 +8,7 @@ import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.model.Role;
 import mmm.eschool.model.User;
-import mmm.eschool.model.managers.RoleManager;
-import mmm.eschool.model.managers.StudentManager;
-import mmm.eschool.model.managers.UserManager;
+import mmm.eschool.model.managers.Manager;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
@@ -19,49 +17,33 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class UsersList extends ActionSupport implements ModelDriven<User>, SessionAware
 {
+  private Map<String, Object> session;
   private User user = new User();
+  private final Manager userMgr = new Manager(User.class);
+  private final Manager roleMgr = new Manager(Role.class);
   private String userId;
   private List<User> usersList = new ArrayList<User>();
-  private Map<String, Object> session;
-  private final UserManager userMgr = new UserManager();
   private String roleListVal;
   private List<String> roleCollection = new ArrayList<String>();
-  final RoleManager roleMgr = new RoleManager();
   private String newPassword;
   private String reNewPassword;
 
-  public User getUser()
-  {
-    return user;
-  }
-
-  public void setUser(User user)
-  {
-    this.user = user;
-  }
-
   @Override
-  public User getModel()
-  {
-    return user;
-  }
-
+  public void setSession(final Map<String, Object> map) { this.session = map; }
+  
   @Override
-  public void setSession(Map<String, Object> map)
-  {
-    this.session = map;
-  }
-
+  public User getModel() { return user; }
+  
   @Override
   public String execute() throws Exception
   {
     return null;
   }
-
+  
   public String list()
   {
     usersList = userMgr.getEntityList();
-    for(Role r : roleMgr.getEntityList())
+    for(Role r : (ArrayList<Role>) roleMgr.getEntityList())
       roleCollection.add(r.getRoleName());
     return SUCCESS;
   }
@@ -80,7 +62,7 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
 
   public String edit() throws AnException
   {
-    final User oldUser = userMgr.getEntityById(user.getId());
+    final User oldUser = (User) userMgr.getEntityById(user.getId());
     if (newPassword != null && !newPassword.isEmpty())
     {
       if (!user.getPassword().equals(oldUser.getPassword()))
@@ -96,35 +78,48 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
       }
       user.setPassword(newPassword);
     }
-    final Role role = roleMgr.getRoleByName(roleListVal);
+    
+    final Role role = getRoleByName(roleListVal);
     if (role == null)
     {
       addFieldError("roleListVal", "Моля, изберете роля от списъка!");
       return INPUT;
     }
+    
     if (!user.getRolesSet().contains(role))
     {
       user.getRolesSet().clear(); // vremenno e taka
       user.getRolesSet().add(role);
     }
+    
     user.setPassword(oldUser.getPassword());
     
     // TO DO Да се махне възможността за едит на ролята
     if (user.getStudent() != null )
       user.getStudent().setId(user.getId());
+    
     if (user.getParent() != null)
       user.getParent().setId(user.getId());
+    
     if (user.getTeacher() != null)
       user.getTeacher().setId(user.getId());
-    StudentManager studentMgr = new StudentManager();
-    studentMgr.getEntityById(user.getId());
-    studentMgr.getEntityList();
+    
     if (userMgr.update(user))
       return SUCCESS;
     else
       return ERROR;
   }
 
+  public User getUser()
+  {
+    return user;
+  }
+
+  public void setUser(User user)
+  {
+    this.user = user;
+  }
+  
   public List<User> getUserList()
   {
     return usersList;
@@ -183,5 +178,15 @@ public class UsersList extends ActionSupport implements ModelDriven<User>, Sessi
   public void setReNewPassword(String rePassword)
   {
     this.reNewPassword = rePassword;
+  }
+  
+  private Role getRoleByName(final String roleName)
+  {
+    for (final Role r : (ArrayList<Role>) roleMgr.getEntityList())
+    {
+      if(r.getRoleName().equals(roleName))
+        return r;
+    }
+    return null;
   }
 }

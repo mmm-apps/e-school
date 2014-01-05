@@ -1,28 +1,21 @@
-/*
- */
 package mmm.eschool.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import mmm.eschool.AnException;
+import mmm.eschool.Constants;
 import mmm.eschool.model.Classes;
 import mmm.eschool.model.Homework;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.TeacherSubjects;
 import mmm.eschool.model.User;
-import mmm.eschool.model.managers.ClassManager;
-import mmm.eschool.model.managers.HomeworkManager;
-import mmm.eschool.model.managers.SubjectManager;
-import mmm.eschool.model.managers.TeacherSubjectsManager;
+import mmm.eschool.model.managers.Manager;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
@@ -31,98 +24,103 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class AddHomeworkToClass extends ActionSupport implements SessionAware
 {
-
+  private static Map<Integer, String> classIdList = new TreeMap<Integer, String>();
+  
+  private Map<String, Object> session;
+  private final Manager subjectMgr = new Manager(Subject.class);
+  private final Manager classMgr = new Manager(Classes.class);
+  private final Manager homeMgr = new Manager(Homework.class);
   private String classNameInfo;
   private String classId;
-  private static Map<Integer, String> classIdList = new TreeMap<Integer, String>();
   private String subjectName;
   private String date;
   private List<String> subjectList;
   private String homeworkNote;
-  private final SubjectManager subjectMan = new SubjectManager();
-  private final ClassManager classMan = new ClassManager();
-  private final HomeworkManager homeMan = new HomeworkManager();
-  private Map<String, Object> session;
   private ArrayList<Homework> studentHomeworks = new ArrayList<Homework>();
   private String homeworkNo;
+  
   @Override
-  public void setSession(Map<String, Object> session)
-  {
-    this.session = session;
-  }
+  public void setSession(final Map<String, Object> map) { this.session = map; }
 
-  public String getSubjects()
+  @Override
+  public String execute() throws Exception
   {
-    TeacherSubjectsManager teacherSubjectMan = new TeacherSubjectsManager();
-    User teacher = (User) session.get("user");
-    List<TeacherSubjects> teachersubjects = teacherSubjectMan.getEntityList();
+    if (subjectName.equals("-1") || date.equals("") || homeworkNote.equals(""))
+    {
+      addFieldError("hello" ,"Hello");
+      return INPUT;
+    }
+    
+    final User teacher = (User) session.get(Constants.USER);
+    final Homework homework = new Homework();
+    final Classes clas = (Classes) classMgr.getEntityById(Integer.parseInt(classIdList.get(teacher.getId())));
+    final Subject subj = getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
+    int year = Integer.parseInt(date.substring(0, date.indexOf("-")));
+    int month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-", date.indexOf("-") + 1)));
+    int day = Integer.parseInt(date.substring(date.indexOf("-", date.indexOf("-") + 1) + 1, date.length()));
 
-    subjectList = new ArrayList<String>();
-    for (TeacherSubjects s : teachersubjects) {
-      if (s.getClasses().getId() == Integer.parseInt(classNameInfo) && teacher.getTeacher().getId() == s.getTeacher().getId()) {
-        subjectList.add(s.getSubject().getSubjectName() + " " + s.getSubject().getSubjectKind());
+    for (final Student s : clas.getStudentList()) 
+    {
+      homework.setClassId(clas);
+      homework.setHomeWorkTitle(homeworkNote);
+      homework.setStudentId(s);
+      homework.setTeacherId(teacher.getTeacher());
+      homework.setSubjectId(subj);
+      homework.setDateCreated(new Date(new GregorianCalendar(year, month - 1, day).getTimeInMillis()));
+      try 
+      {
+        homeMgr.add(homework);
+      } 
+      catch (AnException ex) 
+      {
+        ex.printStackTrace();
       }
     }
+    return SUCCESS;
+  }
+  
+  public String getSubjects()
+  {
+    final Manager teacherSubjectMgr = new Manager(TeacherSubjects.class);
+    final User teacher = (User) session.get(Constants.USER);
+    final List<TeacherSubjects> teacherSubjects = teacherSubjectMgr.getEntityList();
+
+    subjectList = new ArrayList<String>();
+    for (final TeacherSubjects s : teacherSubjects) 
+    {
+      if (s.getClasses().getId() == Integer.parseInt(classNameInfo) && teacher.getTeacher().getId() == s.getTeacher().getId())
+        subjectList.add(s.getSubject().getSubjectName() + " " + s.getSubject().getSubjectKind());
+    }
+    
     classId = classNameInfo;
     classIdList.put(teacher.getId(), classNameInfo);
     
-    HomeworkManager homMan = new HomeworkManager();
-    List<Homework> homeworks = homMan.getEntityList();
-    for(Homework hwrk : homeworks)
+    final Manager homeWorkMgr = new Manager(Homework.class);
+    final List<Homework> homeworks = homeWorkMgr.getEntityList();
+    for (final Homework h : homeworks)
     {
-      if(hwrk.getClassId().getId() == Integer.parseInt(classNameInfo))
-      {
-        studentHomeworks.add(hwrk);
-      }
+      if(h.getClassId().getId() == Integer.parseInt(classNameInfo))
+        studentHomeworks.add(h);
     }    
     return NONE;
   }
   
   public String deleteHomework() throws AnException
   {
-    homeMan.del(Integer.parseInt(homeworkNo));
+    homeMgr.del(Integer.parseInt(homeworkNo));
     return SUCCESS;
   }
-  @Override
-  public String execute() throws Exception
+  
+  private Subject getSubjectByName(String name)
   {
-
-    if(subjectName.equals("-1") || date.equals("") || homeworkNote.equals(""))
+    for (final Subject s : (ArrayList<Subject>) subjectMgr.getEntityList())
     {
-      addFieldError("hello" ,"Hello");
-    return INPUT;
+      if(s.getSubjectName().equals(name))
+        return s;
     }
-    User teacher = (User) session.get("user");
-    Homework homewrk = new Homework();
-    Classes clas = classMan.getEntityById(Integer.parseInt(classIdList.get(teacher.getId())));
-    List<Student> studentsList = clas.getStudentList();
-    Subject subj = subjectMan.getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
-    int year = Integer.parseInt(date.substring(0, date.indexOf("-")));
-    int month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-", date.indexOf("-") + 1)));
-    int day = Integer.parseInt(date.substring(date.indexOf("-", date.indexOf("-") + 1) + 1, date.length()));
-    Calendar c = new GregorianCalendar(year, month - 1, day);
-    Date dat = new Date(c.getTimeInMillis());
-
-    for (Student s : studentsList) 
-    {
-      homewrk.setClassId(clas);
-      homewrk.setHomeWorkTitle(homeworkNote);
-      homewrk.setStudentId(s);
-      homewrk.setTeacherId(teacher.getTeacher());
-      homewrk.setSubjectId(subj);
-      homewrk.setDateCreated(dat);
-      try 
-      {
-        homeMan.add(homewrk);
-      }
-      catch (AnException ex)
-      {
-        Logger.getLogger(AddHomeworkToClass.class.getName()).log(Level.SEVERE, null, ex);
-      }
-    }
-    return SUCCESS;
+    return null;
   }
-
+  
   public String getClassNameInfo()
   {
     return classNameInfo;
@@ -212,5 +210,4 @@ public class AddHomeworkToClass extends ActionSupport implements SessionAware
   {
     this.homeworkNo = homeworkNo;
   }
-
 }

@@ -2,6 +2,7 @@ package mmm.eschool.model.managers;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
+import org.hibernate.TransactionException;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.classic.Session;
 
@@ -21,54 +22,93 @@ public class HibernateUtil
     {
       return new Configuration().configure().buildSessionFactory();
     }
-    catch (HibernateException ex) 
+    catch(HibernateException ex) 
     {
       System.err.println("Initial SessionFactory creation failed." + ex);
       throw new ExceptionInInitializerError(ex);
     }
   }
   
-  protected static Session getDataSession()
-  {
-    if (sessionFactory == null)
-      buildSessionFactory();
-    return sessionFactory.openSession();
-  }
+  private static SessionFactory getSessionFactory() { return sessionFactory; }
+  
+  private static void shutdown() { getSessionFactory().close(); }
+  
+  protected static Session getDataSession() { return sessionFactory.openSession(); }
   
   protected static final void add(Object entity)
   {
     final Session dataSession = getDataSession();
     dataSession.beginTransaction();
-    dataSession.save(entity);
-    dataSession.getTransaction().commit();
-    dataSession.close();
+    try
+    {
+      dataSession.save(entity);
+      dataSession.getTransaction().commit();
+    }
+    catch(TransactionException e)
+    {
+      dataSession.getTransaction().rollback();
+    }
+    finally
+    {
+      dataSession.close();
+    }
   }
   
   protected static final void del(Object entity)
   {
     final Session dataSession = getDataSession();
     dataSession.beginTransaction();
-    dataSession.delete(entity);
-    dataSession.getTransaction().commit();
-    dataSession.close();
+    try
+    {
+      dataSession.delete(entity);
+      dataSession.getTransaction().commit();
+    }
+    catch(TransactionException e)
+    {
+      dataSession.getTransaction().rollback();
+    }
+    finally
+    {
+      dataSession.close();
+    }
   }
   
   protected static final void update(Object entity)
   {
     final Session dataSession = getDataSession();
     dataSession.beginTransaction();
-    dataSession.update(entity);
-    dataSession.getTransaction().commit();
-    dataSession.close();
+    try
+    {
+      dataSession.update(entity);
+      dataSession.getTransaction().commit();
+    }
+    catch(TransactionException e)
+    {
+      dataSession.getTransaction().rollback();
+    }
+    finally
+    {
+      dataSession.close();
+    }
   }
   
   protected static final void addInTransaction(Object... entities)
   {
     final Session dataSession = getDataSession();
     dataSession.beginTransaction();
-    for (Object e : entities)
-      dataSession.save(e);
-    dataSession.getTransaction().commit();
-    dataSession.close();
+    try
+    {
+      for (Object e : entities)
+        dataSession.save(e);
+      dataSession.getTransaction().commit();
+    }
+    catch(TransactionException e)
+    {
+      dataSession.getTransaction().rollback();
+    }
+    finally
+    {
+      dataSession.close();
+    }
   }
 }

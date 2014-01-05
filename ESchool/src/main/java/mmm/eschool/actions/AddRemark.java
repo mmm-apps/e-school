@@ -9,20 +9,20 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
+import mmm.eschool.Constants;
+import mmm.eschool.SendEmail;
 import mmm.eschool.actions.temp.StudentRemarks;
 import mmm.eschool.model.Remark;
+import mmm.eschool.model.Student;
+import mmm.eschool.model.Subject;
+import mmm.eschool.model.Teacher;
 import mmm.eschool.model.TeacherSubjects;
 import mmm.eschool.model.User;
-import mmm.eschool.model.managers.RemarkManager;
-import mmm.eschool.model.managers.StudentManager;
-import mmm.eschool.model.managers.SubjectManager;
-import mmm.eschool.model.managers.TeacherManager;
-import mmm.eschool.model.managers.TeacherSubjectsManager;
+import mmm.eschool.model.managers.Manager;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -32,30 +32,26 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class AddRemark extends ActionSupport implements SessionAware, ModelDriven<Remark>
 {
-
+  private static int userIdTemp;
+  
   private Map<String, Object> session;
+  private Remark newRemark = new Remark();
+  private final Manager remarkMgr = new Manager(Remark.class);
+  private final Manager subjectMgr = new Manager(Subject.class);
   private String remark;
   private String student;
   private String userId;
   private String date;
-  private static int userIdTemp;
-  private Remark newRemark = new Remark();
   private List<String> subjectsList = new ArrayList<String>();
   private String subjectName;
   private String RemarkNo;
   private List<StudentRemarks> studentRemarks = new ArrayList<StudentRemarks>();
 
   @Override
-  public void setSession(Map<String, Object> map)
-  {
-    this.session = map;
-  }
+  public void setSession(final Map<String, Object> map) { this.session = map; }
 
   @Override
-  public Remark getModel()
-  {
-    return newRemark;
-  }
+  public Remark getModel() { return newRemark; }
 
   @Override
   public String execute() throws Exception
@@ -68,29 +64,28 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
       return INPUT;
     }
 
-    StudentManager studMan = new StudentManager();
-    newRemark.setStudentId(studMan.getEntityById(userIdTemp));
-    User user = (User) session.get("user");
+    final Manager studentMgr = new Manager(Student.class);
+    newRemark.setStudentId((Student) studentMgr.getEntityById(userIdTemp));
+    final User user = (User) session.get(Constants.USER);
     if (user.getTeacher() != null) 
     {
-      TeacherManager teacherMgr = new TeacherManager();
-      newRemark.setTeacherId(teacherMgr.getEntityById(user.getTeacher().getId()));
+      final Manager teacherMgr = new Manager(Teacher.class);
+      newRemark.setTeacherId((Teacher) teacherMgr.getEntityById(user.getTeacher().getId()));
     }
-    SubjectManager subjectMgr = new SubjectManager();
-    newRemark.setSubjectId(subjectMgr.getSubjectByName(subjectName));
-    RemarkManager remMan = new RemarkManager();
-    newRemark.setClassId(studMan.getEntityById(userIdTemp).getClassId());
+    
+    newRemark.setSubjectId(getSubjectByName(subjectName));
+    newRemark.setClassId(((Student) studentMgr.getEntityById(userIdTemp)).getClassId());
 
     year = Integer.parseInt(date.substring(0, date.indexOf("-")));
     month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-", date.indexOf("-") + 1)));
     day = Integer.parseInt(date.substring(date.indexOf("-", date.indexOf("-") + 1) + 1, date.length()));
-    Calendar c = new GregorianCalendar(year, month - 1, day);
-    Date dat = new Date(c.getTimeInMillis());
+    Date dat = new Date(new GregorianCalendar(year, month - 1, day).getTimeInMillis());
     newRemark.setDateCreated(dat);
 
     try 
     {
-      remMan.add(newRemark);
+      remarkMgr.add(newRemark);
+      SendEmail.tryCreateAndSendEmail(newRemark);
     } 
     catch (AnException ex) 
     {
@@ -103,38 +98,57 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
   {
     userIdTemp = Integer.parseInt(userId);
     studRemarks();
-    TeacherSubjectsManager tsMan = new TeacherSubjectsManager();
-    List<TeacherSubjects> teacherSubjectsList = tsMan.getEntityList();
-    User user = (User) session.get("user");
-    for (TeacherSubjects s : teacherSubjectsList) {
-      if (s.getTeacher().getId() == user.getTeacher().getId()) {
+    final Manager tsMgr = new Manager(TeacherSubjects.class);
+    final List<TeacherSubjects> teacherSubjectsList = tsMgr.getEntityList();
+    final User user = (User) session.get(Constants.USER);
+    for (final TeacherSubjects s : teacherSubjectsList) 
+    {
+      if (s.getTeacher().getId() == user.getTeacher().getId())
         subjectsList.add(s.getSubject().getSubjectName());
-      }
     }
     return NONE;
   }
+  
   public String deleteRemark() throws AnException
   {
-    RemarkManager remMan = new RemarkManager();
-    remMan.del(Integer.parseInt(RemarkNo));
+    remarkMgr.del(Integer.parseInt(RemarkNo));
     return SUCCESS;
   }
+  
   public String studRemarks()
   {
-    RemarkManager remMan = new RemarkManager();
-    List<Remark> remarks = remMan.getReamarksByStudentId(userIdTemp);
-    SubjectManager subMan = new SubjectManager();
-    for (Remark rem : remarks) 
+    for (final Remark rem : getReamarksByStudentId(userIdTemp)) 
     {
       StudentRemarks studRem = new StudentRemarks();
       studRem.setRemark(rem.getRemark());
-      studRem.setSubject(subMan.getEntityById(rem.getSubjectId().getId()).getSubjectName());
+      studRem.setSubject(( (Subject) subjectMgr.getEntityById(rem.getSubjectId().getId()) ).getSubjectName());
       studRem.setId(rem.getId());
       studentRemarks.add(studRem);
     }
     return NONE;
   }
 
+  private Subject getSubjectByName(String name)
+  {
+    for (final Subject s : (ArrayList<Subject>) subjectMgr.getEntityList())
+    {
+      if (s.getSubjectName().equals(name))
+        return s;
+    }
+    return null;
+  }
+  
+  private List<Remark> getReamarksByStudentId(int studentId)
+  {
+    final List<Remark> result = new ArrayList<Remark>();
+    for (final Remark r : (ArrayList<Remark>) remarkMgr.getEntityList())
+    {
+      if(r.getStudentId().getId() == studentId)
+        result.add(r);
+    }
+    return result;
+  }
+  
   public List<StudentRemarks> getStudentRemarks()
   {
     return studentRemarks;
@@ -234,5 +248,4 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
   {
     this.RemarkNo = RemarkNo;
   }
-
 }

@@ -15,7 +15,6 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class LoginPanel extends ActionSupport implements SessionAware
 {
-
   private Map<String, Object> session;
 
   @Override
@@ -28,14 +27,13 @@ public class LoginPanel extends ActionSupport implements SessionAware
   public String execute()
   {
     session = ActionContext.getContext().getSession();
-    User sessionUser = (User) session.get("user");
+    User sessionUser = (User) session.get(Constants.USER);
     if (sessionUser == null)
     {
       return NONE;
     } 
     else 
     {
-     
       if (sessionUser.getRolesSet().get(0).getRoleName().equals(Constants.ADMINISTRATOR)) 
         return "admin";
       if(sessionUser.getRolesSet().get(0).getRoleName().equals(Constants.PARENT))
@@ -47,5 +45,4 @@ public class LoginPanel extends ActionSupport implements SessionAware
     }
     return ERROR;
   }
-
 }

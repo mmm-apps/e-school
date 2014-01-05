@@ -18,11 +18,7 @@ import mmm.eschool.model.Mark;
 import mmm.eschool.model.Remark;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.TeacherSubjects;
-import mmm.eschool.model.managers.AbsenceManager;
-import mmm.eschool.model.managers.ClassManager;
-import mmm.eschool.model.managers.HomeworkManager;
-import mmm.eschool.model.managers.MarkManager;
-import mmm.eschool.model.managers.RemarkManager;
+import mmm.eschool.model.managers.Manager;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
@@ -31,137 +27,132 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class ClassesList extends ActionSupport implements ModelDriven<Classes>, SessionAware
 {
+  private Map<String, Object> session;
+  private Classes classes = new Classes();
+  private final Manager classMgr = new Manager(Classes.class);
+  private final Manager absenceMgr = new Manager(Absence.class);
+  private final Manager homeworkMgr = new Manager(Homework.class);
+  private final Manager markMgr = new Manager(Mark.class);
+  private final Manager remarkMgr = new Manager(Remark.class);
+  private List<Classes> classesList = new ArrayList<Classes>();
+  private List<Subject> subjList = new ArrayList<Subject>();
+  private String classNameInfo;
 
-    private Classes clas = new Classes();
-    private final ClassManager classMan = new ClassManager();
-    private Map<String, Object> session;
-    private String classNameInfo;
-    private List<Classes> classesList = new ArrayList<Classes>();
-    private List<Subject> subjList = new ArrayList<Subject>();
-    private final AbsenceManager absenceMan = new AbsenceManager();
-    private final HomeworkManager homeworkMan = new HomeworkManager();
-    private final MarkManager markMan = new MarkManager();
-    private final RemarkManager remarkMan = new RemarkManager();
+  @Override
+  public void setSession(final Map<String, Object> map) { this.session = map; }
 
-    @Override
-    public void setSession(Map<String, Object> map)
-    {
-        this.session = map;
-    }
+  @Override
+  public Classes getModel() { return classes; }
 
-    @Override
-    public Classes getModel()
-    {
-        return clas;
-    }
+  public String list()
+  {
+    classesList = classMgr.getEntityList();
+    return SUCCESS;
+  }
 
-    public String list()
+  public String getSubjectsByClass()
+  {
+    for (final TeacherSubjects ts : ((Classes) classMgr.getEntityById(Integer.parseInt(classNameInfo)) ).getTeacherSubjectsList())
     {
-        classesList = classMan.getEntityList();
-        return SUCCESS;
+      if (ts.getClasses().getId() == Integer.parseInt(classNameInfo))
+        subjList.add(ts.getSubject());
     }
-    
-    public String getSubjectsByClass()
+    return SUCCESS;
+  }
+
+  public String deleteClass() throws AnException
+  {
+    boolean isClassUsedInAbsences = false;
+    boolean isClassUsedInHomeworks = false;
+    boolean isClassUsedInMarks = false;
+    boolean isClassUsedInRemarks = false;
+    int classId = Integer.parseInt(classNameInfo); 
+    final Classes classToDel = (Classes) classMgr.getEntityById(classId);
+
+    for (final Absence a : (ArrayList<Absence>) absenceMgr.getEntityList())
     {
-        for(TeacherSubjects ts : classMan.getEntityById(Integer.parseInt(classNameInfo)).getTeacherSubjectsList())
-        {
-            if(ts.getClasses().getId() == Integer.parseInt(classNameInfo))
-                subjList.add(ts.getSubject());
-        }
-        return SUCCESS;
-    }
-    
-    public String deleteClass() throws AnException
-    {
-      boolean isClassUsedInAbsences = false;
-      boolean isClassUsedInHomeworks = false;
-      boolean isClassUsedInMarks = false;
-      boolean isClassUsedInRemarks = false;
-      
-      Classes clasToDel = classMan.getEntityById(Integer.parseInt(classNameInfo));
-      
-      for(Absence a : absenceMan.getEntityList())
+      if (a.getClassId().getClassName().equals(classToDel.getClassName()))
       {
-        if(a.getClassId().getClassName().equals(clasToDel.getClassName()))
-        {
-          isClassUsedInAbsences = true;
-          break;
-        }
+        isClassUsedInAbsences = true;
+        break;
       }
+    }
 
-      for(Homework h : homeworkMan.getEntityList())
+    for (final Homework h : (ArrayList<Homework>) homeworkMgr.getEntityList())
+    {
+      if (h.getClassId().getClassName().equals(classToDel.getClassName()))
       {
-        if(h.getClassId().getClassName().equals(clasToDel.getClassName()))
-        {
-          isClassUsedInHomeworks = true;
-          break;
-        }
+        isClassUsedInHomeworks = true;
+        break;
       }
-      
-      for(Mark m : markMan.getEntityList())
+    }
+
+    for (final Mark m : (ArrayList<Mark>) markMgr.getEntityList())
+    {
+      if (m.getClassId().getClassName().equals(classToDel.getClassName()))
       {
-        if(m.getClassId().getClassName().equals(clasToDel.getClassName()))
-        {
-          isClassUsedInMarks = true;
-          break;
-        }
+        isClassUsedInMarks = true;
+        break;
       }
-      
-      for(Remark r : remarkMan.getEntityList())
+    }
+
+    for (final Remark r : (ArrayList<Remark>) remarkMgr.getEntityList())
+    {
+      if (r.getClassId().getClassName().equals(classToDel.getClassName()))
       {
-        if(r.getClassId().getClassName().equals(clasToDel.getClassName()))
-        {
-          isClassUsedInRemarks = true;
-          break;
-        }
+        isClassUsedInRemarks = true;
+        break;
       }
-      
-      if(!clasToDel.getStudentList().isEmpty() || isClassUsedInAbsences || isClassUsedInHomeworks || isClassUsedInMarks || isClassUsedInRemarks)
-      {
-        addFieldError("className", "Записът не може да се изтрие, защото се използва!!!");
-        return INPUT;
-        //работи само че не се показва съобщението защотото редиректвам... после ще го орпавим
-      }
-      
-      classMan.del(Integer.parseInt(classNameInfo));
-      return SUCCESS;
     }
 
-    public Classes getClas()
+    if (!classToDel.getStudentList().isEmpty() || isClassUsedInAbsences || isClassUsedInHomeworks || isClassUsedInMarks || isClassUsedInRemarks)
     {
-        return clas;
+      addFieldError("className", "Записът не може да се изтрие, защото се използва!!!");
+      return INPUT;
+      //работи само че не се показва съобщението защотото редиректвам... после ще го орпавим
     }
 
-    public String getClassNameInfo()
-    {
-        return classNameInfo;
-    }
+    classMgr.del(classId);
+    return SUCCESS;
+  }
 
-    public List<Classes> getClassesList()
-    {
-        return classesList;
-    }
+  public Classes getClasses()
+  {
+    return classes;
+  }
 
-    public void setClas(Classes clas)
-    {
-        this.clas = clas;
-    }
+  public void setClas(Classes clas)
+  {
+    this.classes = clas;
+  }
+  
+  public String getClassNameInfo()
+  {
+    return classNameInfo;
+  }
+  
+  public void setClassNameInfo(String classNameInfo)
+  {
+    this.classNameInfo = classNameInfo;
+  }
+  
+  public List<Classes> getClassesList()
+  {
+    return classesList;
+  }
 
-    public void setClassNameInfo(String classNameInfo)
-    {
-        this.classNameInfo = classNameInfo;
-    }
+  public void setClassesList(List<Classes> classesList)
+  {
+    this.classesList = classesList;
+  }
 
-    public void setClassesList(List<Classes> classesList)
-    {
-        this.classesList = classesList;
-    }
+  public List<Subject> getSubjList() 
+  {
+    return subjList;
+  }
 
-    public List<Subject> getSubjList() {
-        return subjList;
-    }
-
-    public void setSubjList(List<Subject> subjList) {
-        this.subjList = subjList;
-    }
+  public void setSubjList(List<Subject> subjList) 
+  {
+    this.subjList = subjList;
+  }
 }

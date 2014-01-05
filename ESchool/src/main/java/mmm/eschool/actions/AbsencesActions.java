@@ -7,19 +7,18 @@ package mmm.eschool.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
+import mmm.eschool.Constants;
+import mmm.eschool.SendEmail;
 import mmm.eschool.model.Absence;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
+import mmm.eschool.model.Teacher;
 import mmm.eschool.model.User;
-import mmm.eschool.model.managers.AbsenceManager;
-import mmm.eschool.model.managers.StudentManager;
-import mmm.eschool.model.managers.SubjectManager;
-import mmm.eschool.model.managers.TeacherManager;
+import mmm.eschool.model.managers.Manager;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
@@ -28,11 +27,14 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class AbsencesActions extends ActionSupport implements SessionAware
 {
-
-  private Map session;
-  private String userId;
   private static int userIdentification;
-
+  
+  private Map session;
+  private final Manager studentMgr = new Manager(Student.class);
+  private final Manager absenceMgr = new Manager(Absence.class);
+  private final Manager subjectMgr = new Manager(Subject.class);
+  private final Manager teacherMgr = new Manager(Teacher.class);
+  private String userId;
   private List<String> absenceTypeList = new ArrayList<String>();
   private String absenceType;
   private String date;
@@ -40,64 +42,63 @@ public class AbsencesActions extends ActionSupport implements SessionAware
   private String absenceValue;
   private List<String> subjectList = new ArrayList<String>();
   private String subject;
-  private StudentManager studentMgr = new StudentManager();
-  private AbsenceManager absenceMgr = new AbsenceManager();
-  private SubjectManager subjectMgr = new SubjectManager();
-  private TeacherManager teacherMgr = new TeacherManager();
   private String AbsenceNo;
   private List<Absence> studentAbsenceList = new ArrayList<Absence>();
-
+  
   public AbsencesActions()
   {
-    if (userIdentification != 0) {
+    if (userIdentification != 0) 
+    {
       absenceTypeList.add("Извинено");
       absenceTypeList.add("Неизвинено");
       absenceValueList.add("1/3");
       absenceValueList.add("1");
-      for (Subject s : studentMgr.getEntityById(userIdentification).getSubjectsSet()) {
+      for (final Subject s : ((Student) studentMgr.getEntityById(userIdentification)).getSubjectsSet())
         subjectList.add(s.getSubjectName());
-      }
     }
   }
-
-  public String absencesList()
-  {
-    userIdentification = Integer.parseInt(userId);
-    List<Absence> abcenses = absenceMgr.getEntityList();
-    for (Absence ab : abcenses) 
-    {
-      if (ab.getStudentId().getId() == Integer.parseInt(userId)) 
-      {
-        studentAbsenceList.add(ab);
-      }
-    }
-    return SUCCESS;
-  }
-
+  
+  @Override
+  public void setSession(final Map<String, Object> map) { this.session = map; }
+  
   public String display()
   {
     return NONE;
   }
+  
+  public String absencesList()
+  {
+    int userIdVal = Integer.parseInt(userId);
+    userIdentification = userIdVal;
+    for (final Absence ab : (ArrayList<Absence>) absenceMgr.getEntityList()) 
+    {
+      if (ab.getStudentId().getId() == userIdVal) 
+        studentAbsenceList.add(ab);
+    }
+    return SUCCESS;
+  }
 
   public String selectAbsence() throws AnException
   {
-    Absence ab =  absenceMgr.getEntityById(Integer.parseInt(AbsenceNo));
+    final Absence ab = (Absence) absenceMgr.getEntityById(Integer.parseInt(AbsenceNo));
     ab.setAbsenceType(true);
     absenceMgr.update(ab);
     return SUCCESS;
   }
-  public String deleteAbsence() throws AnException{
+  
+  public String deleteAbsence() throws AnException
+  {
     absenceMgr.del(Integer.parseInt(AbsenceNo));
     return SUCCESS;
   }
+  
   public String addAbsence() throws AnException
   {
-
     int year;
     int month;
     int day;
 
-    if(subject.equals("-1") || absenceValue.equals("-1") || absenceType.equals("-1"))
+    if (subject.equals("-1") || absenceValue.equals("-1") || absenceType.equals("-1"))
     {  
       addFieldError("ERROE", "Моля попълнете всички полета");
       return INPUT;
@@ -106,43 +107,45 @@ public class AbsencesActions extends ActionSupport implements SessionAware
     year = Integer.parseInt(date.substring(0, date.indexOf("-")));
     month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-", date.indexOf("-") + 1)));
     day = Integer.parseInt(date.substring(date.indexOf("-", date.indexOf("-") + 1) + 1, date.length()));
-    Calendar c = new GregorianCalendar(year, month - 1, day);
-    java.sql.Date dat = new java.sql.Date(c.getTimeInMillis());
+    java.sql.Date dat = new java.sql.Date(new GregorianCalendar(year, month - 1, day).getTimeInMillis());
 
-    Absence absence = new Absence();
-    Student student = studentMgr.getEntityById(userIdentification);
-    User user = (User) session.get("user");
+    final Absence absence = new Absence();
+    final Student student = (Student) studentMgr.getEntityById(userIdentification);
+    final User user = (User) session.get(Constants.USER);
     absence.setAbsenceDate(dat);
-    if (absenceType.equals("Извинено")) {
+    
+    if (absenceType.equals("Извинено"))
       absence.setAbsenceType(true);
-    } else {
+    else
       absence.setAbsenceType(false);
-    }
 
     absence.setIsSeen(false);
-    if (absenceValue.equals("1")) {
+    if (absenceValue.equals("1"))
       absence.setValue(1);
-    }
-    if (absenceValue.equals("1/3")) {
+    if (absenceValue.equals("1/3"))
       absence.setValue(0.3);
-    }
 
     absence.setClassId(student.getClassId());
     absence.setStudentId(student);
-    absence.setSubjectId(subjectMgr.getSubjectByName(subject));
-    absence.setTeacherId(teacherMgr.getEntityById(user.getId()));
+    absence.setSubjectId(getSubjectByName(subject));
+    absence.setTeacherId((Teacher) teacherMgr.getEntityById(user.getId()));
     absenceMgr.add(absence);
+    SendEmail.tryCreateAndSendEmail(absence);
     student.getAbsencesSet().add(absence);
     studentMgr.update(student);
     return SUCCESS;
   }
-
-  @Override
-  public void setSession(Map<String, Object> map)
+  
+  private Subject getSubjectByName(String name)
   {
-    this.session = map;
+    for (final Subject s : (ArrayList<Subject>) subjectMgr.getEntityList())
+    {
+      if(s.getSubjectName().equals(name))
+        return s;
+    }
+    return null;
   }
-
+  
   public List<String> getAbsenceTypeList()
   {
     return absenceTypeList;

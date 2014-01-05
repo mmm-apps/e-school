@@ -1,12 +1,10 @@
-/*
- */
 package mmm.eschool.actions;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import mmm.eschool.Constants;
 import mmm.eschool.actions.temp.StudentHomework;
 import mmm.eschool.actions.temp.StudentRemarks;
 import mmm.eschool.model.Absence;
@@ -14,9 +12,7 @@ import mmm.eschool.model.Homework;
 import mmm.eschool.model.Mark;
 import mmm.eschool.model.Remark;
 import mmm.eschool.model.User;
-import mmm.eschool.model.managers.AbsenceManager;
-import mmm.eschool.model.managers.MarkManager;
-import mmm.eschool.model.managers.RemarkManager;
+import mmm.eschool.model.managers.Manager;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
@@ -25,7 +21,8 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class StudentProfile extends ActionSupport implements SessionAware
 {
-
+  private Map session;
+  private final Manager remarkMgr = new Manager(Remark.class);
   private String studentName;
   private String clas;
   private String fullName;
@@ -37,20 +34,14 @@ public class StudentProfile extends ActionSupport implements SessionAware
   private List<StudentHomework> homeworks = new ArrayList<StudentHomework>();
   private List<ArrayList<String>> studentSubjMarks = new ArrayList<ArrayList<String>>();
   private List<StudentRemarks> remarks = new ArrayList<StudentRemarks>();
-  
-  private Map session;
 
   @Override
-  public void setSession(Map asession)
-  {
-    session = asession;
-  }
+  public void setSession(Map asession) { session = asession; }
 
   @Override
   public String execute()
   {
-    session = ActionContext.getContext().getSession();
-    User sessionUser = (User) session.get("user");
+    final User sessionUser = (User) session.get(Constants.USER);
     studentName = sessionUser.getStudent().getFirstName() + " " + sessionUser.getStudent().getLastName();
     fullName = "Име:" + sessionUser.getStudent().getFirstName() + " " + sessionUser.getStudent().getLastName();
     clas = sessionUser.getStudent().getClassId().getClassName();
@@ -58,33 +49,36 @@ public class StudentProfile extends ActionSupport implements SessionAware
     email = "E-mail" + sessionUser.getStudent().getEmail();
     adress = "Адрес: " + sessionUser.getStudent().getAdress();
 
-    List<Homework> homewrks = sessionUser.getStudent().getHomeworksSet();
     int id = 1;
-    for (Homework hmwrk : homewrks) {
-      StudentHomework stdhmwk = new StudentHomework();
-      stdhmwk.setDate(hmwrk.getDateCreated().toString());
-      stdhmwk.setHomeworkTitle(hmwrk.getHomeWorkTitle());
-      stdhmwk.setId(String.valueOf(id));
-      stdhmwk.setSubject(hmwrk.getSubjectId().getSubjectName());
+    for (final Homework h : sessionUser.getStudent().getHomeworksSet()) 
+    {
+      final StudentHomework studentHomework = new StudentHomework();
+      studentHomework.setDate(h.getDateCreated().toString());
+      studentHomework.setHomeworkTitle(h.getHomeWorkTitle());
+      studentHomework.setId(String.valueOf(id));
+      studentHomework.setSubject(h.getSubjectId().getSubjectName());
       id++;
-      homeworks.add(stdhmwk);
+      homeworks.add(studentHomework);
     }
-    MarkManager markMan = new MarkManager();
-    List<Mark> studentMarks = markMan.getEntityList();
-    List<Mark> marks = new ArrayList<Mark>();
-    for (Mark mark : studentMarks) {
+    
+    final Manager markMgr = new Manager(Mark.class);
+    final List<Mark> marks = new ArrayList<Mark>();
+    for (final Mark mark : (ArrayList<Mark>) markMgr.getEntityList()) 
+    {
       if (mark.getStudentId().getId() == sessionUser.getStudent().getId()) {
         marks.add(mark);
       }
     }
-    List<String> studentSubject = new ArrayList<String>();
+    
+    final List<String> studentSubject = new ArrayList<String>();
 
-    for (Mark mark : marks) {
-      if (!studentSubject.contains(mark.getSubjectId().getSubjectName())) {
+    for (final Mark mark : marks) 
+    {
+      if (!studentSubject.contains(mark.getSubjectId().getSubjectName()))
         studentSubject.add(mark.getSubjectId().getSubjectName());
-      }
     }
-    for (String subjectName : studentSubject) 
+    
+    for (final String subjectName : studentSubject) 
     {
       ArrayList<String> temp = new ArrayList<String>();
       temp.add(subjectName);
@@ -92,55 +86,35 @@ public class StudentProfile extends ActionSupport implements SessionAware
       {
         if (mark.getSubjectId().getSubjectName().equals(subjectName)) 
         {
-          if (mark.getMark() == 6)
+          switch (mark.getMark())
           {
-            temp.add("Отличен 6");
-            continue;
-          }
-          if (mark.getMark() == 5) 
-          {
-            temp.add("Мн.добър 5");
-            continue;
-          }
-          if (mark.getMark() == 4) 
-          {
-            temp.add("Добър 4");
-            continue;
-          }
-          if (mark.getMark() == 3) 
-          {
-            temp.add("Среден 3");
-            continue;
-          }
-          if (mark.getMark() == 2) 
-          {
-            temp.add("Слаб 2");
-            continue;
+            case 6: temp.add("Отличен 6"); break;
+            case 5: temp.add("Мн.добър 5"); break;
+            case 4: temp.add("Добър 4"); break;
+            case 3: temp.add("Среден 3"); break;
+            case 2: temp.add("Слаб 2"); break;
           }
         }
       }
       
       while(temp.size()<7)
-      {
         temp.add("");
-      }
+      
       studentSubjMarks.add(temp);
     }
-    RemarkManager remMan = new RemarkManager();
-    List<Remark> rems  = remMan.getReamarksByStudentId(sessionUser.getStudent().getId());
-    for(Remark rem :rems)
+    
+    for (final Remark rem : getReamarksByStudentId(sessionUser.getStudent().getId()))
     {
-      StudentRemarks studRem = new StudentRemarks();
-      studRem.setDate(rem.getDateCreated().toString());
-      studRem.setRemark(rem.getRemark());
-      studRem.setSubject(rem.getSubjectId().getSubjectName());
-      remarks.add(studRem);
+      final StudentRemarks studentRemarks = new StudentRemarks();
+      studentRemarks.setDate(rem.getDateCreated().toString());
+      studentRemarks.setRemark(rem.getRemark());
+      studentRemarks.setSubject(rem.getSubjectId().getSubjectName());
+      remarks.add(studentRemarks);
     }
     
-    AbsenceManager abMan = new AbsenceManager();
-    List<Absence> abs = abMan.getEntityList();
+    final Manager absenceMgr = new Manager(Absence.class);
     
-    for(Absence ab :abs)
+    for(Absence ab : (ArrayList<Absence>) absenceMgr.getEntityList())
     {
       if(ab.getStudentId().getId() == sessionUser.getStudent().getId())
       {
@@ -155,6 +129,17 @@ public class StudentProfile extends ActionSupport implements SessionAware
 
   }
 
+  private List<Remark> getReamarksByStudentId(int studentId)
+  {
+    final List<Remark> result = new ArrayList<Remark>();
+    for (final Remark r : (ArrayList<Remark>) remarkMgr.getEntityList())
+    {
+      if(r.getStudentId().getId() == studentId)
+        result.add(r);
+    }
+    return result;
+  }
+  
   public String getStudentName()
   {
     return studentName;
@@ -264,5 +249,4 @@ public class StudentProfile extends ActionSupport implements SessionAware
   {
     this.unexcusedAbsences = unexcusedAbsences;
   }
-
 }

@@ -17,11 +17,7 @@ import mmm.eschool.model.Subject;
 import mmm.eschool.model.Teacher;
 import mmm.eschool.model.TeacherSubjects;
 import mmm.eschool.model.TeacherSubjectsPK;
-import mmm.eschool.model.managers.ClassManager;
-import mmm.eschool.model.managers.StudentManager;
-import mmm.eschool.model.managers.SubjectManager;
-import mmm.eschool.model.managers.TeacherManager;
-import mmm.eschool.model.managers.TeacherSubjectsManager;
+import mmm.eschool.model.managers.Manager;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
@@ -30,78 +26,73 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<TeacherSubjects>, SessionAware
 {
-
   private Map session;
-
-  private final TeacherSubjectsManager teacherSubjMgr;
   private TeacherSubjects teacherSubjects;
   private TeacherSubjectsPK teacherSubjPk;
-  private final TeacherManager teacherMgr;
+  private final Manager teacherSubjMgr;
+  private final Manager teacherMgr;
+  private final Manager subjectMgr;
+  private final Manager classMgr;
+  private final Manager studentMgr;
   private final List<Teacher> teacherListDb;
-  private final SubjectManager subjectMgr;
   private final List<Subject> subjectListDb;
-  private final ClassManager classMgr;
   private final List<Classes> classListDb;
-  private final StudentManager studentMgr;
-
   private List<String> classList;
   private String className;
-
   private List<String> subjectsList;
   private String subjectName;
-
   private List<String> teachersList;
   private String teacherName;
-
   private String tsid;
-
   private List<TeacherSubjects> teachersSubjectsList = new ArrayList<TeacherSubjects>();
 
-  public String list()
+  public AddSubjectToTeacher() 
   {
-    teachersSubjectsList = teacherSubjMgr.getEntityList();
-    return SUCCESS;
-  }
-
-  @Override
-  public String execute()
-  {
-    return null;
-  }
-
-  public AddSubjectToTeacher() {
-    teacherSubjMgr = new TeacherSubjectsManager();
-    teacherMgr = new TeacherManager();
-    subjectMgr = new SubjectManager();
-    classMgr = new ClassManager();
+    teacherSubjMgr = new Manager(TeacherSubjects.class);
+    teacherMgr = new Manager(Teacher.class);
+    subjectMgr = new Manager(Subject.class);
+    classMgr = new Manager(Classes.class);
+    studentMgr = new Manager(Student.class);
     classList = new ArrayList<String>();
     subjectsList = new ArrayList<String>();
     teachersList = new ArrayList<String>();
     teacherListDb = teacherMgr.getEntityList();
     subjectListDb = subjectMgr.getEntityList();
     classListDb = classMgr.getEntityList();
-    studentMgr = new StudentManager();
-    for (Teacher t : teacherListDb)
-    {
+    
+    for (final Teacher t : teacherListDb)
       teachersList.add(t.getFirstName() + " " + t.getLastName());
-    }
 
-    for (Subject s : subjectListDb) 
-    {
+    for (final Subject s : subjectListDb) 
       subjectsList.add(s.getSubjectName() + " " + s.getSubjectKind());
-    }
 
-    for (Classes c : classListDb) 
-    {
+    for (final Classes c : classListDb)
       classList.add(c.getClassName());
-    }
   }
-
-  public String display()
+  
+  @Override
+  public void setSession(final Map<String, Object> map) { this.session = map; }
+  
+  @Override
+  public TeacherSubjects getModel()
   {
-    return NONE;
+    if (teacherSubjects == null) {
+      teacherSubjects = new TeacherSubjects();
+    }
+    return teacherSubjects;
   }
-
+  
+  @Override
+  public String execute() { return null; }
+  
+  public String display() { return NONE; }
+  
+  public String list()
+  {
+    teachersSubjectsList = teacherSubjMgr.getEntityList();
+    return SUCCESS;
+  }
+  
   public String addSubjectToTeacher()
   {
     teacherSubjects = new TeacherSubjects();
@@ -109,15 +100,17 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     Subject subject;
     Classes clas;
     Teacher teacher;
-    if(teacherName.equals("-1") && className.equals("-1") && subjectName.equals("-1"))
+    if (teacherName.equals("-1") && className.equals("-1") && subjectName.equals("-1"))
     {
       addFieldError("Teacher", "Моля въведете всички полета!");
       return INPUT;   
-    }  
-    teacher = teacherMgr.getTeacherByNames(teacherName.substring(0, teacherName.indexOf(" ")), teacherName.substring(teacherName.indexOf(" ") + 1));
-    clas = classMgr.getClassByName(className);
-    subject = subjectMgr.getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
-    try {
+    }
+    
+    teacher = getTeacherByNames(teacherName.substring(0, teacherName.indexOf(" ")), teacherName.substring(teacherName.indexOf(" ") + 1));
+    clas = getClassByName(className);
+    subject = getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
+    try 
+    {
       teacherSubjPk.setClassId(clas.getId());
       teacherSubjPk.setSubjectId(subject.getId());
       teacherSubjPk.setTeacherId(teacher.getId());
@@ -126,28 +119,32 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
       teacherSubjects.setTeacher(teacher);
       teacherSubjects.setClasses(clas);
 
-      List<TeacherSubjects> teacherSubjs = teacherSubjMgr.getEntityList();
-      for (TeacherSubjects tsubjs : teacherSubjs) 
+      for (final TeacherSubjects tsubjs : (ArrayList<TeacherSubjects>) teacherSubjMgr.getEntityList()) 
       {
-        TeacherSubjectsPK tspk = tsubjs.getTeacherSubjectsPK();
+        final TeacherSubjectsPK tspk = tsubjs.getTeacherSubjectsPK();
         if (tspk.getTeacherId() == teacherSubjects.getTeacher().getId()
                 && tspk.getSubjectId() == teacherSubjects.getSubject().getId()
-                && tspk.getClassId() == teacherSubjects.getClasses().getId()) {
+                && tspk.getClassId() == teacherSubjects.getClasses().getId()) 
+        {
           addFieldError("Teacher", "Зададеният учител вече води този предмет на този клас");
           return INPUT;          
         }
       }
       
-      for (Student s : clas.getStudentList()) {
+      for (final Student s : clas.getStudentList()) 
+      {
         s.getSubjectsSet().add(subject);
         subject.getStudentsSet().add(s);
         studentMgr.update(s);
         subjectMgr.update(subject);
       }
+      
       teacherSubjMgr.add(teacherSubjects);
       
       return SUCCESS;
-    } catch (AnException ex) {
+    } 
+    catch (AnException ex) 
+    {
       ex.printStackTrace();
     }
     return ERROR;
@@ -155,12 +152,12 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
 
   public String delete() throws AnException
   {
-
-    Classes clas = teacherSubjMgr.getEntityById(Integer.parseInt(tsid)).getClasses();
-    Subject subject = teacherSubjMgr.getEntityById(Integer.parseInt(tsid)).getSubject();
-    for(Student s : clas.getStudentList())
+    int teacherSubjectId = Integer.parseInt(tsid);
+    Classes clas = ((TeacherSubjects) teacherSubjMgr.getEntityById(teacherSubjectId) ).getClasses();
+    Subject subject = ((TeacherSubjects) teacherSubjMgr.getEntityById(teacherSubjectId)).getSubject();
+    for (final Student s : clas.getStudentList())
     {
-      if(!s.getSubjectsSet().isEmpty())
+      if (!s.getSubjectsSet().isEmpty())
       {
         s.getSubjectsSet().remove(subject);
         subject.getStudentsSet().remove(s);
@@ -168,16 +165,38 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
       }
     }    
     
-    teacherSubjMgr.del(Integer.parseInt(tsid));
+    teacherSubjMgr.del(teacherSubjectId);
     return SUCCESS;
   }
 
-  @Override
-  public void setSession(Map<String, Object> map)
+  private Classes getClassByName(String name)
   {
-    this.session = map;
+    for (final Classes c : (ArrayList<Classes>) classMgr.getEntityList())
+      if (c.getClassName().equals(name))
+        return c;
+    return null;
   }
-
+  
+  private Teacher getTeacherByNames(String FirstName, String LastName)
+  {
+    for (final Teacher t : (ArrayList<Teacher>) teacherMgr.getEntityList())
+    {
+      if(t.getFirstName().equals(FirstName) && t.getLastName().equals(LastName))
+        return t;
+    }
+    return null;
+  }
+  
+  private Subject getSubjectByName(String name)
+  {
+    for (final Subject s : (ArrayList<Subject>) subjectMgr.getEntityList())
+    {
+      if(s.getSubjectName().equals(name))
+        return s;
+    }
+    return null;
+  }
+  
   public List<String> getClassList()
   {
     return classList;
@@ -237,20 +256,13 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     this.teacherName = teacherName;
   }
 
-  @Override
-  public TeacherSubjects getModel()
+  public void setTeachersSubjectsList(List<TeacherSubjects> teachersSubjectsList) 
   {
-    if (teacherSubjects == null) {
-      teacherSubjects = new TeacherSubjects();
-    }
-    return teacherSubjects;
-  }
-
-  public void setTeachersSubjectsList(List<TeacherSubjects> teachersSubjectsList) {
     this.teachersSubjectsList = teachersSubjectsList;
   }
 
-  public List<TeacherSubjects> getTeachersSubjectsList() {
+  public List<TeacherSubjects> getTeachersSubjectsList() 
+  {
     return teachersSubjectsList;
   }
 
@@ -283,5 +295,4 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
   {
     this.tsid = tsid;
   }
-
 }

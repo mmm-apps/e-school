@@ -17,8 +17,7 @@ import mmm.eschool.model.Role;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.Teacher;
 import mmm.eschool.model.User;
-import mmm.eschool.model.managers.RoleManager;
-import mmm.eschool.model.managers.UserManager;
+import mmm.eschool.model.managers.Manager;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
@@ -27,20 +26,20 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, SessionAware
 {
-  private String roleList;
   private Map<String, Object> session;
   AddUser addUser = new AddUser();
+  final Manager roleMgr = new Manager(Role.class);
+  final Manager userMgr = new Manager(User.class);
+  private String roleList;
   private List<String> roleCollection = new ArrayList<String>();
-  final RoleManager roleMgr = new RoleManager();
-  final UserManager userMgr = new UserManager();
   
-  public CreateUser()
-  {
-    for(final Role r : roleMgr.getEntityList())
-      roleCollection.add(r.getRoleName());
-  }
+  @Override
+  public void setSession(final Map<String, Object> map) { this.session = map; }
   
-//  @Override
+  @Override
+  public AddUser getModel() { return getAddUser(); }
+  
+  //  @Override
 //  public void validate()
 //  {
 //    if (StringUtils.isEmpty(addUser.getUsername()))
@@ -67,18 +66,18 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
 //    if (StringUtils.isEmpty(addUser.getEmail()))
 //      addFieldError("email", "Email cannot be blank!");
 //  }
-
+  
   @Override
   public String execute() throws Exception
   {
     final User user = new User();
-    final Role role = roleMgr.getRoleByName(roleList);
+    final Role role = getRoleByName(roleList);
     if (role == null)
     {
       addFieldError("roleList", "Моля, изберете роля от списъка!");
       return ERROR;
     }
-    if (userMgr.isUsernameExists(addUser.getUsername()))
+    if (isUsernameExists(addUser.getUsername()))
     {
       addFieldError("username", "Username exists!");
       return SUCCESS;
@@ -153,19 +152,13 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
   {
     return NONE;
   }
-
-  @Override
-  public AddUser getModel()
+  
+  public CreateUser()
   {
-    return getAddUser();
+    for(final Role r : (ArrayList<Role>) roleMgr.getEntityList())
+      roleCollection.add(r.getRoleName());
   }
-
-  @Override
-  public void setSession(Map<String, Object> map)
-  {
-    this.session = map;
-  }
-
+  
   public AddUser getAddUser()
   {
     return addUser;
@@ -194,5 +187,25 @@ public class CreateUser extends ActionSupport implements ModelDriven<AddUser>, S
   public void setRoleCollection(List<String> roleCollection) 
   {
     this.roleCollection = roleCollection;
+  }
+  
+  private boolean isUsernameExists(String username)
+  {
+    for (final User user : (ArrayList<User>) userMgr.getEntityList())
+    {
+      if(user.getUsername().equals(username))
+        return true;
+    }
+    return false; 
+  }
+  
+  private Role getRoleByName(final String roleName)
+  {
+    for (final Role r : (ArrayList<Role>) roleMgr.getEntityList())
+    {
+      if(r.getRoleName().equals(roleName))
+        return r;
+    }
+    return null;
   }
 }
