@@ -97,6 +97,21 @@ public class Student implements Serializable
   @ManyToOne(optional = true)
   private Classes classId;
 
+  public Student() {}
+
+  public Student(Integer id)
+  {
+    this.id = id;
+  }
+
+  public Student(Integer id, String adress, String email, String phone)
+  {
+    this.id = id;
+    this.adress = adress;
+    this.email = email;
+    this.phone = phone;
+  }
+  
   public int getId()
   {
     return id;
@@ -235,22 +250,5 @@ public class Student implements Serializable
   public void setClassId(Classes classId)
   {
     this.classId = classId;
-  }
-  
-  public Student()
-  {
-  }
-
-  public Student(Integer id)
-  {
-    this.id = id;
-  }
-
-  public Student(Integer id, String adress, String email, String phone)
-  {
-    this.id = id;
-    this.adress = adress;
-    this.email = email;
-    this.phone = phone;
   }
 }

@@ -30,20 +30,20 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Table(schema = "eschool", name = "roles")
 public class Role implements Serializable 
 {
-    @Id
-    @SequenceGenerator(name = "roles_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "roles_seq")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "roles_seq")
-    private int id;
+  @Id
+  @SequenceGenerator(name = "roles_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "roles_seq")
+  @GeneratedValue(strategy = GenerationType.AUTO, generator = "roles_seq")
+  private int id;
 
-    @Column(name = "role_name", nullable = false, length = 30, unique = true)
-    private String roleName;
-    
-    @JoinTable(schema = "eschool", name = "user_in_roles", joinColumns = {
-        @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "id")})
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany
-    private List<User> usersSet = new ArrayList<User>();
+  @Column(name = "role_name", nullable = false, length = 30, unique = true)
+  private String roleName;
+
+  @JoinTable(schema = "eschool", name = "user_in_roles", joinColumns = {
+      @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
+      @JoinColumn(name = "user_id", referencedColumnName = "id")})
+  @LazyCollection(LazyCollectionOption.FALSE)
+  @ManyToMany
+  private List<User> usersSet = new ArrayList<User>();
 
   public int getId()
   {

@@ -1,11 +1,12 @@
 package mmm.eschool.model.managers;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import mmm.eschool.AnException;
-import mmm.eschool.model.Subject;
+import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
+import org.hibernate.TransactionException;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.classic.Session;
 
 /**
@@ -14,58 +15,141 @@ import org.hibernate.classic.Session;
  */
 public class Manager<T>
 {
-  private final Class<? extends Serializable> model;
+  private final Class model;
+  private static final SessionFactory sessionFactory = buildSessionFactory();
+ 
+  private static SessionFactory buildSessionFactory()
+  {
+    try 
+    {
+      return new Configuration().configure().buildSessionFactory();
+    }
+    catch(HibernateException ex) 
+    {
+      System.err.println("Initial SessionFactory creation failed." + ex);
+      throw new ExceptionInInitializerError(ex);
+    }
+  }
+  
+  private static SessionFactory getSessionFactory() { return sessionFactory; }
+  
+  private static void shutdown() { getSessionFactory().close(); }
+  
+  private static Session getDataSession() { return sessionFactory.openSession(); }
 
-  public Manager(final Class<? extends Serializable> model)
+  public Manager(final Class model)
   {
     this.model = model;
   }
   
   public final boolean add(final T entity) throws AnException
   {
-    if (entity != null)
+    if (entity == null)
+      return false;
+    if (!entity.getClass().equals(model))
+      return false;
+    
+    final Session dataSession = getDataSession();
+    dataSession.beginTransaction();
+    try
     {
-      HibernateUtil.add(entity);
-      return true;
+      dataSession.save(entity);
+      dataSession.getTransaction().commit();
     }
-    return false;
+    catch(TransactionException e)
+    {
+      dataSession.getTransaction().rollback();
+    }
+    finally
+    {
+      dataSession.close();
+    }
+    return true;
   }
   
   public final boolean del(final Integer id) throws AnException
   {
-    if (id != null)
-    {
-      T entity = getEntityById(id);
-      del(entity);
-      return true;
-    }
-    return false;
+    if (id == null)
+      return false;
+    return del(getEntityById(id));
   }
   
   public final boolean del(final T entity) throws AnException
   {
-    if (entity != null)
+    if (entity == null)
+      return false;
+    if (!entity.getClass().equals(model))
+      return false;
+    
+    final Session dataSession = getDataSession();
+    dataSession.beginTransaction();
+    try
     {
-      HibernateUtil.del(entity);
-      return true;
+      dataSession.delete(entity);
+      dataSession.getTransaction().commit();
     }
-    return false;
+    catch(TransactionException e)
+    {
+      dataSession.getTransaction().rollback();
+    }
+    finally
+    {
+      dataSession.close();
+    }
+    return true;
   }
 
   public final boolean update(final T entity) throws AnException
   {
-    if (entity != null)
+    if (entity == null)
+      return false;
+    if (!entity.getClass().equals(model))
+      return false;
+    
+    final Session dataSession = getDataSession();
+    dataSession.beginTransaction();
+    try
     {
-      HibernateUtil.update(entity);
-      return true;
+      dataSession.update(entity);
+      dataSession.getTransaction().commit();
     }
-    return false;
+    catch(TransactionException e)
+    {
+      dataSession.getTransaction().rollback();
+    }
+    finally
+    {
+      dataSession.close();
+    }
+    
+    return true;
+  }
+  
+  public final boolean addInTransaction(final Object... entities)
+  {
+    final Session dataSession = getDataSession();
+    dataSession.beginTransaction();
+    try
+    {
+      for (final Object e : entities)
+        dataSession.save(e);
+      dataSession.getTransaction().commit();
+    }
+    catch(TransactionException e)
+    {
+      dataSession.getTransaction().rollback();
+    }
+    finally
+    {
+      dataSession.close();
+    }
+    
+    return true;
   }
   
   public final ArrayList getEntityList()
   {
-    if (model == null) return (ArrayList<T>) Collections.EMPTY_LIST;
-    final Session dataSession = mmm.eschool.model.managers.HibernateUtil.getDataSession();
+    final Session dataSession = getDataSession();
     final List<T> newEntityData = dataSession.createQuery("from " + model.getSimpleName()).list();
     dataSession.close();
     return new ArrayList(newEntityData);
@@ -73,15 +157,9 @@ public class Manager<T>
 
   public final T getEntityById(int id)
   {
-    if (model == null) return null;
-    final Session dataSession = mmm.eschool.model.managers.HibernateUtil.getDataSession();
-    T entity = (T) dataSession.get(model, id);
+    final Session dataSession = getDataSession();
+    final T entity = (T) dataSession.get(model, id);
     dataSession.close();
     return entity;
-  }
- 
-  public Subject getSubjectByName(String subjectName)
-  {
-    throw new UnsupportedOperationException("Not supported yet.");
   }
 }

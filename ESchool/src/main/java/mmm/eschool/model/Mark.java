@@ -27,7 +27,6 @@ import javax.persistence.TemporalType;
 @Table(schema = "eschool", name = "marks")
 public class Mark implements Serializable
 {
-
   @Id
   @SequenceGenerator(name = "marks_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "marks_seq")
   @GeneratedValue(strategy = GenerationType.AUTO, generator = "marks_seq")
@@ -138,6 +137,4 @@ public class Mark implements Serializable
   {
     this.isSeen = isSeen;
   }
-
-  
 }

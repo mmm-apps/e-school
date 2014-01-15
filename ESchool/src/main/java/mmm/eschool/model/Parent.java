@@ -63,6 +63,21 @@ public class Parent implements Serializable
   @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
   private User user;
 
+  public Parent() {}
+
+  public Parent(Integer id) 
+  {
+    this.id = id;
+  }
+
+  public Parent(Integer id, String address, String email, String phone) 
+  {
+    this.id = id;
+    this.address = address;
+    this.email = email;
+    this.phone = phone;
+  }
+  
   public int getId() {
     return id;
   }
@@ -125,20 +140,5 @@ public class Parent implements Serializable
 
   public void setUser(User user) {
     this.user = user;
-  }
-
-  public Parent() {
-  }
-
-  public Parent(Integer id) {
-    this.id = id;
-  }
-
-  public Parent(Integer id, String address, String email, String phone) 
-  {
-    this.id = id;
-    this.address = address;
-    this.email = email;
-    this.phone = phone;
   }
 }

@@ -27,7 +27,6 @@ import javax.persistence.TemporalType;
 @Table(schema = "eschool", name = "absences")
 public class Absence implements Serializable
 {
-
   @Id
   @SequenceGenerator(name = "absences_seq", allocationSize = 1, initialValue = 1, schema = "main", sequenceName = "absences_seq")
   @GeneratedValue(strategy = GenerationType.AUTO, generator = "absences_seq")
@@ -142,11 +141,13 @@ public class Absence implements Serializable
     this.studentId = studentId;
   }
 
-    public Classes getClassId() {
-        return classId;
-    }
+  public Classes getClassId() 
+  {
+    return classId;
+  }
 
-    public void setClassId(Classes classId) {
-        this.classId = classId;
-    }
+  public void setClassId(Classes classId) 
+  {
+    this.classId = classId;
+  }
 }

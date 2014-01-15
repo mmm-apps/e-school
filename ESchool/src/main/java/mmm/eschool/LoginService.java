@@ -12,26 +12,14 @@ public class LoginService
 {
   public User getLoginResult(final User user) 
   {
-    final User usr = getUserByName(user.getUsername(), user.getPassword());
-    if (usr != null && usr.getUsername().equals(user.getUsername()))
-      return usr;
-    else
+    if (user == null)
       return null;
-  }
-  
-  /**
-   * Връща обекта на юзера по неговият username
-     * @param username
-     * @param password
-     * @return User
-   */
-  private User getUserByName(String username, String password)
-  {    
+    
     final Manager UserMgr = new Manager(User.class);
-    for (final User user : (ArrayList<User>) UserMgr.getEntityList())
+    for (final User u : (ArrayList<User>) UserMgr.getEntityList())
     {
-      if(user.getUsername().equals(username) && user.getPassword().equals(password))
-        return user;
+      if (u.getUsername().equals(user.getUsername()) && u.getPassword().equals(user.getPassword()))
+        return u;
     }
     return null; 
   }

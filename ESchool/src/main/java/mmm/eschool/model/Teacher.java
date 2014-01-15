@@ -86,106 +86,106 @@ public class Teacher implements Serializable
   private User user;
 
   public int getId() {
-      return id;
+    return id;
   }
 
   public void setId(int id) {
-      this.id = id;
+    this.id = id;
   }
 
   public String getFirstName() {
-      return firstName;
+    return firstName;
   }
 
   public void setFirstName(String firstName) {
-      this.firstName = firstName;
+    this.firstName = firstName;
   }
 
   public String getLastName() {
-      return lastName;
+    return lastName;
   }
 
   public void setLastName(String lastName) {
-      this.lastName = lastName;
+    this.lastName = lastName;
   }
 
   public String getPhone() {
-      return phone;
+    return phone;
   }
 
   public void setPhone(String phone) {
-      this.phone = phone;
+    this.phone = phone;
   }
 
   public String getEmail() {
-      return email;
+    return email;
   }
 
   public void setEmail(String email) {
-      this.email = email;
+    this.email = email;
   }
 
   public String getAdress() {
-      return adress;
+    return adress;
   }
 
   public void setAdress(String adress) {
-      this.adress = adress;
+    this.adress = adress;
   }
 
   public List<TeacherSubjects> getTeacherSubjectsList() {
-      return teacherSubjectsList;
+    return teacherSubjectsList;
   }
 
   public void setTeacherSubjectsList(List<TeacherSubjects> teacherSubjectsList) {
-      this.teacherSubjectsList = teacherSubjectsList;
+    this.teacherSubjectsList = teacherSubjectsList;
   }
 
   public List<Subject> getSubjectsSet() {
-      return subjectsSet;
+    return subjectsSet;
   }
 
   public List<Homework> getHomeworksSet() {
-      return homeworksSet;
+    return homeworksSet;
   }
 
   public void setHomeworksSet(List<Homework> homeworksSet) {
-      this.homeworksSet = homeworksSet;
+    this.homeworksSet = homeworksSet;
   }
 
   public void setSubjectsSet(List<Subject> subjectsSet) {
-      this.subjectsSet = subjectsSet;
+    this.subjectsSet = subjectsSet;
   }
 
   public List<Mark> getMarksSet() {
-      return marksSet;
+    return marksSet;
   }
 
   public void setMarksSet(List<Mark> marksSet) {
-      this.marksSet = marksSet;
+    this.marksSet = marksSet;
   }
 
   public List<Remark> getRemarksSet() {
-      return remarksSet;
+    return remarksSet;
   }
 
   public void setRemarksSet(List<Remark> remarksSet) {
-      this.remarksSet = remarksSet;
+    this.remarksSet = remarksSet;
   }
 
   public List<Absence> getAbsencesSet() {
-      return absencesSet;
+    return absencesSet;
   }
 
   public void setAbsencesSet(List<Absence> absencesSet) {
-      this.absencesSet = absencesSet;
+    this.absencesSet = absencesSet;
   }
 
   public User getUser() {
-      return user;
+    return user;
   }
 
   public void setUser(User user) {
-      this.user = user;
+    this.user = user;
   }
 }

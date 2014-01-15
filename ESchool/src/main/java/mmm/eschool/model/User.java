@@ -54,6 +54,20 @@ public class User implements Serializable
   @OneToOne(mappedBy="user", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
   private Teacher teacher;
 
+  public User() {}
+
+  public User(Integer id)
+  {
+    this.id = id;
+  }
+
+  public User(Integer id, String password, String username)
+  {
+    this.id = id;
+    this.password = password;
+    this.username = username;
+  } 
+  
   public int getId()
   {
     return id;
@@ -123,20 +137,4 @@ public class User implements Serializable
   {
     this.teacher = teacher;
   }
-
-  public User()
-  {
-  }
-
-  public User(Integer id)
-  {
-    this.id = id;
-  }
-
-  public User(Integer id, String password, String username)
-  {
-    this.id = id;
-    this.password = password;
-    this.username = username;
-  } 
 }

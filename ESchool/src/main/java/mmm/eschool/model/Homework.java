@@ -7,7 +7,6 @@ package mmm.eschool.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,89 +25,89 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(schema = "eschool", name = "homeworks")
-public class Homework implements Serializable {
+public class Homework implements Serializable 
+{
+  @Id
+  @SequenceGenerator(name = "homeworks_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "homeworks_seq")
+  @GeneratedValue(strategy = GenerationType.AUTO, generator = "homeworks_seq")
+  private int id;
 
-    @Id
-    @SequenceGenerator(name = "homeworks_seq", allocationSize = 1, initialValue = 1, schema = "eschool", sequenceName = "homeworks_seq")
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "homeworks_seq")
-    private int id;
+  @Column(name = "homework_title", nullable = false, length = 40)
+  private String homeWorkTitle;
 
-    @Column(name = "homework_title", nullable = false, length = 40)
-    private String homeWorkTitle;
+  @JoinColumn(name = "subject_id", referencedColumnName = "id")
+  @ManyToOne(optional = false)
+  private Subject subjectId;
 
-    @JoinColumn(name = "subject_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Subject subjectId;
+  @JoinColumn(name = "student_id", referencedColumnName = "id")
+  @ManyToOne(optional = false)
+  private Student studentId;
 
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Student studentId;
+  @JoinColumn(name = "class_id", referencedColumnName = "id")
+  @ManyToOne(optional = false)
+  private Classes classId;
 
-    @JoinColumn(name = "class_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Classes classId;
+  @JoinColumn(name = "teacher_id", referencedColumnName = "id")
+  @ManyToOne(optional = false)
+  private Teacher teacherId;
 
-    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Teacher teacherId;
+  @Column(name = "dateCreated", nullable = false)
+  @Temporal(TemporalType.DATE)
+  private Date dateCreated;
 
-    @Column(name = "dateCreated", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date dateCreated;
+  public int getId() {
+    return id;
+  }
 
-    public Date getDateCreated() {
-        return dateCreated;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
+  public Date getDateCreated() {
+    return dateCreated;
+  }
 
-    public int getId() {
-        return id;
-    }
+  public void setDateCreated(Date dateCreated) {
+    this.dateCreated = dateCreated;
+  }
+  
+  public String getHomeWorkTitle() {
+    return homeWorkTitle;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public void setHomeWorkTitle(String homeWorkTitle) {
+    this.homeWorkTitle = homeWorkTitle;
+  }
 
-    public String getHomeWorkTitle() {
-        return homeWorkTitle;
-    }
+  public Subject getSubjectId() {
+    return subjectId;
+  }
 
-    public void setHomeWorkTitle(String homeWorkTitle) {
-        this.homeWorkTitle = homeWorkTitle;
-    }
+  public void setSubjectId(Subject subjectId) {
+    this.subjectId = subjectId;
+  }
 
-    public Subject getSubjectId() {
-        return subjectId;
-    }
+  public Student getStudentId() {
+    return studentId;
+  }
 
-    public void setSubjectId(Subject subjectId) {
-        this.subjectId = subjectId;
-    }
+  public void setStudentId(Student studentId) {
+    this.studentId = studentId;
+  }
 
-    public Student getStudentId() {
-        return studentId;
-    }
+  public Classes getClassId() {
+    return classId;
+  }
 
-    public void setStudentId(Student studentId) {
-        this.studentId = studentId;
-    }
+  public void setClassId(Classes classId) {
+    this.classId = classId;
+  }
 
-    public Classes getClassId() {
-        return classId;
-    }
+  public Teacher getTeacherId() {
+    return teacherId;
+  }
 
-    public void setClassId(Classes classId) {
-        this.classId = classId;
-    }
-
-      public Teacher getTeacherId() {
-        return teacherId;
-    }
-
-    public void setTeacherId(Teacher teacherId) {
-        this.teacherId = teacherId;
-    }
+  public void setTeacherId(Teacher teacherId) {
+    this.teacherId = teacherId;
+  }
 }
