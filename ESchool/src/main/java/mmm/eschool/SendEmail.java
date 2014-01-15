@@ -74,7 +74,7 @@ public class SendEmail
     } 
     catch (MessagingException E) 
     {
-      System.out.println("Опа нещо се прецака!");
+      System.out.println("РћРїР° РЅРµС‰Рѕ СЃРµ РїСЂРµС†Р°РєР°!");
       System.out.println(E);
     }
   }
@@ -89,25 +89,25 @@ public class SendEmail
     {
       Remark rem = (Remark) entity;
       emailAddress = rem.getStudentId().getParentId().getEmail();
-      subject = "Забележка по " + rem.getSubjectId().getSubjectName();
-      data = "Вашето дете получи забележка забележка по " + rem.getSubjectId().getSubjectName() + ",която гласи:" + rem.getRemark();
+      subject = "Р—Р°Р±РµР»РµР¶РєР° РїРѕ " + rem.getSubjectId().getSubjectName();
+      data = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё Р·Р°Р±РµР»РµР¶РєР° Р·Р°Р±РµР»РµР¶РєР° РїРѕ " + rem.getSubjectId().getSubjectName() + ",РєРѕСЏС‚Рѕ РіР»Р°СЃРё:" + rem.getRemark();
       sendMail = new SendEmail(emailAddress, subject, data);
     }
     if (entity instanceof Mark)
     {
       Mark mark = (Mark) entity;
       emailAddress = mark.getStudentId().getParentId().getEmail();
-      subject = "Оценка по " + mark.getSubjectId().getSubjectName();
-      data = "Вашето дете получи оценка по " + mark.getSubjectId().getSubjectName() + "със стойност:"+mark.getMark();
+      subject = "РћС†РµРЅРєР° РїРѕ " + mark.getSubjectId().getSubjectName();
+      data = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё РѕС†РµРЅРєР° РїРѕ " + mark.getSubjectId().getSubjectName() + "СЃСЉСЃ СЃС‚РѕР№РЅРѕСЃС‚:"+mark.getMark();
       sendMail = new SendEmail(emailAddress, subject, data);
     }
     if (entity instanceof Absence)
     {
       Absence absence = (Absence) entity;
       emailAddress = absence.getStudentId().getParentId().getEmail();
-      subject = "Отсъствие по " + absence.getSubjectId().getSubjectName();
-      data = "Вашето дете получи отсъствие по " + absence.getSubjectId().getSubjectName()+ " на "+ absence.getAbsenceDate() + 
-             "със стойност:" + absence.getValue();
+      subject = "РћС‚СЃСЉСЃС‚РІРёРµ РїРѕ " + absence.getSubjectId().getSubjectName();
+      data = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё РѕС‚СЃСЉСЃС‚РІРёРµ РїРѕ " + absence.getSubjectId().getSubjectName()+ " РЅР° "+ absence.getAbsenceDate() + 
+             "СЃСЉСЃ СЃС‚РѕР№РЅРѕСЃС‚:" + absence.getValue();
       sendMail = new SendEmail(emailAddress, subject, data);
     }
     if (sendMail != null)
