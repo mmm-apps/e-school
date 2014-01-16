@@ -7,13 +7,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    <%@include file="menu.jsp"%> 
     <jsp:include page="EditStudentProfile.jsp"/>
     <jsp:include page="MarksList.jsp"/>
-    <jsp:include page="DelMark.jsp"/>
     <jsp:include page="AddHomework.jsp"/>
     <jsp:include page="DeleteHomework.jsp"/>
-    <jsp:include page="AbsencesList.jsp"/>
-    <jsp:include page="AddAbsence.jsp"/>
     <div id="userWelcome">
         <div class="well">
             <h3>Здравейте, Иван Георгиев Иванов </h3>

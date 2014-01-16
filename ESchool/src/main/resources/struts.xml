@@ -114,8 +114,8 @@
         
     <action name="teacher">
       <interceptor-ref name="authenticationInterceptor" />
-      <result name="success">teacher.jsp</result>
-      <result name="input">teacher.jsp</result>
+      <result name="success">TeacherPanel.jsp</result>
+      <result name="input">TeacherPanel.jsp</result>
       <result name="login">LoginPanel.jsp</result>
       <result name="error">ERROR.jsp</result>
     </action>
