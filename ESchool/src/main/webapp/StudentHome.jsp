@@ -105,10 +105,7 @@
                   </s:iterator>
                 </tbody>
               </table>
-
-
             </div>
-
             <div class="tab-pane fade" id="remarks">
               <div class="well">
                 <div id="StudentRemarks">
@@ -146,9 +143,7 @@
                         </s:iterator>
                       </tbody>
                     </table>
-
                   </div>
-
                 </div>
               </div>
             </div>

@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
     <%@include file="menu.jsp"%> 
@@ -14,7 +15,7 @@
     <jsp:include page="DeleteHomework.jsp"/>
     <div id="userWelcome">
         <div class="well">
-            <h3>Здравейте, Иван Георгиев Иванов </h3>
+            <h3>Здравейте, <s:label key="teacherName" /> </h3>
         </div>
     </div>
     <div id="TeacherMenu">
@@ -33,7 +34,7 @@
                             <div class="well">
                                 <div class="panel panel-success">
                                     <div class="panel-heading">
-                                        <h3 class="panel-title">Име: Иван Георгиев Иванов</h3>
+                                        <h3 class="panel-title"><s:label key="fullName" /></h3>
                                     </div>
                                 </div>
                                 <div class="panel panel-success">

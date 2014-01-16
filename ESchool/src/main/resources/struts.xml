@@ -112,8 +112,7 @@
       <result name="error">ERROR.jsp</result>
     </action>
         
-    <action name="teacher">
-      <interceptor-ref name="authenticationInterceptor" />
+    <action name="teacher" class="mmm.eschool.actions.TeacherProfile">
       <result name="success">TeacherPanel.jsp</result>
       <result name="input">TeacherPanel.jsp</result>
       <result name="login">LoginPanel.jsp</result>
