@@ -10,7 +10,6 @@
         <property name="hibernate.connection.url">jdbc:postgresql://ec2-54-247-184-115.eu-west-1.compute.amazonaws.com:5432/d4jm9tf1gs1sbv?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory</property>
         <property name="hibernate.connection.username">bjwmbpxrvphmef</property>
         <property name="hibernate.connection.password">Px0jf7v8uPui4btMhXo_6IL6WC</property>
-        <property name="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.connection.pool_size">1</property>
         <property name="hibernate.hbm2ddl.auto">update</property>

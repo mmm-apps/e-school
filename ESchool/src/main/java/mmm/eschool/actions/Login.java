@@ -65,19 +65,19 @@ public class Login extends ActionSupport implements ModelDriven<User>, SessionAw
     {
       addFieldError("password", getText("Wrong username!"));
       return LOGIN;
-    } 
+    }
     else 
     {
-      session.put("user", dbUser);
-      if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.ADMINISTRATOR))
-          return "admin";
-        if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.STUDENT)) 
-          return "student";
-        if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.PARENT)) 
-          return "parent";
-        if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.TEACHER)) 
-          return "teacher";
-    }
+     session.put("user", dbUser);
+     if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.ADMINISTRATOR))
+       return "admin";
+     if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.STUDENT)) 
+       return "student";
+     if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.PARENT)) 
+       return "parent";
+     if (dbUser.getRolesSet().get(0).getRoleName().equals(Constants.TEACHER)) 
+       return "teacher";
+      }
     return ERROR;
   }
 
