@@ -54,7 +54,8 @@ public class AbsencesActions extends ActionSupport implements SessionAware
       absenceValueList.add("1/3");
       absenceValueList.add("1");
       for (final Subject s : ((Student) studentMgr.getEntityById(userIdentification)).getSubjectsSet())
-        subjectList.add(s.getSubjectName());
+        if(!subjectList.contains(s.getSubjectName()))
+          subjectList.add(s.getSubjectName());
     }
   }
   

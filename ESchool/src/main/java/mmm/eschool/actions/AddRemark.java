@@ -38,6 +38,7 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
   private Remark newRemark = new Remark();
   private final Manager remarkMgr = new Manager(Remark.class);
   private final Manager subjectMgr = new Manager(Subject.class);
+  private final Manager studentMgr = new Manager(Student.class);
   private String remark;
   private String student;
   private String userId;
@@ -101,11 +102,12 @@ public class AddRemark extends ActionSupport implements SessionAware, ModelDrive
     final Manager tsMgr = new Manager(TeacherSubjects.class);
     final List<TeacherSubjects> teacherSubjectsList = tsMgr.getEntityList();
     final User user = (User) session.get(Constants.USER);
-    for (final TeacherSubjects s : teacherSubjectsList) 
-    {
-      if (s.getTeacher().getId() == user.getTeacher().getId())
-        subjectsList.add(s.getSubject().getSubjectName());
-    }
+    Student student = (Student)studentMgr.getEntityById(userIdTemp);
+      for(Subject subject : student.getSubjectsSet())
+      {
+        if(!subjectsList.contains(subject.getSubjectName()))
+          subjectsList.add(subject.getSubjectName());
+      }
     return NONE;
   }
   

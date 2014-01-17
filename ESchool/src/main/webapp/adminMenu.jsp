@@ -11,6 +11,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,6 +36,7 @@
         <a class="navbar-brand" href="/ESchool">E-School</a>
       </div>
       <div class="navbar-collapse collapse navbar-inverse-collapse">
+        <s:if test="%{#session.user.rolesSet[0].roleName == 'Администратор'}"> 
         <ul class="nav navbar-nav navbar-left">
 
           <li class="dropdown">
@@ -88,6 +90,7 @@
             </ul>
           </li>
         </ul>
+        </s:if>
         <ul class="nav navbar-nav navbar-right">
           <li>
             <a href="logout">
