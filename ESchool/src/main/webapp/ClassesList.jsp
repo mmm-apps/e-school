@@ -31,11 +31,13 @@
         </div>
       </a>
       </s:if>
+      <s:if test="%{#session.user.rolesSet[0].roleName == 'Администратор'}">
       <a href="<s:url action='addStudentToClass'/>" >
         <div id="addButton">
           <button class="btn btn-success btn-lg btn-block">Добавяне на ученик към клас</button>
         </div>
       </a>
+      </s:if>
       <table id="results" class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
@@ -56,27 +58,28 @@
                 <s:a href="%{infoURL}">
                   <button class="btn btn-info" type="button">Виж учениците в класа</button>
                 </s:a>
-
-                <s:url id="showSubjectToClass" action="showSubjectToClass">
-                  <s:param name="classNameInfo" value="%{id}"></s:param>
-                </s:url>
-                <s:a href="%{showSubjectToClass}">
-                  <button class="btn btn-success" type="button">Виж предметите за класа</button>
-                </s:a>
-
+                <s:if test="%{#session.user.rolesSet[0].roleName == 'Администратор'}">
+                    <s:url id="showSubjectToClass" action="showSubjectToClass">
+                      <s:param name="classNameInfo" value="%{id}"></s:param>
+                    </s:url>
+                    <s:a href="%{showSubjectToClass}">
+                      <button class="btn btn-success" type="button">Виж предметите за класа</button>
+                    </s:a>
+                </s:if>
                 <s:url id="addHomework" action="addHomework">
                   <s:param name="classNameInfo" value="%{id}"></s:param>
                 </s:url>
                 <s:a href="%{addHomework}">
                   <button class="btn btn-success" type="button">Домашни работи за класа</button>
                 </s:a>
-
-                <s:url id="deleteClass" action="deleteClass">
-                  <s:param name="classNameInfo" value="%{id}"></s:param>
-                </s:url>
-                <s:a href="%{deleteClass}">
-                  <button class="btn btn-warning" type="button">Изтриване на клас</button>
-                </s:a>
+                <s:if test="%{#session.user.rolesSet[0].roleName == 'Администратор'}">
+                    <s:url id="deleteClass" action="deleteClass">
+                      <s:param name="classNameInfo" value="%{id}"></s:param>
+                    </s:url>
+                    <s:a href="%{deleteClass}">
+                      <button class="btn btn-warning" type="button">Изтриване на клас</button>
+                    </s:a>
+                </s:if>
               </td>
             </tr>
           </s:iterator>

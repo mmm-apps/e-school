@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
+import mmm.eschool.Constants;
 import mmm.eschool.model.Absence;
 import mmm.eschool.model.Classes;
 import mmm.eschool.model.Homework;
@@ -18,6 +19,7 @@ import mmm.eschool.model.Mark;
 import mmm.eschool.model.Remark;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.TeacherSubjects;
+import mmm.eschool.model.User;
 import mmm.eschool.model.managers.Manager;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -33,6 +35,7 @@ public class ClassesList extends ActionSupport implements ModelDriven<Classes>, 
   private final Manager absenceMgr = new Manager(Absence.class);
   private final Manager homeworkMgr = new Manager(Homework.class);
   private final Manager markMgr = new Manager(Mark.class);
+  private final Manager teacherSubjMgr = new Manager(TeacherSubjects.class);
   private final Manager remarkMgr = new Manager(Remark.class);
   private List<Classes> classesList = new ArrayList<Classes>();
   private List<Subject> subjList = new ArrayList<Subject>();
@@ -46,7 +49,20 @@ public class ClassesList extends ActionSupport implements ModelDriven<Classes>, 
 
   public String list()
   {
-    classesList = classMgr.getEntityList();
+    User user = (User) session.get(Constants.USER);
+    if(user.getRolesSet().get(0).getRoleName().equals("Администратор"))
+      classesList = classMgr.getEntityList();
+    else
+    {
+      for(TeacherSubjects teacherClass : (ArrayList<TeacherSubjects>) teacherSubjMgr.getEntityList())
+      {
+        if(teacherClass.getTeacher().getId() == user.getTeacher().getId())
+        {
+          if(!classesList.contains(teacherClass.getClasses()))
+          classesList.add(teacherClass.getClasses());
+        }
+      }
+    }
     return SUCCESS;
   }
 
