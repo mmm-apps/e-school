@@ -76,7 +76,7 @@
     </action>
     
     <action name="addClassProperties">
-        <result>CreateClass.jsp</result>
+      <result>CreateClass.jsp</result>
     </action>    
                 
     <action name="addClass" class="mmm.eschool.actions.CreateClass" method="createClass">
@@ -85,8 +85,8 @@
     </action>
     
     <action name="deleteClass" class="mmm.eschool.actions.ClassesList" method="deleteClass">
-        <result name="success" type="redirect">classesList</result>
-        <result name="input" type="redirect" >classesList</result>
+      <result name="success" type="redirect">classesList</result>
+      <result name="input" type="redirect" >classesList</result>
     </action>
         
     <action name="student" class="mmm.eschool.actions.StudentProfile">
@@ -113,8 +113,8 @@
     </action>
         
     <action name="teacher" class="mmm.eschool.actions.TeacherProfile">
-      <result name="success">TeacherPanel.jsp</result>
-      <result name="input">TeacherPanel.jsp</result>
+      <result name="success" type="redirect">classesList</result>
+      <result name="input" type="redirect">classesList</result>
       <result name="login">LoginPanel.jsp</result>
       <result name="error">ERROR.jsp</result>
     </action>
@@ -229,8 +229,8 @@
       <result name="none">DelMark.jsp</result>
     </action>
     <action name="delMark" method="delMark" class="mmm.eschool.actions.AddMark">
-        <result name="success" type="redirect">classesList</result>
-        <result name="input">DelMark.jsp</result>
+      <result name="success" type="redirect">classesList</result>
+      <result name="input">DelMark.jsp</result>
     </action>
     
     

@@ -13,7 +13,7 @@
   <%@include file="adminMenu.jsp"%>   
   <div id="userWelcome">
     <div class="well">
-      <h3>Здравейте, Администратор</h3>
+      <h3>Здравейте, <s:property value="%{#session.user.rolesSet[0].roleName}"/></h3>
     </div>
   </div>
   <div id="spacee" style="margin-top: 80px;"></div>
@@ -24,11 +24,13 @@
       </h3>
     </div>
     <div class="panel-body">
-      <a href="<s:url action='addClassProperties'/>" >
+      <s:if test="%{#session.user.rolesSet[0].roleName == 'Администратор'}">
+        <a href="<s:url action='addClassProperties'/>" >
         <div id="addButton">
           <button class="btn btn-info btn-lg btn-block">Добавяне</button>
         </div>
       </a>
+      </s:if>
       <a href="<s:url action='addStudentToClass'/>" >
         <div id="addButton">
           <button class="btn btn-success btn-lg btn-block">Добавяне на ученик към клас</button>
@@ -68,7 +70,7 @@
                 <s:a href="%{addHomework}">
                   <button class="btn btn-success" type="button">Домашни работи за класа</button>
                 </s:a>
-                  
+
                 <s:url id="deleteClass" action="deleteClass">
                   <s:param name="classNameInfo" value="%{id}"></s:param>
                 </s:url>
@@ -85,8 +87,8 @@
   </div>
   <script type="text/javascript"><!--
 var pager = new Pager('results', 3);
-      pager.init();
-      pager.showPageNav('pager', 'pageNavPosition');
-      pager.showPage(1);
+    pager.init();
+    pager.showPageNav('pager', 'pageNavPosition');
+    pager.showPage(1);
 //--></script>
 </html>
