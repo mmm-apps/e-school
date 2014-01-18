@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.validation.constraints.Pattern;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -40,21 +40,8 @@ public class Teacher implements Serializable
   @Column(unique = true, nullable = false)
   private int id;
 
-  @Column(name = "first_name", nullable = false, length = 30)
-  private String firstName;
-
-  @Column(name = "last_name", nullable = false, length = 30)
-  private String lastName;
-
-  @Column(nullable = false, length = 40)
-  private String phone;
-
-  @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = "Invalid email")
-  @Column(nullable = false, length = 40)
-  private String email;
-
-  @Column(nullable = false, length = 100)
-  private String adress;
+  @Embedded
+  private UserInfo userInfo;
 
   @LazyCollection(LazyCollectionOption.FALSE)
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
@@ -91,46 +78,6 @@ public class Teacher implements Serializable
 
   public void setId(int id) {
     this.id = id;
-  }
-
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
-  public String getLastName() {
-    return lastName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
-
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getAdress() {
-    return adress;
-  }
-
-  public void setAdress(String adress) {
-    this.adress = adress;
   }
 
   public List<TeacherSubjects> getTeacherSubjectsList() {
@@ -187,5 +134,15 @@ public class Teacher implements Serializable
 
   public void setUser(User user) {
     this.user = user;
+  }
+
+  public UserInfo getUserInfo()
+  {
+    return userInfo;
+  }
+
+  public void setUserInfo(UserInfo userInfo)
+  {
+    this.userInfo = userInfo;
   }
 }

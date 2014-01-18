@@ -31,19 +31,20 @@ public class AuthenticationInterceptor implements Interceptor
     Map<String, Object> session = ai.getInvocationContext().getSession();
     HttpServletRequest request = ServletActionContext.getRequest();
     
-    User user = (User) session.get("user");
+    User user = (User) session.get(Constants.USER);
     
     if (user == null)
       return ActionSupport.LOGIN;
     else 
     {
-      if (getRequestedPage(request).contains("student") && user.getRolesSet().get(0).getRoleName().equals(Constants.STUDENT))
+      final String roleName = user.getRolesSet().get(0).getRoleName();
+      if (getRequestedPage(request).contains("student") && roleName.equals(Constants.STUDENT))
         return ai.invoke();
-      else if (getRequestedPage(request).contains("teacher") && user.getRolesSet().get(0).getRoleName().equals(Constants.TEACHER))
+      else if (getRequestedPage(request).contains("teacher") && roleName.equals(Constants.TEACHER))
         return ai.invoke();
-      else if (user.getRolesSet().get(0).getRoleName().equals(Constants.ADMINISTRATOR))
+      else if (roleName.equals(Constants.ADMINISTRATOR))
         return ai.invoke();
-      else if (getRequestedPage(request).contains("parent") && user.getRolesSet().get(0).getRoleName().equals(Constants.PARENT))
+      else if (getRequestedPage(request).contains("parent") && roleName.equals(Constants.PARENT))
         return ai.invoke();
       else
         return ActionSupport.ERROR;

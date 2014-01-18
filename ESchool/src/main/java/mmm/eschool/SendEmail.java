@@ -88,7 +88,7 @@ public class SendEmail
     if (entity instanceof Remark)
     {
       Remark rem = (Remark) entity;
-      emailAddress = rem.getStudentId().getParentId().getEmail();
+      emailAddress = rem.getStudentId().getParentId().getUserInfo().getEmail();
       subject = "Р—Р°Р±РµР»РµР¶РєР° РїРѕ " + rem.getSubjectId().getSubjectName();
       data = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё Р·Р°Р±РµР»РµР¶РєР° Р·Р°Р±РµР»РµР¶РєР° РїРѕ " + rem.getSubjectId().getSubjectName() + ",РєРѕСЏС‚Рѕ РіР»Р°СЃРё:" + rem.getRemark();
       sendMail = new SendEmail(emailAddress, subject, data);
@@ -96,7 +96,7 @@ public class SendEmail
     if (entity instanceof Mark)
     {
       Mark mark = (Mark) entity;
-      emailAddress = mark.getStudentId().getParentId().getEmail();
+      emailAddress = mark.getStudentId().getParentId().getUserInfo().getEmail();
       subject = "РћС†РµРЅРєР° РїРѕ " + mark.getSubjectId().getSubjectName();
       data = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё РѕС†РµРЅРєР° РїРѕ " + mark.getSubjectId().getSubjectName() + "СЃСЉСЃ СЃС‚РѕР№РЅРѕСЃС‚:"+mark.getMark();
       sendMail = new SendEmail(emailAddress, subject, data);
@@ -104,7 +104,7 @@ public class SendEmail
     if (entity instanceof Absence)
     {
       Absence absence = (Absence) entity;
-      emailAddress = absence.getStudentId().getParentId().getEmail();
+      emailAddress = absence.getStudentId().getParentId().getUserInfo().getEmail();
       subject = "РћС‚СЃСЉСЃС‚РІРёРµ РїРѕ " + absence.getSubjectId().getSubjectName();
       data = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё РѕС‚СЃСЉСЃС‚РІРёРµ РїРѕ " + absence.getSubjectId().getSubjectName()+ " РЅР° "+ absence.getAbsenceDate() + 
              "СЃСЉСЃ СЃС‚РѕР№РЅРѕСЃС‚:" + absence.getValue();

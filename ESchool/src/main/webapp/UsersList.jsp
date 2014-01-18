@@ -32,11 +32,68 @@
         </h3>
       </div>
       <div class="panel-body">
-        <a href="<s:url action='addUser'/>" >
-        <div id="addButton">
-          <button class="btn btn-info btn-lg btn-block">Добавяне</button>
+          <div id="addButton">
+            <button class="btn btn-info" data-toggle="modal" data-target="#addUsr">Добавяне</button>
+          </div>
+        <div class="modal fade" id="addUsr" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body">
+                <s:form action = "createUser" cssClass="bs-example form-horizontal">
+              <fieldset>
+                  <legend>Добавяне на потребител</legend>
+                  <s:fielderror/>
+                  <div class = "form-group">
+                      <div class="col-lg-10">
+                          <s:textfield id="userNameInput" key="username" type="text" cssClass="form-control" placeholder="Потребителско име" />
+                      </div>
+                  </div>
+                  <div class = "form-group">
+                      <div class="col-lg-10">
+                          <s:password id="passwordInput" key="password" type="text" cssClass="form-control" placeholder="Парола" />
+                      </div>
+                  </div>
+                  <div class = "form-group">
+                      <div class="col-lg-10">
+                          <s:select headerKey="-1" headerValue="Моля изберете роля" 
+                                    list="roleCollection" name="roleList" cssClass="form-control" />
+                      </div>
+                  </div> 
+                  <div class = "form-group">
+                      <div class="col-lg-10">
+                          <s:textfield id="firstNameInput" key="firstName" type="text" cssClass="form-control" placeholder="Име" />
+                      </div>
+                  </div>
+                  <div class = "form-group">
+                      <div class="col-lg-10">
+                          <s:textfield id="lastNameInput" key="lastName" type="text" cssClass="form-control" placeholder="Фамилия" />
+                      </div>
+                  </div>
+                  <div class = "form-group">
+                      <div class="col-lg-10">
+                          <s:textfield id="phoneInput" key="phone" type="text" cssClass="form-control" placeholder="Телефон" />
+                      </div>
+                  </div>
+                  <div class = "form-group">
+                      <div class="col-lg-10">
+                          <s:textfield id="adressInput" key="address" type="text" cssClass="form-control" placeholder="Адрес" />
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <div class="col-lg-10">
+                          <s:textfield id="emailInput" key="email" type="text" cssClass="form-control" placeholder="E-mail" />
+                      </div>
+                  </div>
+              </fieldset>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Назад</button>
+                  <s:submit cssClass="btn btn-info" value="Добави"/>
+                </div>
+           </s:form>
+          </div>
         </div>
-      </a>
+      </div>
+    </div>
 
       <table id="results" class="table table-striped table-bordered table-hover">
         <thead>
@@ -66,7 +123,7 @@
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-body">
-                        <form action = "login.action" method="post" class ="bs-example form-horizontal" >
+                        <form action = "" method="post" class ="bs-example form-horizontal" >
                           <fieldset>
                             <legend>Преглед на потребител</legend>
                             <table class="table table-striped table-bordered table-hover">
@@ -82,65 +139,65 @@
                                 <tr>
                                   <td>Име</td>
                                   <s:if test="student != null">
-                                    <td><s:property value="student.firstName" /></td>
+                                    <td><s:property value="student.userInfo.firstName" /></td>
                                   </s:if>
                                   <s:elseif test="teacher != null">
-                                    <td><s:property value="teacher.firstName" /></td>
+                                    <td><s:property value="teacher.userInfo.firstName" /></td>
                                   </s:elseif>
                                   <s:elseif test="parent != null">
-                                    <td><s:property value="parent.firstName" /></td>
+                                    <td><s:property value="parent.userInfo.firstName" /></td>
                                   </s:elseif>
                                   <s:else><td></td></s:else>
                                   </tr>
                                   <tr>
                                     <td>Фамилия</td>
                                   <s:if test="student != null">
-                                    <td><s:property value="student.lastName" /></td>
+                                    <td><s:property value="student.userInfo.lastName" /></td>
                                   </s:if>
                                   <s:elseif test="teacher != null">
-                                    <td><s:property value="teacher.lastName" /></td>
+                                    <td><s:property value="teacher.userInfo.lastName" /></td>
                                   </s:elseif>
                                   <s:elseif test="parent != null">
-                                    <td><s:property value="parent.lastName" /></td>
+                                    <td><s:property value="parent.userInfo.lastName" /></td>
                                   </s:elseif>
                                   <s:else><td></td></s:else>
                                   </tr>
                                   <tr>
                                     <td>Телефон</td>
                                   <s:if test="student != null">
-                                    <td><s:property value="student.phone" /></td>
+                                    <td><s:property value="student.userInfo.phone" /></td>
                                   </s:if>
                                   <s:elseif test="teacher != null">
-                                    <td><s:property value="teacher.phone" /></td>
+                                    <td><s:property value="teacher.userInfo.phone" /></td>
                                   </s:elseif>
                                   <s:elseif test="parent != null">
-                                    <td><s:property value="parent.phone" /></td>
+                                    <td><s:property value="parent.userInfo.phone" /></td>
                                   </s:elseif>
                                   <s:else><td></td></s:else>
                                   </tr>
                                   <tr>
                                     <td>Имейл</td>
                                   <s:if test="student != null">
-                                    <td><s:property value="student.email" /></td>
+                                    <td><s:property value="student.userInfo.email" /></td>
                                   </s:if>
                                   <s:elseif test="teacher != null">
-                                    <td><s:property value="teacher.email" /></td>
+                                    <td><s:property value="teacher.userInfo.email" /></td>
                                   </s:elseif>
                                   <s:elseif test="parent != null">
-                                    <td><s:property value="parent.email" /></td>
+                                    <td><s:property value="parent.userInfo.email" /></td>
                                   </s:elseif>
                                   <s:else><td></td></s:else>
                                   </tr>
                                   <tr>
                                     <td>Адрес</td>
                                   <s:if test="student != null">
-                                    <td><s:property value="student.adress" /></td>
+                                    <td><s:property value="student.userInfo.address" /></td>
                                   </s:if>
                                   <s:elseif test="teacher != null">
-                                    <td><s:property value="teacher.adress" /></td>
+                                    <td><s:property value="teacher.userInfo.address" /></td>
                                   </s:elseif>
                                   <s:elseif test="parent != null">
-                                    <td><s:property value="parent.adress" /></td>
+                                    <td><s:property value="parent.userInfo.address" /></td>
                                   </s:elseif>
                                   <s:else><td></td></s:else>
                                   </tr>
@@ -193,65 +250,65 @@
                       <div class = "form-group">
                         <div class="col-lg-10">
                           <s:if test="student != null">
-                            <s:textfield id="nameInput" key="student.firstName" type="text" cssClass="form-control" placeholder="Име"/>
+                            <s:textfield id="nameInput" key="student.userInfo.firstName" type="text" cssClass="form-control" placeholder="Име"/>
                           </s:if>
                           <s:elseif test="teacher != null">
-                            <s:textfield id="nameInput" key="teacher.firstName" type="text" cssClass="form-control" placeholder="Име"/>
+                            <s:textfield id="nameInput" key="teacher.userInfo.firstName" type="text" cssClass="form-control" placeholder="Име"/>
                           </s:elseif>
                           <s:elseif test="parent != null">
-                            <s:textfield id="nameInput" key="parent.firstName" type="text" cssClass="form-control" placeholder="Име"/>
+                            <s:textfield id="nameInput" key="parent.userInfo.firstName" type="text" cssClass="form-control" placeholder="Име"/>
                           </s:elseif>
                         </div>
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
                           <s:if test="student != null">
-                            <s:textfield id="lastNameInput" key="student.lastName" type="text" cssClass="form-control" placeholder="Фамилия" />
+                            <s:textfield id="lastNameInput" key="student.userInfo.lastName" type="text" cssClass="form-control" placeholder="Фамилия" />
                           </s:if>
                           <s:elseif test="teacher != null">
-                            <s:textfield id="lastNameInput" key="teacher.lastName" type="text" cssClass="form-control" placeholder="Фамилия" />
+                            <s:textfield id="lastNameInput" key="teacher.userInfo.lastName" type="text" cssClass="form-control" placeholder="Фамилия" />
                           </s:elseif>
                           <s:elseif test="parent != null">
-                            <s:textfield id="lastNameInput" key="parent.lastName" type="text" cssClass="form-control" placeholder="Фамилия" />
+                            <s:textfield id="lastNameInput" key="parent.userInfo.lastName" type="text" cssClass="form-control" placeholder="Фамилия" />
                           </s:elseif>
                         </div>
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
                           <s:if test="student != null">
-                            <s:textfield id="phoneInput" key="student.phone" type="text" cssClass="form-control" placeholder="Телефон" />
+                            <s:textfield id="phoneInput" key="student.userInfo.phone" type="text" cssClass="form-control" placeholder="Телефон" />
                           </s:if>
                           <s:elseif test="teacher != null">
-                            <s:textfield id="phoneInput" key="teacher.phone" type="text" cssClass="form-control" placeholder="Телефон" />
+                            <s:textfield id="phoneInput" key="teacher.userInfo.phone" type="text" cssClass="form-control" placeholder="Телефон" />
                           </s:elseif>
                           <s:elseif test="parent != null">
-                            <s:textfield id="phoneInput" key="parent.phone" type="text" cssClass="form-control" placeholder="Телефон" />
+                            <s:textfield id="phoneInput" key="parent.userInfo.phone" type="text" cssClass="form-control" placeholder="Телефон" />
                           </s:elseif>
                         </div>
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
                           <s:if test="student != null">
-                            <s:textfield id="emailInput" key="student.email" type="text" cssClass="form-control" placeholder="Имейл" />
+                            <s:textfield id="emailInput" key="student.userInfo.email" type="text" cssClass="form-control" placeholder="Имейл" />
                           </s:if>
                           <s:elseif test="teacher != null">
-                            <s:textfield id="emailInput" key="teacher.email" type="text" cssClass="form-control" placeholder="Имейл" />
+                            <s:textfield id="emailInput" key="teacher.userInfo.email" type="text" cssClass="form-control" placeholder="Имейл" />
                           </s:elseif>
                           <s:elseif test="parent != null">
-                            <s:textfield id="emailInput" key="parent.email" type="text" cssClass="form-control" placeholder="Имейл" />
+                            <s:textfield id="emailInput" key="parent.userInfo.email" type="text" cssClass="form-control" placeholder="Имейл" />
                           </s:elseif>
                         </div>
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
                           <s:if test="student != null">
-                            <s:textfield id="addressInput" key="student.adress" type="text" cssClass="form-control" placeholder="Адрес" />
+                            <s:textfield id="addressInput" key="student.userInfo.address" type="text" cssClass="form-control" placeholder="Адрес" />
                           </s:if>
                           <s:elseif test="teacher != null">
-                            <s:textfield id="addressInput" key="teacher.adress" type="text" cssClass="form-control" placeholder="Адрес" />
+                            <s:textfield id="addressInput" key="teacher.userInfo.address" type="text" cssClass="form-control" placeholder="Адрес" />
                           </s:elseif>
                           <s:elseif test="parent != null">
-                            <s:textfield id="addressInput" key="parent.adress" type="text" cssClass="form-control" placeholder="Адрес" />
+                            <s:textfield id="addressInput" key="parent.userInfo.address" type="text" cssClass="form-control" placeholder="Адрес" />
                           </s:elseif>
                         </div>
                       </div>

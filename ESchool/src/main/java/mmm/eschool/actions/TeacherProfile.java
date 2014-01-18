@@ -2,17 +2,15 @@
  */
 package mmm.eschool.actions;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import mmm.eschool.Constants;
-import mmm.eschool.actions.temp.StudentRemarks;
 import mmm.eschool.actions.temp.TeacherClasses;
-import mmm.eschool.model.Classes;
 import mmm.eschool.model.TeacherSubjects;
 import mmm.eschool.model.User;
+import mmm.eschool.model.UserInfo;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
@@ -21,7 +19,6 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class TeacherProfile extends ActionSupport implements SessionAware
 {
-
   private Map session;
   private String teacherName;
   private String fullName;
@@ -31,21 +28,20 @@ public class TeacherProfile extends ActionSupport implements SessionAware
   private List<TeacherClasses> classes = new ArrayList<TeacherClasses>();
 
   @Override
-  public void setSession(Map<String, Object> map)
-  {
-    session = map;
-  }
+  public void setSession(Map<String, Object> map) { session = map; }
 
   @Override
   public String execute()
   {
-    Map attibutes = ActionContext.getContext().getSession();
-    final User sessionUser = (User) attibutes.get(Constants.USER);
-    teacherName = sessionUser.getTeacher().getFirstName() + " " + sessionUser.getTeacher().getLastName();
-    fullName = "Име:" + sessionUser.getTeacher().getFirstName() + " " + sessionUser.getTeacher().getLastName();
-    telephone = "Телефон: " + sessionUser.getTeacher().getPhone();
-    email = "E-mail" + sessionUser.getTeacher().getEmail();
-    adress = "Адрес: " + sessionUser.getTeacher().getAdress();
+    final User sessionUser = (User) session.get(Constants.USER);
+    if (sessionUser == null) 
+      return ERROR;
+    final UserInfo userInfo = sessionUser.getTeacher().getUserInfo();
+    teacherName = userInfo.getFirstName() + " " + userInfo.getLastName();
+    fullName = "Име:" + userInfo.getFirstName() + " " + userInfo.getLastName();
+    telephone = "Телефон: " + userInfo.getPhone();
+    email = "E-mail" + userInfo.getEmail();
+    adress = "Адрес: " + userInfo.getAddress();
     
     List<TeacherSubjects> tsl = sessionUser.getTeacher().getTeacherSubjectsList();
     

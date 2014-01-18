@@ -27,6 +27,15 @@ public class AddMark extends ActionSupport implements SessionAware
 {
   private static int studId;
   private static String subjName;
+  private static List<String> marksList = new ArrayList<String>();
+  static
+  {
+    marksList.add("2");
+    marksList.add("3");
+    marksList.add("4");
+    marksList.add("5");
+    marksList.add("6");
+  }
   
   private Map session;
   private Mark mark = new Mark();
@@ -37,20 +46,11 @@ public class AddMark extends ActionSupport implements SessionAware
   private String subjectName;
   private List<StudentSubjectMarks> StudentMarksList = new ArrayList<StudentSubjectMarks>();
   private List<Subject> subjectList;
-  private List<String> marksList = new ArrayList<String>();
+  
   private String markVal;
   private String date;
   private List<String> marksListForStudent = new ArrayList<String>();
   private String selectedMarkToDel;
-
-  public AddMark()
-  {
-    marksList.add("2");
-    marksList.add("3");
-    marksList.add("4");
-    marksList.add("5");
-    marksList.add("6");
-  }
 
   @Override
   public void setSession(final Map<String, Object> map) { this.session = map; }
@@ -70,7 +70,7 @@ public class AddMark extends ActionSupport implements SessionAware
     {
       if (m.getSubjectId().getId() == Integer.parseInt(subjectName) && m.getStudentId().getId() == studId)
         marksListForStudent.add(m.getMark() + " " + m.getDateCreated() + " " + m.getSubjectId().getSubjectName() +
-                "-" + m.getTeacherId().getFirstName() + " " + m.getTeacherId().getLastName());
+                "-" + m.getTeacherId().getUserInfo().getFirstName() + " " + m.getTeacherId().getUserInfo().getLastName());
     }
     return NONE;
   }
@@ -85,8 +85,8 @@ public class AddMark extends ActionSupport implements SessionAware
     for (final Subject s : subjectList) 
     {
       final StudentSubjectMarks studentSubjectMarks = new StudentSubjectMarks();
-      studentSubjectMarks.setFirstName(student.getFirstName());
-      studentSubjectMarks.setLastName(student.getLastName());
+      studentSubjectMarks.setFirstName(student.getUserInfo().getFirstName());
+      studentSubjectMarks.setLastName(student.getUserInfo().getLastName());
       studentSubjectMarks.setSubject(s.getSubjectName());
       studentSubjectMarks.setId(String.valueOf(s.getId()));
 
@@ -164,7 +164,7 @@ public class AddMark extends ActionSupport implements SessionAware
   {
     for (final Mark m : (ArrayList<Mark>) markMgr.getEntityList())
     {
-      final String teacherNames = m.getTeacherId().getFirstName() + " " + m.getTeacherId().getLastName();
+      final String teacherNames = m.getTeacherId().getUserInfo().getFirstName() + " " + m.getTeacherId().getUserInfo().getLastName();
       if (m.getMark() == Integer.parseInt(MarkVal) && m.getDateCreated().toString().equals(dateCreated) &&
           m.getSubjectId().getSubjectName().equals(subjName) && teacherNames.equals(teacherName) && m.getStudentId().getId() == studId)
         return m;

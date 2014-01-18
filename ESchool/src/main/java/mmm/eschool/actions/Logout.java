@@ -15,23 +15,19 @@ import org.apache.struts2.interceptor.SessionAware;
  *
  * @author MMihov
  */
-public class LogOut extends ActionSupport implements  SessionAware  {
+public class Logout extends ActionSupport implements SessionAware  
+{
+  User user = new User();
+  private Map<String,Object> session;
 
-    User user = new User();
-    private Map<String,Object> session;
+  @Override
+  public String execute() throws Exception {
+    session.remove("user");
+    return SUCCESS;
+  }
 
-    @Override
-    public void validate() {
-    }
-
-    @Override
-    public String execute() throws Exception {
-       session.remove("user");
-        return SUCCESS;
-    }
-
-    @Override
-    public void setSession(Map<String, Object> map) {
-        this.session = map;
-    }
+  @Override
+  public void setSession(Map<String, Object> map) {
+    this.session = map;
+  }
 }

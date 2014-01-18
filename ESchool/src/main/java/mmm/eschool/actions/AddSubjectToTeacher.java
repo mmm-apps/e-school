@@ -61,7 +61,7 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     classListDb = classMgr.getEntityList();
     
     for (final Teacher t : teacherListDb)
-      teachersList.add(t.getFirstName() + " " + t.getLastName());
+      teachersList.add(t.getUserInfo().getFirstName() + " " + t.getUserInfo().getLastName());
 
     for (final Subject s : subjectListDb) 
       subjectsList.add(s.getSubjectName() + " " + s.getSubjectKind());
@@ -181,7 +181,7 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
   {
     for (final Teacher t : (ArrayList<Teacher>) teacherMgr.getEntityList())
     {
-      if(t.getFirstName().equals(FirstName) && t.getLastName().equals(LastName))
+      if(t.getUserInfo().getFirstName().equals(FirstName) && t.getUserInfo().getLastName().equals(LastName))
         return t;
     }
     return null;

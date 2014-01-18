@@ -24,13 +24,13 @@ public class AddStudentToClass extends ActionSupport implements SessionAware
 {
   private Map session;
   private String student;
-  private Manager studentMgr = new Manager(Student.class);
-  private Manager classesMgr = new Manager(Classes.class);
-  private Manager teacherSubjectMgr = new Manager(TeacherSubjects.class);
+  private final Manager studentMgr = new Manager(Student.class);
+  private final Manager classesMgr = new Manager(Classes.class);
+  private final Manager teacherSubjectMgr = new Manager(TeacherSubjects.class);
   private ArrayList<String> studentsList = new ArrayList<String>();
   private ArrayList<String> classesList = new ArrayList<String>();
-  private List<Student> studentList = studentMgr.getEntityList();
-  private List<Classes> classList = classesMgr.getEntityList();
+  private final List<Student> studentList = studentMgr.getEntityList();
+  private final List<Classes> classList = classesMgr.getEntityList();
   private String classNo;
   
   @Override
@@ -48,7 +48,8 @@ public class AddStudentToClass extends ActionSupport implements SessionAware
         displayedClass = "НЯМА КЛАС";
       else
         displayedClass = displayedStudent.getClassId().getClassName();
-      studentsList.add(displayedStudent.getFirstName() + " " + displayedStudent.getLastName() + " " + displayedClass + " " + displayedStudent.getEmail());
+      studentsList.add(displayedStudent.getUserInfo().getFirstName() + " " + displayedStudent.getUserInfo().getLastName() + 
+                      " " + displayedClass + " " + displayedStudent.getUserInfo().getEmail());
     }
 
     for (final Classes currentClass : classList)
@@ -68,7 +69,8 @@ public class AddStudentToClass extends ActionSupport implements SessionAware
       else
         className = s.getClassId().getClassName();
       
-      if ( (s.getFirstName() + " " + s.getLastName() + " " + className + " " + s.getEmail()).equals(student) ) 
+      if ( (s.getUserInfo().getFirstName() + " " + s.getUserInfo().getLastName() + 
+              " " + className + " " + s.getUserInfo().getEmail()).equals(student) ) 
       {
         newStudent = s;
         break;

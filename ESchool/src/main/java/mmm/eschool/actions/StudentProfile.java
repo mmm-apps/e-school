@@ -11,6 +11,7 @@ import mmm.eschool.model.Absence;
 import mmm.eschool.model.Homework;
 import mmm.eschool.model.Mark;
 import mmm.eschool.model.Remark;
+import mmm.eschool.model.Student;
 import mmm.eschool.model.User;
 import mmm.eschool.model.managers.Manager;
 import org.apache.struts2.interceptor.SessionAware;
@@ -26,7 +27,7 @@ public class StudentProfile extends ActionSupport implements SessionAware
   private String studentName;
   private String clas;
   private String fullName;
-  private String telephone;
+  private String phone;
   private String email;
   private String adress;
   private int excusedAbsences = 0;
@@ -42,12 +43,13 @@ public class StudentProfile extends ActionSupport implements SessionAware
   public String execute()
   {
     final User sessionUser = (User) session.get(Constants.USER);
-    studentName = sessionUser.getStudent().getFirstName() + " " + sessionUser.getStudent().getLastName();
-    fullName = "Име:" + sessionUser.getStudent().getFirstName() + " " + sessionUser.getStudent().getLastName();
-    clas = sessionUser.getStudent().getClassId().getClassName();
-    telephone = "Телефон: " + sessionUser.getStudent().getPhone();
-    email = "E-mail" + sessionUser.getStudent().getEmail();
-    adress = "Адрес: " + sessionUser.getStudent().getAdress();
+    final Student student = sessionUser.getStudent();
+    studentName = student.getUserInfo().getFirstName() + " " + student.getUserInfo().getLastName();
+    fullName = "Име:" + student.getUserInfo().getFirstName() + " " + student.getUserInfo().getLastName();
+    clas = student.getClassId().getClassName();
+    phone = "Телефон: " + student.getUserInfo().getPhone();
+    email = "E-mail" + student.getUserInfo().getEmail();
+    adress = "Адрес: " + student.getUserInfo().getAddress();
 
     int id = 1;
     for (final Homework h : sessionUser.getStudent().getHomeworksSet()) 
@@ -172,12 +174,12 @@ public class StudentProfile extends ActionSupport implements SessionAware
 
   public String getTelephone()
   {
-    return telephone;
+    return phone;
   }
 
   public void setTelephone(String telephone)
   {
-    this.telephone = telephone;
+    this.phone = telephone;
   }
 
   public String getEmail()

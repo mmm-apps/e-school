@@ -2,7 +2,6 @@
  */
 package mmm.eschool.actions;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.Map;
 import mmm.eschool.Constants;
@@ -18,29 +17,24 @@ public class LoginPanel extends ActionSupport implements SessionAware
   private Map<String, Object> session;
 
   @Override
-  public void setSession(Map<String, Object> map)
-  {
-    this.session = map;
-  }
+  public void setSession(Map<String, Object> map) { this.session = map; }
 
   @Override
   public String execute()
   {
-    session = ActionContext.getContext().getSession();
-    User sessionUser = (User) session.get(Constants.USER);
+    final User sessionUser = (User) session.get(Constants.USER);
     if (sessionUser == null)
-    {
       return NONE;
-    } 
     else 
     {
-      if (sessionUser.getRolesSet().get(0).getRoleName().equals(Constants.ADMINISTRATOR)) 
+      String roleName = sessionUser.getRolesSet().get(0).getRoleName();
+      if (roleName.equals(Constants.ADMINISTRATOR)) 
         return "admin";
-      if(sessionUser.getRolesSet().get(0).getRoleName().equals(Constants.PARENT))
+      if(roleName.equals(Constants.PARENT))
         return "parent";
-      if(sessionUser.getRolesSet().get(0).getRoleName().equals(Constants.STUDENT))
+      if(roleName.equals(Constants.STUDENT))
         return "student";
-      if(sessionUser.getRolesSet().get(0).getRoleName().equals(Constants.TEACHER))
+      if(roleName.equals(Constants.TEACHER))
         return "teacher";
     }
     return ERROR;

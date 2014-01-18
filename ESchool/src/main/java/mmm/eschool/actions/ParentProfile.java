@@ -61,12 +61,13 @@ public class ParentProfile extends ActionSupport implements SessionAware
     if (!hasThatChild)
       return ERROR;
     
-    studentName = sessionUser.getStudent().getFirstName() + " " + sessionUser.getStudent().getLastName();
-    fullName = "Име:" + sessionUser.getStudent().getFirstName() + " " + sessionUser.getStudent().getLastName();
-    clas = sessionUser.getStudent().getClassId().getClassName();
-    phone = "Телефон: " + sessionUser.getStudent().getPhone();
-    email = "E-mail" + sessionUser.getStudent().getEmail();
-    adress = "Адрес: " + sessionUser.getStudent().getAdress();
+    final Student student = sessionUser.getStudent();
+    studentName = student.getUserInfo().getFirstName() + " " + student.getUserInfo().getLastName();
+    fullName = "Име:" + student.getUserInfo().getFirstName() + " " + student.getUserInfo().getLastName();
+    clas = student.getClassId().getClassName();
+    phone = "Телефон: " + student.getUserInfo().getPhone();
+    email = "E-mail" + student.getUserInfo().getEmail();
+    adress = "Адрес: " + student.getUserInfo().getAddress();
 
     int id = 1;
     for (final Homework h : sessionUser.getStudent().getHomeworksSet()) 
