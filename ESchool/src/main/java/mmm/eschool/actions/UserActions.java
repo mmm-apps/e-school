@@ -27,6 +27,7 @@ public class UserActions extends ActionSupport implements ModelDriven<User>, Ses
   private User user = new User();
   private final Manager userMgr = new Manager(User.class);
   private final Manager roleMgr = new Manager(Role.class);
+  private final Manager studMgr = new Manager(Student.class);
   private List<String> roleCollection = new ArrayList<String>();
   private List<User> usersList = new ArrayList<User>();
   private String roleListVal, userId, newPassword, reNewPassword;
@@ -81,6 +82,7 @@ public class UserActions extends ActionSupport implements ModelDriven<User>, Ses
 
   public String add() throws AnException
   {
+    final Student student = new Student();
     final Role role = getRoleByName(roleListVal);
     if (role == null)
     {
@@ -96,7 +98,6 @@ public class UserActions extends ActionSupport implements ModelDriven<User>, Ses
     final UserInfo userInfo = new UserInfo(firstName, lastName, phone, email, address);
     if (roleListVal.equals(mmm.eschool.Constants.STUDENT))
     {
-      final Student student = new Student();
       student.setUserInfo(userInfo);
       user.setStudent(student);
       student.setUser(user);
@@ -130,7 +131,9 @@ public class UserActions extends ActionSupport implements ModelDriven<User>, Ses
     
     try
     {
+      student.setUser(user);
       userMgr.add(user);
+      studMgr.add(student);
       addFieldError("username", "The data was successufully recorded!");
       return SUCCESS;
     }

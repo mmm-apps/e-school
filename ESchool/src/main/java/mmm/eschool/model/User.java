@@ -42,7 +42,7 @@ public class User implements Serializable
   private String password;
 
   @LazyCollection(LazyCollectionOption.FALSE)
-  @ManyToMany(cascade = CascadeType.ALL, mappedBy = "usersSet")
+  @ManyToMany(mappedBy = "usersSet")
   private List<Role> rolesSet = new ArrayList<Role>();
 
   @OneToOne(mappedBy="user", cascade=CascadeType.ALL, fetch = FetchType.LAZY)

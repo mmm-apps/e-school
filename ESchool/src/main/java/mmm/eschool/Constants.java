@@ -16,5 +16,5 @@ public class Constants
   public static final String ADMINISTRATOR = "Администратор";
   public static final String PARENT = "Родител";
   public static final String TEACHER = "Учител";
-  public static final String STUDENT = "Студент";
+  public static final String STUDENT = "Ученик";
 }
