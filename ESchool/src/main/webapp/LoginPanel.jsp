@@ -24,21 +24,8 @@
         <link type="text/css" rel="stylesheet" href="CSS/bootstrap.css" media="screen">
         <link type="text/css" rel="stylesheet" href="CSS/AditionalCss.css" media="screen">
 
-        <script>
-            function load()
-            {
-                var myElem = document.getElementsByClassName('errorMessage');
-                if (myElem.length > 0) {
-                    document.getElementById("myModal").setAttribute("aria-hidden", "false");
-                    document.getElementById("myModal").setAttribute("class", "modal fade in");
-                    document.getElementById("myModal").setAttribute("style", "display:block;");
-                    document.body.className = "modal-open";
-                }
-
-            }
-        </script>
     </head>
-    <body onload="load()">
+    <body onload="loadError()">
         <div id = "Menu">
             <div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="navbar-header">

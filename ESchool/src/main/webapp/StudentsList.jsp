@@ -37,9 +37,9 @@
                 <tbody>
                     <s:iterator value="studnetsList" status="studentStatus">
                         <tr class="success">
-                            <td><s:property value="firstName" /></td>
-                            <td><s:property value="lastName" /></td>
-                            <td><s:property value="email" /></td>
+                            <td><s:property value="UserInfo.firstName" /></td>
+                            <td><s:property value="UserInfo.lastName" /></td>
+                            <td><s:property value="UserInfo.email" /></td>
                             <td>
                                 <s:url id="addRemark" action="selectRemark">
                                     <s:param name="userId" value="%{id}"></s:param>

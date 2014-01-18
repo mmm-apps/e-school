@@ -42,7 +42,7 @@
         <tbody>
           <s:iterator value="teachersSubjectsList" var="current">
             <tr class="success">
-              <td><s:property value="teacher.lastName" /></td>
+              <td><s:property value="teacher.UserInfo.lastName" /></td>
               <td><s:property value="subject.subjectName" /></td>
               <td><s:property value="classes.className" /></td>
               <td>
