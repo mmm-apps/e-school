@@ -8,7 +8,6 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
-  <s:include value="EditStudentProfile.jsp"></s:include>
     <div id="userWelcome">
       <div class="well">
         <h3>Здравейте, <s:label key="studentName" />, <s:label key="clas" /> клас </h3>

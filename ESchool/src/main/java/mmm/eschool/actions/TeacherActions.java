@@ -24,91 +24,48 @@ import org.apache.struts2.interceptor.SessionAware;
  *
  * @author Denev
  */
-public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<TeacherSubjects>, SessionAware
+public class TeacherActions extends ActionSupport implements ModelDriven<TeacherSubjects>, SessionAware
 {
+  private static List<String> classNamesList = new ArrayList<String>();
+  private static List<String> subjectNamesList = new ArrayList<String>();
+  private static List<String> teacherNamesList = new ArrayList<String>();
+  
   private Map session;
-  private TeacherSubjects teacherSubjects;
+  private TeacherSubjects teacherSubjects = new TeacherSubjects();
   private TeacherSubjectsPK teacherSubjPk;
-  private final Manager teacherSubjMgr;
-  private final Manager teacherMgr;
-  private final Manager subjectMgr;
-  private final Manager classMgr;
-  private final Manager studentMgr;
-  private final List<Teacher> teacherListDb;
-  private final List<Subject> subjectListDb;
-  private final List<Classes> classListDb;
-  private List<String> classList;
-  private String className;
-  private List<String> subjectsList;
-  private String subjectName;
-  private List<String> teachersList;
-  private String teacherName;
-  private String tsid;
+  private final Manager teacherSubjMgr = new Manager(TeacherSubjects.class);
+  private final Manager teacherMgr = new Manager(Teacher.class);
+  private final Manager subjectMgr = new Manager(Subject.class);
+  private final Manager classMgr = new Manager(Classes.class);
+  private final Manager studentMgr = new Manager(Student.class);
   private List<TeacherSubjects> teachersSubjectsList = new ArrayList<TeacherSubjects>();
-
-  public AddSubjectToTeacher() 
-  {
-    teacherSubjMgr = new Manager(TeacherSubjects.class);
-    teacherMgr = new Manager(Teacher.class);
-    subjectMgr = new Manager(Subject.class);
-    classMgr = new Manager(Classes.class);
-    studentMgr = new Manager(Student.class);
-    classList = new ArrayList<String>();
-    subjectsList = new ArrayList<String>();
-    teachersList = new ArrayList<String>();
-    teacherListDb = teacherMgr.getEntityList();
-    subjectListDb = subjectMgr.getEntityList();
-    classListDb = classMgr.getEntityList();
-    
-    for (final Teacher t : teacherListDb)
-      teachersList.add(t.getUserInfo().getFirstName() + " " + t.getUserInfo().getLastName());
-
-    for (final Subject s : subjectListDb) 
-      subjectsList.add(s.getSubjectName() + " " + s.getSubjectKind());
-
-    for (final Classes c : classListDb)
-      classList.add(c.getClassName());
-  }
+  private String className;
+  private String subjectName;
+  private String teacherName;
+  private String tdIdParam;
   
   @Override
   public void setSession(final Map<String, Object> map) { this.session = map; }
   
   @Override
-  public TeacherSubjects getModel()
-  {
-    if (teacherSubjects == null) {
-      teacherSubjects = new TeacherSubjects();
-    }
-    return teacherSubjects;
-  }
+  public TeacherSubjects getModel() { return teacherSubjects; }
   
   @Override
-  public String execute() { return null; }
-  
-  public String display() { return NONE; }
-  
-  public String list()
-  {
-    teachersSubjectsList = teacherSubjMgr.getEntityList();
-    return SUCCESS;
-  }
-  
-  public String addSubjectToTeacher()
-  {
-    teacherSubjects = new TeacherSubjects();
-    teacherSubjPk = new TeacherSubjectsPK();
-    Subject subject;
-    Classes clas;
-    Teacher teacher;
+  public String execute() 
+  { 
     if (teacherName.equals("-1") && className.equals("-1") && subjectName.equals("-1"))
     {
       addFieldError("Teacher", "Моля въведете всички полета!");
       return INPUT;   
     }
     
-    teacher = getTeacherByNames(teacherName.substring(0, teacherName.indexOf(" ")), teacherName.substring(teacherName.indexOf(" ") + 1));
-    clas = getClassByName(className);
-    subject = getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
+    teacherSubjects = new TeacherSubjects();
+    teacherSubjPk = new TeacherSubjectsPK();
+    
+    Teacher teacher = getTeacherByNames(teacherName.substring(0, teacherName.indexOf(" ")), teacherName.substring(teacherName.indexOf(" ") + 1));
+    Classes clas = getClassByName(className);
+    Subject subject = getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
+    
     try 
     {
       teacherSubjPk.setClassId(clas.getId());
@@ -119,9 +76,9 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
       teacherSubjects.setTeacher(teacher);
       teacherSubjects.setClasses(clas);
 
-      for (final TeacherSubjects tsubjs : (ArrayList<TeacherSubjects>) teacherSubjMgr.getEntityList()) 
+      for (final TeacherSubjects ts : (ArrayList<TeacherSubjects>) teacherSubjMgr.getEntityList()) 
       {
-        final TeacherSubjectsPK tspk = tsubjs.getTeacherSubjectsPK();
+        final TeacherSubjectsPK tspk = ts.getTeacherSubjectsPK();
         if (tspk.getTeacherId() == teacherSubjects.getTeacher().getId()
                 && tspk.getSubjectId() == teacherSubjects.getSubject().getId()
                 && tspk.getClassId() == teacherSubjects.getClasses().getId()) 
@@ -149,10 +106,25 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
     }
     return ERROR;
   }
+  
+  public String list()
+  {
+    teachersSubjectsList = teacherSubjMgr.getEntityList();
+    
+    for (final Teacher t : (ArrayList<Teacher>) teacherMgr.getEntityList())
+      teacherNamesList.add(t.getUserInfo().getFirstName() + " " + t.getUserInfo().getLastName());
+
+    for (final Subject s : (ArrayList<Subject>) subjectMgr.getEntityList()) 
+      subjectNamesList.add(s.getSubjectName() + " " + s.getSubjectKind());
+
+    for (final Classes c : (ArrayList<Classes>) classMgr.getEntityList())
+      classNamesList.add(c.getClassName());
+    return SUCCESS;
+  }
 
   public String delete() throws AnException
   {
-    int teacherSubjectId = Integer.parseInt(tsid);
+    int teacherSubjectId = Integer.parseInt(tdIdParam);
     Classes clas = ((TeacherSubjects) teacherSubjMgr.getEntityById(teacherSubjectId) ).getClasses();
     Subject subject = ((TeacherSubjects) teacherSubjMgr.getEntityById(teacherSubjectId)).getSubject();
     for (final Student s : clas.getStudentList())
@@ -199,12 +171,12 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
   
   public List<String> getClassList()
   {
-    return classList;
+    return classNamesList;
   }
 
   public void setClassList(List<String> classList)
   {
-    this.classList = classList;
+    this.classNamesList = classList;
   }
 
   public String getClassName()
@@ -219,11 +191,11 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
 
   public List<String> getSubjectsList()
   {
-    return subjectsList;
+    return subjectNamesList;
   }
 
   public void setSubjectsList(List<String> subjectsList) {
-    this.subjectsList = subjectsList;
+    this.subjectNamesList = subjectsList;
   }
 
   public String getSubjectName()
@@ -238,12 +210,12 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
 
   public List<String> getTeachersList()
   {
-    return teachersList;
+    return teacherNamesList;
   }
 
   public void setTeachersList(List<String> teachersList)
   {
-    this.teachersList = teachersList;
+    this.teacherNamesList = teachersList;
   }
 
   public String getTeacherName()
@@ -288,11 +260,11 @@ public class AddSubjectToTeacher extends ActionSupport implements ModelDriven<Te
 
   public String getTsid()
   {
-    return tsid;
+    return tdIdParam;
   }
 
   public void setTsid(String tsid)
   {
-    this.tsid = tsid;
+    this.tdIdParam = tsid;
   }
 }

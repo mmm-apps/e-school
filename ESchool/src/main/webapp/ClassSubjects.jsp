@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
     <script src="JS/paging.js"></script>
-    <%@include file="adminMenu.jsp"%>   
+    <%@include file="MainAdmin.jsp"%>
     <div id="userWelcome">
         <div class="well">
             <h3>Здравейте, Администратор</h3>
@@ -35,7 +35,7 @@
                 </thead>
 
                 <tbody>
-                    <s:iterator value="subjList" var="currentSubject">
+                    <s:iterator value="subjectsList" var="currentSubject">
                         <tr class="success">
                             <td><s:property value="subjectName" /></td>
                             <td><s:property value="subjectKind" /></td>

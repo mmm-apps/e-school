@@ -6,8 +6,8 @@
 package mmm.eschool.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
@@ -25,95 +25,81 @@ import org.apache.struts2.interceptor.SessionAware;
  *
  * @author Denev
  */
-public class AbsencesActions extends ActionSupport implements SessionAware
+public class AbsencesActions extends ActionSupport implements SessionAware, ModelDriven<Absence>
 {
-  private static int userIdentification;
+  private static List<String> absenceTypeList = new ArrayList<String>();
+  private static List<String> absenceValueList = new ArrayList<String>();
+  static
+  {
+    absenceTypeList.add("Извинено");
+    absenceTypeList.add("Неизвинено");
+    absenceValueList.add("1/3");
+    absenceValueList.add("1");
+  }
   
   private Map session;
+  Absence absence = new Absence();
+  private Student student;
   private final Manager studentMgr = new Manager(Student.class);
   private final Manager absenceMgr = new Manager(Absence.class);
   private final Manager subjectMgr = new Manager(Subject.class);
   private final Manager teacherMgr = new Manager(Teacher.class);
-  private String userId;
-  private List<String> absenceTypeList = new ArrayList<String>();
-  private String absenceType;
-  private String date;
-  private List<String> absenceValueList = new ArrayList<String>();
-  private String absenceValue;
+  private List<Absence> studentAbsencesList = new ArrayList<Absence>();
   private List<String> subjectList = new ArrayList<String>();
-  private String subject;
-  private String AbsenceNo;
-  private List<Absence> studentAbsenceList = new ArrayList<Absence>();
-  
-  public AbsencesActions()
-  {
-    if (userIdentification != 0) 
-    {
-      absenceTypeList.add("Извинено");
-      absenceTypeList.add("Неизвинено");
-      absenceValueList.add("1/3");
-      absenceValueList.add("1");
-      for (final Subject s : ((Student) studentMgr.getEntityById(userIdentification)).getSubjectsSet())
-        if(!subjectList.contains(s.getSubjectName()))
-          subjectList.add(s.getSubjectName());
-    }
-  }
+  private String absenceType, absenceValue, subject;
+  private String date;
+ 
+  private String studentIdParam, absenceIdParam;
   
   @Override
   public void setSession(final Map<String, Object> map) { this.session = map; }
-  
-  public String display()
-  {
-    return NONE;
-  }
+
+  @Override
+  public Absence getModel() { return absence; }
   
   public String absencesList()
   {
-    int userIdVal = Integer.parseInt(userId);
-    userIdentification = userIdVal;
-    for (final Absence ab : (ArrayList<Absence>) absenceMgr.getEntityList()) 
+    int studentId = Integer.parseInt(studentIdParam);
+    student = (Student) studentMgr.getEntityById(studentId);
+    for (final Absence a : (ArrayList<Absence>) absenceMgr.getEntityList()) 
     {
-      if (ab.getStudentId().getId() == userIdVal) 
-        studentAbsenceList.add(ab);
+      if (a.getStudentId().getId() == studentId) 
+        studentAbsencesList.add(a);
+    }
+    
+    for (final Subject s : ((Student) studentMgr.getEntityById(studentId)).getSubjectsSet())
+    {
+      if(!subjectList.contains(s.getSubjectName()))
+        subjectList.add(s.getSubjectName());
     }
     return SUCCESS;
   }
 
-  public String selectAbsence() throws AnException
+  public String excuseAbsence() throws AnException
   {
-    final Absence ab = (Absence) absenceMgr.getEntityById(Integer.parseInt(AbsenceNo));
-    ab.setAbsenceType(true);
-    absenceMgr.update(ab);
+    absence = (Absence) absenceMgr.getEntityById(Integer.parseInt(absenceIdParam));
+    absence.setAbsenceType(true);
+    absenceMgr.update(absence);
     return SUCCESS;
   }
   
   public String deleteAbsence() throws AnException
   {
-    absenceMgr.del(Integer.parseInt(AbsenceNo));
+    absenceMgr.del(Integer.parseInt(absenceIdParam));
     return SUCCESS;
   }
   
   public String addAbsence() throws AnException
   {
-    int year;
-    int month;
-    int day;
-
+//    int studentId = Integer.parseInt(studentIdParam);
     if (subject.equals("-1") || absenceValue.equals("-1") || absenceType.equals("-1"))
     {  
-      addFieldError("ERROE", "Моля попълнете всички полета");
+      addFieldError("ERROR", "Моля попълнете всички полета");
       return INPUT;
     }
     
-    year = Integer.parseInt(date.substring(0, date.indexOf("-")));
-    month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-", date.indexOf("-") + 1)));
-    day = Integer.parseInt(date.substring(date.indexOf("-", date.indexOf("-") + 1) + 1, date.length()));
-    java.sql.Date dat = new java.sql.Date(new GregorianCalendar(year, month - 1, day).getTimeInMillis());
-
-    final Absence absence = new Absence();
-    final Student student = (Student) studentMgr.getEntityById(userIdentification);
     final User user = (User) session.get(Constants.USER);
-    absence.setAbsenceDate(dat);
+    absence.setAbsenceDate(Constants.resolveDate(date));
     
     if (absenceType.equals("Извинено"))
       absence.setAbsenceType(true);
@@ -131,9 +117,9 @@ public class AbsencesActions extends ActionSupport implements SessionAware
     absence.setSubjectId(getSubjectByName(subject));
     absence.setTeacherId((Teacher) teacherMgr.getEntityById(user.getId()));
     absenceMgr.add(absence);
-    SendEmail.tryCreateAndSendEmail(absence);
     student.getAbsencesSet().add(absence);
     studentMgr.update(student);
+    SendEmail.tryCreateAndSendEmail(absence);
     return SUCCESS;
   }
   
@@ -146,55 +132,55 @@ public class AbsencesActions extends ActionSupport implements SessionAware
     }
     return null;
   }
-  
-  public List<String> getAbsenceTypeList()
+
+  public static List<String> getAbsenceTypeList()
   {
     return absenceTypeList;
   }
 
-  public void setAbsenceTypeList(List<String> absenceTypeList)
+  public static void setAbsenceTypeList(List<String> absenceTypeList)
   {
-    this.absenceTypeList = absenceTypeList;
+    AbsencesActions.absenceTypeList = absenceTypeList;
   }
 
-  public String getAbsenceType()
-  {
-    return absenceType;
-  }
-
-  public void setAbsenceType(String absenceType)
-  {
-    this.absenceType = absenceType;
-  }
-
-  public String getDate()
-  {
-    return date;
-  }
-
-  public void setDate(String date)
-  {
-    this.date = date;
-  }
-
-  public List<String> getAbsenceValueList()
+  public static List<String> getAbsenceValueList()
   {
     return absenceValueList;
   }
 
-  public void setAbsenceValueList(List<String> absenceValueList)
+  public static void setAbsenceValueList(List<String> absenceValueList)
   {
-    this.absenceValueList = absenceValueList;
+    AbsencesActions.absenceValueList = absenceValueList;
   }
 
-  public String getAbsenceValue()
+  public Absence getAbsence()
   {
-    return absenceValue;
+    return absence;
   }
 
-  public void setAbsenceValue(String absenceValue)
+  public void setAbsence(Absence absence)
   {
-    this.absenceValue = absenceValue;
+    this.absence = absence;
+  }
+
+  public Student getStudent()
+  {
+    return student;
+  }
+
+  public void setStudent(Student student)
+  {
+    this.student = student;
+  }
+
+  public List<Absence> getStudentAbsencesList()
+  {
+    return studentAbsencesList;
+  }
+
+  public void setStudentAbsencesList(List<Absence> studentAbsencesList)
+  {
+    this.studentAbsencesList = studentAbsencesList;
   }
 
   public List<String> getSubjectList()
@@ -207,6 +193,26 @@ public class AbsencesActions extends ActionSupport implements SessionAware
     this.subjectList = subjectList;
   }
 
+  public String getAbsenceType()
+  {
+    return absenceType;
+  }
+
+  public void setAbsenceType(String absenceType)
+  {
+    this.absenceType = absenceType;
+  }
+
+  public String getAbsenceValue()
+  {
+    return absenceValue;
+  }
+
+  public void setAbsenceValue(String absenceValue)
+  {
+    this.absenceValue = absenceValue;
+  }
+
   public String getSubject()
   {
     return subject;
@@ -217,43 +223,33 @@ public class AbsencesActions extends ActionSupport implements SessionAware
     this.subject = subject;
   }
 
-  public String getUserId()
+  public String getDate()
   {
-    return userId;
+    return date;
   }
 
-  public void setUserId(String userId)
+  public void setDate(String date)
   {
-    this.userId = userId;
+    this.date = date;
   }
 
-  public static int getUserIdentification()
+  public String getStudentIdParam()
   {
-    return userIdentification;
+    return studentIdParam;
   }
 
-  public static void setUserIdentification(int userIdentification)
+  public void setStudentIdParam(String studentIdParam)
   {
-    AbsencesActions.userIdentification = userIdentification;
+    this.studentIdParam = studentIdParam;
   }
 
-  public List<Absence> getStudentAbsenceList()
+  public String getAbsenceIdParam()
   {
-    return studentAbsenceList;
+    return absenceIdParam;
   }
 
-  public void setStudentAbsenceList(List<Absence> studentAbsenceList)
+  public void setAbsenceIdParam(String absenceIdParam)
   {
-    this.studentAbsenceList = studentAbsenceList;
-  }
-
-  public String getAbsenceNo()
-  {
-    return AbsenceNo;
-  }
-
-  public void setAbsenceNo(String AbsenceNo)
-  {
-    this.AbsenceNo = AbsenceNo;
+    this.absenceIdParam = absenceIdParam;
   }
 }

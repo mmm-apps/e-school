@@ -1,5 +1,5 @@
 <%-- 
-    Document   : AddRemark
+    Document   : Remarks
     Created on : Nov 29, 2013, 7:10:10 PM
     Author     : MMihov
 --%>
@@ -8,9 +8,9 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
-  <%@include file="adminMenu.jsp"%>         
+  <%@include file="MainAdmin.jsp"%>         
   <div class="well well-sm" style="margin-left: 30%;margin-right: 30%; margin-top: 5%;padding: 3%">
-    <s:form action = "createRemark" cssClass="bs-example form-horizontal">
+    <s:form action = "addRemark" cssClass="bs-example form-horizontal">
       <fieldset>
         <legend>Добавяне на Забележка</legend>
         <s:fielderror/>
@@ -57,11 +57,11 @@
         <tbody>
           <s:iterator value="studentRemarks" status="remarkStatus">
             <tr class="success">
-              <td><s:property value="subject" /></td>
+              <td><s:property value="subjectId.subjectName" /></td>
               <td><s:property value="remark" /></td>
               <td>
                 <s:url id="deleteRemark" action="deleteRemark">
-                  <s:param name="RemarkNo" value="%{id}"></s:param>
+                  <s:param name="remarkIdParam" value="%{id}"></s:param>
                 </s:url>
                 <s:a href="%{deleteRemark}">
                   <button class="btn btn-danger" type="button">Изтриване</button>

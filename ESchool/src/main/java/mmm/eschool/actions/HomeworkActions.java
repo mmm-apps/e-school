@@ -1,9 +1,7 @@
 package mmm.eschool.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -22,7 +20,7 @@ import org.apache.struts2.interceptor.SessionAware;
  *
  * @author MMihov
  */
-public class AddHomeworkToClass extends ActionSupport implements SessionAware
+public class HomeworkActions extends ActionSupport implements SessionAware
 {
   private static Map<Integer, String> classIdList = new TreeMap<Integer, String>();
   
@@ -30,13 +28,13 @@ public class AddHomeworkToClass extends ActionSupport implements SessionAware
   private final Manager subjectMgr = new Manager(Subject.class);
   private final Manager classMgr = new Manager(Classes.class);
   private final Manager homeMgr = new Manager(Homework.class);
-  private String classNameInfo;
+  private List<Homework> studentHomeworks = new ArrayList<Homework>();
+  private List<String> subjectNamesList = new ArrayList<String>();
+  private String classIdParam;
   private String classId;
   private String subjectName;
   private String date;
-  private List<String> subjectList;
   private String homeworkNote;
-  private ArrayList<Homework> studentHomeworks = new ArrayList<Homework>();
   private String homeworkNo;
   
   @Override
@@ -55,10 +53,6 @@ public class AddHomeworkToClass extends ActionSupport implements SessionAware
     final Homework homework = new Homework();
     final Classes clas = (Classes) classMgr.getEntityById(Integer.parseInt(classIdList.get(teacher.getId())));
     final Subject subj = getSubjectByName(subjectName.substring(0, subjectName.indexOf(" ")));
-    int year = Integer.parseInt(date.substring(0, date.indexOf("-")));
-    int month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-", date.indexOf("-") + 1)));
-    int day = Integer.parseInt(date.substring(date.indexOf("-", date.indexOf("-") + 1) + 1, date.length()));
-
     for (final Student s : clas.getStudentList()) 
     {
       homework.setClassId(clas);
@@ -66,7 +60,7 @@ public class AddHomeworkToClass extends ActionSupport implements SessionAware
       homework.setStudentId(s);
       homework.setTeacherId(teacher.getTeacher());
       homework.setSubjectId(subj);
-      homework.setDateCreated(new Date(new GregorianCalendar(year, month - 1, day).getTimeInMillis()));
+      homework.setDateCreated(Constants.resolveDate(date));
       try 
       {
         homeMgr.add(homework);
@@ -79,30 +73,29 @@ public class AddHomeworkToClass extends ActionSupport implements SessionAware
     return SUCCESS;
   }
   
-  public String getSubjects()
+  public String initClassHomeworks()
   {
     final Manager teacherSubjectMgr = new Manager(TeacherSubjects.class);
     final User teacher = (User) session.get(Constants.USER);
     final List<TeacherSubjects> teacherSubjects = teacherSubjectMgr.getEntityList();
 
-    subjectList = new ArrayList<String>();
     for (final TeacherSubjects s : teacherSubjects) 
     {
-      if (s.getClasses().getId() == Integer.parseInt(classNameInfo) && teacher.getTeacher().getId() == s.getTeacher().getId())
-        subjectList.add(s.getSubject().getSubjectName() + " " + s.getSubject().getSubjectKind());
+      if (s.getClasses().getId() == Integer.parseInt(classIdParam) && teacher.getTeacher().getId() == s.getTeacher().getId())
+        subjectNamesList.add(s.getSubject().getSubjectName() + " " + s.getSubject().getSubjectKind());
     }
     
-    classId = classNameInfo;
-    classIdList.put(teacher.getId(), classNameInfo);
+    classId = classIdParam;
+    classIdList.put(teacher.getId(), classIdParam);
     
     final Manager homeWorkMgr = new Manager(Homework.class);
     final List<Homework> homeworks = homeWorkMgr.getEntityList();
     for (final Homework h : homeworks)
     {
-      if(h.getClassId().getId() == Integer.parseInt(classNameInfo))
+      if(h.getClassId().getId() == Integer.parseInt(classIdParam))
         studentHomeworks.add(h);
     }    
-    return NONE;
+    return SUCCESS;
   }
   
   public String deleteHomework() throws AnException
@@ -121,14 +114,14 @@ public class AddHomeworkToClass extends ActionSupport implements SessionAware
     return null;
   }
   
-  public String getClassNameInfo()
+  public String getClassIdParam()
   {
-    return classNameInfo;
+    return classIdParam;
   }
 
-  public void setClassNameInfo(String classNameInfo)
+  public void setClassIdParam(String classIdParam)
   {
-    this.classNameInfo = classNameInfo;
+    this.classIdParam = classIdParam;
   }
 
   public String getClassId()
@@ -148,7 +141,7 @@ public class AddHomeworkToClass extends ActionSupport implements SessionAware
 
   public static void setClassIdList(Map<Integer, String> classIdList)
   {
-    AddHomeworkToClass.classIdList = classIdList;
+    HomeworkActions.classIdList = classIdList;
   }
 
   public String getSubjectName()
@@ -171,14 +164,14 @@ public class AddHomeworkToClass extends ActionSupport implements SessionAware
     this.date = date;
   }
 
-  public List<String> getSubjectList()
+  public List<String> getSubjectNamesList()
   {
-    return subjectList;
+    return subjectNamesList;
   }
 
-  public void setSubjectList(List<String> subjectList)
+  public void setSubjectNamesList(List<String> subjectList)
   {
-    this.subjectList = subjectList;
+    this.subjectNamesList = subjectList;
   }
 
   public String getHomeworkNote()
@@ -191,7 +184,7 @@ public class AddHomeworkToClass extends ActionSupport implements SessionAware
     this.homeworkNote = homeworkNote;
   }
   
-  public ArrayList<Homework> getStudentHomeworks()
+  public List<Homework> getStudentHomeworks()
   {
     return studentHomeworks;
   }

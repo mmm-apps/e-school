@@ -24,20 +24,15 @@ public class Login extends ActionSupport implements ModelDriven<User>, SessionAw
   public User getModel() { return getUser(); }
 
   @Override
-  public void validate() 
-  {
-    if (StringUtils.isEmpty(user.getUsername()))
-      addFieldError("username", "Username cannot be blank!");
-    if (StringUtils.isEmpty(user.getPassword()))
-      addFieldError("password", getText("Password cannot be blank!"));
-  }
-
-  @Override
   public String execute() throws Exception 
   {
+    if (!validateLogin())
+      return INPUT;
+    
     final User currentUser;
-    if (session.get(Constants.USER) != null)
-      currentUser = (User) session.get(Constants.USER);
+    User sessionUser = (User) session.get(Constants.USER);
+    if (sessionUser != null)
+      currentUser = sessionUser;
     else
       currentUser = UserActions.getLoginResult(user);
     
@@ -66,6 +61,41 @@ public class Login extends ActionSupport implements ModelDriven<User>, SessionAw
       }
       return ERROR;
     }
+  }
+  
+  public String validateRequest()
+  {
+    final User sessionUser = (User) session.get(Constants.USER);
+    if (sessionUser != null)
+    {
+      String roleName = sessionUser.getRolesSet().get(0).getRoleName();
+      if (roleName.equals(Constants.ADMINISTRATOR)) 
+        return "admin";
+      if(roleName.equals(Constants.PARENT))
+        return "parent";
+      if(roleName.equals(Constants.STUDENT))
+        return "student";
+      if(roleName.equals(Constants.TEACHER))
+        return "teacher";
+    }
+    return LOGIN;
+  }
+  
+  private boolean validateLogin()
+  {
+    boolean correct = true;
+    if (StringUtils.isEmpty(user.getUsername()))
+    {
+      addFieldError("username", "Username cannot be blank!");
+      correct = false;
+    }
+    if (StringUtils.isEmpty(user.getPassword()))
+    {
+      addFieldError("password", getText("Password cannot be blank!"));
+      correct = false;
+    }
+    
+    return correct;
   }
 
   public User getUser() { return user; }

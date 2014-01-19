@@ -8,7 +8,7 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
-    <%@include file="adminMenu.jsp"%> 
+    <jsp:include page="MainAdmin.jsp"></jsp:include>
     <div id="userWelcome">
         <div class="well">
             <h3>Здравейте, Администратор</h3>
@@ -43,10 +43,10 @@
                             <td><s:property value="subjectName"/></td>
                             <td><s:property value="subjectKind"/></td>
                             <td>
-                                <s:url id="deleteURL" action="deleteSubject">
-                                    <s:param name="userCon" value="%{id}"></s:param>
+                                <s:url id="deleteSubject" action="deleteSubject">
+                                    <s:param name="subjectIdParam" value="%{id}"></s:param>
                                 </s:url>
-                                <s:a href="%{deleteURL}">
+                                <s:a href="%{deleteSubject}">
                                     <button class="btn btn-danger" type="button">Изтриване</button>
                                 </s:a>
                             </td>
@@ -55,5 +55,36 @@
                 </tbody>
             </table>
         </div>
+                
+            <div class="modal fade" id="addAbsence" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <s:form action = "addSubject" cssClass="bs-example form-horizontal">
+                  <fieldset>
+                      <legend>Добавяне на предмети</legend>
+                      <s:fielderror/>
+                      <div class = "form-group">
+                          <div class="col-lg-10">
+                              <s:textfield id="subjectNameInput" key="subjectName" type="text" cssClass="form-control" placeholder="Име на предмет" />
+                          </div>
+                      </div>
+                      <div class = "form-group">
+                          <div class="col-lg-10">
+                              <s:select headerKey="-1" headerValue="Тип на предмета" 
+                                        list="subjectTypes" key="subjectKind" cssClass="form-control"/>
+                          </div>
+                      </div>
+                  </fieldset>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Назад</button>
+                      <s:submit cssClass="btn btn-info" value="Добави"/>
+                  </div>
+              </s:form>
+            </div>
+          </div>
+        </div>
+      </div>
+                
     </div>
 </html>

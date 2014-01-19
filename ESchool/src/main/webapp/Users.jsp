@@ -1,5 +1,5 @@
 <%-- 
-    Document   : UsersList
+    Document   : Users
     Created on : Nov 11, 2013, 10:43:33 PM
     Author     : Denev
 --%>
@@ -11,7 +11,7 @@
 <html>
   <link type="text/css" rel="stylesheet" href="CSS/bootstrap.css" media="screen">
   <script src="JS/paging.js"></script>
-  <jsp:include page="admin.jsp"></jsp:include>
+  <jsp:include page="MainAdmin.jsp"></jsp:include>
   <script>
     function modalOpen(id) 
     {
@@ -113,7 +113,7 @@
                 <button class="btn btn-info" data-toggle="modal" data-target="#info<s:property value="username" />">Информация</button>
                 <button class="btn btn-warning" data-toggle="modal" data-target="#edit<s:property value="username" />">Редактиране</button>                    
                 <s:url id="deleteUser" action="deleteUser">
-                  <s:param name="userId" value="%{id}"></s:param>
+                  <s:param name="userIdParam" value="%{id}"></s:param>
                 </s:url>
                 <s:a href="%{deleteUser}">
                   <button class="btn btn-danger" type="button">Изтриване</button>
@@ -219,7 +219,7 @@
                       <legend>Редактиране на потребител</legend>
                       <s:fielderror/>
                       <div class="col-lg-10">
-                       <s:hidden id="userId" key="id" type="text" cssClass="form-control"/>
+                       <s:hidden id="userIdParam" key="id" type="text" cssClass="form-control"/>
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">

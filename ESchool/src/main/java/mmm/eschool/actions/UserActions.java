@@ -29,7 +29,7 @@ public class UserActions extends ActionSupport implements ModelDriven<User>, Ses
   private final Manager roleMgr = new Manager(Role.class);
   private List<String> roleCollection = new ArrayList<String>();
   private List<User> usersList = new ArrayList<User>();
-  private String roleListVal, userId, newPassword, reNewPassword;
+  private String roleListVal, userIdParam, newPassword, reNewPassword;
   private String firstName, lastName, phone, address, email;
   //private String role;
 
@@ -143,7 +143,7 @@ public class UserActions extends ActionSupport implements ModelDriven<User>, Ses
 
   public String delete() throws AnException
   {
-    userMgr.del(Integer.parseInt(userId));
+    userMgr.del(Integer.parseInt(userIdParam));
     return SUCCESS;
   }
 
@@ -231,14 +231,14 @@ public class UserActions extends ActionSupport implements ModelDriven<User>, Ses
     this.usersList = userList;
   }
 
-  public String getUserId()
+  public String getUserIdParam()
   {
-    return userId;
+    return userIdParam;
   }
 
-  public void setUserId(String userCon)
+  public void setUserIdParam(String userId)
   {
-    this.userId = userCon;
+    this.userIdParam = userId;
   }
   
   public String getRoleList()

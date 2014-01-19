@@ -1,5 +1,5 @@
 <%-- 
-    Document   : AddHomeworkToClass
+    Document   : Homeworks
     Created on : Dec 5, 2013, 5:39:28 PM
     Author     : MMihov
 --%>
@@ -8,7 +8,7 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
-  <%@include file="adminMenu.jsp"%>         
+  <%@include file="MainAdmin.jsp"%>
   <div class="well well-sm" style="margin-left: 30%;margin-right: 30%; margin-top: 5%;padding: 3%">
     <s:form action = "addHomeworkToClass" cssClass="bs-example form-horizontal">
       <fieldset>
@@ -17,7 +17,7 @@
         <div class = "form-group">
           <div class="col-lg-10">
             <s:select headerKey="-1" headerValue="Моля Изберете предмет" 
-                      list="subjectList" name="subjectName" cssClass="form-control" />
+                      list="subjectNamesList" name="subjectName" cssClass="form-control" />
           </div>
         </div>
         <div class = "form-group">

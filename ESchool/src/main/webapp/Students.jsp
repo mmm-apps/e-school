@@ -1,5 +1,5 @@
 <%-- 
-    Document   : StudentsList
+    Document   : Students
     Created on : Nov 29, 2013, 3:49:19 PM
     Author     : MMihov
 --%>
@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
     <script src="JS/paging.js"></script>
-    <%@include file="adminMenu.jsp"%>   
+    <%@include file="MainAdmin.jsp"%>
     <div id="userWelcome">
         <div class="well">
             <h3>Здравейте, Администратор</h3>
@@ -35,26 +35,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <s:iterator value="studnetsList" status="studentStatus">
+                    <s:iterator value="studentsList" status="studentStatus">
                         <tr class="success">
-                            <td><s:property value="UserInfo.firstName" /></td>
-                            <td><s:property value="UserInfo.lastName" /></td>
-                            <td><s:property value="UserInfo.email" /></td>
+                            <td><s:property value="userInfo.firstName" /></td>
+                            <td><s:property value="userInfo.lastName" /></td>
+                            <td><s:property value="userInfo.email" /></td>
                             <td>
-                                <s:url id="addRemark" action="selectRemark">
-                                    <s:param name="userId" value="%{id}"></s:param>
+                                <s:url id="remarks" action="remarks">
+                                    <s:param name="studentIdParam" value="%{id}"></s:param>
                                 </s:url>
-                                <s:a href="%{addRemark}">
+                                <s:a href="%{remarks}">
                                     <button class="btn btn-info" type="button">Забележки</button>
                                 </s:a>
                                 <s:url id="studentMarks" action="studentMarks">
-                                    <s:param name="studentId" value="%{id}"></s:param>
+                                    <s:param name="studentIdParam" value="%{id}"></s:param>
                                 </s:url>
                                 <s:a href="%{studentMarks}">
                                     <button class="btn btn-warning" type="button">Оценки</button>
                                 </s:a>
                                 <s:url id="absencesList" action="absencesList">
-                                    <s:param name="userId" value="%{id}"></s:param>
+                                    <s:param name="studentIdParam" value="%{id}"></s:param>
                                 </s:url>
                                 <s:a href="%{absencesList}">
                                     <button class="btn btn-danger" type="button">Отсъствия</button>

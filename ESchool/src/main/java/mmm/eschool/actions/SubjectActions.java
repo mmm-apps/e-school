@@ -1,5 +1,8 @@
 package mmm.eschool.actions;
 
+import static com.opensymphony.xwork2.Action.ERROR;
+import static com.opensymphony.xwork2.Action.INPUT;
+import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import java.util.ArrayList;
@@ -13,14 +16,22 @@ import mmm.eschool.model.Remark;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.TeacherSubjects;
 import mmm.eschool.model.managers.Manager;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.SessionAware;
 
 /**
  *
  * @author Denev
  */
-public class SubjectsList extends ActionSupport implements ModelDriven<Subject>, SessionAware 
+public class SubjectActions extends ActionSupport implements ModelDriven<Subject>, SessionAware 
 {
+  private static List<String> subjectTypes = new ArrayList<String>();
+  static
+  {
+    subjectTypes.add("Задължителен");
+    subjectTypes.add("Избираем");
+  }
+  
   private Map<String, Object> session;
   private Subject subject = new Subject();
   private final Manager subjectMgr = new Manager(Subject.class);
@@ -29,8 +40,8 @@ public class SubjectsList extends ActionSupport implements ModelDriven<Subject>,
   private final Manager markMgr = new Manager(Mark.class);
   private final Manager remarkMgr = new Manager(Remark.class);
   private final Manager tsMgr = new Manager(TeacherSubjects.class);
-  private String userCon;
   private List<Subject> subjectsList = new ArrayList<Subject>();
+  private String subjectIdParam;
   
   @Override
   public void setSession(final Map<String, Object> map) { this.session = map; }
@@ -39,12 +50,38 @@ public class SubjectsList extends ActionSupport implements ModelDriven<Subject>,
   public Subject getModel() { return subject; }
 
   @Override
-  public String execute() { return null; }
+  public String execute() { return SUCCESS; }
   
   public String list()
   {
     subjectsList = subjectMgr.getEntityList();
     return SUCCESS;
+  }
+  
+  public String addSubject() throws Exception
+  {
+    if (StringUtils.isEmpty(subject.getSubjectName()) || StringUtils.isEmpty(subject.getSubjectKind()))
+    {
+      addFieldError("subjectName", "Subject name or subject type can't be blank!!!");
+      return INPUT;
+    }
+    
+    if (isSubjectNameAndTypeExists(subject.getSubjectName(), subject.getSubjectKind()))
+    {
+      addFieldError("subjectName", "Subject exists!");
+      return INPUT;
+    }
+    
+    try
+    {
+      subjectMgr.add(subject);
+      return SUCCESS;
+    }
+    catch (AnException ex)
+    {
+      ex.printStackTrace();
+      return ERROR;
+    }
   }
   
   public String delete() throws AnException
@@ -55,7 +92,7 @@ public class SubjectsList extends ActionSupport implements ModelDriven<Subject>,
     boolean isSubjUsedInRemarks = false;
     boolean isSubjUsedInTSubjets = false;
 
-    final Subject subject = (Subject) subjectMgr.getEntityById(Integer.parseInt(userCon));
+    subject = (Subject) subjectMgr.getEntityById(Integer.parseInt(subjectIdParam));
 
     for (final Absence a : (ArrayList<Absence>) absenceMgr.getEntityList())
     {
@@ -107,29 +144,39 @@ public class SubjectsList extends ActionSupport implements ModelDriven<Subject>,
       //Трябва да се покаже съобщение за грешка както при изтрижане на Клас в ClassesList.java
       return INPUT;
     }
-
-    subjectMgr.del(Integer.parseInt(userCon));
+    
+    subjectMgr.del(subject);
     return SUCCESS;
   }
   
-  public Subject getSubject() 
+  private boolean isSubjectNameAndTypeExists(String subjectName, String SubjectKind)
+  {
+    for (final Subject subject : (ArrayList<Subject>) subjectMgr.getEntityList())
+    {
+      if(subject.getSubjectName().equals(subjectName) && subject.getSubjectKind().equals(SubjectKind))
+        return true;
+    }
+    return false;
+  }
+
+  public static List<String> getSubjectTypes()
+  {
+    return subjectTypes;
+  }
+
+  public static void setSubjectTypes(List<String> subjectTypes)
+  {
+    SubjectActions.subjectTypes = subjectTypes;
+  }
+
+  public Subject getSubject()
   {
     return subject;
   }
 
-  public void setSubject(Subject subject) 
+  public void setSubject(Subject subject)
   {
     this.subject = subject;
-  }
-
-  public String getUserCon() 
-  {
-    return userCon;
-  }
-
-  public void setUserCon(String userCon) 
-  {
-    this.userCon = userCon;
   }
 
   public List<Subject> getSubjectsList()
@@ -137,8 +184,19 @@ public class SubjectsList extends ActionSupport implements ModelDriven<Subject>,
     return subjectsList;
   }
 
-  public void setSubjectsList(List<Subject> subjectsList) 
+  public void setSubjectsList(List<Subject> subjectsList)
   {
     this.subjectsList = subjectsList;
   }
+
+  public String getSubjectIdParam()
+  {
+    return subjectIdParam;
+  }
+
+  public void setSubjectIdParam(String subjectIdParam)
+  {
+    this.subjectIdParam = subjectIdParam;
+  }
+  
 }
