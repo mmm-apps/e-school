@@ -11,13 +11,14 @@
 <html>
   <link type="text/css" rel="stylesheet" href="CSS/bootstrap.css" media="screen">
   <script src="JS/paging.js"></script>
+  <script src="JS/validation.js"></script>
   <jsp:include page="admin.jsp"></jsp:include>
-  <script>
-    function modalOpen(id) 
-    {
-      $('#'+id).addClass('modal fade in').attr("aria-hidden", "false").show();
-    }
-  </script>
+    <script>
+      function modalOpen(id)
+      {
+        $('#' + id).addClass('modal fade in').attr("aria-hidden", "false").show();
+      }
+    </script>
     <div id="userWelcome">
       <div class="well">
         <h3>Здравейте, Администратор</h3>
@@ -32,68 +33,69 @@
         </h3>
       </div>
       <div class="panel-body">
-          <div id="addButton">
-            <button class="btn btn-info" data-toggle="modal" data-target="#addUsr">Добавяне</button>
-          </div>
+        <div id="addButton">
+          <button class="btn btn-info" data-toggle="modal" data-target="#addUsr">Добавяне</button>
+        </div>
         <div class="modal fade" id="addUsr" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-body">
-                <s:form action = "createUser" cssClass="bs-example form-horizontal">
-              <fieldset>
+              <s:form action = "createUser" cssClass="bs-example form-horizontal" onsubmit="return validateCreateUser(this)">
+                <fieldset>
                   <legend>Добавяне на потребител</legend>
                   <s:fielderror/>
+                  <div id="loginError"></div>
                   <div class = "form-group">
-                      <div class="col-lg-10">
-                          <s:textfield id="userNameInput" key="username" type="text" cssClass="form-control" placeholder="Потребителско име" />
-                      </div>
+                    <div class="col-lg-10">
+                      <s:textfield id="userNameInput" key="username" type="text" cssClass="form-control" placeholder="Потребителско име" />
+                    </div>
                   </div>
                   <div class = "form-group">
-                      <div class="col-lg-10">
-                          <s:password id="passwordInput" key="password" type="text" cssClass="form-control" placeholder="Парола" />
-                      </div>
+                    <div class="col-lg-10">
+                      <s:password id="passwordInput" key="password" type="text" cssClass="form-control" placeholder="Парола" />
+                    </div>
                   </div>
                   <div class = "form-group">
-                      <div class="col-lg-10">
-                          <s:select headerKey="-1" headerValue="Моля изберете роля" 
-                                    list="roleCollection" name="roleList" cssClass="form-control" />
-                      </div>
+                    <div class="col-lg-10">
+                      <s:select headerKey="-1" headerValue="Моля изберете роля" 
+                                list="roleCollection" name="roleList" cssClass="form-control" />
+                    </div>
                   </div> 
                   <div class = "form-group">
-                      <div class="col-lg-10">
-                          <s:textfield id="firstNameInput" key="firstName" type="text" cssClass="form-control" placeholder="Име" />
-                      </div>
+                    <div class="col-lg-10">
+                      <s:textfield id="firstNameInput" key="firstName" type="text" cssClass="form-control" placeholder="Име" />
+                    </div>
                   </div>
                   <div class = "form-group">
-                      <div class="col-lg-10">
-                          <s:textfield id="lastNameInput" key="lastName" type="text" cssClass="form-control" placeholder="Фамилия" />
-                      </div>
+                    <div class="col-lg-10">
+                      <s:textfield id="lastNameInput" key="lastName" type="text" cssClass="form-control" placeholder="Фамилия" />
+                    </div>
                   </div>
                   <div class = "form-group">
-                      <div class="col-lg-10">
-                          <s:textfield id="phoneInput" key="phone" type="text" cssClass="form-control" placeholder="Телефон" />
-                      </div>
+                    <div class="col-lg-10">
+                      <s:textfield id="phoneInput" key="phone" type="text" cssClass="form-control" placeholder="Телефон" />
+                    </div>
                   </div>
                   <div class = "form-group">
-                      <div class="col-lg-10">
-                          <s:textfield id="adressInput" key="address" type="text" cssClass="form-control" placeholder="Адрес" />
-                      </div>
+                    <div class="col-lg-10">
+                      <s:textfield id="adressInput" key="address" type="text" cssClass="form-control" placeholder="Адрес" />
+                    </div>
                   </div>
                   <div class="form-group">
-                      <div class="col-lg-10">
-                          <s:textfield id="emailInput" key="email" type="text" cssClass="form-control" placeholder="E-mail" />
-                      </div>
+                    <div class="col-lg-10">
+                      <s:textfield id="emailInput" key="email" type="text" cssClass="form-control" placeholder="E-mail" />
+                    </div>
                   </div>
-              </fieldset>
+                </fieldset>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Назад</button>
                   <s:submit cssClass="btn btn-info" value="Добави"/>
                 </div>
-           </s:form>
+              </s:form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
       <table id="results" class="table table-striped table-bordered table-hover">
         <thead>
@@ -202,24 +204,24 @@
                                   <s:else><td></td></s:else>
                                   </tr>
                                 </tbody>
-                            </table>
-                          </fieldset>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
-                          </div>
-                        </form>
+                              </table>
+                            </fieldset>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Затвори</button>
+                            </div>
+                          </form>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="well well-sm modal fade" id="edit<s:property value="username" />" style="margin-left: 30%;margin-right: 30%; margin-top: 5%;padding: 3%;">
+                  <div class="well well-sm modal fade" id="edit<s:property value="username" />" style="margin-left: 30%;margin-right: 30%; margin-top: 5%;padding: 3%;">
                   <s:form action="editConfirmUser" method="post" cssClass="bs-example form-horizontal">
                     <fieldset>
                       <legend>Редактиране на потребител</legend>
                       <s:fielderror/>
                       <div class="col-lg-10">
-                       <s:hidden id="userId" key="id" type="text" cssClass="form-control"/>
+                        <s:hidden id="userId" key="id" type="text" cssClass="form-control"/>
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
@@ -243,8 +245,8 @@
                       </div>
                       <div class = "form-group">
                         <div class="col-lg-10">
-                            <s:select headerKey="-1" headerValue="Моля изберете роля" 
-                                      list="roleCollection" name="roleList" cssClass="form-control"/>
+                          <s:select headerKey="-1" headerValue="Моля изберете роля" 
+                                    list="roleCollection" name="roleList" cssClass="form-control"/>
                         </div>
                       </div>
                       <div class = "form-group">
@@ -319,7 +321,7 @@
                       </a>
                       <s:submit cssClass="btn btn-info" value="Запази"/> <!--onclick="$(this).parents('.modal').attr('id')" -->
                     </div>
-                </s:form>
+                  </s:form>
                 </div>
 
               </td>

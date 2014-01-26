@@ -12,10 +12,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <s:form action = "login" method ="post" cssClass ="bs-example form-horizontal" >
+                    <s:form action = "login" method ="post" cssClass ="bs-example form-horizontal" onsubmit="return validateAddSubjectToTeacher(this)">
                         <fieldset>
                             <legend>Вход в системата</legend>
                             <s:fielderror/>
+                            <div id="loginError"></div>
                             <div class = "form-group">
                                 <div class="col-lg-10">
                                     <s:textfield id="userNameInput" key="username" cssClass="form-control" placeholder="Потребителксо име" />

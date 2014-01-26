@@ -8,12 +8,14 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
-  <%@include file="adminMenu.jsp"%>         
+  <%@include file="adminMenu.jsp"%>   
+  <script src="JS/validation.js"></script>
   <div class="well well-sm" style="margin-left: 30%;margin-right: 30%; margin-top: 5%;padding: 3%">
-    <s:form action = "createRemark" cssClass="bs-example form-horizontal">
+    <s:form action = "createRemark" cssClass="bs-example form-horizontal" onsubmit="return validateAddRemark(this)">
       <fieldset>
         <legend>Добавяне на Забележка</legend>
         <s:fielderror/>
+        <div id="loginError"></div>
         <div class = "form-group">
           <div class="col-lg-10">
             <s:textfield id="remarkNameInput" key="remark" type="text" cssClass="form-control" placeholder="Напишете забележката" />

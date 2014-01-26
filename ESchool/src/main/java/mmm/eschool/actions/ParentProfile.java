@@ -26,6 +26,7 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class ParentProfile extends ActionSupport implements SessionAware
 {
+
   private Map session;
   private final Manager studentMgr = new Manager(Student.class);
   private final Manager remarkMgr = new Manager(Remark.class);
@@ -42,9 +43,12 @@ public class ParentProfile extends ActionSupport implements SessionAware
   private String child;
   private int excusedAbsences = 0;
   private int unexcusedAbsences = 0;
-  
+
   @Override
-  public void setSession(final Map<String, Object> map) { this.session = map; }
+  public void setSession(final Map<String, Object> map)
+  {
+    this.session = map;
+  }
 
   @Override
   public String execute()
@@ -52,15 +56,19 @@ public class ParentProfile extends ActionSupport implements SessionAware
     boolean hasThatChild = false;
     final User parentUser = (User) session.get(Constants.USER);
     final User sessionUser = ((Student) studentMgr.getEntityById(Integer.parseInt(child))).getUser();
-    
+
     for (final Student s : parentUser.getParent().getStudentsSet()) 
     {
-      if (s.getId() == Integer.parseInt(child))
+      if (s.getId() == Integer.parseInt(child)) 
+      {
         hasThatChild = true;
+      }
     }
-    if (!hasThatChild)
+    if (!hasThatChild) 
+    {
       return ERROR;
-    
+    }
+
     final Student student = sessionUser.getStudent();
     studentName = student.getUserInfo().getFirstName() + " " + student.getUserInfo().getLastName();
     fullName = "Име:" + student.getUserInfo().getFirstName() + " " + student.getUserInfo().getLastName();
@@ -80,23 +88,27 @@ public class ParentProfile extends ActionSupport implements SessionAware
       id++;
       homeworks.add(studentHomework);
     }
-    
+
     final Manager markMgr = new Manager(Mark.class);
     final List<Mark> marks = new ArrayList<Mark>();
     for (final Mark mark : (ArrayList<Mark>) markMgr.getEntityList()) 
     {
-      if (mark.getStudentId().getId() == sessionUser.getStudent().getId())
+      if (mark.getStudentId().getId() == sessionUser.getStudent().getId()) 
+      {
         marks.add(mark);
+      }
     }
-    
+
     final List<String> studentSubject = new ArrayList<String>();
 
     for (final Mark mark : marks) 
     {
-      if (!studentSubject.contains(mark.getSubjectId().getSubjectName()))
+      if (!studentSubject.contains(mark.getSubjectId().getSubjectName())) 
+      {
         studentSubject.add(mark.getSubjectId().getSubjectName());
+      }
     }
-    
+
     for (final String subjectName : studentSubject) 
     {
       ArrayList<String> temp = new ArrayList<String>();
@@ -105,23 +117,34 @@ public class ParentProfile extends ActionSupport implements SessionAware
       {
         if (mark.getSubjectId().getSubjectName().equals(subjectName)) 
         {
-          switch (mark.getMark())
-          {
-            case 6: temp.add("Отличен 6"); break;
-            case 5: temp.add("Мн.добър 5"); break;
-            case 4: temp.add("Добър 4"); break;
-            case 3: temp.add("Среден 3"); break;
-            case 2: temp.add("Слаб 2"); break;
+          switch (mark.getMark()) {
+            case 6:
+              temp.add("Отличен 6");
+              break;
+            case 5:
+              temp.add("Мн.добър 5");
+              break;
+            case 4:
+              temp.add("Добър 4");
+              break;
+            case 3:
+              temp.add("Среден 3");
+              break;
+            case 2:
+              temp.add("Слаб 2");
+              break;
           }
         }
       }
 
-      while (temp.size() < 7)
+      while (temp.size() < 7) 
+      {
         temp.add("");
-      
+      }
+
       studentSubjMarks.add(temp);
     }
-    
+
     for (final Remark remark : getReamarksByStudentId(sessionUser.getStudent().getId())) 
     {
       StudentRemarks studentRemark = new StudentRemarks();
@@ -136,11 +159,15 @@ public class ParentProfile extends ActionSupport implements SessionAware
     {
       if (ab.getStudentId().getId() == sessionUser.getStudent().getId()) 
       {
-        if (ab.isAbsenceType() == true)
+        if (ab.isAbsenceType() == true) 
+        {
           excusedAbsences += ab.getValue();
+        }
 
-        if (ab.isAbsenceType() == false)
+        if (ab.isAbsenceType() == false) 
+        {
           unexcusedAbsences += ab.getValue();
+        }
       }
     }
     return SUCCESS;
@@ -151,25 +178,29 @@ public class ParentProfile extends ActionSupport implements SessionAware
     session = ActionContext.getContext().getSession();
     final User sessionUser = (User) session.get(Constants.USER);
 
-    for (final Student s : (ArrayList<Student>) studentMgr.getEntityList()) 
-    {
-      if (s.getParentId().getId() == sessionUser.getParent().getId())
-        childList.add(s);
+    for (final Student s : (ArrayList<Student>) studentMgr.getEntityList()) {
+      if (s.getParentId() != null && sessionUser.getParent() != null) 
+      {
+        if (s.getParentId().getId() == sessionUser.getParent().getId()) 
+        {
+          childList.add(s);
+        }
+      }
     }
     return SUCCESS;
   }
-  
+
   private List<Remark> getReamarksByStudentId(int studentId)
   {
     final List<Remark> result = new ArrayList<Remark>();
-    for (final Remark r : (ArrayList<Remark>) remarkMgr.getEntityList())
-    {
-      if(r.getStudentId().getId() == studentId)
+    for (final Remark r : (ArrayList<Remark>) remarkMgr.getEntityList()) {
+      if (r.getStudentId().getId() == studentId) {
         result.add(r);
+      }
     }
     return result;
   }
-  
+
   public String getStudentName()
   {
     return studentName;
