@@ -26,9 +26,9 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class TeacherActions extends ActionSupport implements ModelDriven<TeacherSubjects>, SessionAware
 {
-  private static List<String> classNamesList = new ArrayList<String>();
-  private static List<String> subjectNamesList = new ArrayList<String>();
-  private static List<String> teacherNamesList = new ArrayList<String>();
+  private  List<String> classNamesList = new ArrayList<String>();
+  private  List<String> subjectNamesList = new ArrayList<String>();
+  private  List<String> teacherNamesList = new ArrayList<String>();
   
   private Map session;
   private TeacherSubjects teacherSubjects = new TeacherSubjects();
@@ -168,74 +168,35 @@ public class TeacherActions extends ActionSupport implements ModelDriven<Teacher
     }
     return null;
   }
-  
-  public List<String> getClassList()
+
+  public List<String> getClassNamesList()
   {
     return classNamesList;
   }
 
-  public void setClassList(List<String> classList)
+  public void setClassNamesList(List<String> classNamesList)
   {
-    this.classNamesList = classList;
+    this.classNamesList = classNamesList;
   }
 
-  public String getClassName()
-  {
-    return className;
-  }
-
-  public void setClassName(String className)
-  {
-    this.className = className;
-  }
-
-  public List<String> getSubjectsList()
+  public List<String> getSubjectNamesList()
   {
     return subjectNamesList;
   }
 
-  public void setSubjectsList(List<String> subjectsList) {
-    this.subjectNamesList = subjectsList;
-  }
-
-  public String getSubjectName()
+  public void setSubjectNamesList(List<String> subjectNamesList)
   {
-    return subjectName;
+    this.subjectNamesList = subjectNamesList;
   }
 
-  public void setSubjectName(String subjectName)
-  {
-    this.subjectName = subjectName;
-  }
-
-  public List<String> getTeachersList()
+  public List<String> getTeacherNamesList()
   {
     return teacherNamesList;
   }
 
-  public void setTeachersList(List<String> teachersList)
+  public void setTeacherNamesList(List<String> teacherNamesList)
   {
-    this.teacherNamesList = teachersList;
-  }
-
-  public String getTeacherName()
-  {
-    return teacherName;
-  }
-
-  public void setTeacherName(String teacherName)
-  {
-    this.teacherName = teacherName;
-  }
-
-  public void setTeachersSubjectsList(List<TeacherSubjects> teachersSubjectsList) 
-  {
-    this.teachersSubjectsList = teachersSubjectsList;
-  }
-
-  public List<TeacherSubjects> getTeachersSubjectsList() 
-  {
-    return teachersSubjectsList;
+    this.teacherNamesList = teacherNamesList;
   }
 
   public TeacherSubjects getTeacherSubjects()
@@ -258,13 +219,53 @@ public class TeacherActions extends ActionSupport implements ModelDriven<Teacher
     this.teacherSubjPk = teacherSubjPk;
   }
 
-  public String getTsid()
+  public List<TeacherSubjects> getTeachersSubjectsList()
+  {
+    return teachersSubjectsList;
+  }
+
+  public void setTeachersSubjectsList(List<TeacherSubjects> teachersSubjectsList)
+  {
+    this.teachersSubjectsList = teachersSubjectsList;
+  }
+
+  public String getClassName()
+  {
+    return className;
+  }
+
+  public void setClassName(String className)
+  {
+    this.className = className;
+  }
+
+  public String getSubjectName()
+  {
+    return subjectName;
+  }
+
+  public void setSubjectName(String subjectName)
+  {
+    this.subjectName = subjectName;
+  }
+
+  public String getTeacherName()
+  {
+    return teacherName;
+  }
+
+  public void setTeacherName(String teacherName)
+  {
+    this.teacherName = teacherName;
+  }
+
+  public String getTdIdParam()
   {
     return tdIdParam;
   }
 
-  public void setTsid(String tsid)
+  public void setTdIdParam(String tdIdParam)
   {
-    this.tdIdParam = tsid;
+    this.tdIdParam = tdIdParam;
   }
 }

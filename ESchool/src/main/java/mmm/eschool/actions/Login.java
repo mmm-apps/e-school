@@ -85,15 +85,9 @@ public class Login extends ActionSupport implements ModelDriven<User>, SessionAw
   {
     boolean correct = true;
     if (StringUtils.isEmpty(user.getUsername()))
-    {
-      addFieldError("username", "Username cannot be blank!");
-      correct = false;
-    }
+      addFieldError("username", "Потребителското име те може да бъде празна!");
     if (StringUtils.isEmpty(user.getPassword()))
-    {
-      addFieldError("password", getText("Password cannot be blank!"));
-      correct = false;
-    }
+      addFieldError("password", getText("Паролата не може да бъде празна!"));
     
     return correct;
   }
