@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.Constants;
-import mmm.eschool.SendEmail;
+import mmm.eschool.EmailSender;
 import mmm.eschool.model.Absence;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
@@ -37,7 +37,7 @@ public class AbsencesActions extends ActionSupport implements SessionAware, Mode
     absenceValueList.add("1");
   }
   
-  private Map session;
+  private Map<String, Object> session;
   Absence absence = new Absence();
   private Student student;
   private final Manager studentMgr = new Manager(Student.class);
@@ -119,7 +119,7 @@ public class AbsencesActions extends ActionSupport implements SessionAware, Mode
     absenceMgr.add(absence);
     student.getAbsencesSet().add(absence);
     studentMgr.update(student);
-    SendEmail.tryCreateAndSendEmail(absence);
+    EmailSender.tryCreateAndSendEmail(absence);
     return SUCCESS;
   }
   

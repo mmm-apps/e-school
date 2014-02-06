@@ -26,7 +26,7 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class ParentProfile extends ActionSupport implements SessionAware
 {
-  private Map session;
+  private Map<String, Object> session;
   private final Manager studentMgr = new Manager(Student.class);
   private final Manager remarkMgr = new Manager(Remark.class);
   private List<Student> childList = new ArrayList<Student>();

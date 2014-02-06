@@ -30,7 +30,7 @@ public class TeacherActions extends ActionSupport implements ModelDriven<Teacher
   private  List<String> subjectNamesList = new ArrayList<String>();
   private  List<String> teacherNamesList = new ArrayList<String>();
   
-  private Map session;
+  private Map<String, Object> session;
   private TeacherSubjects teacherSubjects = new TeacherSubjects();
   private TeacherSubjectsPK teacherSubjPk;
   private final Manager teacherSubjMgr = new Manager(TeacherSubjects.class);
@@ -42,7 +42,7 @@ public class TeacherActions extends ActionSupport implements ModelDriven<Teacher
   private String className;
   private String subjectName;
   private String teacherName;
-  private String tdIdParam;
+  private String tsIdParam;
   
   @Override
   public void setSession(final Map<String, Object> map) { this.session = map; }
@@ -124,7 +124,7 @@ public class TeacherActions extends ActionSupport implements ModelDriven<Teacher
 
   public String delete() throws AnException
   {
-    int teacherSubjectId = Integer.parseInt(tdIdParam);
+    int teacherSubjectId = Integer.parseInt(tsIdParam);
     Classes clas = ((TeacherSubjects) teacherSubjMgr.getEntityById(teacherSubjectId) ).getClasses();
     Subject subject = ((TeacherSubjects) teacherSubjMgr.getEntityById(teacherSubjectId)).getSubject();
     for (final Student s : clas.getStudentList())
@@ -259,13 +259,13 @@ public class TeacherActions extends ActionSupport implements ModelDriven<Teacher
     this.teacherName = teacherName;
   }
 
-  public String getTdIdParam()
+  public String getTsIdParam()
   {
-    return tdIdParam;
+    return tsIdParam;
   }
 
-  public void setTdIdParam(String tdIdParam)
+  public void setTsIdParam(String tsIdParam)
   {
-    this.tdIdParam = tdIdParam;
+    this.tsIdParam = tsIdParam;
   }
 }

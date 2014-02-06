@@ -11,7 +11,7 @@
     <jsp:include page="MainAdmin.jsp"></jsp:include>
     <div id="userWelcome">
         <div class="well">
-            <h3>Здравейте, Администратор</h3>
+            <h3>Здравейте, <s:property value="%{#session.user.username}"/></h3>
         </div>
     </div>
     <div id="spacee" style="margin-top: 80px;"></div>
@@ -23,18 +23,16 @@
         </div>
         <div class="panel-body">
 
-            <a href="<s:url action='selectSubjectType'/>" >
-                <div id="addButton">
-                    <button class="btn btn-info btn-lg btn-block">Добавяне</button>
-                </div>
-            </a>
+          <div id="addButton">
+            <button class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#addNewSubject">Добавяне</button>
+          </div>
 
             <table class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Предмет</th>
                         <th>Тип на предмета</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,7 +54,7 @@
             </table>
         </div>
                 
-            <div class="modal fade" id="addAbsence" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal fade" id="addNewSubject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-body">

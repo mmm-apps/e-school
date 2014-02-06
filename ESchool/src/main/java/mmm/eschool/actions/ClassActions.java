@@ -8,7 +8,6 @@ package mmm.eschool.actions;
 import static com.opensymphony.xwork2.Action.ERROR;
 import static com.opensymphony.xwork2.Action.INPUT;
 import static com.opensymphony.xwork2.Action.SUCCESS;
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import java.util.ArrayList;
@@ -81,9 +80,8 @@ public class ClassActions extends ActionSupport implements ModelDriven<Classes>,
   
   public String list()
   {
-    ActionContext.getContext().getSession().get(Constants.USER);
     User user = (User) session.get(Constants.USER);
-    if (user == null) return SUCCESS; // TO DO user-a beshe null pri add na ocenka mislq 4e 
+    if (user == null) return SUCCESS;
     roleName = user.getRolesSet().get(0).getRoleName();
     if(roleName.equals("Администратор"))
       classesList = classMgr.getEntityList();
@@ -98,6 +96,7 @@ public class ClassActions extends ActionSupport implements ModelDriven<Classes>,
         }
       }
     }
+    init();
     return SUCCESS;
   }
 

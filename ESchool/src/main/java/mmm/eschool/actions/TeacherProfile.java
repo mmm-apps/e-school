@@ -19,7 +19,7 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class TeacherProfile extends ActionSupport implements SessionAware
 {
-  private Map session;
+  private Map<String, Object> session;
   private String teacherName;
   private String fullName;
   private String telephone;

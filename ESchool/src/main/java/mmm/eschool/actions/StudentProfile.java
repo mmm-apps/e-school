@@ -23,7 +23,7 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class StudentProfile extends ActionSupport implements SessionAware
 {
-  private Map session;
+  private Map<String, Object> session;
   private final Manager remarkMgr = new Manager(Remark.class);
   private String studentName;
   private String clas;

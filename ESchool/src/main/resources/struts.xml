@@ -126,16 +126,12 @@
       <result name="success">ClassSubjects.jsp</result>
     </action>
     
-    <action name="addStudentToClass" method="init" class="mmm.eschool.actions.ClassActions">
-      <result name="success">Classes.jsp</result>
-    </action>
-    
     <action name="showClassStudents" method="getClassStudents" class="mmm.eschool.actions.ClassActions">
       <result name="success">Students.jsp</result>
     </action>
     
     <action name="changeStudentClass" method="changeStudentClass" class="mmm.eschool.actions.ClassActions">
-      <result name="success" type="redirect">addStudentToClass</result> 
+      <result name="success" type="redirect">classesList</result> 
     </action>
     <!-- END OF CLASS ACTIONS -->  
     
@@ -218,7 +214,7 @@
     
     <action name="deleteSubject" method="delete" class="mmm.eschool.actions.SubjectActions">
       <result name="success" type="redirect">listSubject</result>
-      <result name="input" type="redirect">Subjects.jsp</result>
+      <result name="input" type="redirect">listSubject</result>
     </action>
     <!-- END OF SUBJECT ACTIONS -->  
     

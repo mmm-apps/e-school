@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.Constants;
-import mmm.eschool.SendEmail;
+import mmm.eschool.EmailSender;
 import mmm.eschool.model.Mark;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
@@ -32,7 +32,7 @@ public class MarkActions extends ActionSupport implements SessionAware, ModelDri
     marksList.add("6");
   }
   
-  private Map session;
+  private Map<String, Object> session;
   private Mark mark = new Mark();
   private Student student;
   private final Manager markMgr = new Manager(Mark.class);
@@ -78,7 +78,7 @@ public class MarkActions extends ActionSupport implements SessionAware, ModelDri
     mark.setTeacherId(teacher.getTeacher());
     mark.setDateCreated(Constants.resolveDate(date));
     markMgr.add(mark);
-    SendEmail.tryCreateAndSendEmail(mark);
+    EmailSender.tryCreateAndSendEmail(mark);
     
     student.getMarksSet().add(mark);
     studentMgr.update(student);

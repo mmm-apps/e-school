@@ -21,7 +21,7 @@ import mmm.eschool.model.Remark;
  *
  * @author MMihov
  */
-public class SendEmail 
+public class EmailSender 
 {
   private static final String email = "mmmeschool";
   private static final String password = "MishoMiroMarijan";
@@ -30,7 +30,35 @@ public class SendEmail
   private final String subject;
   private final String text;
 
-  private SendEmail(String adressTo, String subject, String text) 
+  private static final Properties props = new Properties();
+  private static final Session mailSession;
+  private static final Message msg;
+  
+  static
+  {
+    props.put("mail.smtp.host", "smtp.gmail.com"); // za gmail naprimer e smtp.gmail.com
+    props.put("mail.smtp.auth", "true");
+    props.put("mail.debug", "true");
+    props.put("mail.smtp.starttls.enable", "true");
+    props.put("mail.smtp.port", "465");
+    props.put("mail.smtp.socketFactory.port", "465");
+    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+    props.put("mail.smtp.socketFactory.fallback", "false");
+    
+    mailSession = Session.getInstance(props, new javax.mail.Authenticator() 
+    {
+      @Override
+      protected PasswordAuthentication getPasswordAuthentication() 
+      {
+        return new PasswordAuthentication(email, password);
+      }
+    });
+    
+    mailSession.setDebug(true); // Enable the debug mode
+    msg = new MimeMessage(mailSession);
+  }
+  
+  private EmailSender(String adressTo, String subject, String text) 
   {
     this.adressTo = adressTo;
     this.subject = subject;
@@ -39,49 +67,37 @@ public class SendEmail
 
   private void send() 
   {
-    try 
+    new Thread(new Runnable()
     {
-      Properties props = new Properties();
-      props.put("mail.smtp.host", "smtp.gmail.com"); // za gmail naprimer e smtp.gmail.com
-      props.put("mail.smtp.auth", "true");
-      props.put("mail.debug", "true");
-      props.put("mail.smtp.starttls.enable", "true");
-      props.put("mail.smtp.port", "465");
-      props.put("mail.smtp.socketFactory.port", "465");
-      props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-      props.put("mail.smtp.socketFactory.fallback", "false");
-
-      Session mailSession = Session.getInstance(props, new javax.mail.Authenticator() 
+      @Override
+      public void run()
       {
-        @Override
-        protected PasswordAuthentication getPasswordAuthentication() 
+        synchronized(msg)
         {
-          return new PasswordAuthentication(email, password);
+          try 
+          {
+            //--[ Set the FROM, TO, DATE and SUBJECT fields
+            msg.setFrom(new InternetAddress(email));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(adressTo));
+            msg.setSentDate(new Date());
+            msg.setSubject(subject);
+            msg.setText(text);
+            Transport.send(msg);
+            System.out.println("Имейлът се изпрати успешно!");
+          } 
+          catch (MessagingException E) 
+          {
+            System.out.println("Имейлът не успя да се изпрати!");
+            System.out.println(E);
+          }
         }
-      });
-
-      mailSession.setDebug(true); // Enable the debug mode
-
-      Message msg = new MimeMessage(mailSession);
-
-      //--[ Set the FROM, TO, DATE and SUBJECT fields
-      msg.setFrom(new InternetAddress(email));
-      msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(adressTo));
-      msg.setSentDate(new Date());
-      msg.setSubject(subject);
-      msg.setText(text);
-      Transport.send(msg);
-    } 
-    catch (MessagingException E) 
-    {
-      System.out.println("РћРїР° РЅРµС‰Рѕ СЃРµ РїСЂРµС†Р°РєР°!");
-      System.out.println(E);
-    }
+      }
+    }).start();
   }
   
   public static void tryCreateAndSendEmail(final Object entity)
   {
-    SendEmail sendMail = null;
+    EmailSender sendMail = null;
     String emailAddress;
     String subject;
     String data;
@@ -91,7 +107,7 @@ public class SendEmail
       emailAddress = rem.getStudentId().getParentId().getUserInfo().getEmail();
       subject = "Р—Р°Р±РµР»РµР¶РєР° РїРѕ " + rem.getSubjectId().getSubjectName();
       data = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё Р·Р°Р±РµР»РµР¶РєР° Р·Р°Р±РµР»РµР¶РєР° РїРѕ " + rem.getSubjectId().getSubjectName() + ",РєРѕСЏС‚Рѕ РіР»Р°СЃРё:" + rem.getRemark();
-      sendMail = new SendEmail(emailAddress, subject, data);
+      sendMail = new EmailSender(emailAddress, subject, data);
     }
     if (entity instanceof Mark)
     {
@@ -99,7 +115,7 @@ public class SendEmail
       emailAddress = mark.getStudentId().getParentId().getUserInfo().getEmail();
       subject = "РћС†РµРЅРєР° РїРѕ " + mark.getSubjectId().getSubjectName();
       data = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё РѕС†РµРЅРєР° РїРѕ " + mark.getSubjectId().getSubjectName() + "СЃСЉСЃ СЃС‚РѕР№РЅРѕСЃС‚:"+mark.getMark();
-      sendMail = new SendEmail(emailAddress, subject, data);
+      sendMail = new EmailSender(emailAddress, subject, data);
     }
     if (entity instanceof Absence)
     {
@@ -108,7 +124,7 @@ public class SendEmail
       subject = "РћС‚СЃСЉСЃС‚РІРёРµ РїРѕ " + absence.getSubjectId().getSubjectName();
       data = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё РѕС‚СЃСЉСЃС‚РІРёРµ РїРѕ " + absence.getSubjectId().getSubjectName()+ " РЅР° "+ absence.getAbsenceDate() + 
              "СЃСЉСЃ СЃС‚РѕР№РЅРѕСЃС‚:" + absence.getValue();
-      sendMail = new SendEmail(emailAddress, subject, data);
+      sendMail = new EmailSender(emailAddress, subject, data);
     }
     if (sendMail != null)
       sendMail.send();

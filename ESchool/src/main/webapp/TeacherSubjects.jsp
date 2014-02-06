@@ -12,7 +12,7 @@
   <script src="JS/validation.js"></script>
   <div id="userWelcome">
     <div class="well">
-      <h3>Здравейте, Администратор</h3>
+      <h3>Здравейте, <s:property value="%{#session.user.username}"/></h3>
     </div>
   </div>
   <div id="spacee" style="margin-top: 80px;"></div>
@@ -84,7 +84,7 @@
               <td><s:property value="classes.className" /></td>
               <td>
                 <s:url id="deleteTeacherSubject" action="deleteTeacherSubject">
-                  <s:param name="tsid" value="%{id}"></s:param>
+                  <s:param name="tsIdParam" value="%{id}"></s:param>
                 </s:url>
                 <s:a href="%{deleteTeacherSubject}">
                   <button class="btn btn-danger" type="button">Изтриване</button>

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.Constants;
-import mmm.eschool.SendEmail;
+import mmm.eschool.EmailSender;
 import mmm.eschool.model.Remark;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
@@ -72,7 +72,7 @@ public class RemarkActions extends ActionSupport implements SessionAware, ModelD
     try 
     {
       remarkMgr.add(remark);
-      SendEmail.tryCreateAndSendEmail(remark);
+      EmailSender.tryCreateAndSendEmail(remark);
     } 
     catch (AnException ex) 
     {
