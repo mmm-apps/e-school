@@ -14,7 +14,7 @@
   <%@include file="MainAdmin.jsp"%>
   <div id="userWelcome">
     <div class="well">
-      <h3>Здравейте, <s:property value="%{#session.user.rolesSet[0].roleName}"/></h3>
+      <h3>Здравейте, <s:property value="%{#session.user.username}"/></h3>
     </div>
   </div>
   <div id="spacee" style="margin-top: 80px;"></div>

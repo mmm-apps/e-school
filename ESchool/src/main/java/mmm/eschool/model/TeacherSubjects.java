@@ -7,7 +7,7 @@
 package mmm.eschool.model;
 
 import java.io.Serializable;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,7 +30,7 @@ public class TeacherSubjects implements Serializable
   @GeneratedValue(strategy = GenerationType.AUTO, generator = "teacher_subjects_seq")
   private int id;
 
-  @EmbeddedId
+  @Embedded
   protected TeacherSubjectsPK teacherSubjectsPK;
   
   @JoinColumn(name = "teacher_id", referencedColumnName = "id", insertable = false, updatable = false)

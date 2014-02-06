@@ -159,12 +159,12 @@ public class SubjectActions extends ActionSupport implements ModelDriven<Subject
     return false;
   }
 
-  public static List<String> getSubjectTypes()
+  public List<String> getSubjectTypes()
   {
     return subjectTypes;
   }
 
-  public static void setSubjectTypes(List<String> subjectTypes)
+  public void setSubjectTypes(List<String> subjectTypes)
   {
     SubjectActions.subjectTypes = subjectTypes;
   }

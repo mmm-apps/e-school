@@ -20,7 +20,7 @@
   </script>
     <div id="userWelcome">
       <div class="well">
-        <h3>Здравейте, Администратор</h3>
+        <h3>Здравейте, <s:property value="%{#session.user.username}"/></h3>
       </div>
     </div>
 
@@ -239,12 +239,6 @@
                       <div class = "form-group">
                         <div class="col-lg-10">
                           <s:password id="reNewPassword" key="reNewPassword" value="" type="text" cssClass="form-control" placeholder="Нова Парола Отново" />
-                        </div>
-                      </div>
-                      <div class = "form-group">
-                        <div class="col-lg-10">
-                            <s:select headerKey="-1" headerValue="Моля изберете роля" 
-                                      list="roleCollection" name="roleList" cssClass="form-control"/>
                         </div>
                       </div>
                       <div class = "form-group">

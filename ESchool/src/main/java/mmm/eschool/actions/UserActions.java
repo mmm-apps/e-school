@@ -31,10 +31,11 @@ public class UserActions extends ActionSupport implements ModelDriven<User>, Ses
   private List<User> usersList = new ArrayList<User>();
   private String roleListVal, userIdParam, newPassword, reNewPassword;
   private String firstName, lastName, phone, address, email;
-  //private String role;
 
   @Override
   public void setSession(final Map<String, Object> map) { this.session = map; }
+
+//  public Map<String, Object> getSession() { return session; }
   
   @Override
   public User getModel() { return user; }
@@ -123,22 +124,16 @@ public class UserActions extends ActionSupport implements ModelDriven<User>, Ses
       teacher.setUser(user);
     }
     
-    if (!role.getUsersSet().contains(user))
-      role.getUsersSet().add(user);
-    if (!user.getRolesSet().contains(role))
-      user.getRolesSet().add(role);
+    role.getUsersSet().add(user);
+    user.getRolesSet().add(role);
     
-    try
+    if (userMgr.saveOrUpdateInTransaction(role, user))
     {
-      userMgr.add(user);
       addFieldError("username", "The data was successufully recorded!");
       return SUCCESS;
     }
-    catch (AnException ex)
-    {
-      ex.printStackTrace();
-    }
-    return ERROR;
+    else
+      return ERROR;
   }
 
   public String delete() throws AnException
@@ -166,29 +161,15 @@ public class UserActions extends ActionSupport implements ModelDriven<User>, Ses
       user.setPassword(newPassword);
     }
     
-    final Role role = getRoleByName(roleListVal);
-    if (role == null)
-    {
-      addFieldError("roleListVal", "Моля, изберете роля от списъка!");
-      return INPUT;
-    }
-    
-    if (!user.getRolesSet().contains(role))
-    {
-      user.getRolesSet().clear(); // vremenno e taka
-      user.getRolesSet().add(role);
-    }
-    
     user.setPassword(oldUser.getPassword());
-    
-    // TO DO Да се махне възможността за едит на ролята
-    if (user.getStudent() != null )
-      user.getStudent().setId(user.getId());
-    
-    if (user.getParent() != null)
+    String userRoleName = oldUser.getRolesSet().get(0).getRoleName();
+    if (userRoleName.equals(mmm.eschool.Constants.PARENT))
       user.getParent().setId(user.getId());
-    
-    if (user.getTeacher() != null)
+    else
+    if (userRoleName.equals(mmm.eschool.Constants.STUDENT))
+      user.getStudent().setId(user.getId());
+    else
+    if (userRoleName.equals(mmm.eschool.Constants.TEACHER))
       user.getTeacher().setId(user.getId());
     
     if (userMgr.update(user))
