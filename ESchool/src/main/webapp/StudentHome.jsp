@@ -52,7 +52,6 @@
                     <h3 class="panel-title"><s:label key="adress" /></h3>
                   </div>
                 </div>
-                <button  type="submit" class="btn btn-info" style="margin-left: 40%;" data-toggle="modal" data-target="#EditStudentProfile">Промени данните</button>
               </div>
             </div>
             <div class="tab-pane fade" id="marks">

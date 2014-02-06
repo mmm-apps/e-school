@@ -1,5 +1,6 @@
 package mmm.eschool.actions;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class StudentProfile extends ActionSupport implements SessionAware
   @Override
   public String execute()
   {
-    final User sessionUser = (User) session.get(Constants.USER);
+    final User sessionUser = (User) ActionContext.getContext().getSession().get(Constants.USER);
     final Student student = sessionUser.getStudent();
     studentName = student.getUserInfo().getFirstName() + " " + student.getUserInfo().getLastName();
     fullName = "Име:" + student.getUserInfo().getFirstName() + " " + student.getUserInfo().getLastName();
