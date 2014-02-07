@@ -117,6 +117,18 @@
       <result name="success" type="redirect">teacherSubjectsList</result>
             <result name="error">ERROR.jsp</result>
     </action>
+        
+    <action name="changeStudentParent" method="list" class="mmm.eschool.actions.TeacherActions">
+      <result name="success">ChangeParent.jsp</result>
+    </action>
+    
+    <action name="setNewStudentParent" method="setNewStudentParent" class="mmm.eschool.actions.TeacherActions">
+        <result name="success" type="redirect">classesList</result>
+    </action>
+    
+    <action name="deleteStudentParent" method="deleteStudentParent" class="mmm.eschool.actions.TeacherActions">
+        <result name="success" type="redirect">classesList</result>
+    </action>
     <!-- END OF TEACHER ACTIONS --> 
     
     <!-- BEGIN OF CLASS ACTIONS --> 

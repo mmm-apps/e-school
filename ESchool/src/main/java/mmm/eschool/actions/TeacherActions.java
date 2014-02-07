@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import mmm.eschool.AnException;
 import mmm.eschool.model.Classes;
+import mmm.eschool.model.Parent;
 import mmm.eschool.model.Student;
 import mmm.eschool.model.Subject;
 import mmm.eschool.model.Teacher;
@@ -29,6 +30,8 @@ public class TeacherActions extends ActionSupport implements ModelDriven<Teacher
   private  List<String> classNamesList = new ArrayList<String>();
   private  List<String> subjectNamesList = new ArrayList<String>();
   private  List<String> teacherNamesList = new ArrayList<String>();
+  private  List<String> parentNamesList = new ArrayList<String>();
+  private  List<String> studentNamesList = new ArrayList<String>();
   
   private Map<String, Object> session;
   private TeacherSubjects teacherSubjects = new TeacherSubjects();
@@ -38,11 +41,15 @@ public class TeacherActions extends ActionSupport implements ModelDriven<Teacher
   private final Manager subjectMgr = new Manager(Subject.class);
   private final Manager classMgr = new Manager(Classes.class);
   private final Manager studentMgr = new Manager(Student.class);
+  private final Manager parentMgr = new Manager(Parent.class);
   private List<TeacherSubjects> teachersSubjectsList = new ArrayList<TeacherSubjects>();
   private String className;
   private String subjectName;
   private String teacherName;
+  private String parentName;
+  private String studentName;
   private String tsIdParam;
+  private String studentIdParam;
   
   @Override
   public void setSession(final Map<String, Object> map) { this.session = map; }
@@ -119,6 +126,14 @@ public class TeacherActions extends ActionSupport implements ModelDriven<Teacher
 
     for (final Classes c : (ArrayList<Classes>) classMgr.getEntityList())
       classNamesList.add(c.getClassName());
+    
+    for(final Parent p : (ArrayList<Parent>) parentMgr.getEntityList())
+      parentNamesList.add(p.getUserInfo().getFirstName() + " " + p.getUserInfo().getLastName());
+    
+    for(final Student st : (ArrayList<Student>) studentMgr.getEntityList())
+    {
+      studentNamesList.add(st.getUserInfo().getFirstName() + " " + st.getUserInfo().getLastName());
+    }
     return SUCCESS;
   }
 
@@ -140,7 +155,44 @@ public class TeacherActions extends ActionSupport implements ModelDriven<Teacher
     teacherSubjMgr.del(teacherSubjectId);
     return SUCCESS;
   }
+  
+  public String setNewStudentParent() throws AnException
+  {
+    //TO DO Validaciq
+    Student student = new Student();
+    Parent parent = new Parent();
+    
+    for(Student st : (ArrayList<Student>)studentMgr.getEntityList())
+    {
+      if(studentName.equals(st.getUserInfo().getFirstName() + " " + st.getUserInfo().getLastName()))
+      {
+        student = st;
+        break;
+      }
+    }
+    
+    for(Parent p : (ArrayList<Parent>)parentMgr.getEntityList())
+    {
+      if(parentName.equals(p.getUserInfo().getFirstName() + " " + p.getUserInfo().getLastName()))
+      {
+        parent = p;
+        break;
+      }
+    }
+    student.setParentId(parent);
+    studentMgr.update(student);
+    
+    return SUCCESS;
+  }
 
+  public String deleteStudentParent() throws AnException
+  {
+    Student student = (Student)studentMgr.getEntityById(Integer.parseInt(studentIdParam));
+    student.setParentId(null);
+    studentMgr.update(student);
+    return SUCCESS;
+  }
+  
   private Classes getClassByName(String name)
   {
     for (final Classes c : (ArrayList<Classes>) classMgr.getEntityList())
@@ -229,6 +281,22 @@ public class TeacherActions extends ActionSupport implements ModelDriven<Teacher
     this.teachersSubjectsList = teachersSubjectsList;
   }
 
+  public List<String> getParentNamesList() {
+    return parentNamesList;
+  }
+
+  public void setParentNamesList(List<String> parentNamesList) {
+    this.parentNamesList = parentNamesList;
+  }
+
+  public List<String> getStudentNamesList() {
+    return studentNamesList;
+  }
+
+  public void setStudentNamesList(List<String> studentNamesList) {
+    this.studentNamesList = studentNamesList;
+  }
+  
   public String getClassName()
   {
     return className;
@@ -259,6 +327,22 @@ public class TeacherActions extends ActionSupport implements ModelDriven<Teacher
     this.teacherName = teacherName;
   }
 
+  public String getParentName() {
+    return parentName;
+  }
+
+  public void setParentName(String parentName) {
+    this.parentName = parentName;
+  }
+
+  public String getStudentName() {
+    return studentName;
+  }
+
+  public void setStudentName(String studentName) {
+    this.studentName = studentName;
+  }
+  
   public String getTsIdParam()
   {
     return tsIdParam;
@@ -267,5 +351,13 @@ public class TeacherActions extends ActionSupport implements ModelDriven<Teacher
   public void setTsIdParam(String tsIdParam)
   {
     this.tsIdParam = tsIdParam;
+  }
+
+  public String getStudentIdParam() {
+    return studentIdParam;
+  }
+
+  public void setStudentIdParam(String studentIdParam) {
+    this.studentIdParam = studentIdParam;
   }
 }

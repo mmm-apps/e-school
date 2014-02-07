@@ -24,13 +24,14 @@
             </h3>
         </div>
         <div class="panel-body">
-
             <table id="results" class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>Име</th>
                         <th>Фамилия</th>
                         <th>E-mail</th>
+                        <th>Име на родител</th>
+                        <th>Фамилия на родител</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -40,6 +41,8 @@
                             <td><s:property value="userInfo.firstName" /></td>
                             <td><s:property value="userInfo.lastName" /></td>
                             <td><s:property value="userInfo.email" /></td>
+                            <td><s:property value="parentId.userInfo.firstName" /></td>
+                            <td><s:property value="parentId.userInfo.lastName" /></td>
                             <td>
                                 <s:url id="remarks" action="remarks">
                                     <s:param name="studentIdParam" value="%{id}"></s:param>
@@ -59,6 +62,14 @@
                                 <s:a href="%{absencesList}">
                                     <button class="btn btn-danger" type="button">Отсъствия</button>
                                 </s:a>
+                                <s:if test="%{#session.user.rolesSet[0].roleName == 'Администратор'}">
+                                    <s:url id="deleteStudentParent" action="deleteStudentParent">
+                                        <s:param name="studentIdParam" value="%{id}"></s:param>
+                                    </s:url>
+                                    <s:a href="%{deleteStudentParent}">
+                                        <button class="btn btn-danger" type="button">Премахване на родител</button>
+                                    </s:a>
+                                </s:if>
                             </td>
                         </tr>
                     </s:iterator>
@@ -72,5 +83,5 @@
         pager.init();
         pager.showPageNav('pager', 'pageNavPosition');
         pager.showPage(1);
-  //--></script>
+//--></script>
 </html>
