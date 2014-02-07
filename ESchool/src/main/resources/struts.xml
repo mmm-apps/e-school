@@ -111,6 +111,7 @@
     
     <action name="setNewStudentParent" method="setNewStudentParent" class="mmm.eschool.actions.TeacherActions">
         <result name="success" type="redirect">classesList</result>
+        <result name="input">ChangeParent.jsp</result>
     </action>
     
     <action name="deleteStudentParent" method="deleteStudentParent" class="mmm.eschool.actions.TeacherActions">
