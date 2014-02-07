@@ -69,7 +69,7 @@ function validateAddSubject(theForm) {
 
   var reason = "";
   reason += validateEmpty(theForm.subjectName);
-  reason += validateEmpty(theForm.addSubject_subjectType);
+  reason += validateEmpty(theForm.addSubject_subjectKind);
   console.log(reason);
   if (reason !== "") {
     document.getElementById('loginError').style.visibility = 'visible';
@@ -97,7 +97,7 @@ function validateCreateUser(theForm) {
   console.log(reason);
   if (reason !== "") {
     document.getElementById('loginError').style.visibility = 'visible';
-    document.getElementById('loginError').innerHTML = "Моля попълнете всички полета!\n";
+    document.getElementById('loginError').innerHTML = "Моля попълнете всички полета!<br>";
 
     if (validateUsername(theForm.userNameInput) !== "")
       document.getElementById('loginError').innerHTML += validateUsername(theForm.userNameInput);
@@ -105,6 +105,38 @@ function validateCreateUser(theForm) {
       document.getElementById('loginError').innerHTML += validatePassword(theForm.passwordInput);
     if (validateEmail(theForm.email) !== "")
       document.getElementById('loginError').innerHTML += validateEmail(theForm.email);
+    return false;
+  }
+  return true;
+}
+
+
+
+
+
+function validateConfirmUser(theForm) {
+
+  var reason = "";
+  reason += validateUsername(theForm.userNameInput);
+  reason += validatePassword(theForm.passwordInput);
+  reason += validateEmpty(theForm.newPassword);
+  reason += validateEmpty(theForm.reNewPassword);
+  reason += validateEmpty(theForm.nameInput);
+  reason += validateEmpty(theForm.lastNameInput);
+  reason += validateEmpty(theForm.phoneInput);
+  reason += validateEmpty(theForm.addressInput);
+  reason += validateEmail(theForm.emailInput);
+  console.log(reason);
+  if (reason !== "") {
+    document.getElementById('loginError2').style.visibility = 'visible';
+    document.getElementById('loginError2').innerHTML = "Моля попълнете всички полета!<br>";
+
+    if (validateUsername(theForm.userNameInput) !== "")
+      document.getElementById('loginError').innerHTML += validateUsername(theForm.userNameInput);
+    if (validatePassword(theForm.passwordInput) !== "")
+      document.getElementById('loginError').innerHTML += validatePassword(theForm.passwordInput);
+    if (validateEmail(theForm.emailInput) !== "")
+      document.getElementById('loginError').innerHTML += validateEmail(theForm.emailInput);
     return false;
   }
   return true;
@@ -255,7 +287,7 @@ function validateEmail(fld) {
   var emailFilter = /^[^@]+@[^@.]+\.[^@]*\w\w$/;
   var illegalChars = /[\(\)\<\>\,\;\:\\\"\[\]]/;
 
-  if (fld.value == "") {
+  if (fld.value === "") {
     fld.style.background = '#D9D7D7';
     error = "Не сте въвели правилен интернет адрес!<br/>";
   } else if (!emailFilter.test(tfld)) {              //test email for illegal characters
@@ -263,7 +295,7 @@ function validateEmail(fld) {
     error = "Не сте въвели правилен интернет адрес!<br/>";
   } else if (fld.value.match(illegalChars)) {
     fld.style.background = '#D9D7D7';
-    error = "Е-пейл адреса съдърна непозволени символи.<br/>";
+    error = "Е-мейл адреса съдърна непозволени символи.<br/>";
   } else {
     fld.style.background = 'White';
   }
@@ -272,15 +304,15 @@ function validateEmail(fld) {
 function validatePhone(fld) {
   var error = "";
   var stripped = fld.value.replace(/[\(\)\.\-\ ]/g, '');
-  if (fld.value == "") {
-    error = "You didn't enter a phone number.\n";
-    fld.style.background = 'Yellow';
+  if (fld.value === "") {
+    error = "Не сте въвели телефон.\n";
+    fld.style.background = '#D9D7D7';
   } else if (isNaN(parseInt(stripped))) {
-    error = "The phone number contains illegal characters.\n";
-    fld.style.background = 'Yellow';
+    error = "Телефона съдържа непозволени символи.\n";
+    fld.style.background = '#D9D7D7';
   } else if (!(stripped.length == 10)) {
-    error = "The phone number is the wrong length. Make sure you included an area code.\n";
-    fld.style.background = 'Yellow';
+    error = "Телефона е със сгрешена дължина.\n";
+    fld.style.background = '#D9D7D7';
   }
   return error;
 }

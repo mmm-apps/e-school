@@ -11,6 +11,7 @@
 <html>
   <script src="JS/paging.js"></script>
   <%@include file="MainAdmin.jsp"%>
+  <script src="JS/validation.js"></script>
   <div id="userWelcome">
     <div class="well">
       <h3>Здравейте, <s:property value="%{#session.user.username}"/></h3>
@@ -84,10 +85,11 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-body">
-              <s:form action = "addAbsence" cssClass="bs-example form-horizontal">
+              <s:form action = "addAbsence" cssClass="bs-example form-horizontal" onsubmit="return validateAddAbsence(this)">
                 <fieldset>
                     <legend>Добавяне на отсъствие</legend>
                     <s:fielderror/>
+                    <div id="loginError"></div>
                     <s:hidden key="student" value="%{#studentVar}"/>
                     <div class = "form-group">
                         <div class="col-lg-10">

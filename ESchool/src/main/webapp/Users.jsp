@@ -12,6 +12,7 @@
   <link type="text/css" rel="stylesheet" href="CSS/bootstrap.css" media="screen">
   <script src="JS/paging.js"></script>
   <jsp:include page="MainAdmin.jsp"></jsp:include>
+    <script src="JS/validation.js"></script>
   <script>
     function modalOpen(id) 
     {
@@ -39,10 +40,11 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-body">
-                <s:form action = "createUser" cssClass="bs-example form-horizontal">
+                <s:form action = "createUser" cssClass="bs-example form-horizontal" onsubmit="return validateCreateUser(this)">
               <fieldset>
                   <legend>Добавяне на потребител</legend>
                   <s:fielderror/>
+                  <div id="loginError"></div>
                   <div class = "form-group">
                       <div class="col-lg-10">
                           <s:textfield id="userNameInput" key="username" type="text" cssClass="form-control" placeholder="Потребителско име" />
@@ -214,10 +216,11 @@
                 </div>
 
                 <div class="well well-sm modal fade" id="edit<s:property value="username" />" style="margin-left: 30%;margin-right: 30%; margin-top: 5%;padding: 3%;">
-                  <s:form action="editConfirmUser" method="post" cssClass="bs-example form-horizontal">
+                  <s:form action="editConfirmUser" method="post" cssClass="bs-example form-horizontal" onsubmit="return validateConfirmUser(this)">
                     <fieldset>
                       <legend>Редактиране на потребител</legend>
                       <s:fielderror/>
+                      <div id="loginError2"></div>
                       <div class="col-lg-10">
                        <s:hidden id="userIdParam" key="id" type="text" cssClass="form-control"/>
                       </div>

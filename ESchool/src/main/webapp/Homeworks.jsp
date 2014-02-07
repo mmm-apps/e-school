@@ -9,11 +9,13 @@
 <!DOCTYPE html>
 <html>
   <%@include file="MainAdmin.jsp"%>
+  <script src="JS/validation.js"></script>
   <div class="well well-sm" style="margin-left: 30%;margin-right: 30%; margin-top: 5%;padding: 3%">
-    <s:form action = "addHomeworkToClass" cssClass="bs-example form-horizontal">
+    <s:form action = "addHomeworkToClass" cssClass="bs-example form-horizontal" onsubmit="return validateAddHomeworkToClass(this)">
       <fieldset>
         <legend>Добавяне на домашна работа на клас</legend>
         <s:fielderror/>
+        <div id="loginError"></div>
         <div class = "form-group">
           <div class="col-lg-10">
             <s:select headerKey="-1" headerValue="Моля Изберете предмет" 

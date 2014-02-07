@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html>
     <jsp:include page="MainAdmin.jsp"></jsp:include>
+    <script src="JS/validation.js"></script>
     <div id="userWelcome">
         <div class="well">
             <h3>Здравейте, <s:property value="%{#session.user.username}"/></h3>
@@ -58,10 +59,11 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-body">
-                    <s:form action = "addSubject" cssClass="bs-example form-horizontal">
+                    <s:form action = "addSubject" cssClass="bs-example form-horizontal" onsubmit="return validateAddSubject(this)">
                   <fieldset>
                       <legend>Добавяне на предмети</legend>
                       <s:fielderror/>
+                      <div id="loginError"></div>
                       <div class = "form-group">
                           <div class="col-lg-10">
                               <s:textfield id="subjectNameInput" key="subjectName" type="text" cssClass="form-control" placeholder="Име на предмет" />

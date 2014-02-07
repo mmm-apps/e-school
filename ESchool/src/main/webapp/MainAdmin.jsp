@@ -58,21 +58,6 @@
                 </li>
               </ul>
             </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Другите роли<b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                 <li>
-                  <a href="admin?content=student">
-                    Ученик
-                  </a>
-                </li>
-                <li>
-                  <a href="admin?content=teacher">
-                    Учител
-                  </a>
-                </li>
-              </ul>
-            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>

@@ -27,9 +27,9 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class AbsencesActions extends ActionSupport implements SessionAware, ModelDriven<Absence>
 {
-  private static List<String> absenceTypeList = new ArrayList<String>();
-  private static List<String> absenceValueList = new ArrayList<String>();
-  static
+  private  List<String> absenceTypeList = new ArrayList<String>();
+  private  List<String> absenceValueList = new ArrayList<String>();
+  
   {
     absenceTypeList.add("Извинено");
     absenceTypeList.add("Неизвинено");
@@ -133,24 +133,24 @@ public class AbsencesActions extends ActionSupport implements SessionAware, Mode
     return null;
   }
 
-  public static List<String> getAbsenceTypeList()
+  public List<String> getAbsenceTypeList()
   {
     return absenceTypeList;
   }
 
-  public static void setAbsenceTypeList(List<String> absenceTypeList)
+  public void setAbsenceTypeList(List<String> absenceTypeList)
   {
-    AbsencesActions.absenceTypeList = absenceTypeList;
+    this.absenceTypeList = absenceTypeList;
   }
 
-  public static List<String> getAbsenceValueList()
+  public List<String> getAbsenceValueList()
   {
     return absenceValueList;
   }
 
-  public static void setAbsenceValueList(List<String> absenceValueList)
+  public void setAbsenceValueList(List<String> absenceValueList)
   {
-    AbsencesActions.absenceValueList = absenceValueList;
+    this.absenceValueList = absenceValueList;
   }
 
   public Absence getAbsence()
