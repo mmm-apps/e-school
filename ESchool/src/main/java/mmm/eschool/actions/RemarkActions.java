@@ -28,7 +28,7 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class RemarkActions extends ActionSupport implements SessionAware, ModelDriven<Remark>
 {
-  private static int studentId;
+  private static int studentId = -1;
   
   private Map<String, Object> session;
   private Remark remark = new Remark();
@@ -40,6 +40,7 @@ public class RemarkActions extends ActionSupport implements SessionAware, ModelD
   private String studentIdParam, remarkIdParam;
   private String date;
   private String subjectName;
+  private String classId;
   
   @Override
   public void setSession(final Map<String, Object> map) { this.session = map; }
@@ -50,11 +51,13 @@ public class RemarkActions extends ActionSupport implements SessionAware, ModelD
   @Override
   public String execute() throws Exception
   {
-    if (StringUtils.isEmpty(remark.getRemark()) || subjectName == null || date == null)
+    if (StringUtils.isEmpty(remark.getRemark()) || subjectName == null || date == null || date.isEmpty())
     {
       addFieldError("remark", "Моля попълнете всички полета!");
       return INPUT;
     }
+    if(studentId == -1)
+      return ERROR;
 
     Student student = (Student) studentMgr.getEntityById(studentId);
     remark.setStudentId(student);
@@ -83,7 +86,8 @@ public class RemarkActions extends ActionSupport implements SessionAware, ModelD
 
   public String init()
   {
-    studentId = Integer.parseInt(studentIdParam);
+    if (studentId == -1)
+      studentId = Integer.parseInt(studentIdParam);
     studentRemarks = getReamarksByStudentId(studentId);
     
     Student student = (Student) studentMgr.getEntityById(studentId);
@@ -200,5 +204,15 @@ public class RemarkActions extends ActionSupport implements SessionAware, ModelD
   public void setRemarkIdParam(String remarkId)
   {
     this.remarkIdParam = remarkId;
+  }
+  
+  public String getClassId()
+  {
+    return classId;
+  }
+
+  public void setClassId(String classId)
+  {
+    this.classId = classId;
   }
 }

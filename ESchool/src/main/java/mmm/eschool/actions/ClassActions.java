@@ -192,7 +192,6 @@ public class ClassActions extends ActionSupport implements ModelDriven<Classes>,
     {
       addFieldError("className", "Записът не може да се изтрие, защото се използва!!!");
       return INPUT;
-      //работи само че не се показва съобщението защотото редиректвам... после ще го орпавим
     }
 
     classMgr.del(classId);

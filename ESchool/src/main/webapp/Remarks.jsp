@@ -34,7 +34,9 @@
         </div>
       </fieldset>
       <div class="modal-footer">
-        <button type="button" class="btn btn-info" style="float: left;">Назад</button>
+        <a href="<s:url action='classesList'/>">
+          <button type="button" class="btn btn-info" style="float: left;">Назад</button>
+        </a>
         <s:submit cssClass="btn btn-info" value="Добави"/>
       </div>
     </s:form>

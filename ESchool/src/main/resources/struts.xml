@@ -157,12 +157,13 @@
     </action>
 
     <action name="addRemark" class="mmm.eschool.actions.RemarkActions">
-      <result name="success">Remarks.jsp</result>
+      <result name="success" type="redirect">remarks</result>
       <result name="input">Remarks.jsp</result>
+      <result name="error" type="redirect">classesList</result>
     </action>
     
     <action name="deleteRemark" method="deleteRemark" class="mmm.eschool.actions.RemarkActions">
-      <result name="success">Remarks.jsp</result>
+      <result name="success" type="redirect">remarks</result>
     </action>
     <!-- END OF REMARK ACTIONS -->
     
@@ -172,12 +173,12 @@
     </action>
     
     <action name="addMark" method="addMark" class = "mmm.eschool.actions.MarkActions">
-      <result name="success" type="redirect">classesList</result>
+      <result name="success" type="redirect">studentMarks</result>
       <result name="input">Marks.jsp</result>
     </action>
     
     <action name="delMark" method="delMark" class="mmm.eschool.actions.MarkActions">
-      <result name="success" type="redirect">classesList</result>
+      <result name="success" type="redirect">studentMarks</result>
       <result name="input" type="redirect">studentMarks</result>
     </action>  
     <!-- END OF MARK ACTIONS -->
@@ -188,8 +189,8 @@
     </action>
     
     <action name="addAbsence" method="addAbsence" class="mmm.eschool.actions.AbsencesActions">
-      <result name="success">Absences.jsp</result>
-      <result name="input">Absences.jsp</result>
+      <result name="success" type="redirect">absencesList</result>
+      <result name="input" type="redirect">absencesList</result>
     </action>
     
     <action name="excuseAbsence" method="excuseAbsence" class="mmm.eschool.actions.AbsencesActions">
@@ -197,7 +198,7 @@
     </action>
     
     <action name="deleteAbsence" method="deleteAbsence" class="mmm.eschool.actions.AbsencesActions">
-      <result name="success" type="redirect">classesList</result>
+      <result name="success" type="redirect">absencesList</result>
     </action>  
     <!-- END OF ABSENCE ACTIONS -->
     

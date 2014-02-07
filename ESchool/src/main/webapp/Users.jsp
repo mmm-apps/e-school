@@ -34,7 +34,7 @@
       </div>
       <div class="panel-body">
           <div id="addButton">
-            <button class="btn btn-info" data-toggle="modal" data-target="#addUsr">Добавяне</button>
+            <button class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#addUsr">Добавяне</button>
           </div>
         <div class="modal fade" id="addUsr" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">

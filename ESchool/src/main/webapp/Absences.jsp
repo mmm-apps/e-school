@@ -12,6 +12,7 @@
   <script src="JS/paging.js"></script>
   <%@include file="MainAdmin.jsp"%>
   <script src="JS/validation.js"></script>
+  <s:set var="studentVar" value="student" />
   <div id="userWelcome">
     <div class="well">
       <h3>Здравейте, <s:property value="%{#session.user.username}"/></h3>
@@ -24,7 +25,7 @@
         Списък с отсъствия
       </h3>
     </div>
-    <s:set var="studentVar" value="student" />
+    
     <div class="panel-body">
         <div id="addButton">
             <button class="btn btn-info" data-toggle="modal" data-target="#addAbsence">Добавяне</button>
@@ -54,7 +55,12 @@
               <td><s:property value="value" /></td>
               <td><s:property value="subjectId.subjectName" /></td>
               <td><s:property value="teacherId.lastName" /></td>              
-              <td><s:property value="isSeen" /></td>
+                <s:if test="isSeen">
+                 <td>Да</td>
+                </s:if>
+                <s:else>
+                <td>Не</td>
+              </s:else>
               <s:if test="!absenceType">
                 <td>
                   <s:url id="selsectAbsence" action="selsectAbsence">
@@ -90,18 +96,20 @@
                     <legend>Добавяне на отсъствие</legend>
                     <s:fielderror/>
                     <div id="loginError"></div>
-                    <s:hidden key="student" value="%{#studentVar}"/>
-                    <div class = "form-group">
-                        <div class="col-lg-10">
-                            <s:select headerKey="-1" headerValue="Моля изберете тип отсъствие" 
-                                      list="absenceTypeList" name="absenceType" cssClass="form-control" />
-                        </div>
-                    </div>   
+                    <s:hidden key="studentIdParam" value="%{#studentVar.id}"/>
                     <div class = "form-group">
                         <div  class="col-lg-10">
                             <s:textfield  key="date" type="date" id="datepicker" cssClass="form-control"/>
                         </div>
                     </div>
+                        
+                    <div class = "form-group">
+                        <div class="col-lg-10">
+                            <s:select headerKey="-1" headerValue="Моля изберете тип отсъствие" 
+                                      list="absenceTypeList" name="absenceTypeVal" cssClass="form-control" />
+                        </div>
+                    </div>
+                    
                     <div class = "form-group">
                         <div class="col-lg-10">
                             <s:select headerKey="-1" headerValue="Моля изберете стойност на отсъствие" 

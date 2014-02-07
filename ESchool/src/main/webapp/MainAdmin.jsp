@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <%@include file="MainHeadContent.jsp"%>
-  <body>
+  <body onload="loadError()">
     <div id = "Menu">
       <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-header">
