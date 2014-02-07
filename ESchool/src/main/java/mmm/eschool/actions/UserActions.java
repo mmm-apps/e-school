@@ -1,7 +1,5 @@
 package mmm.eschool.actions;
 
-import static com.opensymphony.xwork2.Action.ERROR;
-import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import java.util.ArrayList;
@@ -34,8 +32,6 @@ public class UserActions extends ActionSupport implements ModelDriven<User>, Ses
 
   @Override
   public void setSession(final Map<String, Object> map) { this.session = map; }
-
-//  public Map<String, Object> getSession() { return session; }
   
   @Override
   public User getModel() { return user; }
@@ -43,30 +39,29 @@ public class UserActions extends ActionSupport implements ModelDriven<User>, Ses
   @Override
   public void validate()
   {
-//    if (StringUtils.isEmpty(addUser.getUsername()))
+//    if (StringUtils.isEmpty(user.getUsername()))
 //      addFieldError("username", "Username cannot be blank!");
 //    
-//    if (StringUtils.isEmpty(addUser.getPassword()))
+//    if (StringUtils.isEmpty(user.getPassword()))
 //      addFieldError("password", "Password cannot be blank!");
 //    
-//    if (StringUtils.isEmpty(roleList))
+//    if (StringUtils.isEmpty(roleListVal))
 //      addFieldError("role", "Role cannot be blank!");
-//    
-//    if (StringUtils.isEmpty(addUser.getFirstName()))
+    
+//    if (StringUtils.isEmpty(user.getFirstName()))
 //      addFieldError("firsName", "First name cannot be blank!");
 //    
-//    if (StringUtils.isEmpty(addUser.getLastName()))
+//    if (StringUtils.isEmpty(user.getLastName()))
 //      addFieldError("lastName", "Last name cannot be blank!");
 //    
-//    if (StringUtils.isEmpty(addUser.getTelephone()))
+//    if (StringUtils.isEmpty(user.getTelephone()))
 //      addFieldError("telephone", "Telephone cannot be blank!");
 //    
-//    if (StringUtils.isEmpty(addUser.getAdress()))
+//    if (StringUtils.isEmpty(user.getAdress()))
 //      addFieldError("adress", "Adress cannot be blank!");
 //    
-//    if (StringUtils.isEmpty(addUser.getEmail()))
+//    if (StringUtils.isEmpty(user.getEmail()))
 //      addFieldError("email", "Email cannot be blank!");
-//  }
   }
   
   @Override

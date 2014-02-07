@@ -9,7 +9,19 @@
 <%@taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
-  <%@include file="MainHeadContent.jsp"%>
+  <head>
+    <title>E-School</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <script src="JS/jquery-1.9.1.js"></script>
+    <script src="JS/jquery-ui.js"></script>
+    <script src="JS/jquery.min.js"></script>
+    <script src="JS/bootstrap.min.js"></script>
+    <script src="JS/bootswatch.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="CSS/bootstrap.css" media="screen">
+    <link type="text/css" rel="stylesheet" href="CSS/AditionalCss.css" media="screen">
+  </head>
   <body>
     <div id = "Menu">
       <div class="navbar navbar-inverse navbar-fixed-top">
@@ -19,7 +31,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/ESchool">
+          <a class="navbar-brand" href="#">
             E-School
           </a>
           <ul class="nav navbar-nav navbar-left">
@@ -72,10 +84,8 @@
 
 <!--    <s:include value="StudentHome.jsp"></s:include> !-->
     </div>
-    
     <div class = "navbar-fixed-bottom" id ="pageFooter" >
       Powered by MMM Programming
     </div>
   </body>
 </html>
-

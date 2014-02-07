@@ -22,6 +22,7 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class MarkActions extends ActionSupport implements SessionAware, ModelDriven<Mark>
 {
+  private static int studentId = -1;
   private static List<String> marksList = new ArrayList<String>();
   static
   {
@@ -53,7 +54,8 @@ public class MarkActions extends ActionSupport implements SessionAware, ModelDri
   
   public String studentMarksList()
   {
-    int studentId = Integer.parseInt(studentIdParam);
+    if (studentId == -1)
+      studentId = Integer.parseInt(studentIdParam);
     student = (Student) studentMgr.getEntityById(studentId);
     return SUCCESS;
   }
@@ -61,7 +63,6 @@ public class MarkActions extends ActionSupport implements SessionAware, ModelDri
   public String addMark() throws AnException
   {
     int subjectId = Integer.parseInt(subjectIdParam);
-    int studentId = Integer.parseInt(studentIdParam);
     final Subject subject = (Subject) subjectMgr.getEntityById(subjectId);
     if (markVal.equals("-1") || date.equals("")) 
     {
@@ -89,7 +90,6 @@ public class MarkActions extends ActionSupport implements SessionAware, ModelDri
   public String delMark() throws AnException
   {
     int markId = Integer.parseInt(markIdParam);
-    int studentId = Integer.parseInt(studentIdParam);
     student = (Student) studentMgr.getEntityById(studentId);
     final Mark markToDel = (Mark) markMgr.getEntityById(markId);
     student.getMarksSet().remove(markToDel);

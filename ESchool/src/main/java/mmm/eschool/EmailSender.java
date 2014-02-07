@@ -16,6 +16,7 @@ import javax.mail.internet.MimeMessage;
 import mmm.eschool.model.Absence;
 import mmm.eschool.model.Mark;
 import mmm.eschool.model.Remark;
+import mmm.eschool.model.Student;
 
 /**
  *
@@ -98,35 +99,63 @@ public class EmailSender
   public static void tryCreateAndSendEmail(final Object entity)
   {
     EmailSender sendMail = null;
-    String emailAddress;
-    String subject;
-    String data;
+    String emailAddress = null;
+    String subject = new String();
+    String data = new String();
+    
     if (entity instanceof Remark)
     {
       Remark rem = (Remark) entity;
-      emailAddress = rem.getStudentId().getParentId().getUserInfo().getEmail();
-      subject = "Забележка по" + rem.getSubjectId().getSubjectName();
-      data = "Вашето дете получи забележка забележка по" + rem.getSubjectId().getSubjectName() + ",която гласи:" + rem.getRemark();
-      sendMail = new EmailSender(emailAddress, subject, data);
+      Student studentId = rem.getStudentId();
+      if (studentId.getParentId() != null)
+      {
+        emailAddress = studentId.getParentId().getUserInfo().getEmail();
+        if (null != emailAddress && !emailAddress.isEmpty())
+        {
+          subject = "Забележка по" + rem.getSubjectId().getSubjectName();
+           data = "Вашето дете получи забележка забележка по" + rem.getSubjectId().getSubjectName() + ",която гласи:" + rem.getRemark();
+        }
+      }
     }
     if (entity instanceof Mark)
     {
       Mark mark = (Mark) entity;
-      emailAddress = mark.getStudentId().getParentId().getUserInfo().getEmail();
-      subject = "Оценка по" + mark.getSubjectId().getSubjectName();
-      data = "Вашето дете получи оценка по" + mark.getSubjectId().getSubjectName() + "със стойност:"+mark.getMark();
-      sendMail = new EmailSender(emailAddress, subject, data);
+      Student studentId = mark.getStudentId();
+      if (studentId.getParentId() != null)
+      {
+        emailAddress = studentId.getParentId().getUserInfo().getEmail();
+        if (null != emailAddress && !emailAddress.isEmpty())
+        {
+          subject = "Оценка по" + mark.getSubjectId().getSubjectName();
+          data = "Вашето дете получи оценка по " + mark.getSubjectId().getSubjectName() + " със стойност: "+mark.getMark();
+        }
+      }
     }
     if (entity instanceof Absence)
     {
       Absence absence = (Absence) entity;
       emailAddress = absence.getStudentId().getParentId().getUserInfo().getEmail();
       subject = "Отсъствие по " + absence.getSubjectId().getSubjectName();
-      data = "Вашето дете получи отсъствие по" + absence.getSubjectId().getSubjectName()+ " на "+ absence.getAbsenceDate() + 
-             "със стойност:" + absence.getValue();
-      sendMail = new EmailSender(emailAddress, subject, data);
+      data = "Вашето дете получи отсъствие по " + absence.getSubjectId().getSubjectName()+ " на "+ absence.getAbsenceDate() + 
+             " със стойност: " + absence.getValue();
+      
+      Student studentId = absence.getStudentId();
+      if (studentId.getParentId() != null)
+      {
+        emailAddress = studentId.getParentId().getUserInfo().getEmail();
+        if (null != emailAddress && !emailAddress.isEmpty())
+        {
+        subject = "Отсъствие по " + absence.getSubjectId().getSubjectName();
+        data = "Вашето дете получи отсъствие по " + absence.getSubjectId().getSubjectName()+ " на "+ absence.getAbsenceDate() + 
+             " със стойност: " + absence.getValue();
+          
+        }
+      }
     }
-    if (sendMail != null)
+    if (emailAddress != null && !emailAddress.isEmpty())
+    {
+      sendMail = new EmailSender(emailAddress, subject, data);
       sendMail.send();
+    }
   }
 }

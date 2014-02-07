@@ -27,6 +27,7 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class AbsencesActions extends ActionSupport implements SessionAware, ModelDriven<Absence>
 {
+  private static int studentId = -1;
   private  List<String> absenceTypeList = new ArrayList<String>();
   private  List<String> absenceValueList = new ArrayList<String>();
   
@@ -46,7 +47,7 @@ public class AbsencesActions extends ActionSupport implements SessionAware, Mode
   private final Manager teacherMgr = new Manager(Teacher.class);
   private List<Absence> studentAbsencesList = new ArrayList<Absence>();
   private List<String> subjectList = new ArrayList<String>();
-  private String absenceType, absenceValue, subject;
+  private String absenceTypeVal, absenceValue, subject;
   private String date;
  
   private String studentIdParam, absenceIdParam;
@@ -59,7 +60,8 @@ public class AbsencesActions extends ActionSupport implements SessionAware, Mode
   
   public String absencesList()
   {
-    int studentId = Integer.parseInt(studentIdParam);
+    if (studentId == -1)
+      studentId = Integer.parseInt(studentIdParam);
     student = (Student) studentMgr.getEntityById(studentId);
     for (final Absence a : (ArrayList<Absence>) absenceMgr.getEntityList()) 
     {
@@ -91,8 +93,8 @@ public class AbsencesActions extends ActionSupport implements SessionAware, Mode
   
   public String addAbsence() throws AnException
   {
-//    int studentId = Integer.parseInt(studentIdParam);
-    if (subject.equals("-1") || absenceValue.equals("-1") || absenceType.equals("-1"))
+    student = (Student) studentMgr.getEntityById(studentId);
+    if (subject.equals("-1") || absenceValue.equals("-1") || absenceTypeVal.equals("-1"))
     {  
       addFieldError("ERROR", "Моля попълнете всички полета");
       return INPUT;
@@ -101,7 +103,7 @@ public class AbsencesActions extends ActionSupport implements SessionAware, Mode
     final User user = (User) session.get(Constants.USER);
     absence.setAbsenceDate(Constants.resolveDate(date));
     
-    if (absenceType.equals("Извинено"))
+    if (absenceTypeVal.equals("Извинено"))
       absence.setAbsenceType(true);
     else
       absence.setAbsenceType(false);
@@ -193,14 +195,14 @@ public class AbsencesActions extends ActionSupport implements SessionAware, Mode
     this.subjectList = subjectList;
   }
 
-  public String getAbsenceType()
+  public String getAbsenceTypeVal()
   {
-    return absenceType;
+    return absenceTypeVal;
   }
 
-  public void setAbsenceType(String absenceType)
+  public void setAbsenceTypeVal(String absenceTypeVal)
   {
-    this.absenceType = absenceType;
+    this.absenceTypeVal = absenceTypeVal;
   }
 
   public String getAbsenceValue()

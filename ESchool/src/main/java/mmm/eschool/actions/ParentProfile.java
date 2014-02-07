@@ -26,7 +26,7 @@ import org.apache.struts2.interceptor.SessionAware;
  */
 public class ParentProfile extends ActionSupport implements SessionAware
 {
-  private Map<String, Object> session;
+  private Map session;
   private final Manager studentMgr = new Manager(Student.class);
   private final Manager remarkMgr = new Manager(Remark.class);
   private List<Student> childList = new ArrayList<Student>();
@@ -50,7 +50,7 @@ public class ParentProfile extends ActionSupport implements SessionAware
   public String execute()
   {
     boolean hasThatChild = false;
-    final User parentUser = (User) session.get(Constants.USER);
+    final User parentUser = (User) ActionContext.getContext().getSession().get(Constants.USER);
     final User sessionUser = ((Student) studentMgr.getEntityById(Integer.parseInt(child))).getUser();
     
     for (final Student s : parentUser.getParent().getStudentsSet()) 

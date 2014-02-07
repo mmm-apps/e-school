@@ -5,6 +5,7 @@ import static com.opensymphony.xwork2.Action.INPUT;
 import static com.opensymphony.xwork2.Action.SUCCESS;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.Validateable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ import org.apache.struts2.interceptor.SessionAware;
  *
  * @author Denev
  */
-public class SubjectActions extends ActionSupport implements ModelDriven<Subject>, SessionAware 
+public class SubjectActions extends ActionSupport implements ModelDriven<Subject>, SessionAware, Validateable 
 {
   private static List<String> subjectTypes = new ArrayList<String>();
   static

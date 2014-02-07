@@ -23,6 +23,8 @@ public class Constants
   
   public static Date resolveDate(String date)
   {
+    if (date == null || date.isEmpty()) 
+      return new Date(System.currentTimeMillis());
     int year, month, day;
     year = Integer.parseInt(date.substring(0, date.indexOf("-")));
     month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-", date.indexOf("-") + 1)));

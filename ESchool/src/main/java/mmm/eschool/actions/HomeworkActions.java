@@ -45,7 +45,7 @@ public class HomeworkActions extends ActionSupport implements SessionAware
   {
     if (subjectName.equals("-1") || date.equals("") || homeworkNote.equals(""))
     {
-      addFieldError("hello" ,"Hello");
+      addFieldError("ERROR", "Моля попълнете всички полета");
       return INPUT;
     }
     
