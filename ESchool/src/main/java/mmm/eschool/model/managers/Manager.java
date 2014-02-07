@@ -45,7 +45,7 @@ public class Manager
   public final boolean add(final Object entity) throws AnException
   {
     if (entity == null)
-      return false;
+      throw new AnException(AnException.Types.ENTITY_NULL);
     if (!entity.getClass().equals(model))
       return false;
     
@@ -59,6 +59,7 @@ public class Manager
     catch(TransactionException e)
     {
       dataSession.getTransaction().rollback();
+      throw new AnException(AnException.Types.ROLLBACK, e);
     }
     finally
     {
@@ -70,14 +71,14 @@ public class Manager
   public final boolean del(final Integer id) throws AnException
   {
     if (id == null)
-      return false;
+      throw new AnException(AnException.Types.ENTITY_NULL);
     return del(getEntityById(id));
   }
   
   public final boolean del(final Object entity) throws AnException
   {
     if (entity == null)
-      return false;
+      throw new AnException(AnException.Types.ENTITY_NULL);
     if (!entity.getClass().equals(model))
       return false;
     
@@ -91,6 +92,7 @@ public class Manager
     catch(TransactionException e)
     {
       dataSession.getTransaction().rollback();
+      throw new AnException(AnException.Types.ROLLBACK, e);
     }
     finally
     {
@@ -102,7 +104,7 @@ public class Manager
   public final boolean update(final Object entity) throws AnException
   {
     if (entity == null)
-      return false;
+      throw new AnException(AnException.Types.ENTITY_NULL);
     if (!entity.getClass().equals(model))
       return false;
     
@@ -116,6 +118,7 @@ public class Manager
     catch(TransactionException e)
     {
       dataSession.getTransaction().rollback();
+      throw new AnException(AnException.Types.ROLLBACK, e);
     }
     finally
     {
@@ -125,7 +128,7 @@ public class Manager
     return true;
   }
   
-  public final boolean saveOrUpdateInTransaction(final Object... entities)
+  public final boolean saveOrUpdateInTransaction(final Object... entities) throws AnException
   {
     final Session dataSession = getDataSession();
     dataSession.beginTransaction();
@@ -138,6 +141,7 @@ public class Manager
     catch(TransactionException e)
     {
       dataSession.getTransaction().rollback();
+      throw new AnException(AnException.Types.ROLLBACK, e);
     }
     finally
     {

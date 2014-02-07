@@ -24,7 +24,7 @@
         <h3>Здравейте, <s:property value="%{#session.user.username}"/></h3>
       </div>
     </div>
-
+      
     <div id="spacee" style="margin-top: 80px;"></div>
     <div class="panel panel-info">
       <div class="panel-heading">

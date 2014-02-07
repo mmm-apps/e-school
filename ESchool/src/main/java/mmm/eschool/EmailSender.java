@@ -16,6 +16,7 @@ import javax.mail.internet.MimeMessage;
 import mmm.eschool.model.Absence;
 import mmm.eschool.model.Mark;
 import mmm.eschool.model.Remark;
+import mmm.eschool.model.Student;
 
 /**
  *
@@ -98,35 +99,59 @@ public class EmailSender
   public static void tryCreateAndSendEmail(final Object entity)
   {
     EmailSender sendMail = null;
-    String emailAddress;
-    String subject;
-    String data;
+    String emailAddress = null;
+    String subject = new String();
+    String text = new String();
     if (entity instanceof Remark)
     {
       Remark rem = (Remark) entity;
-      emailAddress = rem.getStudentId().getParentId().getUserInfo().getEmail();
-      subject = "Р—Р°Р±РµР»РµР¶РєР° РїРѕ " + rem.getSubjectId().getSubjectName();
-      data = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё Р·Р°Р±РµР»РµР¶РєР° Р·Р°Р±РµР»РµР¶РєР° РїРѕ " + rem.getSubjectId().getSubjectName() + ",РєРѕСЏС‚Рѕ РіР»Р°СЃРё:" + rem.getRemark();
-      sendMail = new EmailSender(emailAddress, subject, data);
+      Student studentId = rem.getStudentId();
+      if (studentId.getParentId() != null)
+      {
+        emailAddress = studentId.getParentId().getUserInfo().getEmail();
+        if (null != emailAddress && !emailAddress.isEmpty())
+        {
+          subject = "Р—Р°Р±РµР»РµР¶РєР° РїРѕ " + rem.getSubjectId().getSubjectName();
+          text = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё Р·Р°Р±РµР»РµР¶РєР° Р·Р°Р±РµР»РµР¶РєР° РїРѕ " + 
+                  rem.getSubjectId().getSubjectName() + ",РєРѕСЏС‚Рѕ РіР»Р°СЃРё:" + rem.getRemark();
+        }
+      }
     }
     if (entity instanceof Mark)
     {
       Mark mark = (Mark) entity;
-      emailAddress = mark.getStudentId().getParentId().getUserInfo().getEmail();
-      subject = "РћС†РµРЅРєР° РїРѕ " + mark.getSubjectId().getSubjectName();
-      data = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё РѕС†РµРЅРєР° РїРѕ " + mark.getSubjectId().getSubjectName() + "СЃСЉСЃ СЃС‚РѕР№РЅРѕСЃС‚:"+mark.getMark();
-      sendMail = new EmailSender(emailAddress, subject, data);
+      Student studentId = mark.getStudentId();
+      if (studentId.getParentId() != null)
+      {
+        emailAddress = studentId.getParentId().getUserInfo().getEmail();
+        if (null != emailAddress && !emailAddress.isEmpty())
+        {
+          subject = "Р—Р°Р±РµР»РµР¶РєР° РїРѕ " + mark.getSubjectId().getSubjectName();
+          text = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё Р·Р°Р±РµР»РµР¶РєР° Р·Р°Р±РµР»РµР¶РєР° РїРѕ " + 
+                  mark.getSubjectId().getSubjectName() + ",РєРѕСЏС‚Рѕ РіР»Р°СЃРё:" + mark.getMark();
+        }
+      }
     }
     if (entity instanceof Absence)
     {
       Absence absence = (Absence) entity;
-      emailAddress = absence.getStudentId().getParentId().getUserInfo().getEmail();
-      subject = "РћС‚СЃСЉСЃС‚РІРёРµ РїРѕ " + absence.getSubjectId().getSubjectName();
-      data = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё РѕС‚СЃСЉСЃС‚РІРёРµ РїРѕ " + absence.getSubjectId().getSubjectName()+ " РЅР° "+ absence.getAbsenceDate() + 
-             "СЃСЉСЃ СЃС‚РѕР№РЅРѕСЃС‚:" + absence.getValue();
-      sendMail = new EmailSender(emailAddress, subject, data);
+      Student studentId = absence.getStudentId();
+      if (studentId.getParentId() != null)
+      {
+        emailAddress = studentId.getParentId().getUserInfo().getEmail();
+        if (null != emailAddress && !emailAddress.isEmpty())
+        {
+          subject = "Р—Р°Р±РµР»РµР¶РєР° РїРѕ " + absence.getSubjectId().getSubjectName();
+          text = "Р’Р°С€РµС‚Рѕ РґРµС‚Рµ РїРѕР»СѓС‡Рё Р·Р°Р±РµР»РµР¶РєР° Р·Р°Р±РµР»РµР¶РєР° РїРѕ " + 
+                  absence.getSubjectId().getSubjectName() + ",РєРѕСЏС‚Рѕ РіР»Р°СЃРё:" + absence.getValue();
+          
+        }
+      }
     }
-    if (sendMail != null)
+    if (emailAddress != null && !emailAddress.isEmpty())
+    {
+      sendMail = new EmailSender(emailAddress, subject, text);
       sendMail.send();
+    }
   }
 }

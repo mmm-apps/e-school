@@ -7,27 +7,41 @@ package mmm.eschool;
 public class AnException extends Throwable
 {
   private String message = "";
+  private Throwable err = null;
   private Types errorType;
   
   public enum Types 
   { 
-    ENTITY_EXIST, ENTITY_NOT_EXIST; 
+    ENTITY_EXIST("Обекта съшествува в базата данни"),
+    ENTITY_NOT_EXIST("Обекта НЕ съшествува в базата данни"),
+    ENTITY_NULL("Обекта Невалиден или липсват данни"), 
+    ROLLBACK("Възникна проблем при записването на данните"); 
+    public String msg;
+    Types(String msg)
+    {
+      this.msg = msg;
+    }
   }
 
+  public AnException(String message, Throwable err)
+  {
+    this.message = message;
+    this.err = err;
+  }
+  
   public AnException(String message)
   {
     this(message, null);
   }
   
-  public AnException(Types errorType)
+  public AnException(Types errorType, Throwable err)
   {
-    this(null, errorType);
+    this(errorType.msg, err);
   }
   
-  public AnException(String errorMsg, Types errorType)
+  public AnException(Types errorType)
   {
-    this.message = errorMsg;
-    this.errorType = errorType;
+    this(errorType.msg, null);
   }
 
   public final void setMessage(String msg)
@@ -48,5 +62,10 @@ public class AnException extends Throwable
   public void setErrorType(Types errorType)
   {
     this.errorType = errorType;
+  }
+
+  public Throwable getErr()
+  {
+    return err;
   }
 }
