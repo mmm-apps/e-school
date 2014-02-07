@@ -35,7 +35,7 @@
                 <s:url id="changeStudentParent" action="changeStudentParent">
                 </s:url>
                 <s:a href="%{changeStudentParent}">
-                    <button class="btn btn-warning btn-lg btn-block" type="button">Промяна на родител за ученик</button>
+                    <button class="btn btn-warning btn-lg btn-block" type="button">Промяна на родител за даден ученик</button>
                 </s:a>
             </s:if>
 

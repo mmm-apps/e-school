@@ -158,7 +158,11 @@ public class TeacherActions extends ActionSupport implements ModelDriven<Teacher
   
   public String setNewStudentParent() throws AnException
   {
-    //TO DO Validaciq
+    if (studentName.equals("-1") || parentName.equals("-1"))
+    {
+      addFieldError("", "Моля въведете всички полета!");
+      return INPUT;   
+    }
     Student student = new Student();
     Parent parent = new Parent();
     
