@@ -53,7 +53,6 @@
     </action>
 
     <action name="teacher" class="mmm.eschool.actions.TeacherProfile">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">classesList</result>
       <result name="input" type="redirect">classesList</result>
       <result name="login">LoginPanel.jsp</result>
@@ -70,52 +69,40 @@
     
     <!-- BEGIN OF USER ACTIONS -->
     <action name="createUser" method="add" class="mmm.eschool.actions.UserActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">listUser</result>
       <result name="input" type="redirect">listUser</result>
       <result name="error">ERROR.jsp</result>
     </action>
     
     <action name="listUser" method="list" class="mmm.eschool.actions.UserActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success">Users.jsp</result>
       <result name="input">Users.jsp</result>
-            <result name="error">ERROR.jsp</result>
     </action>
         
     <action name="deleteUser" method="delete" class="mmm.eschool.actions.UserActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">listUser</result>
       <result name="input" type="redirect">listUser</result>
-            <result name="error">ERROR.jsp</result>
     </action>
     
     <action name="editConfirmUser" method="edit" class="mmm.eschool.actions.UserActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">listUser</result>
       <result name="input" type="redirect">listUser</result>
-            <result name="error">ERROR.jsp</result>
     </action>
     <!-- END OF USER ACTIONS -->
     
     <!-- BEGIN OF TEACHER ACTIONS --> 
     <action name="teacherSubjectsList" method="list" class="mmm.eschool.actions.TeacherActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success">TeacherSubjects.jsp</result>
-            <result name="error">ERROR.jsp</result>
     </action> 
     
     <action name="addSubjectToTeacher" class="mmm.eschool.actions.TeacherActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">teacherSubjectsList</result>
       <result name="input" type="redirect">teacherSubjectsList</result>
       <result name="error">ERROR.jsp</result>
     </action>
                   
     <action name="deleteTeacherSubject" method="delete" class="mmm.eschool.actions.TeacherActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">teacherSubjectsList</result>
-            <result name="error">ERROR.jsp</result>
     </action>
         
     <action name="changeStudentParent" method="list" class="mmm.eschool.actions.TeacherActions">
@@ -133,156 +120,114 @@
     
     <!-- BEGIN OF CLASS ACTIONS --> 
     <action name="classesList" method="list" class="mmm.eschool.actions.ClassActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success">Classes.jsp</result>
-            <result name="error">ERROR.jsp</result>
     </action>
                    
     <action name="addClass" method="addClass" class="mmm.eschool.actions.ClassActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">classesList</result>
       <result name="input">Classes.jsp</result>
       <result name="error">Classes.jsp</result>
     </action>
     
     <action name="deleteClass" method="deleteClass" class="mmm.eschool.actions.ClassActions">
-      <interceptor-ref name="authenticationInterceptor" />
-      <result name="success" type="redirect">classesList</result>
-      <result name="input" type="redirect" >classesList</result>
-            <result name="error">ERROR.jsp</result>
+        <result name="success" type="redirect">classesList</result>
+        <result name="input" type="redirect" >classesList</result>
     </action>
     
     <action name="showClassSubjects" method="getClassSubjects" class="mmm.eschool.actions.ClassActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success">ClassSubjects.jsp</result>
-            <result name="error">ERROR.jsp</result>
     </action>
     
     <action name="showClassStudents" method="getClassStudents" class="mmm.eschool.actions.ClassActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success">Students.jsp</result>
-            <result name="error">ERROR.jsp</result>
     </action>
     
     <action name="changeStudentClass" method="changeStudentClass" class="mmm.eschool.actions.ClassActions">
-      <interceptor-ref name="authenticationInterceptor" />
-      <result name="success" type="redirect">classesList</result>
-            <result name="error">ERROR.jsp</result> 
+      <result name="success" type="redirect">classesList</result> 
     </action>
     <!-- END OF CLASS ACTIONS -->  
     
     <!-- BEGIN OF HOMEWORK ACTIONS -->  
     <action name="addHomework" method="initClassHomeworks" class="mmm.eschool.actions.HomeworkActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success">Homeworks.jsp</result>
-            <result name="error">ERROR.jsp</result>
     </action>
     
     <action name="addHomeworkToClass" class="mmm.eschool.actions.HomeworkActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="input">Homeworks.jsp</result>
       <result name="none">Homeworks.jsp</result>
       <result name="success" type="redirect">classesList</result>
-            <result name="error">ERROR.jsp</result>
     </action>
     
     <action name="deleteHomework" method="deleteHomework" class="mmm.eschool.actions.HomeworkActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">classesList</result>
-            <result name="error">ERROR.jsp</result>
     </action>  
     <!-- END OF HOMEWORK ACTIONS -->  
     
     <!-- BEGIN OF REMARK ACTIONS -->
     <action name="remarks" method="init" class="mmm.eschool.actions.RemarkActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success">Remarks.jsp</result>
-            <result name="error">ERROR.jsp</result>
     </action>
 
     <action name="addRemark" class="mmm.eschool.actions.RemarkActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">remarks</result>
       <result name="input">Remarks.jsp</result>
       <result name="error" type="redirect">classesList</result>
-            <result name="error">ERROR.jsp</result>
     </action>
     
     <action name="deleteRemark" method="deleteRemark" class="mmm.eschool.actions.RemarkActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">remarks</result>
-            <result name="error">ERROR.jsp</result>
     </action>
     <!-- END OF REMARK ACTIONS -->
     
     <!-- BEGIN OF MARK ACTIONS -->
     <action name="studentMarks" method="studentMarksList" class="mmm.eschool.actions.MarkActions">
-      <interceptor-ref name="authenticationInterceptor" />
-      <result name="success">Marks.jsp</result>
-            <result name="error">ERROR.jsp</result>
+     <result name="success">Marks.jsp</result>
     </action>
     
     <action name="addMark" method="addMark" class = "mmm.eschool.actions.MarkActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">studentMarks</result>
       <result name="input">Marks.jsp</result>
-            <result name="error">ERROR.jsp</result>
     </action>
     
     <action name="delMark" method="delMark" class="mmm.eschool.actions.MarkActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">studentMarks</result>
       <result name="input" type="redirect">studentMarks</result>
-            <result name="error">ERROR.jsp</result>
     </action>  
     <!-- END OF MARK ACTIONS -->
     
     <!-- BEGIN OF ABSENCE ACTIONS -->
     <action name="absencesList" method="absencesList" class="mmm.eschool.actions.AbsencesActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success">Absences.jsp</result>
-            <result name="error">ERROR.jsp</result>
     </action>
     
     <action name="addAbsence" method="addAbsence" class="mmm.eschool.actions.AbsencesActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">absencesList</result>
       <result name="input" type="redirect">absencesList</result>
-            <result name="error">ERROR.jsp</result>
     </action>
     
     <action name="excuseAbsence" method="excuseAbsence" class="mmm.eschool.actions.AbsencesActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">classesList</result>
-            <result name="error">ERROR.jsp</result>
     </action>
     
     <action name="deleteAbsence" method="deleteAbsence" class="mmm.eschool.actions.AbsencesActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">absencesList</result>
-            <result name="error">ERROR.jsp</result>
     </action>  
     <!-- END OF ABSENCE ACTIONS -->
     
     <!-- BEGIN OF SUBJECT ACTIONS -->
     <action name="listSubject" method="list" class="mmm.eschool.actions.SubjectActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success">Subjects.jsp</result>
-            <result name="error">ERROR.jsp</result>
     </action>
         
     <action name="addSubject" method="addSubject" class="mmm.eschool.actions.SubjectActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">listSubject</result>
       <result name="input">Subjects.jsp</result>
       <result name="error">ERROR.jsp</result>
     </action>
     
     <action name="deleteSubject" method="delete" class="mmm.eschool.actions.SubjectActions">
-      <interceptor-ref name="authenticationInterceptor" />
       <result name="success" type="redirect">listSubject</result>
       <result name="input" type="redirect">listSubject</result>
-            <result name="error">ERROR.jsp</result>
     </action>
     <!-- END OF SUBJECT ACTIONS -->  
     

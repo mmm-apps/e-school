@@ -34,13 +34,6 @@
           <a class="navbar-brand" href="#">
             E-School
           </a>
-          <ul class="nav navbar-nav navbar-left">
-            <li>
-              <a href="logout">
-                Начало
-              </a>
-            </li>
-          </ul>
         </div>
         <div class="navbar-collapse collapse navbar-inverse-collapse">
           <ul class="nav navbar-nav">
@@ -66,8 +59,8 @@
               <div class="panel panel-primary">
                 <div class="panel-heading">
                   <h3 class="panel-title">
-                    <s:property value="firstName" /> 
-                    <s:property value="lastName" />
+                    <s:property value="userInfo.firstName" /> 
+                    <s:property value="userInfo.lastName" />
                     <s:url id="viewChild" action="viewChild">
                       <s:param name="child" value="%{id}"></s:param>
                     </s:url>
